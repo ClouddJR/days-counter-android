@@ -1,0 +1,91 @@
+<resources>
+  <string name="app_name">Days Counter</string>
+  <string name="action_contact">Contact me</string>
+  <string name="title_activity_add">Add an event</string>
+
+  <string name="action_sort_date_desc">Sort by days descending</string>
+  <string name="action_sort_date_asc">Sort by days ascending</string>
+  <string name="action_sort_order">Sort by time added</string>
+
+  <string name="main_activity_left_tab">Past Events</string>
+  <string name="main_activity_right_tab">Future Events</string>
+  <string name="main_activity_ads">Remove Ads</string>
+
+  <string name="recycler_toast_moved_past">Moved to past events.</string>
+  <string name="recycler_toast_moved_future">Moved to future events.</string>
+
+  <string name="add_activity_name_form">Enter event name: </string>
+  <string name="add_activity_date_form">Date: </string>
+  <string name="add_activity_describe_form">Describe your event(optional): </string>
+  <string name="add_activity_add_button">Add Event </string>
+  <string name="add_activity_toast_name">Name field required.</string>
+  <string name="add_activity_toast_date">Date field required.</string>
+  <string name="add_activity_toast_image">Image field required.</string>
+  <string name="add_activity_toast_name_length">Name should have less than 30 characters.</string>
+  <string name="add_activity_dialog_title">Choose an image from</string>
+  <string name="add_activity_dialog_option_custom">Gallery or Camera</string>
+  <string name="add_activity_dialog_option_gallery">Backgrounds</string>
+  <string name="add_activity_button_title">Update an event</string>
+  <string name="add_activity_toolbar_title">Update</string>
+  <string name="add_activity_google_photos">Images from Google Photos are not supported</string>
+  <string name="add_activity_date">Wrong date format</string>
+  <string name="add_activity_clear_date">Clear</string>
+  <string name="add_reminder">Reminder</string>
+  <string name="add_reminder_editText_hint">Never</string>
+  <string name="add_reminder_editText_notification">This text will be displayed in a notification</string>
+  <string name="add_reminder_toast">First choose the date for event</string>
+  <string name="add_repeat">Repeat</string>
+  <string-array name="add_activity_repeat">
+    <item>only once</item>
+    <item>daily</item>
+    <item>weekly</item>
+    <item>monthly</item>
+    <item>yearly</item>
+  </string-array>
+
+  <string name="past_fragment_day_description"> days since</string>
+  <string name="past_fragment_day_description_today">Today!</string>
+
+  <string name="future_fragment_day_description_today">Today!</string>
+  <string name="future_fragment_day_description"> days until</string>
+
+  <string name="fragment_main_dialog_title">Choose action</string>
+  <string name="fragment_main_dialog_option_edit">Edit</string>
+  <string name="fragment_main_dialog_option_delete">Delete</string>
+  <string name="fragment_delete_dialog_title">Delete</string>
+  <string name="fragment_delete_dialog_question">Are you sure you want to delete this event?</string>
+  <string name="title_activity_settings">Settings</string>
+
+  <string name="gallery_activity_title">Pick an image</string>
+  <string name="gallery_activity_description_title">Description</string>
+  <string name="gallery_activity_edit">Edit</string>
+
+  <string name="detail_activity_year">years</string>
+  <string name="detail_activity_month">months</string>
+  <string name="detail_activity_day">days</string>
+  <string name="detail_activity_reminder">none</string>
+  <string name="detail_once">once</string>
+  <string name="detail_daily">daily</string>
+  <string name="detail_weekly">weekly</string>
+  <string name="detail_monthly">monthly</string>
+  <string name="detail_yearly">yearly</string>
+
+  <string name="widget_configuration_dialog_title">Choose a widget color</string>
+  <string name="widget_configuration_color">Font color</string>
+  <string name="widget_configuration_title">After choosing click on an event</string>
+  <string name="widget_configuration_switch">Only days on widget</string>
+
+
+  <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
+  <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
+  <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
+  <string name="transition_fab">fab_transition</string>
+
+
+  <string name="test_description">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in n
+    isi nec urna feugiat tempor vitae eu sapien. Suspendisse tortor turpis,
+  </string>
+
+</resources>

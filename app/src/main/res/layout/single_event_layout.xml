@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.v7.widget.CardView
+  android:transitionName="transition_detail"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:fresco="http://schemas.android.com/tools"
+  android:id="@+id/card_view"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:layout_marginTop="10dp"
+  android:layout_marginLeft="5dp"
+  android:layout_marginRight="5dp"
+  android:layout_gravity="center"
+  android:elevation="6dp">
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+      android:id="@+id/eventImage"
+      android:layout_width="match_parent"
+      android:layout_height="180dp"
+      android:adjustViewBounds="true"
+      android:scaleType="centerCrop"/>
+
+
+
+    <TextView
+      android:id="@+id/daysNumber"
+      android:textStyle="normal|italic"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:textColor="#ffffff"
+      android:textSize="30sp"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="50dp"/>
+    <View
+      android:id="@+id/line"
+      android:layout_width="100dp"
+      android:layout_height="2dp"
+      android:background="@android:color/white"
+      android:layout_centerVertical="true"
+      android:layout_centerHorizontal="true"/>
+
+    <TextView
+      android:id="@+id/eventName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="#ffffff"
+      android:textSize="20sp"
+      android:layout_marginBottom="60dp"
+      android:layout_alignBottom="@+id/eventImage"
+      android:layout_centerHorizontal="true"/>
+
+
+  </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+

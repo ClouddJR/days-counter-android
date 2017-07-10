@@ -1,0 +1,9 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+  android:minWidth="90dp"
+  android:minHeight="50dp"
+  android:updatePeriodMillis="3600000"
+  android:initialLayout="@layout/appwidget"
+  android:configure="com.arkadiusz.dayscounter.Activities.AppWidgetConfigure"
+  android:resizeMode="horizontal|vertical"
+  android:widgetCategory="home_screen">
+</appwidget-provider>

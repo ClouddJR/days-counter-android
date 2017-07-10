@@ -1,0 +1,57 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="5dp"
+  android:orientation="vertical">
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+      android:id="@+id/image_widget"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"/>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:src="@drawable/widget_gradient"/>
+
+    <TextView
+      android:id="@+id/title_widget"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="10dp"
+      android:layout_alignBottom="@+id/line"
+      android:layout_centerHorizontal="true"
+      android:textColor="#ffffff"
+      android:textSize="14sp"/>
+
+    <Button
+      android:id="@+id/line"
+      style="?android:attr/borderlessButtonStyle"
+      android:layout_width="100dp"
+      android:layout_height="2dp"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:background="#ffffff"/>
+
+    <TextView
+      android:id="@+id/days_widget"
+      android:textStyle="normal|italic"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:layout_alignTop="@+id/line"
+      android:layout_centerHorizontal="true"
+      android:gravity="center"
+      android:textColor="#ffffff"
+      android:textSize="23sp"/>
+
+  </RelativeLayout>
+
+
+</FrameLayout>
