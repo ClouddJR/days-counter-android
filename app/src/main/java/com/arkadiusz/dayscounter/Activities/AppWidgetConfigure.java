@@ -24,6 +24,10 @@ import com.arkadiusz.dayscounter.Database.Event;
 import com.arkadiusz.dayscounter.Model.Migration;
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.Utils.FirebaseUtils;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import io.realm.Realm;
 import io.realm.Realm.Transaction;
 import io.realm.RealmConfiguration;
@@ -37,6 +41,7 @@ public class AppWidgetConfigure extends AppCompatActivity {
   private Realm realm;
   private RealmConfiguration config;
   RealmResults<Event> results;
+  private DatabaseReference mDatabaseReference;
 
   private int mSelectedColor;
   private TextView textView;
@@ -47,7 +52,11 @@ public class AppWidgetConfigure extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_app_widget_configure);
+    if (SharedPreferencesUtils.isBlackTheme(this)) {
+      setContentView(R.layout.activity_app_widget_configure_black);
+    } else {
+      setContentView(R.layout.activity_app_widget_configure);
+    }
     setResult(RESULT_CANCELED);
 
     Intent intent = getIntent();
@@ -152,7 +161,7 @@ public class AppWidgetConfigure extends AppCompatActivity {
           event.setMinute(mEvent.getMinute());
           event.setRepeat(mEvent.getRepeat());
           event.setNotificationText(mEvent.getNotificationText());
-          if(mEvent.hasAlarm()) {
+          if (mEvent.hasAlarm()) {
             event.setHasAlarm(true);
           } else {
             event.setHasAlarm(false);
@@ -169,6 +178,13 @@ public class AppWidgetConfigure extends AppCompatActivity {
               realm.copyToRealmOrUpdate(event);
             }
           });
+
+          mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+          if (!SharedPreferencesUtils.getFirebaseEmail(AppWidgetConfigure.this).equals("")) {
+            FirebaseUtils
+                .addToFirebase(mDatabaseReference, event, AppWidgetConfigure.this, event.getId());
+          }
 
           AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getBaseContext());
 

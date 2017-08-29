@@ -1,13 +1,11 @@
 package com.arkadiusz.dayscounter.Database;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+/**
+ * Created by Arkadiusz on 22.07.2017.
+ */
 
-@IgnoreExtraProperties
-public class Event extends RealmObject {
+public class FirebaseTempObject {
 
-  @PrimaryKey
   private int id;
   private String name;
   private String date;
@@ -17,8 +15,8 @@ public class Event extends RealmObject {
   private int imageID;
   private int widgetID;
   private int color;
-  private boolean isOnlyDays;
-  private boolean hasAlarm;
+  private String isOnlyDays;
+  private String hasAlarm;
   private int year;
   private int month;
   private int day;
@@ -27,11 +25,16 @@ public class Event extends RealmObject {
   private String notificationText;
   private String repeat;
 
-
-  public Event() {
-
+  public FirebaseTempObject() {
   }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -73,14 +76,6 @@ public class Event extends RealmObject {
     this.description = description;
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public int getImageID() {
     return imageID;
   }
@@ -105,19 +100,19 @@ public class Event extends RealmObject {
     this.color = color;
   }
 
-  public boolean isOnlyDays() {
+  public String getIsOnlyDays() {
     return isOnlyDays;
   }
 
-  public void setOnlyDays(boolean onlyDays) {
-    isOnlyDays = onlyDays;
+  public void setIsOnlyDays(String isOnlyDays) {
+    this.isOnlyDays = isOnlyDays;
   }
 
-  public boolean hasAlarm() {
+  public String getHasAlarm() {
     return hasAlarm;
   }
 
-  public void setHasAlarm(boolean hasAlarm) {
+  public void setHasAlarm(String hasAlarm) {
     this.hasAlarm = hasAlarm;
   }
 
@@ -175,29 +170,5 @@ public class Event extends RealmObject {
 
   public void setRepeat(String repeat) {
     this.repeat = repeat;
-  }
-
-  @Override
-  public String toString() {
-    return "Event{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", date='" + date + '\'' +
-        ", image='" + image + '\'' +
-        ", type='" + type + '\'' +
-        ", description='" + description + '\'' +
-        ", imageID=" + imageID +
-        ", widgetID=" + widgetID +
-        ", color=" + color +
-        ", isOnlyDays=" + isOnlyDays +
-        ", hasAlarm=" + hasAlarm +
-        ", year=" + year +
-        ", month=" + month +
-        ", day=" + day +
-        ", hour=" + hour +
-        ", minute=" + minute +
-        ", notificationText='" + notificationText + '\'' +
-        ", repeat='" + repeat + '\'' +
-        '}';
   }
 }

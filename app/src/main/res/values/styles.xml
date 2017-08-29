@@ -30,6 +30,19 @@
     <item name="windowNoTitle">true</item>
   </style>
 
+  <style name="BlackMain" parent="AppTheme.NoActionBarMain">
+    <item name="android:itemBackground">#263238</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
+  <style name="BlackAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <item name="android:background">#37474F</item>
+    <item name="android:textColorAlertDialogListItem">#FFFFFF</item>
+    <item name="android:textColor">#FFFFFF</item>
+    <item name="android:textColorPrimary">#FFFFFF</item>
+    <item name="android:textColorSecondary">#FFFFFF</item>
+  </style>
+
   <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
 

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import com.arkadiusz.dayscounter.Adapters.GalleryAdapter;
 import com.arkadiusz.dayscounter.Model.RecyclerItemClickListener;
 import com.arkadiusz.dayscounter.Model.RecyclerItemClickListener.OnItemClickListener;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -30,7 +30,11 @@ public class GalleryActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_gallery);
+    if(SharedPreferencesUtils.isBlackTheme(this)) {
+      setContentView(R.layout.activity_gallery_black);
+    } else {
+      setContentView(R.layout.activity_gallery);
+    }
     setUpImagesList();
     getSupportActionBar().setTitle(getString(R.string.gallery_activity_title));
     setUpRecyclerView();
@@ -79,12 +83,19 @@ public class GalleryActivity extends AppCompatActivity {
       mAdView.setVisibility(View.VISIBLE);
       final AdRequest request = new AdRequest.Builder().build();
 
-      Handler handler = new Handler();
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          mAdView.loadAd(request);
+        }
+      });
+
+/*      Handler handler = new Handler();
       handler.postDelayed(new Runnable() {
         public void run() {
           mAdView.loadAd(request);
         }
-      }, 400);
+      }, 400);*/
     }
   }
 

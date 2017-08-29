@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.arkadiusz.dayscounter.Database.Event;
 import com.arkadiusz.dayscounter.Model.Migration;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -49,6 +50,7 @@ public class DetailActivity extends Activity {
   private TextView mRepeatDateTextView;
   private TextView mDateDayNumberTextView;
   private ScrollView scrollView;
+  private boolean isOnePartOnlyTheSame;
 
   private FloatingActionButton mEditEventFAB;
   private Realm realm;
@@ -66,7 +68,12 @@ public class DetailActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_detail);
+
+    if(SharedPreferencesUtils.isBlackTheme(this)) {
+      setContentView(R.layout.activity_detail_black);
+    } else {
+      setContentView(R.layout.activity_detail);
+    }
 
     setUpRealm();
     receiveID();
@@ -85,7 +92,7 @@ public class DetailActivity extends Activity {
     super.onEnterAnimationComplete();
     int startScrollPos = 100;
     Animator animator = ObjectAnimator.ofInt(scrollView, "scrollY", startScrollPos)
-        .setDuration(400);
+        .setDuration(370);
     animator.setStartDelay(200);
     animator.start();
   }
@@ -229,6 +236,17 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         yearsN++;
         beginCalendar.add(Calendar.YEAR, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          yearsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.YEAR,1);
+        if(beginCalendar.equals(finishCalendar)) {
+          yearsN+=2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.YEAR,-1);
+        }
       }
 
       try {
@@ -242,6 +260,17 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         monthsN++;
         beginCalendar.add(Calendar.MONTH, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          monthsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.MONTH, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          monthsN+=2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.MONTH,-1);
+        }
       }
 
       try {
@@ -253,8 +282,8 @@ public class DetailActivity extends Activity {
       //calculating days
       while (beginCalendar.before(finishCalendar)) {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
-        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
         daysN++;
+        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
       }
 
     } else {
@@ -275,6 +304,17 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         yearsN++;
         beginCalendar.add(Calendar.YEAR, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          yearsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.YEAR, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          yearsN+=2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.YEAR,-1);
+        }
       }
 
       try {
@@ -288,6 +328,17 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         monthsN++;
         beginCalendar.add(Calendar.MONTH, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          monthsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.MONTH, 1);
+        if(beginCalendar.equals(finishCalendar)) {
+          monthsN+=2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.MONTH,-1);
+        }
       }
 
       try {
@@ -299,8 +350,8 @@ public class DetailActivity extends Activity {
       //calculating days
       while (beginCalendar.before(finishCalendar)) {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
-        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
         daysN++;
+        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
       }
 
     }

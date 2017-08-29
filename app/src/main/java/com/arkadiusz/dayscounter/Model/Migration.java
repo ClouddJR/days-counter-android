@@ -1,6 +1,5 @@
 package com.arkadiusz.dayscounter.Model;
 
-import android.util.Log;
 import io.realm.DynamicRealm;
 import io.realm.DynamicRealmObject;
 import io.realm.RealmMigration;
@@ -28,8 +27,6 @@ public class Migration implements RealmMigration {
   @Override
   public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
     if (oldVersion == 0) {
-      Log.d("elo",String.valueOf(newVersion));
-      Log.d("elo2",String.valueOf(oldVersion));
       RealmSchema schema = realm.getSchema();
       RealmObjectSchema eventSchema = schema.get("Event");
       eventSchema.addField("hasAlarm", boolean.class);

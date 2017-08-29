@@ -1,12 +1,14 @@
 package com.arkadiusz.dayscounter.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import com.arkadiusz.dayscounter.Database.Event;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;
 
@@ -20,7 +22,6 @@ public class WidgetConfigureAdapter extends RealmBaseAdapter<Event> implements L
   private Context mContext;
 
   private static class ViewHolder {
-
     TextView eventitle;
   }
 
@@ -44,6 +45,9 @@ public class WidgetConfigureAdapter extends RealmBaseAdapter<Event> implements L
     }
 
     Event item = events.get(position);
+    if(SharedPreferencesUtils.isBlackTheme(context)) {
+      viewHolder.eventitle.setTextColor(Color.WHITE);
+    }
     viewHolder.eventitle.setText(item.getName());
     return convertView;
   }

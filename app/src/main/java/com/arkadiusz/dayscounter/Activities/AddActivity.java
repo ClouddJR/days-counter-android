@@ -44,8 +44,12 @@ import com.arkadiusz.dayscounter.Model.AlarmBroadcast;
 import com.arkadiusz.dayscounter.Model.Migration;
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.Utils.FirebaseUtils;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -69,6 +73,7 @@ public class AddActivity extends AppCompatActivity {
   private final int PICK_PHOTO_CUSTOM = 1;
   private final int PICK_PHOTO_GALLERY = 2;
 
+  private DatabaseReference mDatabaseReference;
   private EditText mNameEditText;
   private EditText mDateEditText;
   private EditText mDescritptionEditText;
@@ -76,6 +81,7 @@ public class AddActivity extends AppCompatActivity {
   private EditText mReminderTextEditText;
   private TextView mClearTextView;
   private Button mAddButton;
+  private Spinner spinner;
   private ImageView mImageView;
   private String[] options;
   private Event mEvent;
@@ -88,7 +94,6 @@ public class AddActivity extends AppCompatActivity {
   private SharedPreferences mSharedPreferences;
   private boolean IsWithoutAds;
   private boolean isDatePicked = false;
-  private Spinner spinner;
   private int yearNotification;
   private int monthNotification;
   private int dayNotification;
@@ -99,7 +104,11 @@ public class AddActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_add);
+    if (SharedPreferencesUtils.isBlackTheme(this)) {
+      setContentView(R.layout.activity_add_black);
+    } else {
+      setContentView(R.layout.activity_add);
+    }
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -111,6 +120,7 @@ public class AddActivity extends AppCompatActivity {
     setUpRealm();
     setUpIfEdit();
     getSharedPref();
+    setUpFireBase();
 
     if (!IsWithoutAds) {
       displayAd();
@@ -216,6 +226,11 @@ public class AddActivity extends AppCompatActivity {
 
         if (mode.equals("edit")) {
           if (validateFormInEditMode()) {
+
+            Event previousEvent = realm.where(Event.class).equalTo("id", id).findFirst();
+            String previousName = previousEvent.getName();
+            String previousDate = previousEvent.getDate();
+
             event.setId(id);
             event.setName(mNameEditText.getText().toString().trim());
             event.setType(mEvent.getType());
@@ -302,6 +317,17 @@ public class AddActivity extends AppCompatActivity {
               }
             });
 
+            if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity.this).equals("")) {
+              String userMail = SharedPreferencesUtils.getFirebaseEmail(AddActivity.this);
+              mDatabaseReference.child(userMail).child("Event " + id + " " + previousName + " "
+                  + previousDate).removeValue();
+
+              if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity.this).equals("")) {
+                FirebaseUtils
+                    .addToFirebase(mDatabaseReference, event, AddActivity.this, event.getId());
+              }
+            }
+
             intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
                 getApplicationContext(), AppWidgetProvider.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{widgetID});
@@ -377,6 +403,11 @@ public class AddActivity extends AppCompatActivity {
               }
             });
 
+            if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity.this).equals("")) {
+              FirebaseUtils
+                  .addToFirebase(mDatabaseReference, event, AddActivity.this, event.getId());
+            }
+
             finish();
 
           }
@@ -422,11 +453,15 @@ public class AddActivity extends AppCompatActivity {
     });
   }
 
+  private void setUpFireBase() {
+    mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+  }
+
   private void setUpSpinner() {
     spinner = (Spinner) findViewById(R.id.spinner_repeat);
     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-        R.array.add_activity_repeat, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        R.array.add_activity_repeat, R.layout.spinner_item_black);
+    adapter.setDropDownViewResource(R.layout.spinner_dropdown_black);
     spinner.setAdapter(adapter);
   }
 

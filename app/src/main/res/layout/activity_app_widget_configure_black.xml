@@ -3,6 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="#263238"
   android:fillViewport="true">
 
   <LinearLayout
@@ -31,7 +32,7 @@
         android:layout_gravity="center_vertical"
         android:gravity="start"
         android:text="@string/widget_configuration_color"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
       <Button
@@ -49,13 +50,15 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="20dp"
       android:text="@string/widget_configuration_switch"
+      android:textColor="@color/white"
       android:textSize="20sp"/>
 
     <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="26dp"
-      android:text="@string/widget_configuration_title"/>
+      android:text="@string/widget_configuration_title"
+      android:textColor="@color/white"/>
 
     <ListView
       android:id="@+id/listView"

@@ -7,8 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import com.arkadiusz.dayscounter.Activities.DetailActivity;
 import com.arkadiusz.dayscounter.Database.Event;
@@ -63,10 +68,8 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
       e.printStackTrace();
     }
 
-
-    for (int i = 0; i < N ; i++) {
+    for (int i = 0; i < N; i++) {
       int appWidgetID = appWidgetIds[i];
-
 
       if (realm != null) {
         event = realm.where(Event.class).equalTo("widgetID", appWidgetID).findFirst();
@@ -105,18 +108,26 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget);
         views.setOnClickPendingIntent(R.id.image_widget, pendingIntent);
 
-        views.setTextViewText(R.id.title_widget, event.getName());
-        views.setTextColor(R.id.title_widget, event.getColor());
+        views.setImageViewBitmap(R.id.title_widget,
+            getFontBitmap(context, event.getName(), 16, event.getColor()));
+        //views.setTextViewText(R.id.title_widget, event.getName());
+        //views.setTextColor(R.id.title_widget, event.getColor());
         views.setInt(R.id.line, "setBackgroundColor", event.getColor());
         if (!event.isOnlyDays()) {
-          views.setTextViewText(R.id.days_widget,
+          //views.setTextViewText(R.id.days_widget,
+          //years + String.valueOf(yearsN - 1) + "   " + months + String.valueOf(monthsN - 1)
+          //+ "   " + days + String.valueOf(daysN));
+
+          views.setImageViewBitmap(R.id.days_widget, getFontBitmap(context,
               years + String.valueOf(yearsN - 1) + "   " + months + String.valueOf(monthsN - 1)
-                  + "   " + days + String.valueOf(daysN));
-          views.setTextColor(R.id.days_widget, event.getColor());
+                  + "   " + days + String.valueOf(daysN), 23, event.getColor()));
+          //views.setTextColor(R.id.days_widget, event.getColor());
         } else {
           int days = calculateOnlyDays(event.getDate(), event.getType());
-          views.setTextViewText(R.id.days_widget, String.valueOf(days) + daysOnly);
-          views.setTextColor(R.id.days_widget, event.getColor());
+          //views.setTextViewText(R.id.days_widget, String.valueOf(days) + daysOnly);
+          views.setImageViewBitmap(R.id.days_widget,
+              getFontBitmap(context, String.valueOf(days) + daysOnly, 23, event.getColor()));
+          //views.setTextColor(R.id.days_widget, event.getColor());
         }
         if (event.getImageID() != 0) {
           Picasso.with(context).load(event.getImageID()).resize(0, 300)
@@ -144,9 +155,6 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
 
   private void calculateDays(String dateS, String type) {
-    yearsN = 0;
-    monthsN = 0;
-    daysN = 0;
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 
     Calendar beginCalendar = Calendar.getInstance();
@@ -176,6 +184,17 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         yearsN++;
         beginCalendar.add(Calendar.YEAR, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          yearsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.YEAR, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          yearsN += 2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.YEAR, -1);
+        }
       }
 
       try {
@@ -189,6 +208,17 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         monthsN++;
         beginCalendar.add(Calendar.MONTH, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          monthsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.MONTH, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          monthsN += 2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.MONTH, -1);
+        }
       }
 
       try {
@@ -200,9 +230,10 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
       //calculating days
       while (beginCalendar.before(finishCalendar)) {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
-        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
         daysN++;
+        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
       }
+
     } else {
 
       try {
@@ -221,6 +252,17 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         yearsN++;
         beginCalendar.add(Calendar.YEAR, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          yearsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.YEAR, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          yearsN += 2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.YEAR, -1);
+        }
       }
 
       try {
@@ -234,6 +276,17 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         monthsN++;
         beginCalendar.add(Calendar.MONTH, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          monthsN++;
+          return;
+        }
+        beginCalendar.add(Calendar.MONTH, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          monthsN += 2;
+          return;
+        } else {
+          beginCalendar.add(Calendar.MONTH, -1);
+        }
       }
 
       try {
@@ -245,8 +298,8 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
       //calculating days
       while (beginCalendar.before(finishCalendar)) {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
-        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
         daysN++;
+        beginCalendar.add(Calendar.DAY_OF_MONTH, 1);
       }
 
     }
@@ -308,4 +361,34 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     }
     return result;
   }
+
+
+  private Bitmap getFontBitmap(Context context, String text, float fontSizeSP, int color) {
+    int fontSizePX = convertDiptoPix(context, fontSizeSP);
+    int pad = (fontSizePX / 9);
+    Paint paint = new Paint();
+    Typeface typeface = Typeface
+        .createFromAsset(context.getAssets(), "fonts/JosefinSans-Regular.ttf");
+    paint.setAntiAlias(true);
+    paint.setTypeface(typeface);
+    paint.setColor(color);
+    paint.setTextSize(fontSizePX);
+
+    int textWidth = (int) (paint.measureText(text) + pad * 2);
+    int height = (int) (fontSizePX / 0.75);
+    Bitmap bitmap = Bitmap.createBitmap(textWidth, height, Bitmap.Config.ARGB_4444);
+    Canvas canvas = new Canvas(bitmap);
+    float xOriginal = pad;
+    canvas.drawText(text, xOriginal, fontSizePX, paint);
+    return bitmap;
+  }
+
+  private int convertDiptoPix(Context context, float dip) {
+    int value = (int) TypedValue
+        .applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip,
+            context.getResources().getDisplayMetrics());
+    return value;
+  }
+
+
 }

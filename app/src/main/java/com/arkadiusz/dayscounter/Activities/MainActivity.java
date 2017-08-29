@@ -1,5 +1,9 @@
 package com.arkadiusz.dayscounter.Activities;
 
+import android.accounts.AccountManager;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,23 +14,38 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import com.arkadiusz.dayscounter.Database.Event;
+import com.arkadiusz.dayscounter.Database.FirebaseTempObject;
 import com.arkadiusz.dayscounter.Fragments.FutureFragment;
 import com.arkadiusz.dayscounter.Fragments.PastFragment;
 import com.arkadiusz.dayscounter.Model.Migration;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.Utils.FirebaseUtils;
 import com.arkadiusz.dayscounter.Utils.IabHelper;
 import com.arkadiusz.dayscounter.Utils.IabHelper.IabAsyncInProgressException;
 import com.arkadiusz.dayscounter.Utils.IabResult;
 import com.arkadiusz.dayscounter.Utils.Inventory;
 import com.arkadiusz.dayscounter.Utils.Purchase;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.AccountPicker;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import io.realm.Realm;
+import io.realm.Realm.Transaction;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,38 +59,59 @@ public class MainActivity extends AppCompatActivity {
   private RealmConfiguration config;
   private SharedPreferences mSharedPreferences;
   private IabHelper mHelper;
+  private static final int REQUEST_CODE_EMAIL = 1;
+  private DatabaseReference mDatabaseReference;
+  public static String userMail;
+  final List<Event> allEventsInFirebase = new ArrayList<>();
   String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAljgvqjNFwvk8KX5N1yfCAb+dOtaN5vYiERZ4JwpJfQKV2IQEQ04H9+mZE6FyoH6g5LyFAuFY28eJCoNWNsQ4rjDgU33Ta4ZXjxdLCPyw5rwkWU8LoJIxjaf9Ftau62d2SvkcDFDFSV70RUyU6UxlDeDXblZgD799A1zwMPCXLVeKqTnK7GqXsGo48KfBsbMgKsn7gKWuTNSO0RK3UTH8TkzKkjFF97QSBRN6WLWcTHNWzttb+BIMZWZv5H6TIySo/d5MKwKPPojLRDRpepZsjGrGD9td93SN+4X/kFW9t0/S+3Gl1tQWnzDCVhLFhK7aR0hDqFYPMLQGDqcHNZSpbwIDAQAB";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    if (SharedPreferencesUtils.isBlackTheme(this)) {
+      setTheme(R.style.BlackMain);
+    }
+
+    setContentView(R.layout.activity_main_black);
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle(R.string.app_name);
 
+    showChangelogDialog();
     setUpRealm();
     setUpTabLayout();
     setUpFAB();
     setUpSharedPreferences();
-
-    mHelper = new IabHelper(this, base64EncodedPublicKey);
-    mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-      public void onIabSetupFinished(IabResult result) {
-        if (!result.isSuccess()) {
-          // Oh no, there was a problem.
-        } else {
-          try {
-            mHelper.queryInventoryAsync(mGotInventoryListener);
-          } catch (IabAsyncInProgressException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-    });
-
+    checkForPurchases();
 
   }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == REQUEST_CODE_EMAIL && resultCode == RESULT_OK) {
+      userMail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+
+      if (userMail != null) {
+        formatMail();
+
+        if (userMail.equals(SharedPreferencesUtils.getFirebaseEmail(this))) {
+          Toast.makeText(this,
+              getString(R.string.main_activity_sync_same_email) + " " + SharedPreferencesUtils
+                  .getFirebaseEmail(this), Toast.LENGTH_SHORT).show();
+          return;
+        }
+
+        if (!SharedPreferencesUtils.getFirebaseEmail(this).equals("") && !userMail
+            .equals(SharedPreferencesUtils.getFirebaseEmail(this))) {
+          FirebaseUtils.deletePreviousMail(SharedPreferencesUtils.getFirebaseEmail(this));
+        }
+
+        SharedPreferencesUtils.setFirebaseEmail(this, userMail);
+        processFirebase();
+      }
+    }
+  }
+
 
   private void setupViewPager(ViewPager viewPager) {
     adapter.addFragment(new FutureFragment(), getString(R.string.main_activity_right_tab));
@@ -79,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     viewPager.setAdapter(adapter);
   }
 
-  class ViewPagerAdapter extends FragmentPagerAdapter {
+  private class ViewPagerAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -108,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
     public CharSequence getPageTitle(int position) {
       return mFragmentTitleList.get(position);
     }
-
-
   }
 
 
@@ -179,6 +217,23 @@ public class MainActivity extends AppCompatActivity {
             mPurchaseFinishedListener, "");
       } catch (IabAsyncInProgressException e) {
         e.printStackTrace();
+      }
+    } else if (id == R.id.action_syncing) {
+      if (!FirebaseUtils.isNetworkEnabled(this)) {
+        Toast.makeText(this, getString(R.string.main_activity_sync_no_connection),
+            Toast.LENGTH_SHORT).show();
+        return false;
+      }
+      getEmailAddress();
+    } else if (id == R.id.action_black_theme) {
+      if (SharedPreferencesUtils.isBlackTheme(this)) {
+        SharedPreferencesUtils.setBlackTheme(this, "white");
+        finish();
+        startActivity(getIntent());
+      } else {
+        SharedPreferencesUtils.setBlackTheme(this, "black");
+        finish();
+        startActivity(getIntent());
       }
     }
 
@@ -258,8 +313,7 @@ public class MainActivity extends AppCompatActivity {
 
   IabHelper.QueryInventoryFinishedListener mGotInventoryListener
       = new IabHelper.QueryInventoryFinishedListener() {
-    public void onQueryInventoryFinished(IabResult result,
-        Inventory inventory) {
+    public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
 
       if (result.isFailure()) {
       } else {
@@ -278,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
       = new IabHelper.OnIabPurchaseFinishedListener() {
     public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
       if (result.isFailure()) {
+        Log.d("IabHelper", "Error getting informations about purchases");
       } else if (purchase.getSku().equals("1")) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putBoolean("ads", true);
@@ -286,5 +341,154 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+  private void getEmailAddress() {
+    try {
+      Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+          new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, false, null, null, null, null);
+      startActivityForResult(intent, REQUEST_CODE_EMAIL);
+    } catch (ActivityNotFoundException e) {
+      Toast.makeText(this, getString(R.string.main_activity_sync_toast), Toast.LENGTH_SHORT).show();
+    }
+  }
+
+  private void processFirebase() {
+
+    mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    mDatabaseReference.child(userMail).addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+          allEventsInFirebase.add(postSnapshot.getValue(Event.class));
+        }
+        addLocalEventsToFirebase();
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+
+    });
+
+
+  }
+
+
+  private void addLocalEventsToFirebase() {
+    final RealmResults<Event> entireLocalDatabase = realm.where(Event.class).findAll();
+
+    int lastIdInFirebase;
+    if (allEventsInFirebase.size() == 0) {
+      lastIdInFirebase = 0;
+    } else {
+      lastIdInFirebase = allEventsInFirebase.get(allEventsInFirebase.size() - 1).getId();
+    }
+
+    mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    Log.d("AREK", String.valueOf(entireLocalDatabase.size()));
+    for (final Event event : entireLocalDatabase) {
+      if (!SharedPreferencesUtils.getFirebaseEmail(this).equals("")) {
+        Log.d("AREK", event.toString());
+        if (FirebaseUtils.isUnique(allEventsInFirebase, event)) {
+          lastIdInFirebase++;
+          FirebaseUtils.addToFirebase(mDatabaseReference, event, this, lastIdInFirebase);
+        }
+      }
+    }
+
+    realm.executeTransaction(new Transaction() {
+      @Override
+      public void execute(Realm realm) {
+        realm.deleteAll();
+      }
+    });
+
+    mDatabaseReference.child(userMail).addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+          realm.executeTransaction(new Transaction() {
+            @Override
+            public void execute(Realm realm) {
+              FirebaseTempObject tempObject = postSnapshot.getValue(FirebaseTempObject.class);
+              realm.copyToRealm(FirebaseUtils.parseToEventObject(tempObject));
+            }
+          });
+        }
+
+        FutureFragment futureFragment = (FutureFragment) adapter.getItem(0);
+        PastFragment pastFragment = (PastFragment) adapter.getItem(1);
+
+        futureFragment.refreshData();
+        pastFragment.refreshData();
+
+        SharedPreferencesUtils.setFirebaseSynced(MainActivity.this, "true");
+        Toast.makeText(MainActivity.this,
+            MainActivity.this.getString(R.string.main_activity_sync_first_time) + " "
+                + SharedPreferencesUtils.getFirebaseEmail(MainActivity.this), Toast.LENGTH_LONG)
+            .show();
+
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+
+    });
+
+
+  }
+
+  private void checkForPurchases() {
+    mHelper = new IabHelper(this, base64EncodedPublicKey);
+    mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+      public void onIabSetupFinished(IabResult result) {
+        if (!result.isSuccess()) {
+          // Oh no, there was a problem.
+        } else {
+          try {
+            mHelper.queryInventoryAsync(mGotInventoryListener);
+          } catch (IabAsyncInProgressException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+
+  }
+
+  private static void formatMail() {
+    StringBuilder mailBuilder = new StringBuilder();
+    for (char c : userMail.toCharArray()) {
+      if ((c != (char) 46) && (c != (char) 35) && (c != (char) 36) && (c != (char) 91) && (c
+          != (char) 93)) {
+        mailBuilder.append(c);
+      }
+    }
+    userMail = mailBuilder.toString();
+  }
+
+  private void showChangelogDialog() {
+    AlertDialog.Builder dialog;
+    //if(!SharedPreferencesUtils.isDialogSeen(this)) {
+    if(SharedPreferencesUtils.isBlackTheme(this)) {
+      dialog = new AlertDialog.Builder(this,R.style.BlackAlertDialog);
+    } else {
+      dialog = new AlertDialog.Builder(this);
+    }
+    dialog.setTitle(getString(R.string.changelog_dialog_title));
+    dialog.setMessage(getString(R.string.changelog_dialog_content));
+    dialog.setCancelable(false);
+    dialog.setPositiveButton("OK", new OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialogInterface, int i) {
+        dialogInterface.dismiss();
+      }
+    });
+    dialog.show();
+    SharedPreferencesUtils.setDialogInfoSeen(this);
+    //}
+  }
 
 }

@@ -9,10 +9,16 @@
   <string name="action_sort_date_asc">Sortuj rosnąco wg dni</string>
   <string name="action_sort_order">Sortuj wg daty dodania</string>
 
+  <string name="action_black_theme">Zmień motyw</string>
 
   <string name="main_activity_left_tab">Minione</string>
   <string name="main_activity_right_tab">Nadchodzące</string>
   <string name="main_activity_ads">Usuń reklamy</string>
+  <string name="menu_activity_sync">Synchronizacja z chmurą</string>
+  <string name="main_activity_sync_toast">Błąd podczas wyboru konta</string>
+  <string name="main_activity_sync_first_time">Wydarzenia zsynchronizowano z: </string>
+  <string name="main_activity_sync_same_email">Wydarzenia są juz zsynchrozowane z kontem:  </string>
+  <string name="main_activity_sync_no_connection">Sprawdź połączenie z internetem</string>
 
   <string name="recycler_toast_moved_past">Przeniesiono do minonych.</string>
   <string name="recycler_toast_moved_future">Przeniesiono do nadchodzących.</string>
@@ -79,16 +85,19 @@
   <string name="widget_configuration_title">Po wybraniu kliknij na wybrane wydarzenie</string>
   <string name="widget_configuration_switch">Tylko liczba dni</string>
 
+  <string name="changelog_dialog_title">"Co nowego w tej wersji?"</string>
+  <string name="changelog_dialog_content">
+    -możliwość synchronizacji wydarzeń z chmurą \n \n
+    -nowy ciemny motyw do wyboru \n \n
+    -czcionka na widgecie jest taka sama jak ta w aplikacji \n
+  </string>
 
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
 
   <string name="transition_fab">fab_transition</string>
-  <string name="test_description">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in n
-    isi nec urna feugiat tempor vitae eu sapien. Suspendisse tortor turpis,
-  </string>
+
 
 
 

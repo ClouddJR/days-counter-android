@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import com.arkadiusz.dayscounter.Activities.AddActivity;
 import com.arkadiusz.dayscounter.Activities.DetailActivity;
 import com.arkadiusz.dayscounter.Adapters.RecyclerViewAdapter;
@@ -27,6 +28,9 @@ import com.arkadiusz.dayscounter.Model.Migration;
 import com.arkadiusz.dayscounter.Model.RecyclerItemClickListener;
 import com.arkadiusz.dayscounter.Model.RecyclerItemClickListener.OnItemClickListener;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.Utils.SharedPreferencesUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import io.realm.Realm;
 import io.realm.Realm.Transaction;
 import io.realm.RealmConfiguration;
@@ -42,6 +46,7 @@ public class FutureFragment extends Fragment {
   private String sortType;
   RecyclerView recyclerView;
   RecyclerViewAdapter adapter;
+  private DatabaseReference mDatabaseReference;
 
 
   @Override
@@ -55,13 +60,20 @@ public class FutureFragment extends Fragment {
     receiveSortType();
     setUpRealm();
     setUpOptions();
+    setUpFirebase();
   }
 
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.future_fragment, container, false);
+
+    View view;
+    if (SharedPreferencesUtils.isBlackTheme(getContext())) {
+      view = inflater.inflate(R.layout.future_fragment_black, container, false);
+    } else {
+      view = inflater.inflate(R.layout.future_fragment, container, false);
+    }
 
     recyclerView = (RecyclerView) view.findViewById(R.id.future_recycler_view);
     recyclerView
@@ -89,9 +101,17 @@ public class FutureFragment extends Fragment {
           @Override
           public void onItemLongClick(View view, final int position) {
             vibration();
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+            AlertDialog.Builder builder;
+            if (SharedPreferencesUtils.isBlackTheme(getContext())) {
+              builder = new AlertDialog.Builder(getContext(), R.style.BlackAlertDialog);
+            } else {
+              builder = new AlertDialog.Builder(getContext());
+            }
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+            arrayAdapter.addAll(options);
             builder.setTitle(getString(R.string.fragment_main_dialog_title));
-            builder.setItems(options, new DialogInterface.OnClickListener() {
+            builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
@@ -103,7 +123,13 @@ public class FutureFragment extends Fragment {
                     startActivity(intent);
                     break;
                   case 1:
-                    new Builder(getContext())
+                    Builder builder;
+                    if (SharedPreferencesUtils.isBlackTheme(getContext())) {
+                      builder = new Builder(getContext(), R.style.BlackAlertDialog);
+                    } else {
+                      builder = new Builder(getContext());
+                    }
+                    builder
                         .setTitle(getString(R.string.fragment_delete_dialog_title))
                         .setMessage(getString(R.string.fragment_delete_dialog_question))
                         .setPositiveButton(android.R.string.yes, new OnClickListener() {
@@ -111,6 +137,16 @@ public class FutureFragment extends Fragment {
                             int id = results.get(position).getId();
                             final RealmResults<Event> results = realm.where(Event.class)
                                 .equalTo("id", id).findAll();
+                            Event event = results.first();
+
+                            if (!SharedPreferencesUtils.getFirebaseEmail(getContext()).equals("")) {
+                              mDatabaseReference
+                                  .child(SharedPreferencesUtils.getFirebaseEmail(getContext()))
+                                  .child(
+                                      "Event " + event.getId() + " " + event.getName() + " " + event
+                                          .getDate()).removeValue();
+                            }
+
                             realm.executeTransaction(new Transaction() {
                               @Override
                               public void execute(Realm realm) {
@@ -168,7 +204,8 @@ public class FutureFragment extends Fragment {
   }
 
   public void receiveSortType() {
-    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    SharedPreferences sharedPreferences = PreferenceManager
+        .getDefaultSharedPreferences(getActivity());
     sortType = sharedPreferences.getString("sort_type", "date_order");
   }
 
@@ -187,6 +224,10 @@ public class FutureFragment extends Fragment {
     }
     adapter = new RecyclerViewAdapter(getContext(), results);
     recyclerView.setAdapter(adapter);
+  }
+
+  private void setUpFirebase() {
+    mDatabaseReference = FirebaseDatabase.getInstance().getReference();
   }
 
 }

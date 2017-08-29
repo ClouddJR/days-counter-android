@@ -165,8 +165,6 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Event, ViewHol
       holder.mImageView
           .setColorFilter(Color.rgb(180, 180, 180), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
-
-
   }
 
 
