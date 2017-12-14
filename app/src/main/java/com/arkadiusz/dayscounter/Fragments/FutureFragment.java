@@ -2,6 +2,8 @@ package com.arkadiusz.dayscounter.Fragments;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -138,6 +140,10 @@ public class FutureFragment extends Fragment {
                             final RealmResults<Event> results = realm.where(Event.class)
                                 .equalTo("id", id).findAll();
                             Event event = results.first();
+
+                            NotificationManager manager = (NotificationManager) getContext().getSystemService(
+                                Context.NOTIFICATION_SERVICE);
+                            manager.cancel(event.getId());
 
                             if (!SharedPreferencesUtils.getFirebaseEmail(getContext()).equals("")) {
                               mDatabaseReference

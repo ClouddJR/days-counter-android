@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 import com.arkadiusz.dayscounter.Adapters.GalleryAdapter;
 import com.arkadiusz.dayscounter.Model.RecyclerItemClickListener;
 import com.arkadiusz.dayscounter.Model.RecyclerItemClickListener.OnItemClickListener;
@@ -42,6 +43,8 @@ public class GalleryActivity extends AppCompatActivity {
 
     if (!IsWithoutAds) {
       displayAd();
+    } else {
+      adjustMargins();
     }
   }
 
@@ -96,6 +99,8 @@ public class GalleryActivity extends AppCompatActivity {
           mAdView.loadAd(request);
         }
       }, 400);*/
+    } else {
+      adjustMargins();
     }
   }
 
@@ -110,5 +115,11 @@ public class GalleryActivity extends AppCompatActivity {
         = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
     return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+  }
+
+  private void adjustMargins() {
+    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mRecyclerView.getLayoutParams();
+    params.setMargins(0,0,0,0);
+    mRecyclerView.setLayoutParams(params);
   }
 }

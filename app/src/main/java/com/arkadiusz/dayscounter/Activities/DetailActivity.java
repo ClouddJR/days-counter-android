@@ -3,6 +3,7 @@ package com.arkadiusz.dayscounter.Activities;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,7 +51,6 @@ public class DetailActivity extends Activity {
   private TextView mRepeatDateTextView;
   private TextView mDateDayNumberTextView;
   private ScrollView scrollView;
-  private boolean isOnePartOnlyTheSame;
 
   private FloatingActionButton mEditEventFAB;
   private Realm realm;
@@ -69,15 +69,19 @@ public class DetailActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if(SharedPreferencesUtils.isBlackTheme(this)) {
+    if (SharedPreferencesUtils.isBlackTheme(this)) {
       setContentView(R.layout.activity_detail_black);
     } else {
       setContentView(R.layout.activity_detail);
     }
 
+
     setUpRealm();
     receiveID();
     setImage();
+    if (mEvent == null) {
+      return;
+    }
     setInformations();
     getSharedPref();
 
@@ -109,11 +113,23 @@ public class DetailActivity extends Activity {
   public void receiveID() {
     Intent intent = getIntent();
     id = intent.getIntExtra("event_id", 1);
+    String isComingFromNotification = intent.getStringExtra("notificationClick");
+    if (isComingFromNotification != null && isComingFromNotification.equals("clicked")) {
+      NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      manager.cancel(id);
+    }
   }
 
   public void setImage() {
     mImageView = (ImageView) findViewById(R.id.image);
     mEvent = realm.where(Event.class).equalTo("id", id).findFirst();
+    if (mEvent == null) {
+      Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivity(intent);
+      finish();
+      return;
+    }
     if (mEvent.getImageID() == 0) {
       Uri uri = Uri.parse(mEvent.getImage());
 
@@ -145,7 +161,7 @@ public class DetailActivity extends Activity {
 
     mTitleTextView.setText(mEvent.getName());
     mDateTextView.setText(mEvent.getDate());
-    if(mEvent.getDescription().equals("")) {
+    if (mEvent.getDescription().equals("")) {
       CardView cardView = (CardView) findViewById(R.id.card_description);
       cardView.setVisibility(View.GONE);
     } else {
@@ -166,7 +182,7 @@ public class DetailActivity extends Activity {
 
     if (mEvent.hasAlarm()) {
       mRemiderDateTextView.setText(
-          buildDate(mEvent.getYear(), mEvent.getMonth()-1, mEvent.getDay(), mEvent.getHour(),
+          buildDate(mEvent.getYear(), mEvent.getMonth() - 1, mEvent.getDay(), mEvent.getHour(),
               mEvent.getMinute()));
     } else {
       mRemiderDateTextView.setText(getString(R.string.detail_activity_reminder));
@@ -236,16 +252,16 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         yearsN++;
         beginCalendar.add(Calendar.YEAR, 1);
-        if(beginCalendar.equals(finishCalendar)) {
+        if (beginCalendar.equals(finishCalendar)) {
           yearsN++;
           return;
         }
-        beginCalendar.add(Calendar.YEAR,1);
-        if(beginCalendar.equals(finishCalendar)) {
-          yearsN+=2;
+        beginCalendar.add(Calendar.YEAR, 1);
+        if (beginCalendar.equals(finishCalendar)) {
+          yearsN += 2;
           return;
         } else {
-          beginCalendar.add(Calendar.YEAR,-1);
+          beginCalendar.add(Calendar.YEAR, -1);
         }
       }
 
@@ -260,16 +276,16 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         monthsN++;
         beginCalendar.add(Calendar.MONTH, 1);
-        if(beginCalendar.equals(finishCalendar)) {
+        if (beginCalendar.equals(finishCalendar)) {
           monthsN++;
           return;
         }
         beginCalendar.add(Calendar.MONTH, 1);
-        if(beginCalendar.equals(finishCalendar)) {
-          monthsN+=2;
+        if (beginCalendar.equals(finishCalendar)) {
+          monthsN += 2;
           return;
         } else {
-          beginCalendar.add(Calendar.MONTH,-1);
+          beginCalendar.add(Calendar.MONTH, -1);
         }
       }
 
@@ -304,16 +320,16 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         yearsN++;
         beginCalendar.add(Calendar.YEAR, 1);
-        if(beginCalendar.equals(finishCalendar)) {
+        if (beginCalendar.equals(finishCalendar)) {
           yearsN++;
           return;
         }
         beginCalendar.add(Calendar.YEAR, 1);
-        if(beginCalendar.equals(finishCalendar)) {
-          yearsN+=2;
+        if (beginCalendar.equals(finishCalendar)) {
+          yearsN += 2;
           return;
         } else {
-          beginCalendar.add(Calendar.YEAR,-1);
+          beginCalendar.add(Calendar.YEAR, -1);
         }
       }
 
@@ -328,16 +344,16 @@ public class DetailActivity extends Activity {
         tempDate = format.format(beginCalendar.getTime()).toUpperCase();
         monthsN++;
         beginCalendar.add(Calendar.MONTH, 1);
-        if(beginCalendar.equals(finishCalendar)) {
+        if (beginCalendar.equals(finishCalendar)) {
           monthsN++;
           return;
         }
         beginCalendar.add(Calendar.MONTH, 1);
-        if(beginCalendar.equals(finishCalendar)) {
-          monthsN+=2;
+        if (beginCalendar.equals(finishCalendar)) {
+          monthsN += 2;
           return;
         } else {
-          beginCalendar.add(Calendar.MONTH,-1);
+          beginCalendar.add(Calendar.MONTH, -1);
         }
       }
 

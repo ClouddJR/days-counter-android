@@ -94,11 +94,11 @@ public class AddActivity extends AppCompatActivity {
   private SharedPreferences mSharedPreferences;
   private boolean IsWithoutAds;
   private boolean isDatePicked = false;
-  private int yearNotification;
-  private int monthNotification;
-  private int dayNotification;
-  private int hourNotification;
-  private int minuteNotification;
+  private int yearNotification = 0;
+  private int monthNotification = 0;
+  private int dayNotification = 0;
+  private int hourNotification = 0;
+  private int minuteNotification = 0;
 
 
   @Override
@@ -128,6 +128,36 @@ public class AddActivity extends AppCompatActivity {
 
   }
 
+  @Override
+  public void onBackPressed() {
+    AlertDialog.Builder builder;
+    if (anyFieldIsNotEmpty()) {
+      if (SharedPreferencesUtils.isBlackTheme(this)) {
+        builder = new AlertDialog.Builder(this, R.style.BlackAlertDialog);
+      } else {
+        builder = new AlertDialog.Builder(this);
+      }
+      builder.setTitle(getString(R.string.add_activity_back_button_title));
+      builder.setMessage(getString(R.string.add_activity_back_button_message));
+      builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+          AddActivity.super.onBackPressed();
+        }
+      });
+      builder.setNegativeButton(getString(R.string.add_activity_back_button_cancel),
+          new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              return;
+            }
+          });
+      builder.show();
+    } else {
+      AddActivity.super.onBackPressed();
+    }
+  }
+
 
   public void setUpButtons() {
     mClearTextView = (TextView) findViewById(R.id.clear);
@@ -142,6 +172,11 @@ public class AddActivity extends AppCompatActivity {
       public void onClick(View v) {
         mReminderTextEditText.setText("");
         mReminderDateEditText.setText("");
+        yearNotification = 0;
+        monthNotification = 0;
+        dayNotification = 0;
+        hourNotification = 0;
+        minuteNotification = 0;
       }
     });
 
@@ -149,11 +184,25 @@ public class AddActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Calendar c = Calendar.getInstance();
-        final int year = c.get(Calendar.YEAR);
-        final int month = c.get(Calendar.MONTH);
-        final int day = c.get(Calendar.DAY_OF_MONTH);
-        final int hour = c.get(Calendar.HOUR_OF_DAY);
-        final int minute = c.get(Calendar.MINUTE);
+        final int year;
+        final int month;
+        final int day;
+        final int hour;
+        final int minute;
+        if (yearNotification == 0 && monthNotification == 0 && dayNotification == 0
+            && hourNotification == 0 && minuteNotification == 0) {
+          year = c.get(Calendar.YEAR);
+          month = c.get(Calendar.MONTH);
+          day = c.get(Calendar.DAY_OF_MONTH);
+          hour = c.get(Calendar.HOUR_OF_DAY);
+          minute = c.get(Calendar.MINUTE);
+        } else {
+          year = yearNotification;
+          month = monthNotification - 1;
+          day = dayNotification;
+          hour = hourNotification;
+          minute = minuteNotification;
+        }
         final View vv = v;
 
         DatePickerDialog dialog = new DatePickerDialog(AddActivity.this, new OnDateSetListener() {
@@ -676,11 +725,17 @@ public class AddActivity extends AppCompatActivity {
       }
       if (mEvent.hasAlarm()) {
         String date =
-            mEvent.getYear() + "-" + mEvent.getMonth() + "-" + mEvent.getDay() + " " + mEvent
+            mEvent.getYear() + "-" + ((mEvent.getMonth() < 10) ? "0" + mEvent.getMonth()
+                : mEvent.getMonth()) + "-" + mEvent.getDay() + " " + mEvent
                 .getHour() + ":" + ((mEvent.getMinute() < 10) ? "0" + mEvent.getMinute()
                 : mEvent.getMinute());
         mReminderDateEditText.setText(date);
         mReminderTextEditText.setText(mEvent.getNotificationText());
+        yearNotification = mEvent.getYear();
+        monthNotification = mEvent.getMonth();
+        dayNotification = mEvent.getDay();
+        hourNotification = mEvent.getHour();
+        minuteNotification = mEvent.getMinute();
       }
       spinner.setSelection(Integer.parseInt(mEvent.getRepeat()));
       mAddButton.setText(R.string.add_activity_button_title);
@@ -766,6 +821,19 @@ public class AddActivity extends AppCompatActivity {
         = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
     return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+  }
+
+  private boolean anyFieldIsNotEmpty() {
+    if (!mNameEditText.getText().toString().equals("") ||
+        !mDateEditText.getText().toString().equals("") ||
+        !mDescritptionEditText.getText().toString().equals("") ||
+        !mReminderDateEditText.getText().toString().equals("") ||
+        !mReminderTextEditText.getText().toString().equals("") ||
+        imageID != 0 || imageUri != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

@@ -48,12 +48,14 @@ public class SharedPreferencesUtils {
 
   public static void setDialogInfoSeen(Context context) {
     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-    editor.putString("dialog-seen","true");
+    //number after "seen" inform about app version
+    editor.putString("dialog-seen-192","true");
     editor.apply();
   }
 
   public static boolean isDialogSeen(Context context) {
-    String isSeen = PreferenceManager.getDefaultSharedPreferences(context).getString("dialog-seen","false");
+    //number after "seen" inform about app version
+    String isSeen = PreferenceManager.getDefaultSharedPreferences(context).getString("dialog-seen-192","false");
     return isSeen.equals("true");
   }
 

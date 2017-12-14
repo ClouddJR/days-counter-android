@@ -37,6 +37,9 @@
   <string name="add_activity_google_photos">Images from Google Photos are not supported</string>
   <string name="add_activity_date">Wrong date format</string>
   <string name="add_activity_clear_date">Clear</string>
+  <string name="add_activity_back_button_title">Are you sure?</string>
+  <string name="add_activity_back_button_message"> All changes will be lost</string>
+  <string name="add_activity_back_button_cancel"> Cancel</string>
   <string name="add_reminder">Reminder</string>
   <string name="add_reminder_editText_hint">Never</string>
   <string name="add_reminder_editText_notification">This text will be displayed in a notification</string>
@@ -84,10 +87,8 @@
 
   <string name="changelog_dialog_title">What\'s new in this version?</string>
   <string name="changelog_dialog_content">
-    -option to sync your events with cloud \n \n
-    -new black theme \n \n
-    -font on widgets is now the same like the one in the app \n \n
-    -minor bug fixes
+    -widgets now display correct date \n \n
+    -bug with a resetting reminder fixed \n \n
   </string>
 
 

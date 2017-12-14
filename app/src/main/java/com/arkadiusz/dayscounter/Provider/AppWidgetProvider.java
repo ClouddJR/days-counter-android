@@ -157,6 +157,10 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
   private void calculateDays(String dateS, String type) {
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 
+    yearsN = 0;
+    monthsN = 0;
+    daysN = 0;
+
     Calendar beginCalendar = Calendar.getInstance();
     Calendar finishCalendar = Calendar.getInstance();
     String year = String.valueOf(finishCalendar.get(Calendar.YEAR));

@@ -33,7 +33,6 @@ public class AlarmBroadcast extends BroadcastReceiver {
   Event mEvent;
 
 
-
   public void onReceive(Context context, Intent intent) {
     id = intent.getIntExtra("eventId", 0);
     eventTitle = intent.getStringExtra("eventTitle");
@@ -60,6 +59,7 @@ public class AlarmBroadcast extends BroadcastReceiver {
 
     Intent intentSend = new Intent(context, DetailActivity.class);
     intentSend.putExtra("event_id", id);
+    intentSend.putExtra("notificationClick", "clicked");
 
     TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
     stackBuilder.addNextIntentWithParentStack(intentSend);

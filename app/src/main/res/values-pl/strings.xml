@@ -39,6 +39,9 @@
   <string name="add_activity_google_photos">Zdjęcia z Google Photos nie są obsługiwane</string>
   <string name="add_activity_date">Zły format daty</string>
   <string name="add_activity_clear_date">Wyczyść</string>
+  <string name="add_activity_back_button_title">Jesteś pewien?</string>
+  <string name="add_activity_back_button_message">Wszelkie wprowadzone zmiany zostaną utracone</string>
+  <string name="add_activity_back_button_cancel"> Anuluj</string>
   <string name="add_reminder">Przypomnienie</string>
   <string name="add_reminder_editText_hint">Nigdy</string>
   <string name="add_reminder_editText_notification">Ten teskt będzie wyświetlony w powiadomieniu</string>
@@ -87,9 +90,8 @@
 
   <string name="changelog_dialog_title">"Co nowego w tej wersji?"</string>
   <string name="changelog_dialog_content">
-    -możliwość synchronizacji wydarzeń z chmurą \n \n
-    -nowy ciemny motyw do wyboru \n \n
-    -czcionka na widgecie jest taka sama jak ta w aplikacji \n
+    -problem z widgetem pokazującym złą datę naprawiony \n \n
+    -naprawiono błąd z resetującym się powiadomieniem podczas aktualizacji wydarzenia \n \n
   </string>
 
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
@@ -98,6 +100,8 @@
 
   <string name="transition_fab">fab_transition</string>
 
+  <string name="test_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac augue velit.
+    Praesent molestie vel ipsum non feugiat. Cras sit amet fringilla erat.</string>
 
 
 

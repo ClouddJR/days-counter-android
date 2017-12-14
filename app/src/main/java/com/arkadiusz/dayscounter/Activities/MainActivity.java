@@ -385,10 +385,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-    Log.d("AREK", String.valueOf(entireLocalDatabase.size()));
     for (final Event event : entireLocalDatabase) {
       if (!SharedPreferencesUtils.getFirebaseEmail(this).equals("")) {
-        Log.d("AREK", event.toString());
         if (FirebaseUtils.isUnique(allEventsInFirebase, event)) {
           lastIdInFirebase++;
           FirebaseUtils.addToFirebase(mDatabaseReference, event, this, lastIdInFirebase);
@@ -471,24 +469,24 @@ public class MainActivity extends AppCompatActivity {
 
   private void showChangelogDialog() {
     AlertDialog.Builder dialog;
-    //if(!SharedPreferencesUtils.isDialogSeen(this)) {
-    if(SharedPreferencesUtils.isBlackTheme(this)) {
-      dialog = new AlertDialog.Builder(this,R.style.BlackAlertDialog);
-    } else {
-      dialog = new AlertDialog.Builder(this);
-    }
-    dialog.setTitle(getString(R.string.changelog_dialog_title));
-    dialog.setMessage(getString(R.string.changelog_dialog_content));
-    dialog.setCancelable(false);
-    dialog.setPositiveButton("OK", new OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
+    if (!SharedPreferencesUtils.isDialogSeen(this)) {
+      if (SharedPreferencesUtils.isBlackTheme(this)) {
+        dialog = new AlertDialog.Builder(this, R.style.BlackAlertDialog);
+      } else {
+        dialog = new AlertDialog.Builder(this);
       }
-    });
-    dialog.show();
-    SharedPreferencesUtils.setDialogInfoSeen(this);
-    //}
+      dialog.setTitle(getString(R.string.changelog_dialog_title));
+      dialog.setMessage(getString(R.string.changelog_dialog_content));
+      dialog.setCancelable(false);
+      dialog.setPositiveButton("OK", new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+          dialogInterface.dismiss();
+        }
+      });
+      dialog.show();
+      SharedPreferencesUtils.setDialogInfoSeen(this);
+    }
   }
 
 }
