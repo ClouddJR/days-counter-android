@@ -9,7 +9,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="#263238"
-  tools:context="com.arkadiusz.dayscounter.Activities.DetailActivity">
+  tools:context="com.arkadiusz.dayscounter.activities.DetailActivity">
 
 
   <ImageView

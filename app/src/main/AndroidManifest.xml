@@ -24,7 +24,7 @@
     <activity
       android:label="@string/app_name"
       android:launchMode="singleTop"
-      android:name=".Activities.MainActivity"
+      android:name=".activities.MainActivity"
       android:theme="@style/AppTheme.NoActionBarMain">
 
       <intent-filter>
@@ -40,19 +40,19 @@
     <activity
       android:label="@string/title_activity_add"
       android:launchMode="singleTask"
-      android:name=".Activities.AddActivity"
-      android:parentActivityName=".Activities.MainActivity"
+      android:name=".activities.AddActivity"
+      android:parentActivityName=".activities.MainActivity"
       android:theme="@style/AppTheme.NoActionBar"
       android:screenOrientation="portrait"
       android:windowSoftInputMode="stateHidden|adjustResize">
     </activity>
     <activity
-      android:name=".Activities.DetailActivity"
-      android:parentActivityName=".Activities.MainActivity"
+      android:name=".activities.DetailActivity"
+      android:parentActivityName=".activities.MainActivity"
       android:screenOrientation="portrait"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
-    <activity android:name=".Activities.GalleryActivity">
+    <activity android:name=".activities.GalleryActivity">
       <intent-filter>
         <action android:name="android.intent.action.OPEN_DOCUMENT"/>
 
@@ -62,7 +62,7 @@
       </intent-filter>
     </activity>
 
-    <receiver android:name=".Provider.AppWidgetProvider">
+    <receiver android:name=".providers.AppWidgetProvider">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
       </intent-filter>
@@ -72,7 +72,7 @@
         android:resource="@xml/appwidget_info"/>
     </receiver>
 
-    <activity android:name=".Activities.AppWidgetConfigure">
+    <activity android:name=".activities.AppWidgetConfigure">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
       </intent-filter>
@@ -80,7 +80,7 @@
 
     <receiver
       android:enabled="true"
-      android:name=".Model.AlarmBroadcast">
+      android:name=".model.AlarmBroadcast">
       <intent-filter>
         <action android:name="NOTIFICATION_SERVICE"/>
       </intent-filter>
@@ -88,7 +88,7 @@
 
     <receiver
       android:enabled="true"
-      android:name=".Model.AlarmBootReceiver">
+      android:name=".model.AlarmBootReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
       </intent-filter>
