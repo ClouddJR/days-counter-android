@@ -58,5 +58,38 @@
     <item name="android:backgroundDimEnabled">true</item>
   </style>
 
+  <style name="AppTheme.NoActionBar.Login">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="colorAccent">@android:color/white</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.SignIn" parent="AppTheme">
+    <item name="colorControlNormal">@android:color/white</item>
+    <item name="colorControlActivated">@android:color/white</item>
+    <item name="colorControlHighlight">@android:color/white</item>
+    <item name="colorAccent">@color/colorPrimaryDark</item>
+    <item name="android:windowBackground">@color/colorPrimary</item>
+    <item name="android:textColorHint">@android:color/white</item>
+    <item name="android:editTextColor">@android:color/white</item>
+    <item name="android:textColor">@android:color/white</item>
+  </style>
+
+
+  <style name="ResetDialog" parent="@android:style/Theme.Dialog">
+    <item name="android:windowAnimationStyle">@style/ResetDialogAnimation</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:textColor">@color/colorAccent</item>
+    <item name="android:layout_marginTop">5dp</item>
+    <item name="android:layout_marginLeft">5dp</item>
+    <item name="android:layout_marginRight">5dp</item>
+  </style>
+
+
+  <style name="ResetDialogAnimation">
+    <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+    <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+  </style>
+
 
 </resources>

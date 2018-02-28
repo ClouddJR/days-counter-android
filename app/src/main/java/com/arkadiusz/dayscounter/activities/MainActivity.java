@@ -28,6 +28,7 @@ import com.arkadiusz.dayscounter.fragments.FutureFragment;
 import com.arkadiusz.dayscounter.fragments.PastFragment;
 import com.arkadiusz.dayscounter.model.Migration;
 import com.arkadiusz.dayscounter.R;
+import com.arkadiusz.dayscounter.repositories.UserRepository;
 import com.arkadiusz.dayscounter.utils.FirebaseUtils;
 import com.arkadiusz.dayscounter.utils.IabHelper;
 import com.arkadiusz.dayscounter.utils.IabHelper.IabAsyncInProgressException;
@@ -51,6 +52,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+  private UserRepository userRepository = new UserRepository();
   private Toolbar toolbar;
   private TabLayout tabLayout;
   private ViewPager viewPager;
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    redirectToLogin();
     if (SharedPreferencesUtils.isBlackTheme(this)) {
       setTheme(R.style.BlackMain);
     }
@@ -88,6 +91,13 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
+  private void redirectToLogin() {
+    if (!userRepository.isLoggedIn()) {
+      startActivity(
+          new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+      finish();
+    }
+  }
 
   private void logEvents() {
     final RealmResults<Event> entireLocalDatabase = realm.where(Event.class).findAll();
@@ -245,6 +255,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
         startActivity(getIntent());
       }
+    } else if (id == R.id.action_sign_out) {
+      userRepository.signOut();
+      startActivity(new Intent(this,LoginActivity.class));
+      finish();
     }
 
     return super.onOptionsItemSelected(item);

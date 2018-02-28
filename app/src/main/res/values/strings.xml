@@ -6,8 +6,25 @@
   <string name="action_sort_date_desc">Sort by days descending</string>
   <string name="action_sort_date_asc">Sort by days ascending</string>
   <string name="action_sort_order">Sort by time added</string>
-
   <string name="action_black_theme">Switch theme</string>
+  <string name="action_sign_out">Sign out</string>
+
+
+  <string name="login_activity_title">LoginActivity</string>
+  <string name="login_activity_email">Email address</string>
+  <string name="login_activity_password">Password</string>
+  <string name="login_activity_login_button">LOGIN</string>
+  <string name="login_activity_create_account"><u>Create an account</u></string>
+  <string name="login_activity_create_q_account">Don\'t have an account?</string>
+  <string name="login_activity_or">or</string>
+  <string name="login_activity_google">Log in with Google</string>
+  <string name="login_activity_wrong_credentials">Check your email and password</string>
+  <string name="login_activity_connection_problem">Check your Internet connection</string>
+  <string name="login_activity_password_reset"><u>Forgot password?</u></string>
+  <string name="login_activity_password_reset_toast_success">Email with instructions was sent to this address</string>
+  <string name="login_activity_password_reset_toast_fail">That email does not exist in database</string>
+  <string name="login_activity_password_reset_form_edit_text">Email address</string>
+  <string name="login_activity_password_reset_form_button">Reset</string>
 
   <string name="main_activity_left_tab">Past Events</string>
   <string name="main_activity_right_tab">Future Events</string>

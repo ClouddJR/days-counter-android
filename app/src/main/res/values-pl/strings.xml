@@ -8,8 +8,8 @@
   <string name="action_sort_date_desc">Sortuj malejąco wg dni</string>
   <string name="action_sort_date_asc">Sortuj rosnąco wg dni</string>
   <string name="action_sort_order">Sortuj wg daty dodania</string>
-
   <string name="action_black_theme">Zmień motyw</string>
+  <string name="action_sign_out">Wyloguj się</string>
 
   <string name="main_activity_left_tab">Minione</string>
   <string name="main_activity_right_tab">Nadchodzące</string>

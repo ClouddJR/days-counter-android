@@ -75,11 +75,11 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Event, ViewHol
           holder.mImageView.setBackgroundColor(Color.BLACK);
         }
 
-        Glide.with(context).load(file).override(700, 400).centerCrop().into(holder.mImageView);
+        Glide.with(context).load(file).into(holder.mImageView);
       }
 
       if (event.getImageID() != 0) {
-        Glide.with(context).load(event.getImageID()).override(700, 400).centerCrop()
+        Glide.with(context).load(event.getImageID())
             .into(holder.mImageView);
       }
 

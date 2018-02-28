@@ -33,6 +33,12 @@
     android:title="@string/action_black_theme"/>
 
   <item
+    android:id="@+id/action_sign_out"
+    android:orderInCategory="150"
+    android:title="@string/action_sign_out"/>
+
+
+  <item
     android:id="@+id/action_syncing"
     android:icon="@drawable/ic_cloud_upload"
     android:orderInCategory="150"

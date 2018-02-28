@@ -139,11 +139,9 @@ public class DetailActivity extends Activity {
         e.printStackTrace();
       }
 
-      Glide.with(getApplicationContext()).load(file).override(750, 400).skipMemoryCache(true)
-          .centerCrop().into(mImageView);
+      Glide.with(getApplicationContext()).load(file).into(mImageView);
     } else {
-      Glide.with(this).load(mEvent.getImageID()).override(900, 500).centerCrop()
-          .skipMemoryCache(true).into(mImageView);
+      Glide.with(this).load(mEvent.getImageID()).into(mImageView);
     }
   }
 
