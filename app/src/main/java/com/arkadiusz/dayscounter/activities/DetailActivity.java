@@ -22,10 +22,9 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.database.Event;
 import com.arkadiusz.dayscounter.model.Migration;
-import com.arkadiusz.dayscounter.R;
-import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -68,13 +67,7 @@ public class DetailActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    if (SharedPreferencesUtils.isBlackTheme(this)) {
-      setContentView(R.layout.activity_detail_black);
-    } else {
-      setContentView(R.layout.activity_detail);
-    }
-
+    setContentView(R.layout.activity_detail);
 
     setUpRealm();
     receiveID();

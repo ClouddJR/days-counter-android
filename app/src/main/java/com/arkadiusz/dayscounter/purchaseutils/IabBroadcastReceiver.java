@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.utils;
+package com.arkadiusz.dayscounter.purchaseutils;
 
 /**
  * Created by Arkadiusz on 26.02.2017.

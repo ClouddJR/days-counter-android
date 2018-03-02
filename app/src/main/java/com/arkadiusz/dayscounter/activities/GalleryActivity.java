@@ -12,11 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.adapters.GalleryAdapter;
 import com.arkadiusz.dayscounter.model.RecyclerItemClickListener;
 import com.arkadiusz.dayscounter.model.RecyclerItemClickListener.OnItemClickListener;
-import com.arkadiusz.dayscounter.R;
-import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -31,11 +30,7 @@ public class GalleryActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if(SharedPreferencesUtils.isBlackTheme(this)) {
-      setContentView(R.layout.activity_gallery_black);
-    } else {
-      setContentView(R.layout.activity_gallery);
-    }
+    setContentView(R.layout.activity_gallery);
     setUpImagesList();
     getSupportActionBar().setTitle(getString(R.string.gallery_activity_title));
     setUpRecyclerView();

@@ -37,14 +37,6 @@
     android:orderInCategory="150"
     android:title="@string/action_sign_out"/>
 
-
-  <item
-    android:id="@+id/action_syncing"
-    android:icon="@drawable/ic_cloud_upload"
-    android:orderInCategory="150"
-    android:title="@string/menu_activity_sync"
-    app:showAsAction="ifRoom"/>
-
   <item
     android:id="@+id/action_remove_ads"
     android:orderInCategory="160"

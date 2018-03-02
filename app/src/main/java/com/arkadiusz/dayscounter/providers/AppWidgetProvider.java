@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Arkadiusz on 08.01.2017.
+ * Created by Arkadiusz on 08.01.2017
  */
 
 public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {

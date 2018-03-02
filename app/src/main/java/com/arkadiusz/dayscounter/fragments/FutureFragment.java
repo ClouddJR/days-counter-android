@@ -71,11 +71,8 @@ public class FutureFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
 
     View view;
-    if (SharedPreferencesUtils.isBlackTheme(getContext())) {
-      view = inflater.inflate(R.layout.future_fragment_black, container, false);
-    } else {
-      view = inflater.inflate(R.layout.future_fragment, container, false);
-    }
+    view = inflater.inflate(R.layout.future_fragment, container, false);
+
 
     recyclerView = (RecyclerView) view.findViewById(R.id.future_recycler_view);
     recyclerView
@@ -105,11 +102,7 @@ public class FutureFragment extends Fragment {
             vibration();
 
             AlertDialog.Builder builder;
-            if (SharedPreferencesUtils.isBlackTheme(getContext())) {
-              builder = new AlertDialog.Builder(getContext(), R.style.BlackAlertDialog);
-            } else {
-              builder = new AlertDialog.Builder(getContext());
-            }
+            builder = new AlertDialog.Builder(getContext());
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
             arrayAdapter.addAll(options);
             builder.setTitle(getString(R.string.fragment_main_dialog_title));
@@ -126,11 +119,7 @@ public class FutureFragment extends Fragment {
                     break;
                   case 1:
                     Builder builder;
-                    if (SharedPreferencesUtils.isBlackTheme(getContext())) {
-                      builder = new Builder(getContext(), R.style.BlackAlertDialog);
-                    } else {
-                      builder = new Builder(getContext());
-                    }
+                    builder = new Builder(getContext());
                     builder
                         .setTitle(getString(R.string.fragment_delete_dialog_title))
                         .setMessage(getString(R.string.fragment_delete_dialog_question))

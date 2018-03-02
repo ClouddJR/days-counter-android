@@ -52,11 +52,7 @@ public class AppWidgetConfigure extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (SharedPreferencesUtils.isBlackTheme(this)) {
-      setContentView(R.layout.activity_app_widget_configure_black);
-    } else {
-      setContentView(R.layout.activity_app_widget_configure);
-    }
+    setContentView(R.layout.activity_app_widget_configure);
     setResult(RESULT_CANCELED);
 
     Intent intent = getIntent();

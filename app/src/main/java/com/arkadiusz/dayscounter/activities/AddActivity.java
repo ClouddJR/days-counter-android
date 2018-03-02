@@ -104,11 +104,8 @@ public class AddActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (SharedPreferencesUtils.isBlackTheme(this)) {
-      setContentView(R.layout.activity_add_black);
-    } else {
-      setContentView(R.layout.activity_add);
-    }
+
+    setContentView(R.layout.activity_add);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,11 +129,7 @@ public class AddActivity extends AppCompatActivity {
   public void onBackPressed() {
     AlertDialog.Builder builder;
     if (anyFieldIsNotEmpty()) {
-      if (SharedPreferencesUtils.isBlackTheme(this)) {
-        builder = new AlertDialog.Builder(this, R.style.BlackAlertDialog);
-      } else {
-        builder = new AlertDialog.Builder(this);
-      }
+      builder = new AlertDialog.Builder(this);
       builder.setTitle(getString(R.string.add_activity_back_button_title));
       builder.setMessage(getString(R.string.add_activity_back_button_message));
       builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -509,8 +502,7 @@ public class AddActivity extends AppCompatActivity {
   private void setUpSpinner() {
     spinner = (Spinner) findViewById(R.id.spinner_repeat);
     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-        R.array.add_activity_repeat, R.layout.spinner_item_black);
-    adapter.setDropDownViewResource(R.layout.spinner_dropdown_black);
+        R.array.add_activity_repeat, R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
   }
 

@@ -30,11 +30,11 @@ import com.arkadiusz.dayscounter.model.Migration;
 import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.repositories.UserRepository;
 import com.arkadiusz.dayscounter.utils.FirebaseUtils;
-import com.arkadiusz.dayscounter.utils.IabHelper;
-import com.arkadiusz.dayscounter.utils.IabHelper.IabAsyncInProgressException;
-import com.arkadiusz.dayscounter.utils.IabResult;
-import com.arkadiusz.dayscounter.utils.Inventory;
-import com.arkadiusz.dayscounter.utils.Purchase;
+import com.arkadiusz.dayscounter.purchaseutils.IabHelper;
+import com.arkadiusz.dayscounter.purchaseutils.IabHelper.IabAsyncInProgressException;
+import com.arkadiusz.dayscounter.purchaseutils.IabResult;
+import com.arkadiusz.dayscounter.purchaseutils.Inventory;
+import com.arkadiusz.dayscounter.purchaseutils.Purchase;
 import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
@@ -71,11 +71,8 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     redirectToLogin();
-    if (SharedPreferencesUtils.isBlackTheme(this)) {
-      setTheme(R.style.BlackMain);
-    }
 
-    setContentView(R.layout.activity_main_black);
+    setContentView(R.layout.activity_main);
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setTitle(R.string.app_name);
@@ -238,26 +235,9 @@ public class MainActivity extends AppCompatActivity {
       } catch (IabAsyncInProgressException e) {
         e.printStackTrace();
       }
-    } else if (id == R.id.action_syncing) {
-      if (!FirebaseUtils.isNetworkEnabled(this)) {
-        Toast.makeText(this, getString(R.string.main_activity_sync_no_connection),
-            Toast.LENGTH_SHORT).show();
-        return false;
-      }
-      getEmailAddress();
-    } else if (id == R.id.action_black_theme) {
-      if (SharedPreferencesUtils.isBlackTheme(this)) {
-        SharedPreferencesUtils.setBlackTheme(this, "white");
-        finish();
-        startActivity(getIntent());
-      } else {
-        SharedPreferencesUtils.setBlackTheme(this, "black");
-        finish();
-        startActivity(getIntent());
-      }
     } else if (id == R.id.action_sign_out) {
       userRepository.signOut();
-      startActivity(new Intent(this,LoginActivity.class));
+      startActivity(new Intent(this, LoginActivity.class));
       finish();
     }
 
@@ -494,11 +474,7 @@ public class MainActivity extends AppCompatActivity {
   private void showChangelogDialog() {
     AlertDialog.Builder dialog;
     if (!SharedPreferencesUtils.isDialogSeen(this)) {
-      if (SharedPreferencesUtils.isBlackTheme(this)) {
-        dialog = new AlertDialog.Builder(this, R.style.BlackAlertDialog);
-      } else {
-        dialog = new AlertDialog.Builder(this);
-      }
+      dialog = new AlertDialog.Builder(this);
       dialog.setTitle(getString(R.string.changelog_dialog_title));
       dialog.setMessage(getString(R.string.changelog_dialog_content));
       dialog.setCancelable(false);

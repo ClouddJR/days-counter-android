@@ -8,7 +8,6 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
-
   <style name="ThemeActionBar"
     parent="Widget.AppCompat.Light.ActionBar.Solid">
     <item name="android:background">#30000000</item>
@@ -18,7 +17,6 @@
     <item name="actionBarStyle">@style/ThemeActionBar</item>
     <item name="windowActionBarOverlay">true</item>
   </style>
-
 
   <style name="AppTheme.NoActionBar">
     <item name="windowActionBar">false</item>
@@ -30,18 +28,6 @@
     <item name="windowNoTitle">true</item>
   </style>
 
-  <style name="BlackMain" parent="AppTheme.NoActionBarMain">
-    <item name="android:itemBackground">#263238</item>
-    <item name="android:textColor">@color/white</item>
-  </style>
-
-  <style name="BlackAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-    <item name="android:background">#37474F</item>
-    <item name="android:textColorAlertDialogListItem">#FFFFFF</item>
-    <item name="android:textColor">#FFFFFF</item>
-    <item name="android:textColorPrimary">#FFFFFF</item>
-    <item name="android:textColorSecondary">#FFFFFF</item>
-  </style>
 
   <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
@@ -76,13 +62,11 @@
   </style>
 
 
-  <style name="ResetDialog" parent="@android:style/Theme.Dialog">
+  <style name="ResetDialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
     <item name="android:windowAnimationStyle">@style/ResetDialogAnimation</item>
     <item name="android:windowNoTitle">true</item>
     <item name="android:textColor">@color/colorAccent</item>
-    <item name="android:layout_marginTop">5dp</item>
-    <item name="android:layout_marginLeft">5dp</item>
-    <item name="android:layout_marginRight">5dp</item>
+    <item name="android:padding">2dp</item>
   </style>
 
 

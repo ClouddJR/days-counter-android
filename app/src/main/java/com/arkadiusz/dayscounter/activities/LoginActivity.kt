@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnLoggedListener, User
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                if (response?.errorCode == ErrorCodes.NO_NETWORK) {
+                if (response?.error?.errorCode == ErrorCodes.NO_NETWORK) {
                     Toast.makeText(this, R.string.login_activity_connection_problem, Toast.LENGTH_LONG).show()
                 }
             }
@@ -116,13 +116,14 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnLoggedListener, User
 
 
     private fun displayResetPasswordDialog() {
-        val dialog = AlertDialog.Builder(this, R.style.ResetDialog)
+
+        val dialog = AlertDialog.Builder(LoginActivity@ this, R.style.ResetDialog)
         val editText = EditText(this)
         editText.hint = getString(R.string.login_activity_password_reset_form_edit_text)
         val f = TextView::class.java.getDeclaredField("mCursorDrawableRes")
         f.isAccessible = true
         f.set(editText, R.color.colorAccent)
-        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
         editText.layoutParams = layoutParams
         dialog.setView(editText)
         dialog.setPositiveButton(getString(R.string.login_activity_password_reset_form_button), { _, _ ->
