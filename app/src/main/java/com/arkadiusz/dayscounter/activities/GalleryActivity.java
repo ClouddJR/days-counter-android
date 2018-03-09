@@ -62,7 +62,7 @@ public class GalleryActivity extends AppCompatActivity {
         mRecyclerView, new OnItemClickListener() {
       @Override
       public void onItemClick(View view, int position) {
-        Intent intent = new Intent(GalleryActivity.this, AddActivity.class);
+        Intent intent = new Intent(GalleryActivity.this, AddActivity_old.class);
         intent.putExtra("imageID", mImagesList[position]);
         startActivity(intent);
         finish();

@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import io.realm.Realm;
 
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity_old extends AppCompatActivity {
 
   private final int PICK_PHOTO_CUSTOM = 1;
   private final int PICK_PHOTO_GALLERY = 2;
@@ -82,7 +82,7 @@ public class AddActivity extends AppCompatActivity {
 //      builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 //        @Override
 //        public void onClick(DialogInterface dialogInterface, int i) {
-//          AddActivity.super.onBackPressed();
+//          AddActivity_old.super.onBackPressed();
 //        }
 //      });
 //      builder.setNegativeButton(getString(R.string.add_activity_back_button_cancel),
@@ -94,7 +94,7 @@ public class AddActivity extends AppCompatActivity {
 //          });
 //      builder.show();
 //    } else {
-//      AddActivity.super.onBackPressed();
+//      AddActivity_old.super.onBackPressed();
 //    }
 //  }
 //
@@ -145,7 +145,7 @@ public class AddActivity extends AppCompatActivity {
 //        }
 //        final View vv = v;
 //
-//        DatePickerDialog dialog = new DatePickerDialog(AddActivity.this, new OnDateSetListener() {
+//        DatePickerDialog dialog = new DatePickerDialog(AddActivity_old.this, new OnDateSetListener() {
 //          boolean mFirst = true;
 //
 //          @Override
@@ -169,7 +169,7 @@ public class AddActivity extends AppCompatActivity {
 //                monthNotification = monthOfYear + 1;
 //                dayNotification = dayOfMonth;
 //                mReminderDateEditText.setText(date);
-//                TimePickerDialog timeDialog = new TimePickerDialog(AddActivity.this,
+//                TimePickerDialog timeDialog = new TimePickerDialog(AddActivity_old.this,
 //                    new OnTimeSetListener() {
 //                      boolean mFirst = true;
 //
@@ -191,7 +191,7 @@ public class AddActivity extends AppCompatActivity {
 //                        } else {
 //                        }
 //                      }
-//                    }, hour, minute, DateFormat.is24HourFormat(AddActivity.this));
+//                    }, hour, minute, DateFormat.is24HourFormat(AddActivity_old.this));
 //                timeDialog.show();
 //              }
 //            }
@@ -263,7 +263,7 @@ public class AddActivity extends AppCompatActivity {
 //              event.setOnlyDays(true);
 //            }
 //
-//            Intent intent = new Intent(AddActivity.this, AlarmBroadcast.class);
+//            Intent intent = new Intent(AddActivity_old.this, AlarmBroadcast.class);
 //            if (!mReminderDateEditText.getText().toString().equals("")) {
 //              event.setHasAlarm(true);
 //              event.setYear(yearNotification);
@@ -279,20 +279,20 @@ public class AddActivity extends AppCompatActivity {
 //              c.set(yearNotification, monthNotification - 1, dayNotification, hourNotification,
 //                  minuteNotification);
 //
-//              intent = new Intent(AddActivity.this, AlarmBroadcast.class);
+//              intent = new Intent(AddActivity_old.this, AlarmBroadcast.class);
 //              intent.putExtra("eventTitle", event.getName());
 //              intent.putExtra("eventText", event.getNotificationText());
 //              intent.putExtra("eventId", event.getId());
 //              intent.putExtra("eventDate", event.getDate());
 //
 //              PendingIntent pendingIntent = PendingIntent
-//                  .getBroadcast(AddActivity.this, event.getId(), intent,
+//                  .getBroadcast(AddActivity_old.this, event.getId(), intent,
 //                      PendingIntent.FLAG_UPDATE_CURRENT);
 //              AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 //              alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
 //            } else {
 //              event.setHasAlarm(false);
-//              PendingIntent.getBroadcast(AddActivity.this, event.getId(), intent,
+//              PendingIntent.getBroadcast(AddActivity_old.this, event.getId(), intent,
 //                  PendingIntent.FLAG_UPDATE_CURRENT).cancel();
 //            }
 //
@@ -306,14 +306,14 @@ public class AddActivity extends AppCompatActivity {
 //              }
 //            });
 //
-//            if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity.this).equals("")) {
-//              String userMail = SharedPreferencesUtils.getFirebaseEmail(AddActivity.this);
+//            if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity_old.this).equals("")) {
+//              String userMail = SharedPreferencesUtils.getFirebaseEmail(AddActivity_old.this);
 //              mDatabaseReference.child(userMail).child("Event " + id + " " + previousName + " "
 //                  + previousDate).removeValue();
 //
-//              if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity.this).equals("")) {
+//              if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity_old.this).equals("")) {
 //                FirebaseUtils
-//                    .addToFirebase(mDatabaseReference, event, AddActivity.this, event.getId());
+//                    .addToFirebase(mDatabaseReference, event, AddActivity_old.this, event.getId());
 //              }
 //            }
 //
@@ -369,14 +369,14 @@ public class AddActivity extends AppCompatActivity {
 //              c.set(yearNotification, monthNotification - 1, dayNotification, hourNotification,
 //                  minuteNotification);
 //
-//              Intent intent = new Intent(AddActivity.this, AlarmBroadcast.class);
+//              Intent intent = new Intent(AddActivity_old.this, AlarmBroadcast.class);
 //              intent.putExtra("eventTitle", event.getName());
 //              intent.putExtra("eventText", event.getNotificationText());
 //              intent.putExtra("eventId", event.getId());
 //              intent.putExtra("eventDate", event.getDate());
 //
 //              PendingIntent pendingIntent = PendingIntent
-//                  .getBroadcast(AddActivity.this, event.getId(), intent,
+//                  .getBroadcast(AddActivity_old.this, event.getId(), intent,
 //                      PendingIntent.FLAG_UPDATE_CURRENT);
 //              AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 //              alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
@@ -392,9 +392,9 @@ public class AddActivity extends AppCompatActivity {
 //              }
 //            });
 //
-//            if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity.this).equals("")) {
+//            if (!SharedPreferencesUtils.getFirebaseEmail(AddActivity_old.this).equals("")) {
 //              FirebaseUtils
-//                  .addToFirebase(mDatabaseReference, event, AddActivity.this, event.getId());
+//                  .addToFirebase(mDatabaseReference, event, AddActivity_old.this, event.getId());
 //            }
 //
 //            finish();
@@ -412,26 +412,26 @@ public class AddActivity extends AppCompatActivity {
 //      public void onClick(View view) {
 //        try {
 //          if (ActivityCompat
-//              .checkSelfPermission(AddActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//              .checkSelfPermission(AddActivity_old.this, Manifest.permission.READ_EXTERNAL_STORAGE)
 //              != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(AddActivity.this,
+//            ActivityCompat.requestPermissions(AddActivity_old.this,
 //                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
 //                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_PHOTO_CUSTOM);
 //          }
 //        } catch (Exception e) {
 //          e.printStackTrace();
 //        }
-//        AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity.this);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(AddActivity_old.this);
 //        builder.setTitle(getString(R.string.add_activity_dialog_title));
 //        builder.setItems(options, new DialogInterface.OnClickListener() {
 //          @Override
 //          public void onClick(DialogInterface dialogInterface, int which) {
 //            switch (which) {
 //              case 0:
-//                CropImage.startPickImageActivity(AddActivity.this);
+//                CropImage.startPickImageActivity(AddActivity_old.this);
 //                break;
 //              case 1:
-//                Intent intent = new Intent(AddActivity.this, GalleryActivity.class);
+//                Intent intent = new Intent(AddActivity_old.this, GalleryActivity.class);
 //                startActivityForResult(intent, PICK_PHOTO_GALLERY);
 //                break;
 //            }

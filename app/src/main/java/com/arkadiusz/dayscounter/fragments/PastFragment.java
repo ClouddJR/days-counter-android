@@ -20,7 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import com.arkadiusz.dayscounter.activities.AddActivity;
+import com.arkadiusz.dayscounter.activities.AddActivity_old;
 import com.arkadiusz.dayscounter.activities.DetailActivity;
 import com.arkadiusz.dayscounter.activities.MainActivity;
 import com.arkadiusz.dayscounter.adapters.RecyclerViewAdapter;
@@ -112,7 +112,7 @@ public class PastFragment extends Fragment {
                 switch (which) {
                   case 0:
                     int id = results.get(position).getId();
-                    Intent intent = new Intent(getContext(), AddActivity.class);
+                    Intent intent = new Intent(getContext(), AddActivity_old.class);
                     intent.putExtra("mode", "edit");
                     intent.putExtra("id", id);
                     startActivity(intent);

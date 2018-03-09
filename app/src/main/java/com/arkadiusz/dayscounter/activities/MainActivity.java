@@ -309,6 +309,8 @@ public class MainActivity extends AppCompatActivity {
         mHelper.dispose();
       } catch (IabAsyncInProgressException e) {
         e.printStackTrace();
+      } catch (IllegalArgumentException e) {
+        e.printStackTrace();
       }
     }
     mHelper = null;

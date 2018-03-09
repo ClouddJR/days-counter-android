@@ -38,7 +38,9 @@
   <string name="recycler_toast_moved_past">Moved to past events.</string>
   <string name="recycler_toast_moved_future">Moved to future events.</string>
 
-  <string name="add_activity_name_form">Enter event name: </string>
+  <string name="add_activity_name_form">Enter event title: </string>
+  <string name="add_activity_preview">Preview</string>
+  <string name="add_activity_preview_title">Event title</string>
   <string name="add_activity_date_form">Date: </string>
   <string name="add_activity_describe_form">Describe your event(optional): </string>
   <string name="add_activity_add_button">Add Event </string>
@@ -46,6 +48,7 @@
   <string name="add_activity_toast_date">Date field required.</string>
   <string name="add_activity_toast_image">Image field required.</string>
   <string name="add_activity_toast_name_length">Name should have less than 30 characters.</string>
+  <string name="add_activity_toast_checkbox">At least one options has to be selected</string>
   <string name="add_activity_dialog_title">Choose an image from</string>
   <string name="add_activity_dialog_option_custom">Gallery or Camera</string>
   <string name="add_activity_dialog_option_gallery">Backgrounds</string>
@@ -57,11 +60,19 @@
   <string name="add_activity_back_button_title">Are you sure?</string>
   <string name="add_activity_back_button_message"> All changes will be lost</string>
   <string name="add_activity_back_button_cancel"> Cancel</string>
+  <string name="add_activity_format_text">Format of counter</string>
+  <string name="add_activity_line_divider">Show line divider</string>
+  <string name="add_activity_counter_font_size">Counter font size</string>
+  <string name="add_activity_title_font_size">Title font size</string>
+  <string name="add_activity_font_color">Font color</string>
+  <string name="add_activity_font_type">Font type</string>
+  <string name="add_activity_picture_dim">Picture dim</string>
   <string name="add_reminder">Reminder</string>
   <string name="add_reminder_editText_hint">Never</string>
-  <string name="add_reminder_editText_notification">This text will be displayed in a notification</string>
+  <string name="add_reminder_editText_notification">Notification text</string>
   <string name="add_reminder_toast">First choose the date for event</string>
-  <string name="add_repeat">Repeat</string>
+  <string name="add_repeat">Event repetition</string>
+
   <string-array name="add_activity_repeat">
     <item>only once</item>
     <item>daily</item>
@@ -69,6 +80,52 @@
     <item>monthly</item>
     <item>yearly</item>
   </string-array>
+
+  <string-array name="add_activity_font_size">
+    <item>8</item>
+    <item>10</item>
+    <item>12</item>
+    <item>14</item>
+    <item>16</item>
+    <item>18</item>
+    <item>20</item>
+    <item>22</item>
+    <item>24</item>
+    <item>26</item>
+    <item>28</item>
+    <item>30</item>
+    <item>32</item>
+    <item>34</item>
+    <item>36</item>
+    <item>38</item>
+  </string-array>
+
+  <string-array name="font_type">
+    <item>Allerta</item>
+    <item>Fira Sans</item>
+    <item>Josefin Sans</item>
+    <item>Lato</item>
+    <item>Montserrat</item>
+    <item>Open Sans</item>
+    <item>Pacifico</item>
+    <item>PT Sans</item>
+    <item>Roboto</item>
+    <item>Roboto Slab</item>
+    <item>Ropa Sans</item>
+    <item>Source Sans Pro</item>
+    <item>Titillium Web</item>
+    <item>Ubuntu</item>
+  </string-array>
+
+  <string name="date_utils_single_day">day</string>
+  <string name="date_utils_multiple_days">days</string>
+  <string name="date_utils_single_week">week</string>
+  <string name="date_utils_multiple_weeks">weeks</string>
+  <string name="date_utils_single_month">month</string>
+  <string name="date_utils_multiple_months">months</string>
+  <string name="date_utils_single_year">year</string>
+  <string name="date_utils_multiple_years">years</string>
+  <string name="date_utils_today">Today!</string>
 
   <string name="past_fragment_day_description"> days since</string>
   <string name="past_fragment_day_description_today">Today!</string>

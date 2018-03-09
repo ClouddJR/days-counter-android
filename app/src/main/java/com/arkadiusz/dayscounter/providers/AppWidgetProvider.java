@@ -372,7 +372,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     int pad = (fontSizePX / 9);
     Paint paint = new Paint();
     Typeface typeface = Typeface
-        .createFromAsset(context.getAssets(), "fonts/JosefinSans-Regular.ttf");
+        .createFromAsset(context.getAssets(), "fonts/JosefinSans.ttf");
     paint.setAntiAlias(true);
     paint.setTypeface(typeface);
     paint.setColor(color);

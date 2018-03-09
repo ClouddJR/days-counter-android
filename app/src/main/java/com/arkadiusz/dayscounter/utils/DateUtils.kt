@@ -1,5 +1,7 @@
 package com.arkadiusz.dayscounter.utils
 
+import android.content.Context
+import com.arkadiusz.dayscounter.R
 import java.util.*
 
 /**
@@ -42,7 +44,7 @@ object DateUtils {
 
 
     fun calculateDate(dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
-                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean): String {
+                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean, context: Context): String {
 
         var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
         var todayCalendar = generateTodayCalendar()
@@ -106,7 +108,51 @@ object DateUtils {
             }
         }
 
-        return "$yearsNumber,$monthsNumber,$weeksNumber,$daysNumber"
+        return generateCounterText(yearsNumber, monthsNumber, weeksNumber, daysNumber,
+                areYearsIncluded, areMonthsIncluded, areWeeksIncluded, areDaysIncluded,
+                context)
+    }
+
+    private fun generateCounterText(yearsNumber: Int, monthsNumber: Int, weeksNumber: Int, daysNumber: Int,
+                                    areYearsIncluded: Boolean, areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean,
+                                    context: Context): String {
+        var counterText = ""
+        if (yearsNumber > 1) {
+            counterText += "$yearsNumber " + context.getString(R.string.date_utils_multiple_years) + " "
+        } else if (yearsNumber == 1) {
+            counterText += "$yearsNumber " + context.getString(R.string.date_utils_single_year) + " "
+        } else if (yearsNumber == 0 && areYearsIncluded) {
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_years)} "
+        }
+
+        if (monthsNumber > 1) {
+            counterText += "$monthsNumber " + context.getString(R.string.date_utils_multiple_months) + " "
+        } else if (monthsNumber == 1) {
+            counterText += "$monthsNumber " + context.getString(R.string.date_utils_single_month) + " "
+        } else if (monthsNumber == 0 && areMonthsIncluded) {
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_months)} "
+        }
+
+        if (weeksNumber > 1) {
+            counterText += "$weeksNumber " + context.getString(R.string.date_utils_multiple_weeks) + " "
+        } else if (weeksNumber == 1) {
+            counterText += "$weeksNumber " + context.getString(R.string.date_utils_single_week) + " "
+        } else if (weeksNumber == 0 && areWeeksIncluded) {
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_weeks)} "
+        }
+
+        if (daysNumber > 1) {
+            counterText += "$daysNumber " + context.getString(R.string.date_utils_multiple_days)
+        } else if (daysNumber == 1) {
+            counterText += "$daysNumber " + context.getString(R.string.date_utils_single_day)
+        } else if (daysNumber == 0 && areDaysIncluded) {
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_days)} "
+        }
+
+        if (yearsNumber == 0 && monthsNumber == 0 && weeksNumber == 0 && daysNumber == 0) {
+            counterText = context.getString(R.string.date_utils_today)
+        }
+        return counterText.trim()
     }
 
     private fun generateCalendar(dateYear: Int, dateMonth: Int, dateDay: Int): Calendar {
@@ -117,7 +163,7 @@ object DateUtils {
         return calendar
     }
 
-    private fun generateTodayCalendar(): Calendar {
+    fun generateTodayCalendar(): Calendar {
         return Calendar.getInstance()
     }
 

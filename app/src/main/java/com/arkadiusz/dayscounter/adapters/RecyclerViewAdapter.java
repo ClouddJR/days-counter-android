@@ -54,7 +54,7 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Event, ViewHol
     View v = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.single_event_layout, parent, false);
     ViewHolder vh = new ViewHolder(v);
-    fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/JosefinSans-Regular.ttf");
+    fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/JosefinSans.ttf");
     fontChanger.replaceFonts((ViewGroup) v);
     return vh;
   }

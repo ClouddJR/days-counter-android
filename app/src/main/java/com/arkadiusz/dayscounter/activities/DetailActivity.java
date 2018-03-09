@@ -203,7 +203,7 @@ public class DetailActivity extends Activity {
     mEditEventFAB.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(DetailActivity.this, AddActivity.class);
+        Intent intent = new Intent(DetailActivity.this, AddActivity_old.class);
         intent.putExtra("mode", "edit");
         intent.putExtra("id", id);
         startActivity(intent);
