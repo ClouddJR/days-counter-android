@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.constraint.Guideline
+    android:id="@+id/cardConstraint"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.40"/>
+
+  <View
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@color/colorPrimary"
+    app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+
+  <ImageView
+    android:id="@+id/eventImage"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginBottom="48dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/a3"
+    android:tint="#6F000000"
+    app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <TextView
+    android:id="@+id/eventCalculateText"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:gravity="center"
+    android:text="5 years, 3 months , 15 days"
+    android:textColor="@android:color/white"
+    android:textSize="20sp"
+    app:layout_constraintBottom_toTopOf="@id/eventLine"
+    app:layout_constraintEnd_toEndOf="@+id/eventImage"
+    app:layout_constraintStart_toStartOf="@+id/eventImage"/>
+
+  <View
+    android:id="@+id/eventLine"
+    android:layout_width="120dp"
+    android:layout_height="1.5dp"
+    android:background="@android:color/white"
+    app:layout_constraintBottom_toBottomOf="@+id/eventImage"
+    app:layout_constraintEnd_toEndOf="@+id/eventImage"
+    app:layout_constraintStart_toStartOf="@+id/eventImage"
+    app:layout_constraintTop_toTopOf="@+id/eventImage"/>
+
+  <TextView
+    android:id="@+id/eventTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:text="Birthday"
+    android:textColor="@android:color/white"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="@id/eventImage"
+    app:layout_constraintStart_toStartOf="@id/eventImage"
+    app:layout_constraintTop_toBottomOf="@id/eventLine"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:text="Preview"
+    android:textColor="@color/white"
+    android:textSize="17sp"
+    app:layout_constraintStart_toStartOf="@id/eventImage"
+    app:layout_constraintTop_toBottomOf="@id/eventImage"/>
+
+  <ScrollView
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/cardConstraint">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingBottom="100dp"
+      android:orientation="vertical">
+
+      <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:padding="2dp">
+
+        <EditText
+          android:id="@+id/titleEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/add_activity_name_form"/>
+
+      </android.support.design.widget.TextInputLayout>
+
+      <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:padding="2dp">
+
+        <EditText
+          android:id="@+id/dateEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/add_activity_date_form"
+          android:inputType="date"/>
+
+      </android.support.design.widget.TextInputLayout>
+
+
+      <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:padding="2dp">
+
+        <EditText
+          android:id="@+id/descriptionEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/add_activity_describe_form"
+          android:maxLines="5"
+          android:scrollbars="vertical"/>
+
+      </android.support.design.widget.TextInputLayout>
+
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:text="Reminder"
+          android:textColor="@color/black"/>
+
+        <EditText
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:hint="@string/add_reminder_editText_hint"/>
+
+      </LinearLayout>
+
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <View
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"/>
+
+        <EditText
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:hint="@string/add_reminder_editText_notification"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:text="Repetition"
+          android:textColor="@color/black"/>
+
+        <Spinner
+          android:id="@+id/spinner_repeat"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:layout_gravity="center_vertical"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:layout_gravity="start|center"
+          android:text="Format of counter"
+          android:textColor="@color/black"/>
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:layout_marginLeft="16dp"
+          android:orientation="vertical">
+
+          <CheckBox
+            android:id="@+id/yearsCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="years"/>
+
+          <CheckBox
+            android:id="@+id/monthsCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="months"/>
+
+          <CheckBox
+            android:id="@+id/weeksCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="weeks"/>
+
+          <CheckBox
+            android:id="@+id/daysCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="days"/>
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:layout_gravity="start|center"
+          android:text="Show line divider"
+          android:textColor="@color/black"/>
+
+        <CheckBox
+          android:id="@+id/showDividerCheckbox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:layout_marginLeft="29dp"
+          android:gravity="start"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:layout_gravity="start|center"
+          android:text="Counter font size"
+          android:textColor="@color/black"/>
+
+        <Spinner
+          android:id="@+id/counterFontSizeSpinner"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:layout_gravity="center_vertical"/>
+
+      </LinearLayout>
+
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:layout_gravity="start|center"
+          android:text="Title font size"
+          android:textColor="@color/black"/>
+
+        <Spinner
+          android:id="@+id/titleFontSizeSpinner"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.7"
+          android:layout_gravity="center_vertical"/>
+
+      </LinearLayout>
+
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.3"
+          android:layout_gravity="start|center"
+          android:text="Picture dim"
+          android:textColor="@color/black"/>
+
+        <SeekBar
+          android:max="10"
+          android:layout_width="0dp"
+          android:layout_weight="0.7"
+          android:layout_height="wrap_content"/>
+
+      </LinearLayout>
+
+
+    </LinearLayout>
+
+
+  </ScrollView>
+
+  <android.support.design.widget.FloatingActionButton
+    android:id="@+id/floatingActionButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:src="@drawable/ic_action_picture"
+    app:layout_constraintBottom_toTopOf="@id/scrollView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@id/scrollView"/>
+
+</android.support.constraint.ConstraintLayout>
