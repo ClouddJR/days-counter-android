@@ -6,13 +6,12 @@
   android:id="@+id/activity_gallery"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="com.arkadiusz.dayscounter.activities.GalleryActivity">
+  tools:context="com.arkadiusz.dayscounter.activities.GalleryActivity_old">
 
   <android.support.v7.widget.RecyclerView
-    android:id="@+id/gallery_recycler_view"
+    android:id="@+id/galleryRV"
     android:layout_width="match_parent"
     android:scrollbars="vertical"
-    android:layout_marginBottom="55dp"
     android:layout_height="match_parent">
 
   </android.support.v7.widget.RecyclerView>

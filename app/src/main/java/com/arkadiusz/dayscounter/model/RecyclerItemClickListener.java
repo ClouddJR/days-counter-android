@@ -12,11 +12,11 @@ import android.view.View;
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
 
-  public static interface OnItemClickListener {
+  public interface OnItemClickListener {
 
-    public void onItemClick(View view, int position);
+    void onItemClick(View view, int position);
 
-    public void onItemLongClick(View view, int position);
+    void onItemLongClick(View view, int position);
   }
 
   private OnItemClickListener mListener;

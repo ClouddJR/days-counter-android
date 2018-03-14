@@ -1,9 +1,18 @@
 package com.arkadiusz.dayscounter.activities
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,13 +26,14 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.FontUtils
+import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.content_add_r.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.textColor
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
+import java.io.File
 import java.util.*
 
 
@@ -32,6 +42,12 @@ import java.util.*
  */
 
 class AddActivity : AppCompatActivity() {
+
+
+    private val pickPhotoGallery = 1
+    private val writeRequestCode = 1234
+    private var imageUri: Uri? = null
+    private var imageID = 0
 
     private var chosenYear = 0
     private var chosenMonth = 0
@@ -51,6 +67,7 @@ class AddActivity : AppCompatActivity() {
         setUpSeekBar()
         setUpFontPicker()
         setUpOnClickListeners()
+        setUpImageChoosing()
     }
 
     private fun setCurrentDateInForm() {
@@ -128,6 +145,7 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setUpCheckboxes() {
         showDividerCheckbox.isChecked = true
         showDividerCheckbox.setOnCheckedChangeListener { _, isChecked ->
@@ -178,11 +196,11 @@ class AddActivity : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                //nothing
+                //not used
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                //nothing
+                //not used
             }
         })
     }
@@ -271,6 +289,101 @@ class AddActivity : AppCompatActivity() {
                 weeksCheckbox.isChecked,
                 daysCheckbox.isChecked,
                 this)
+    }
+
+    private fun setUpImageChoosing() {
+        imageChooserButton.setOnClickListener {
+            AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.add_activity_dialog_title))
+                    .setItems(setUpImageChooserDialogOptions()) { _, which ->
+                        when (which) {
+                            0 -> askForPermissionsAndDisplayCropActivity()
+                            1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery)
+                        }
+                    }.show()
+        }
+    }
+
+    private fun setUpImageChooserDialogOptions(): Array<String> {
+        val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom), getString(R.string.add_activity_dialog_option_gallery))
+        return options.toTypedArray()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        imageID = intent?.getIntExtra("imageID", 0) ?: 0
+        if (imageID != 0) {
+            imageUri = null
+            Picasso.with(this).load(imageID).resize(0, 700).into(eventImage)
+        }
+
+    }
+
+    private fun askForPermissionsAndDisplayCropActivity() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writeRequestCode)
+        } else {
+            //permission already granted, so display crop dialog
+            CropImage.startPickImageActivity(this)
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == writeRequestCode && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            CropImage.startPickImageActivity(this)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, imageData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, imageData)
+
+        if (isPossibleToOpenCropActivityAfterChoosingImage(requestCode, resultCode)) {
+            val chosenImageUri = CropImage.getPickImageResultUri(this, imageData)
+            if (Build.VERSION.SDK_INT >= 23) {
+                checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri)
+            } else {
+                startCropImageActivity(chosenImageUri)
+            }
+        }
+
+        if (isResultComingWithImageAfterCropping(requestCode)) {
+            displayImageHere(imageData)
+        }
+    }
+
+    private fun isPossibleToOpenCropActivityAfterChoosingImage(requestCode: Int, resultCode: Int): Boolean {
+        return requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri: Uri) {
+        if (CropImage.isReadExternalStoragePermissionsRequired(this, chosenImageUri)) {
+            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE)
+        } else {
+            startCropImageActivity(chosenImageUri)
+        }
+    }
+
+    private fun startCropImageActivity(imageUri: Uri) {
+        CropImage.activity(imageUri)
+                .setAspectRatio(18, 9)
+                .setFixAspectRatio(true)
+                .start(this)
+    }
+
+    private fun isResultComingWithImageAfterCropping(requestCode: Int): Boolean {
+        return requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+    }
+
+    private fun displayImageHere(data: Intent?) {
+        data?.let {
+            imageID = 0
+            imageUri = CropImage.getActivityResult(data).uri as Uri
+            Glide.with(this).load(File(imageUri?.path)).into(eventImage)
+        }
     }
 
 }

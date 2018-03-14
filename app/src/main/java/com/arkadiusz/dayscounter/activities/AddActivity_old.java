@@ -431,7 +431,7 @@ public class AddActivity_old extends AppCompatActivity {
 //                CropImage.startPickImageActivity(AddActivity_old.this);
 //                break;
 //              case 1:
-//                Intent intent = new Intent(AddActivity_old.this, GalleryActivity.class);
+//                Intent intent = new Intent(AddActivity_old.this, GalleryActivity_old.class);
 //                startActivityForResult(intent, PICK_PHOTO_GALLERY);
 //                break;
 //            }

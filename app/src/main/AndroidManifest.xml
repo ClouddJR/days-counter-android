@@ -30,19 +30,15 @@
       android:windowSoftInputMode="stateHidden|adjustResize">
     </activity>
 
-
     <activity
       android:label="@string/app_name"
       android:launchMode="singleTop"
       android:name=".activities.MainActivity"
       android:theme="@style/AppTheme.NoActionBarMain">
-
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
-
     </activity>
 
     <activity
@@ -65,12 +61,11 @@
       android:screenOrientation="portrait"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
+
     <activity android:name=".activities.GalleryActivity">
       <intent-filter>
         <action android:name="android.intent.action.OPEN_DOCUMENT"/>
-
         <category android:name="android.intent.category.OPENABLE"/>
-
         <data android:mimeType="image/*"/>
       </intent-filter>
     </activity>
@@ -79,7 +74,6 @@
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
       </intent-filter>
-
       <meta-data
         android:name="android.appwidget.provider"
         android:resource="@xml/appwidget_info"/>

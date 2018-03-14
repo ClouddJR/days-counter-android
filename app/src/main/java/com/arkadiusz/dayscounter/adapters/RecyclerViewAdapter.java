@@ -12,11 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.database.Event;
 import com.arkadiusz.dayscounter.model.Migration;
 import com.arkadiusz.dayscounter.providers.AppWidgetProvider;
-import com.arkadiusz.dayscounter.R;
-import com.arkadiusz.dayscounter.utils.FontChangeCrawler;
 import com.bumptech.glide.Glide;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -37,11 +36,14 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Event, ViewHol
   private String LOG_TAG = RecyclerViewAdapter.class.getSimpleName();
   private Context context;
   private OrderedRealmCollection<Event> events;
-  private FontChangeCrawler fontChanger;
   private Realm realm;
   int widgetID;
   private File file;
+package com.arkadiusz.dayscounter.database;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
   public RecyclerViewAdapter(Context context, OrderedRealmCollection<Event> events) {
     super(context, events, true);
@@ -54,8 +56,6 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Event, ViewHol
     View v = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.single_event_layout, parent, false);
     ViewHolder vh = new ViewHolder(v);
-    fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/JosefinSans.ttf");
-    fontChanger.replaceFonts((ViewGroup) v);
     return vh;
   }
 
