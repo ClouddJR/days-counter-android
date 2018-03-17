@@ -20,21 +20,20 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.database.Event;
 import com.arkadiusz.dayscounter.database.FirebaseTempObject;
 import com.arkadiusz.dayscounter.fragments.FutureFragment;
 import com.arkadiusz.dayscounter.fragments.PastFragment;
 import com.arkadiusz.dayscounter.model.Migration;
-import com.arkadiusz.dayscounter.R;
-import com.arkadiusz.dayscounter.repositories.UserRepository;
-import com.arkadiusz.dayscounter.utils.FirebaseUtils;
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper;
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper.IabAsyncInProgressException;
 import com.arkadiusz.dayscounter.purchaseutils.IabResult;
 import com.arkadiusz.dayscounter.purchaseutils.Inventory;
 import com.arkadiusz.dayscounter.purchaseutils.Purchase;
+import com.arkadiusz.dayscounter.repositories.UserRepository;
+import com.arkadiusz.dayscounter.utils.FirebaseUtils;
 import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
@@ -246,9 +245,8 @@ public class MainActivity extends AppCompatActivity {
 
 
   public void setUpRealm() {
-    Realm.init(getApplicationContext());
     config = new RealmConfiguration.Builder()
-        .schemaVersion(2)
+        .schemaVersion(3)
         .migration(new Migration())
         .build();
 
@@ -257,41 +255,20 @@ public class MainActivity extends AppCompatActivity {
 
 
   public void setUpFAB() {
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    FloatingActionButton fab = findViewById(R.id.fab);
     assert fab != null;
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        if (adapter.getItem(viewPager.getCurrentItem()) instanceof PastFragment) {
-          String eventType = "past";
-          Intent intent = new Intent(MainActivity.this, AddActivity.class);
-          intent.putExtra("Event Type", eventType);
-          /*if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            String transitionName = getString(R.string.transition_fab);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(MainActivity.this,
-                    view,
-                    transitionName);
-            ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-          } else {*/
-          startActivity(intent);
-          //}
-        }
-        if (adapter.getItem(viewPager.getCurrentItem()) instanceof FutureFragment) {
-          String eventType = "future";
-          Intent intent = new Intent(MainActivity.this, AddActivity.class);
-          intent.putExtra("Event Type", eventType);
-          /*if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            String transitionName = getString(R.string.transition_fab);
-            ActivityOptionsCompat options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(MainActivity.this,
-                    view,
-                    transitionName);
-            ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-          } else {*/
-          startActivity(intent);
-          //}
-        }
+    fab.setOnClickListener(view -> {
+      if (adapter.getItem(viewPager.getCurrentItem()) instanceof PastFragment) {
+        String eventType = "past";
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+        intent.putExtra("Event Type", eventType);
+        startActivity(intent);
+      }
+      if (adapter.getItem(viewPager.getCurrentItem()) instanceof FutureFragment) {
+        String eventType = "future";
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+        intent.putExtra("Event Type", eventType);
+        startActivity(intent);
       }
     });
 

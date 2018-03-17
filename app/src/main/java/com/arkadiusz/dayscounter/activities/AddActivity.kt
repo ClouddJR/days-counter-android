@@ -21,6 +21,8 @@ import android.view.View
 import android.widget.*
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
+import com.arkadiusz.dayscounter.database.Event
+import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
@@ -43,6 +45,7 @@ import java.util.*
 
 class AddActivity : AppCompatActivity() {
 
+    private lateinit var eventType: String
 
     private val pickPhotoGallery = 1
     private val writeRequestCode = 1234
@@ -60,6 +63,7 @@ class AddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add_r)
+        receiveEventType()
         setCurrentDateInForm()
         setUpSpinners()
         setUpCheckboxes()
@@ -68,6 +72,11 @@ class AddActivity : AppCompatActivity() {
         setUpFontPicker()
         setUpOnClickListeners()
         setUpImageChoosing()
+    }
+
+
+    private fun receiveEventType() {
+        eventType = intent.getStringExtra("Event Type")
     }
 
     private fun setCurrentDateInForm() {
@@ -239,6 +248,11 @@ class AddActivity : AppCompatActivity() {
             chosenReminderHour = 0
             chosenReminderMinute = 0
         }
+        addButton.setOnClickListener {
+            val eventToBeAdded = prepareEventBasedOnViews()
+            DatabaseRepository().addEventToDatabase(eventToBeAdded)
+            finish()
+        }
     }
 
     private val showDatePicker = View.OnClickListener {
@@ -289,6 +303,19 @@ class AddActivity : AppCompatActivity() {
                 weeksCheckbox.isChecked,
                 daysCheckbox.isChecked,
                 this)
+    }
+
+
+    private fun prepareEventBasedOnViews(): Event {
+        val event = Event()
+        event.name = titleEditText.text.toString()
+        event.date = dateEditText.text.toString()
+        event.description = descriptionEditText.text.toString()
+        event.imageID = imageID
+        event.image = imageUri.toString()
+        event.type = eventType
+        event.repeat = "once"
+        return event
     }
 
     private fun setUpImageChoosing() {

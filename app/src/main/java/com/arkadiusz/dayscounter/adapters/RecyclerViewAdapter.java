@@ -39,11 +39,6 @@ public class RecyclerViewAdapter extends RealmRecyclerViewAdapter<Event, ViewHol
   private Realm realm;
   int widgetID;
   private File file;
-package com.arkadiusz.dayscounter.database;
-
-import com.google.firebase.database.IgnoreExtraProperties;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
   public RecyclerViewAdapter(Context context, OrderedRealmCollection<Event> events) {
     super(context, events, true);
@@ -116,7 +111,7 @@ import io.realm.annotations.PrimaryKey;
 
             Realm.init(context);
             RealmConfiguration config = new RealmConfiguration.Builder()
-                .schemaVersion(2)
+                .schemaVersion(3)
                 .migration(new Migration())
                 .build();
             realm = Realm.getInstance(config);
@@ -275,7 +270,7 @@ import io.realm.annotations.PrimaryKey;
   public void moveToPast(final int id) {
     Realm.init(context);
     RealmConfiguration config = new RealmConfiguration.Builder()
-        .schemaVersion(2)
+        .schemaVersion(3)
         .migration(new Migration())
         .build();
     realm = Realm.getInstance(config);
@@ -305,7 +300,7 @@ import io.realm.annotations.PrimaryKey;
   public void moveToFuture(final int id) {
     Realm.init(context);
     RealmConfiguration config = new RealmConfiguration.Builder()
-        .schemaVersion(2)
+        .schemaVersion(3)
         .migration(new Migration())
         .build();
     realm = Realm.getInstance(config);

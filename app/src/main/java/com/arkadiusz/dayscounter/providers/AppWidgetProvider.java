@@ -113,7 +113,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         //views.setTextViewText(R.id.title_widget, event.getName());
         //views.setTextColor(R.id.title_widget, event.getColor());
         views.setInt(R.id.line, "setBackgroundColor", event.getColor());
-        if (!event.isOnlyDays()) {
+        if (!true){
           //views.setTextViewText(R.id.days_widget,
           //years + String.valueOf(yearsN - 1) + "   " + months + String.valueOf(monthsN - 1)
           //+ "   " + days + String.valueOf(daysN));
@@ -122,7 +122,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
               years + String.valueOf(yearsN - 1) + "   " + months + String.valueOf(monthsN - 1)
                   + "   " + days + String.valueOf(daysN), 23, event.getColor()));
           //views.setTextColor(R.id.days_widget, event.getColor());
-        } else {
+        } else{
           int days = calculateOnlyDays(event.getDate(), event.getType());
           //views.setTextViewText(R.id.days_widget, String.valueOf(days) + daysOnly);
           views.setImageViewBitmap(R.id.days_widget,

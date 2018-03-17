@@ -78,9 +78,9 @@ public class DetailActivity extends Activity {
     setInformations();
     getSharedPref();
 
-    if (!IsWithoutAds) {
-      displayAd();
-    }
+//    if (!IsWithoutAds) {
+//      displayAd();
+//    }
 
   }
 
@@ -97,7 +97,7 @@ public class DetailActivity extends Activity {
   public void setUpRealm() {
     Realm.init(this);
     config = new RealmConfiguration.Builder()
-        .schemaVersion(2)
+        .schemaVersion(3)
         .migration(new Migration())
         .build();
     realm = Realm.getInstance(config);
@@ -171,10 +171,11 @@ public class DetailActivity extends Activity {
     mDateMonthNumberTextView.setText(String.valueOf(monthsN - 1));
     mDateDayNumberTextView.setText(String.valueOf(daysN));
 
-    if (mEvent.hasAlarm()) {
+    if (mEvent.isHasAlarm()) {
       mRemiderDateTextView.setText(
-          buildDate(mEvent.getYear(), mEvent.getMonth() - 1, mEvent.getDay(), mEvent.getHour(),
-              mEvent.getMinute()));
+          buildDate(mEvent.getReminderYear(), mEvent.getReminderMonth() - 1,
+              mEvent.getReminderDay(), mEvent.getReminderHour(),
+              mEvent.getReminderMinute()));
     } else {
       mRemiderDateTextView.setText(getString(R.string.detail_activity_reminder));
     }

@@ -175,7 +175,7 @@ public class FutureFragment extends Fragment {
   public void setUpRealm() {
     Realm.init(getContext());
     RealmConfiguration config = new RealmConfiguration.Builder()
-        .schemaVersion(2)
+        .schemaVersion(3)
         .migration(new Migration())
         .build();
     realm = Realm.getInstance(config);

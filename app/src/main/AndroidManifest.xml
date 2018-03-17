@@ -17,7 +17,7 @@
     android:allowBackup="true"
     android:icon="@mipmap/icon_app"
     android:label="@string/app_name"
-    android:name="android.support.multidex.MultiDexApplication"
+    android:name=".DaysCounterApp"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
 

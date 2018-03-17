@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.database;
 
 /**
- * Created by Arkadiusz on 22.07.2017.
+ * Created by Arkadiusz on 22.07.2017
  */
 
 public class FirebaseTempObject {

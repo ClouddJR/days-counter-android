@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.single_image_gallery.view.*
 class GalleryAdapter(val imagesList: IntArray, val context: Context) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_image_gallery, parent)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_image_gallery, parent, false)
         return ViewHolder(view)
     }
 

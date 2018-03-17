@@ -17,21 +17,36 @@ public class Event extends RealmObject {
   private int imageID;
   private int widgetID;
   private int color;
-  private boolean isOnlyDays;
   private boolean hasAlarm;
-  private int year;
-  private int month;
-  private int day;
-  private int hour;
-  private int minute;
+  private int reminderYear;
+  private int reminderMonth;
+  private int reminderDay;
+  private int reminderHour;
+  private int reminderMinute;
   private String notificationText;
   private String repeat;
-
+  private Boolean formatYearsSelected;
+  private Boolean formatMonthsSelected;
+  private Boolean formatWeeksSelected;
+  private Boolean formatDaysSelected;
+  private Boolean isLineDividerSelected;
+  private int counterFontSize;
+  private int titleFontSize;
+  private int fontType;
+  private int fontColor;
+  private int pictureDim;
 
   public Event() {
 
   }
 
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getName() {
     return name;
@@ -73,14 +88,6 @@ public class Event extends RealmObject {
     this.description = description;
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public int getImageID() {
     return imageID;
   }
@@ -105,15 +112,7 @@ public class Event extends RealmObject {
     this.color = color;
   }
 
-  public boolean isOnlyDays() {
-    return isOnlyDays;
-  }
-
-  public void setOnlyDays(boolean onlyDays) {
-    isOnlyDays = onlyDays;
-  }
-
-  public boolean hasAlarm() {
+  public boolean isHasAlarm() {
     return hasAlarm;
   }
 
@@ -121,44 +120,44 @@ public class Event extends RealmObject {
     this.hasAlarm = hasAlarm;
   }
 
-  public int getYear() {
-    return year;
+  public int getReminderYear() {
+    return reminderYear;
   }
 
-  public void setYear(int year) {
-    this.year = year;
+  public void setReminderYear(int reminderYear) {
+    this.reminderYear = reminderYear;
   }
 
-  public int getMonth() {
-    return month;
+  public int getReminderMonth() {
+    return reminderMonth;
   }
 
-  public void setMonth(int month) {
-    this.month = month;
+  public void setReminderMonth(int reminderMonth) {
+    this.reminderMonth = reminderMonth;
   }
 
-  public int getDay() {
-    return day;
+  public int getReminderDay() {
+    return reminderDay;
   }
 
-  public void setDay(int day) {
-    this.day = day;
+  public void setReminderDay(int reminderDay) {
+    this.reminderDay = reminderDay;
   }
 
-  public int getHour() {
-    return hour;
+  public int getReminderHour() {
+    return reminderHour;
   }
 
-  public void setHour(int hour) {
-    this.hour = hour;
+  public void setReminderHour(int reminderHour) {
+    this.reminderHour = reminderHour;
   }
 
-  public int getMinute() {
-    return minute;
+  public int getReminderMinute() {
+    return reminderMinute;
   }
 
-  public void setMinute(int minute) {
-    this.minute = minute;
+  public void setReminderMinute(int reminderMinute) {
+    this.reminderMinute = reminderMinute;
   }
 
   public String getNotificationText() {
@@ -177,27 +176,85 @@ public class Event extends RealmObject {
     this.repeat = repeat;
   }
 
-  @Override
-  public String toString() {
-    return "Event{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", date='" + date + '\'' +
-        ", image='" + image + '\'' +
-        ", type='" + type + '\'' +
-        ", description='" + description + '\'' +
-        ", imageID=" + imageID +
-        ", widgetID=" + widgetID +
-        ", color=" + color +
-        ", isOnlyDays=" + isOnlyDays +
-        ", hasAlarm=" + hasAlarm +
-        ", year=" + year +
-        ", month=" + month +
-        ", day=" + day +
-        ", hour=" + hour +
-        ", minute=" + minute +
-        ", notificationText='" + notificationText + '\'' +
-        ", repeat='" + repeat + '\'' +
-        '}';
+  public Boolean getFormatYearsSelected() {
+    return formatYearsSelected;
   }
+
+  public void setFormatYearsSelected(Boolean formatYearsSelected) {
+    this.formatYearsSelected = formatYearsSelected;
+  }
+
+  public Boolean getFormatMonthsSelected() {
+    return formatMonthsSelected;
+  }
+
+  public void setFormatMonthsSelected(Boolean formatMonthsSelected) {
+    this.formatMonthsSelected = formatMonthsSelected;
+  }
+
+  public Boolean getFormatWeeksSelected() {
+    return formatWeeksSelected;
+  }
+
+  public void setFormatWeeksSelected(Boolean formatWeeksSelected) {
+    this.formatWeeksSelected = formatWeeksSelected;
+  }
+
+  public Boolean getFormatDaysSelected() {
+    return formatDaysSelected;
+  }
+
+  public void setFormatDaysSelected(Boolean formatDaysSelected) {
+    this.formatDaysSelected = formatDaysSelected;
+  }
+
+  public Boolean getLineDividerSelected() {
+    return isLineDividerSelected;
+  }
+
+  public void setLineDividerSelected(Boolean lineDividerSelected) {
+    isLineDividerSelected = lineDividerSelected;
+  }
+
+  public int getCounterFontSize() {
+    return counterFontSize;
+  }
+
+  public void setCounterFontSize(int counterFontSize) {
+    this.counterFontSize = counterFontSize;
+  }
+
+  public int getTitleFontSize() {
+    return titleFontSize;
+  }
+
+  public void setTitleFontSize(int titleFontSize) {
+    this.titleFontSize = titleFontSize;
+  }
+
+  public int getFontType() {
+    return fontType;
+  }
+
+  public void setFontType(int fontType) {
+    this.fontType = fontType;
+  }
+
+  public int getFontColor() {
+    return fontColor;
+  }
+
+  public void setFontColor(int fontColor) {
+    this.fontColor = fontColor;
+  }
+
+  public int getPictureDim() {
+    return pictureDim;
+  }
+
+  public void setPictureDim(int pictureDim) {
+    this.pictureDim = pictureDim;
+  }
+
+
 }

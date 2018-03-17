@@ -150,22 +150,17 @@ public class AppWidgetConfigure extends AppCompatActivity {
           event.setName(mEvent.getName());
           event.setWidgetID(mAppWidgetId);
           event.setColor(mSelectedColor);
-          event.setYear(mEvent.getYear());
-          event.setMonth(mEvent.getMonth());
-          event.setDay(mEvent.getDay());
-          event.setHour(mEvent.getHour());
-          event.setMinute(mEvent.getMinute());
+          event.setReminderYear(mEvent.getReminderYear());
+          event.setReminderMonth(mEvent.getReminderMonth());
+          event.setReminderDay(mEvent.getReminderDay());
+          event.setReminderHour(mEvent.getReminderHour());
+          event.setReminderHour(mEvent.getReminderMinute());
           event.setRepeat(mEvent.getRepeat());
           event.setNotificationText(mEvent.getNotificationText());
-          if (mEvent.hasAlarm()) {
+          if (mEvent.isHasAlarm()) {
             event.setHasAlarm(true);
           } else {
             event.setHasAlarm(false);
-          }
-          if (isCheckedDays) {
-            event.setOnlyDays(true);
-          } else {
-            event.setOnlyDays(false);
           }
 
           realm.executeTransaction(new Transaction() {

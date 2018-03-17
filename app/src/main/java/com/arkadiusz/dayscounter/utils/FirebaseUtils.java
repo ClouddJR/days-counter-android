@@ -14,7 +14,8 @@ import java.util.List;
 
 public class FirebaseUtils {
 
-  public static void addToFirebase(DatabaseReference databaseReference, Event event, Context context, int id) {
+  public static void addToFirebase(DatabaseReference databaseReference, Event event,
+      Context context, int id) {
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
@@ -54,31 +55,27 @@ public class FirebaseUtils {
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("isOnlyDays").setValue(String.valueOf(event.isOnlyDays()));
+        .child("hasAlarm").setValue(String.valueOf(event.isHasAlarm()));
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("hasAlarm").setValue(String.valueOf(event.hasAlarm()));
+        .child("year").setValue(event.getReminderYear());
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("year").setValue(event.getYear());
+        .child("month").setValue(event.getReminderMonth());
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("month").setValue(event.getMonth());
+        .child("day").setValue(event.getReminderDay());
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("day").setValue(event.getDay());
+        .child("hour").setValue(event.getReminderHour());
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("hour").setValue(event.getHour());
-
-    databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
-        .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("minute").setValue(event.getMinute());
+        .child("minute").setValue(event.getReminderMinute());
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
@@ -100,13 +97,12 @@ public class FirebaseUtils {
     event.setImageID(tempObject.getImageID());
     event.setWidgetID(tempObject.getWidgetID());
     event.setColor(tempObject.getColor());
-    event.setOnlyDays(tempObject.getIsOnlyDays().equals("true"));
     event.setHasAlarm(tempObject.getHasAlarm().equals("true"));
-    event.setYear(tempObject.getYear());
-    event.setMonth(tempObject.getMonth());
-    event.setDay(tempObject.getDay());
-    event.setHour(tempObject.getHour());
-    event.setMinute(tempObject.getMinute());
+    event.setReminderYear(tempObject.getYear());
+    event.setReminderMonth(tempObject.getMonth());
+    event.setReminderDay(tempObject.getDay());
+    event.setReminderHour(tempObject.getHour());
+    event.setReminderMinute(tempObject.getMinute());
     event.setNotificationText(tempObject.getNotificationText());
     event.setRepeat(tempObject.getRepeat());
 
@@ -116,8 +112,8 @@ public class FirebaseUtils {
   public static boolean isUnique(List<Event> firebaseEvents, Event event) {
     boolean isUnique = true;
 
-    for(Event firebaseEvent : firebaseEvents) {
-      if(event.getName().equals(firebaseEvent.getName()) &&
+    for (Event firebaseEvent : firebaseEvents) {
+      if (event.getName().equals(firebaseEvent.getName()) &&
           event.getDate().equals(firebaseEvent.getDate()) &&
           event.getDescription().equals(firebaseEvent.getDescription())) {
         isUnique = false;
@@ -126,9 +122,11 @@ public class FirebaseUtils {
     return isUnique;
   }
 
-  public static boolean isNetworkEnabled (Context context) {
-    ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+  public static boolean isNetworkEnabled(Context context) {
+    ConnectivityManager connectivityManager = (ConnectivityManager) context
+        .getSystemService(Context.CONNECTIVITY_SERVICE);
+    return connectivityManager.getActiveNetworkInfo() != null && connectivityManager
+        .getActiveNetworkInfo().isConnected();
   }
 
   public static void deletePreviousMail(String previousMail) {

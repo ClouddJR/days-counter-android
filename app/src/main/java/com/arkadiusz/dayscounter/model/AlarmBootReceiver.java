@@ -31,24 +31,26 @@ public class AlarmBootReceiver extends BroadcastReceiver {
           .migration(new Migration())
           .build();
       realm = Realm.getInstance(config);
-      results = realm.where(Event.class).equalTo("hasAlarm",true).findAll();
+      results = realm.where(Event.class).equalTo("hasAlarm", true).findAll();
 
-      for(Event event:results) {
+      for (Event event : results) {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         c.clear();
-        c.set(event.getYear(),event.getMonth()-1,event.getDay(),event.getHour(),event.getMinute());
+        c.set(event.getReminderYear(), event.getReminderMonth() - 1, event.getReminderDay(),
+            event.getReminderHour(), event.getReminderMinute());
 
         Intent intentSend = new Intent(context, AlarmBroadcast.class);
-        intentSend.putExtra("eventTitle",event.getName());
-        intentSend.putExtra("eventText",event.getNotificationText());
-        intentSend.putExtra("eventId",event.getId());
-        intentSend.putExtra("eventDate",event.getDate());
+        intentSend.putExtra("eventTitle", event.getName());
+        intentSend.putExtra("eventText", event.getNotificationText());
+        intentSend.putExtra("eventId", event.getId());
+        intentSend.putExtra("eventDate", event.getDate());
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,event.getId(),intentSend,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent
+            .getBroadcast(context, event.getId(), intentSend, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,c.getTimeInMillis(),pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
 
       }
     }
