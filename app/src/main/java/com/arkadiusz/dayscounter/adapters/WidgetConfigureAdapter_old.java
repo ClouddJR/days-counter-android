@@ -13,19 +13,19 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;
 
 /**
- * Created by Arkadiusz on 08.01.2017.
+ * Created by Arkadiusz on 08.01.2017
  */
 
-public class WidgetConfigureAdapter extends RealmBaseAdapter<Event> implements ListAdapter {
+public class WidgetConfigureAdapter_old extends RealmBaseAdapter<Event> implements ListAdapter {
 
   private OrderedRealmCollection<Event> events;
   private Context mContext;
 
-  private static class ViewHolder {
+  private class ViewHolder {
     TextView eventitle;
   }
 
-  public WidgetConfigureAdapter(Context context, OrderedRealmCollection<Event> realmResults) {
+  public WidgetConfigureAdapter_old(Context context, OrderedRealmCollection<Event> realmResults) {
     super(context, realmResults);
     this.mContext = context;
     this.events = realmResults;

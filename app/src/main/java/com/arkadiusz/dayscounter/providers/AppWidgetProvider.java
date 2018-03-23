@@ -10,15 +10,14 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.activities.DetailActivity;
 import com.arkadiusz.dayscounter.database.Event;
 import com.arkadiusz.dayscounter.model.Migration;
-import com.arkadiusz.dayscounter.R;
 import com.squareup.picasso.Picasso;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -60,7 +59,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     try {
       Realm.init(context);
       config = new RealmConfiguration.Builder()
-          .schemaVersion(2)
+          .schemaVersion(3)
           .migration(new Migration())
           .build();
       realm = Realm.getInstance(config);
@@ -108,25 +107,20 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget);
         views.setOnClickPendingIntent(R.id.image_widget, pendingIntent);
 
-        views.setImageViewBitmap(R.id.title_widget,
-            getFontBitmap(context, event.getName(), 16, event.getColor()));
-        //views.setTextViewText(R.id.title_widget, event.getName());
-        //views.setTextColor(R.id.title_widget, event.getColor());
-        views.setInt(R.id.line, "setBackgroundColor", event.getColor());
-        if (!true){
+        if (!true) {
           //views.setTextViewText(R.id.days_widget,
           //years + String.valueOf(yearsN - 1) + "   " + months + String.valueOf(monthsN - 1)
           //+ "   " + days + String.valueOf(daysN));
 
           views.setImageViewBitmap(R.id.days_widget, getFontBitmap(context,
               years + String.valueOf(yearsN - 1) + "   " + months + String.valueOf(monthsN - 1)
-                  + "   " + days + String.valueOf(daysN), 23, event.getColor()));
+                  + "   " + days + String.valueOf(daysN), 23, -1));
           //views.setTextColor(R.id.days_widget, event.getColor());
-        } else{
+        } else {
           int days = calculateOnlyDays(event.getDate(), event.getType());
           //views.setTextViewText(R.id.days_widget, String.valueOf(days) + daysOnly);
           views.setImageViewBitmap(R.id.days_widget,
-              getFontBitmap(context, String.valueOf(days) + daysOnly, 23, event.getColor()));
+              getFontBitmap(context, String.valueOf(days) + daysOnly, 23, -1));
           //views.setTextColor(R.id.days_widget, event.getColor());
         }
         if (event.getImageID() != 0) {
@@ -371,10 +365,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     int fontSizePX = convertDiptoPix(context, fontSizeSP);
     int pad = (fontSizePX / 9);
     Paint paint = new Paint();
-    Typeface typeface = Typeface
-        .createFromAsset(context.getAssets(), "fonts/JosefinSans.ttf");
     paint.setAntiAlias(true);
-    paint.setTypeface(typeface);
     paint.setColor(color);
     paint.setTextSize(fontSizePX);
 

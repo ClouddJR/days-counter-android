@@ -51,10 +51,6 @@ public class FirebaseUtils {
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("color").setValue(event.getColor());
-
-    databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
-        .child("Event " + id + " " + event.getName() + " " + event.getDate())
         .child("hasAlarm").setValue(String.valueOf(event.isHasAlarm()));
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
@@ -96,7 +92,7 @@ public class FirebaseUtils {
     event.setDescription(tempObject.getDescription());
     event.setImageID(tempObject.getImageID());
     event.setWidgetID(tempObject.getWidgetID());
-    event.setColor(tempObject.getColor());
+
     event.setHasAlarm(tempObject.getHasAlarm().equals("true"));
     event.setReminderYear(tempObject.getYear());
     event.setReminderMonth(tempObject.getMonth());

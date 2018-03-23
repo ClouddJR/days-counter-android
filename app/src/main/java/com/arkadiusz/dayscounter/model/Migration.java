@@ -51,6 +51,7 @@ public class Migration implements RealmMigration {
       RealmObjectSchema eventSchema = schema.get("Event");
 
       eventSchema.removeField("isOnlyDays");
+      eventSchema.removeField("color");
 
       eventSchema.renameField("year", "reminderYear");
       eventSchema.renameField("month", "reminderMonth");

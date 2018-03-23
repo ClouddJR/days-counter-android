@@ -46,6 +46,9 @@ import java.util.*
 class AddActivity : AppCompatActivity() {
 
     private lateinit var eventType: String
+    private var hasAlarm = false
+    private var selectedColor = -1
+    private var dimValue = 0
 
     private val pickPhotoGallery = 1
     private val writeRequestCode = 1234
@@ -57,6 +60,9 @@ class AddActivity : AppCompatActivity() {
     private var chosenDay = 0
 
     private var reminderDate = ""
+    private var chosenReminderYear = 0
+    private var chosenReminderMonth = 0
+    private var chosenReminderDay = 0
     private var chosenReminderHour = 0
     private var chosenReminderMinute = 0
 
@@ -202,6 +208,7 @@ class AddActivity : AppCompatActivity() {
         pictureDimSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 eventImage.setColorFilter(Color.argb(255 / 17 * progress, 0, 0, 0))
+                dimValue = progress
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -233,6 +240,7 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun changeWidgetsColors(color: Int) {
+        selectedColor = color
         eventTitle.textColor = color
         eventCalculateText.textColor = color
         colorImageView.backgroundColor = color
@@ -244,9 +252,12 @@ class AddActivity : AppCompatActivity() {
         reminderDateEditText.setOnClickListener(showReminderDatePicker)
         clearReminderDateButton.setOnClickListener {
             reminderDateEditText.setText("")
-            reminderDate = ""
+            chosenReminderYear = 0
+            chosenReminderMonth = 0
+            chosenReminderDay = 0
             chosenReminderHour = 0
             chosenReminderMinute = 0
+            hasAlarm = false
         }
         addButton.setOnClickListener {
             val eventToBeAdded = prepareEventBasedOnViews()
@@ -278,6 +289,9 @@ class AddActivity : AppCompatActivity() {
 
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
             reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
+            chosenReminderYear = chosenYear
+            chosenReminderMonth = chosenMonth
+            chosenReminderDay = chosenDay
             displayTimePickerDialog()
         }, year, month, day).show()
     }
@@ -293,6 +307,7 @@ class AddActivity : AppCompatActivity() {
             val time = formatTime(chosenHour, chosenMinute)
             reminderDate += " $time"
             reminderDateEditText.setText(reminderDate)
+            hasAlarm = true
         }, hour, minute, true).show()
     }
 
@@ -314,7 +329,29 @@ class AddActivity : AppCompatActivity() {
         event.imageID = imageID
         event.image = imageUri.toString()
         event.type = eventType
-        event.repeat = "once"
+        event.repeat = repeatSpinner.selectedItemPosition.toString()
+        if (hasAlarm) {
+            event.isHasAlarm = true
+            event.reminderYear = chosenReminderYear
+            event.reminderMonth = chosenReminderMonth
+            event.reminderDay = chosenReminderDay
+            event.reminderHour = chosenReminderHour
+            event.reminderMinute = chosenReminderMinute
+            event.notificationText = reminderTextEditText.text.toString()
+        } else {
+            event.isHasAlarm = false
+        }
+
+        event.formatYearsSelected = yearsCheckbox.isChecked
+        event.formatMonthsSelected = monthsCheckbox.isChecked
+        event.formatWeeksSelected = weeksCheckbox.isChecked
+        event.formatDaysSelected = daysCheckbox.isChecked
+        event.lineDividerSelected = showDividerCheckbox.isSelected
+        event.counterFontSize = (counterFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
+        event.titleFontSize = (titleFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
+        event.fontType = (fontTypeSpinner.getChildAt(0) as TextView).text.toString()
+        event.fontColor = selectedColor
+        event.pictureDim = dimValue
         return event
     }
 

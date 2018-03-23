@@ -11,12 +11,12 @@ public class Event extends RealmObject {
   private int id;
   private String name;
   private String date;
-  private String image;
-  private String type;
   private String description;
+  private String image;
   private int imageID;
+  private String type;
+  private String repeat;
   private int widgetID;
-  private int color;
   private boolean hasAlarm;
   private int reminderYear;
   private int reminderMonth;
@@ -24,7 +24,6 @@ public class Event extends RealmObject {
   private int reminderHour;
   private int reminderMinute;
   private String notificationText;
-  private String repeat;
   private Boolean formatYearsSelected;
   private Boolean formatMonthsSelected;
   private Boolean formatWeeksSelected;
@@ -32,7 +31,7 @@ public class Event extends RealmObject {
   private Boolean isLineDividerSelected;
   private int counterFontSize;
   private int titleFontSize;
-  private int fontType;
+  private String fontType;
   private int fontColor;
   private int pictureDim;
 
@@ -102,14 +101,6 @@ public class Event extends RealmObject {
 
   public void setWidgetID(int widgetID) {
     this.widgetID = widgetID;
-  }
-
-  public int getColor() {
-    return color;
-  }
-
-  public void setColor(int color) {
-    this.color = color;
   }
 
   public boolean isHasAlarm() {
@@ -232,11 +223,11 @@ public class Event extends RealmObject {
     this.titleFontSize = titleFontSize;
   }
 
-  public int getFontType() {
+  public String getFontType() {
     return fontType;
   }
 
-  public void setFontType(int fontType) {
+  public void setFontType(String fontType) {
     this.fontType = fontType;
   }
 
@@ -257,4 +248,35 @@ public class Event extends RealmObject {
   }
 
 
+  @Override
+  public String toString() {
+    return "Event{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", date='" + date + '\'' +
+        ", description='" + description + '\'' +
+        ", image='" + image + '\'' +
+        ", imageID=" + imageID +
+        ", type='" + type + '\'' +
+        ", repeat='" + repeat + '\'' +
+        ", widgetID=" + widgetID +
+        ", hasAlarm=" + hasAlarm +
+        ", reminderYear=" + reminderYear +
+        ", reminderMonth=" + reminderMonth +
+        ", reminderDay=" + reminderDay +
+        ", reminderHour=" + reminderHour +
+        ", reminderMinute=" + reminderMinute +
+        ", notificationText='" + notificationText + '\'' +
+        ", formatYearsSelected=" + formatYearsSelected +
+        ", formatMonthsSelected=" + formatMonthsSelected +
+        ", formatWeeksSelected=" + formatWeeksSelected +
+        ", formatDaysSelected=" + formatDaysSelected +
+        ", isLineDividerSelected=" + isLineDividerSelected +
+        ", counterFontSize=" + counterFontSize +
+        ", titleFontSize=" + titleFontSize +
+        ", fontType='" + fontType + '\'' +
+        ", fontColor=" + fontColor +
+        ", pictureDim=" + pictureDim +
+        '}';
+  }
 }

@@ -19,11 +19,11 @@ import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.Switch;
 import android.widget.TextView;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.adapters.WidgetConfigureAdapter;
 import com.arkadiusz.dayscounter.database.Event;
 import com.arkadiusz.dayscounter.model.Migration;
 import com.arkadiusz.dayscounter.providers.AppWidgetProvider;
-import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.utils.FirebaseUtils;
 import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.google.firebase.database.DatabaseReference;
@@ -65,7 +65,7 @@ public class AppWidgetConfigure extends AppCompatActivity {
 
     Realm.init(getApplicationContext());
     config = new RealmConfiguration.Builder()
-        .schemaVersion(2)
+        .schemaVersion(3)
         .migration(new Migration())
         .build();
     realm = Realm.getInstance(config);
@@ -149,7 +149,6 @@ public class AppWidgetConfigure extends AppCompatActivity {
           event.setDescription(mEvent.getDescription());
           event.setName(mEvent.getName());
           event.setWidgetID(mAppWidgetId);
-          event.setColor(mSelectedColor);
           event.setReminderYear(mEvent.getReminderYear());
           event.setReminderMonth(mEvent.getReminderMonth());
           event.setReminderDay(mEvent.getReminderDay());

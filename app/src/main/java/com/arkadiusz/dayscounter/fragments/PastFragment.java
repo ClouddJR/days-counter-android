@@ -20,15 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.activities.AddActivity_old;
 import com.arkadiusz.dayscounter.activities.DetailActivity;
 import com.arkadiusz.dayscounter.activities.MainActivity;
-import com.arkadiusz.dayscounter.adapters.RecyclerViewAdapter;
+import com.arkadiusz.dayscounter.adapters.EventsAdapter;
 import com.arkadiusz.dayscounter.database.Event;
 import com.arkadiusz.dayscounter.model.Migration;
 import com.arkadiusz.dayscounter.model.RecyclerItemClickListener;
 import com.arkadiusz.dayscounter.model.RecyclerItemClickListener.OnItemClickListener;
-import com.arkadiusz.dayscounter.R;
 import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,7 +48,7 @@ public class PastFragment extends Fragment {
   private String[] options;
   private String sortType;
   RecyclerView recyclerView;
-  RecyclerViewAdapter adapter;
+  EventsAdapter adapter;
   DatabaseReference mDatabaseReference;
 
 
@@ -74,10 +74,9 @@ public class PastFragment extends Fragment {
     View view;
     view = inflater.inflate(R.layout.past_fragment_xml, container, false);
 
-
     recyclerView = (RecyclerView) view.findViewById(R.id.past_recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    adapter = new RecyclerViewAdapter(getContext(), results);
+    adapter = new EventsAdapter(getContext(), results);
     recyclerView.setHasFixedSize(true);
     recyclerView.setAdapter(adapter);
     recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView,
@@ -103,7 +102,8 @@ public class PastFragment extends Fragment {
             vibration();
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(getContext());
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1);
             arrayAdapter.addAll(options);
             builder.setTitle(getString(R.string.fragment_main_dialog_title));
             builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
@@ -215,7 +215,7 @@ public class PastFragment extends Fragment {
       case "date_order":
         break;
     }
-    adapter = new RecyclerViewAdapter(getContext(), results);
+    adapter = new EventsAdapter(getContext(), results);
     recyclerView.setAdapter(adapter);
   }
 

@@ -11,7 +11,7 @@ import java.util.*
 object DateUtils {
 
     fun formatDate(year: Int, month: Int, day: Int): String {
-        val formattedMonth = if (month < 10) {
+        val formattedMonth = if (month + 1 < 10) {
             "0${month + 1}"
         } else {
             "${month + 1}"
@@ -40,6 +40,34 @@ object DateUtils {
         }
 
         return "$formattedHour:$formattedMinutes"
+    }
+
+    fun calculateDate(passedDate: String, areYearsIncluded: Boolean,
+                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean, context: Context): String {
+
+        val triple = getElementsFromDate(passedDate)
+        val year = triple.first
+        val month = triple.second
+        val day = triple.third
+
+        return calculateDate(year, month, day, areYearsIncluded, areMonthsIncluded, areWeeksIncluded, areDaysIncluded, context)
+
+    }
+
+    fun getElementsFromDate(date: String): Triple<Int, Int, Int> {
+        val year = date.substring(0, 4).toInt()
+        val month = if (date[5] == '0') {
+            date.substring(6, 7).toInt()
+        } else {
+            date.substring(5, 7).toInt()
+        }
+        val day = if (date[8] == '0') {
+            date.substring(9, 10).toInt()
+        } else {
+            date.substring(8, 10).toInt()
+        }
+
+        return Triple(year, month, day)
     }
 
 
@@ -155,7 +183,7 @@ object DateUtils {
         return counterText.trim()
     }
 
-    private fun generateCalendar(dateYear: Int, dateMonth: Int, dateDay: Int): Calendar {
+    fun generateCalendar(dateYear: Int, dateMonth: Int, dateDay: Int): Calendar {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, dateYear)
         calendar.set(Calendar.MONTH, dateMonth - 1)
