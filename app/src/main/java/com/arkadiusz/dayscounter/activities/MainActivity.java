@@ -32,7 +32,6 @@ import com.arkadiusz.dayscounter.purchaseutils.IabHelper.IabAsyncInProgressExcep
 import com.arkadiusz.dayscounter.purchaseutils.IabResult;
 import com.arkadiusz.dayscounter.purchaseutils.Inventory;
 import com.arkadiusz.dayscounter.purchaseutils.Purchase;
-import com.arkadiusz.dayscounter.repositories.UserRepository;
 import com.arkadiusz.dayscounter.utils.FirebaseUtils;
 import com.arkadiusz.dayscounter.utils.SharedPreferencesUtils;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -51,7 +50,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-  private UserRepository userRepository = new UserRepository();
   private Toolbar toolbar;
   private TabLayout tabLayout;
   private ViewPager viewPager;
@@ -69,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    redirectToLogin();
 
     setContentView(R.layout.activity_main);
     toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,14 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     logEvents();
 
-  }
-
-  private void redirectToLogin() {
-    if (!userRepository.isLoggedIn()) {
-      startActivity(
-          new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-      finish();
-    }
   }
 
   private void logEvents() {
@@ -234,10 +223,6 @@ public class MainActivity extends AppCompatActivity {
       } catch (IabAsyncInProgressException e) {
         e.printStackTrace();
       }
-    } else if (id == R.id.action_sign_out) {
-      userRepository.signOut();
-      startActivity(new Intent(this, LoginActivity.class));
-      finish();
     }
 
     return super.onOptionsItemSelected(item);

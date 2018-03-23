@@ -1,6 +1,5 @@
 package com.arkadiusz.dayscounter.model;
 
-import android.util.Log;
 import io.realm.DynamicRealm;
 import io.realm.RealmMigration;
 import io.realm.RealmObjectSchema;
@@ -24,9 +23,6 @@ public class Migration implements RealmMigration {
 
   @Override
   public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-
-    Log.d("migrationOldVersion", String.valueOf(oldVersion));
-    Log.d("migrationNewVersion", String.valueOf(newVersion));
 
     if (oldVersion == 0) {
       RealmSchema schema = realm.getSchema();
