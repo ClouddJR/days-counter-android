@@ -1,6 +1,7 @@
 package com.arkadiusz.dayscounter.repositories
 
 import android.content.Context
+import android.util.Log.d
 import com.arkadiusz.dayscounter.database.Event
 import com.arkadiusz.dayscounter.model.Migration
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
@@ -8,6 +9,8 @@ import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.RealmResults
+import io.realm.Sort
 import java.util.*
 
 /**
@@ -32,6 +35,49 @@ class DatabaseRepository {
         realm = Realm.getInstance(config)
     }
 
+    fun getAllEvents(): RealmResults<Event> {
+        lateinit var results: RealmResults<Event>
+        realm.executeTransaction {
+            results = it.where(Event::class.java).findAll()
+        }
+        return results
+    }
+
+    fun getFutureEvents(): RealmResults<Event> {
+        lateinit var results: RealmResults<Event>
+        realm.executeTransaction {
+            results = it.where(Event::class.java).equalTo("type", "future").findAll()
+        }
+        return results
+    }
+
+    fun getPastEvents(): RealmResults<Event> {
+        lateinit var results: RealmResults<Event>
+        realm.executeTransaction {
+            results = it.where(Event::class.java).equalTo("type", "past").findAll()
+        }
+        return results
+    }
+
+    fun sortEventsDateDesc(data: RealmResults<Event>): RealmResults<Event> {
+        return data.sort("date", Sort.DESCENDING)
+    }
+
+    fun sortEventsDateAsc(data: RealmResults<Event>): RealmResults<Event> {
+        return data.sort("date", Sort.ASCENDING)
+    }
+
+    fun getEventByName(name: String): Event {
+        return realm.where(Event::class.java).equalTo("name", name).findFirst()
+    }
+
+    fun setWidgetIdForEvent(event: Event, widgetId: Int) {
+        realm.executeTransaction {
+            event.widgetID = widgetId
+            it.copyToRealmOrUpdate(event)
+        }
+    }
+
     fun addEventToDatabase(event: Event) {
         event.id = getNextId()
         realm.executeTransaction {
@@ -52,8 +98,9 @@ class DatabaseRepository {
 
     fun deleteEventFromDatabase(eventId: Int) {
         val results = realm.where(Event::class.java).equalTo("id", eventId).findAll()
-        val eventToBeDeleted = results.first()
         realm.executeTransaction {
+            d("deletingEventRepo", eventId.toString())
+            d("deletingEventRepo", results.toString())
             results.deleteAllFromRealm()
         }
     }

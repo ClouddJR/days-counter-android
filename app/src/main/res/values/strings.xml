@@ -157,7 +157,7 @@
   <string name="widget_configuration_dialog_title">Choose a widget color</string>
   <string name="widget_configuration_color">Font color</string>
   <string name="widget_configuration_title">After choosing click on an event</string>
-  <string name="widget_configuration_switch">Only days on widget</string>
+  <string name="widget_configuration_switch">Only text on widget\n(transparent background)</string>
 
   <string name="changelog_dialog_title">What\'s new in this version?</string>
   <string name="changelog_dialog_content">
