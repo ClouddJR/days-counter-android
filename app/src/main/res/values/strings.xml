@@ -165,6 +165,9 @@
     -bug with a resetting reminder fixed \n \n
   </string>
 
+  <string name="notification_channel_name">Event reminders</string>
+  <string name="notification_channel_description">Reminders related to events from the app</string>
+
 
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>

@@ -56,7 +56,14 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
             val chosenEventTitle = clickedView.text.toString()
             val chosenEvent = databaseRepository.getEventByName(chosenEventTitle)
             databaseRepository.setWidgetIdForEvent(chosenEvent, appWidgetId)
+            setEventTransparentIfSet(chosenEvent)
             setUpWidgetUpdating()
+        }
+    }
+
+    private fun setEventTransparentIfSet(event: Event) {
+        if (transparentSwitch.isChecked) {
+            databaseRepository.setTransparentWidget(event)
         }
     }
 

@@ -10,7 +10,6 @@ import android.os.Vibrator
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,7 +110,6 @@ class PastFragment : Fragment() {
                 1 -> {
                     alert(getString(R.string.fragment_delete_dialog_question)) {
                         positiveButton(android.R.string.yes) {
-                            Log.d("deletingEvent", eventId.toString())
                             databaseRepository.deleteEventFromDatabase(eventId)
                         }
                         negativeButton(android.R.string.no) {}

@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 /**
- * Created by Arkadiusz on 21.07.2017.
+ * Created by Arkadiusz on 21.07.2017
  */
 
 public class FirebaseUtils {
@@ -51,7 +51,7 @@ public class FirebaseUtils {
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())
-        .child("hasAlarm").setValue(String.valueOf(event.isHasAlarm()));
+        .child("hasAlarm").setValue(String.valueOf(event.getHasAlarm()));
 
     databaseReference.child(SharedPreferencesUtils.getFirebaseEmail(context))
         .child("Event " + id + " " + event.getName() + " " + event.getDate())

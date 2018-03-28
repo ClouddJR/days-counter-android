@@ -28,6 +28,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.FontUtils
+import com.arkadiusz.dayscounter.utils.RemindersUtils
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -48,7 +49,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var eventType: String
     private var hasAlarm = false
     private var selectedColor = -1
-    private var dimValue = 0
+    private var dimValue = 4
 
     private val pickPhotoGallery = 1
     private val writeRequestCode = 1234
@@ -112,8 +113,8 @@ class AddActivity : AppCompatActivity() {
         val fontSizeAdapter = ArrayAdapter.createFromResource(this, R.array.add_activity_font_size, R.layout.support_simple_spinner_dropdown_item)
         counterFontSizeSpinner.adapter = fontSizeAdapter
         titleFontSizeSpinner.adapter = fontSizeAdapter
-        counterFontSizeSpinner.setSelection(5)
-        titleFontSizeSpinner.setSelection(4)
+        counterFontSizeSpinner.setSelection(6)
+        titleFontSizeSpinner.setSelection(5)
 
         val repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.add_activity_repeat, R.layout.support_simple_spinner_dropdown_item)
         repeatSpinner.adapter = repetitionAdapter
@@ -262,6 +263,7 @@ class AddActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             val eventToBeAdded = prepareEventBasedOnViews()
             DatabaseRepository().addEventToDatabase(eventToBeAdded)
+            addReminder(eventToBeAdded)
             finish()
         }
     }
@@ -331,7 +333,7 @@ class AddActivity : AppCompatActivity() {
         event.type = eventType
         event.repeat = repeatSpinner.selectedItemPosition.toString()
         if (hasAlarm) {
-            event.isHasAlarm = true
+            event.hasAlarm = true
             event.reminderYear = chosenReminderYear
             event.reminderMonth = chosenReminderMonth
             event.reminderDay = chosenReminderDay
@@ -339,14 +341,14 @@ class AddActivity : AppCompatActivity() {
             event.reminderMinute = chosenReminderMinute
             event.notificationText = reminderTextEditText.text.toString()
         } else {
-            event.isHasAlarm = false
+            event.hasAlarm = false
         }
 
         event.formatYearsSelected = yearsCheckbox.isChecked
         event.formatMonthsSelected = monthsCheckbox.isChecked
         event.formatWeeksSelected = weeksCheckbox.isChecked
         event.formatDaysSelected = daysCheckbox.isChecked
-        event.lineDividerSelected = showDividerCheckbox.isSelected
+        event.isLineDividerSelected = showDividerCheckbox.isSelected
         event.counterFontSize = (counterFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
         event.titleFontSize = (titleFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
         event.fontType = (fontTypeSpinner.getChildAt(0) as TextView).text.toString()
@@ -354,6 +356,14 @@ class AddActivity : AppCompatActivity() {
         event.pictureDim = dimValue
         return event
     }
+
+    private fun addReminder(eventToBeAdded: Event) {
+        if (isReminderSet()) {
+            RemindersUtils.addNewReminder(this, eventToBeAdded)
+        }
+    }
+
+    private fun isReminderSet(): Boolean = chosenReminderYear != 0 && chosenReminderMonth != 0 && chosenReminderDay != 0
 
     private fun setUpImageChoosing() {
         imageChooserButton.setOnClickListener {

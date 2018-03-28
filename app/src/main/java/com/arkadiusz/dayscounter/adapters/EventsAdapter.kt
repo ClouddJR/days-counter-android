@@ -62,11 +62,11 @@ class EventsAdapter(context: Context, private val eventsList: OrderedRealmCollec
                     event.formatMonthsSelected,
                     event.formatWeeksSelected,
                     event.formatDaysSelected, context)
-            view.daysNumber.text = counterText
+            view.eventCalculateText.text = counterText
         }
 
         private fun displayTitle(event: Event) {
-            view.eventName.text = event.name
+            view.eventTitle.text = event.name
         }
 
         private fun displayImage(event: Event) {
@@ -77,13 +77,13 @@ class EventsAdapter(context: Context, private val eventsList: OrderedRealmCollec
         }
 
         private fun changeFonts(event: Event) {
-            view.eventName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, event.titleFontSize.toFloat())
-            view.daysNumber.setTextSize(TypedValue.COMPLEX_UNIT_DIP, event.counterFontSize.toFloat())
-            view.eventName.typeface = getFontFor(event.fontType, context)
-            view.daysNumber.typeface = getFontFor(event.fontType, context)
-            view.eventName.textColor = event.fontColor
-            view.daysNumber.textColor = event.fontColor
-            view.line.backgroundColor = event.fontColor
+            view.eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, event.titleFontSize.toFloat())
+            view.eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, event.counterFontSize.toFloat())
+            view.eventTitle.typeface = getFontFor(event.fontType, context)
+            view.eventCalculateText.typeface = getFontFor(event.fontType, context)
+            view.eventTitle.textColor = event.fontColor
+            view.eventCalculateText.textColor = event.fontColor
+            view.eventLine.backgroundColor = event.fontColor
         }
 
         private fun dimPicture(event: Event) {

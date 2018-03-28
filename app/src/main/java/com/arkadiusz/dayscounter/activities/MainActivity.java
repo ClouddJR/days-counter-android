@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     setUpSharedPreferences();
     checkForPurchases();
 
-    logEvents();
+    //logEvents();
 
   }
 

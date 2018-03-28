@@ -35,6 +35,13 @@ class DatabaseRepository {
         realm = Realm.getInstance(config)
     }
 
+    fun logEvents() {
+        val results = realm.where(Event::class.java).findAll()
+        for (event in results) {
+            d("eventRepository", event.toString())
+        }
+    }
+
     fun getAllEvents(): RealmResults<Event> {
         lateinit var results: RealmResults<Event>
         realm.executeTransaction {
@@ -59,6 +66,14 @@ class DatabaseRepository {
         return results
     }
 
+    fun getEventsWithAlarms(): RealmResults<Event> {
+        lateinit var results: RealmResults<Event>
+        realm.executeTransaction {
+            results = it.where(Event::class.java).equalTo("hasAlarm", true).findAll()
+        }
+        return results
+    }
+
     fun sortEventsDateDesc(data: RealmResults<Event>): RealmResults<Event> {
         return data.sort("date", Sort.DESCENDING)
     }
@@ -71,10 +86,26 @@ class DatabaseRepository {
         return realm.where(Event::class.java).equalTo("name", name).findFirst()
     }
 
+    fun getEventByWidgetId(widgetId: Int): Event? {
+        return realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()
+    }
+
     fun setWidgetIdForEvent(event: Event, widgetId: Int) {
         realm.executeTransaction {
             event.widgetID = widgetId
-            it.copyToRealmOrUpdate(event)
+        }
+    }
+
+    fun setTransparentWidget(event: Event) {
+        realm.executeTransaction {
+            event.hasTransparentWidget = true
+        }
+    }
+
+    fun disableAlarmForEvent(eventId: Int) {
+        realm.executeTransaction {
+            val event = realm.where(Event::class.java).equalTo("id", eventId).findFirst()
+            event.hasAlarm = false
         }
     }
 
@@ -83,7 +114,6 @@ class DatabaseRepository {
         realm.executeTransaction {
             it.copyToRealmOrUpdate(event)
         }
-        updateViewModel()
     }
 
     private fun getNextId(): Int {
@@ -99,8 +129,6 @@ class DatabaseRepository {
     fun deleteEventFromDatabase(eventId: Int) {
         val results = realm.where(Event::class.java).equalTo("id", eventId).findAll()
         realm.executeTransaction {
-            d("deletingEventRepo", eventId.toString())
-            d("deletingEventRepo", results.toString())
             results.deleteAllFromRealm()
         }
     }
@@ -142,10 +170,4 @@ class DatabaseRepository {
             event.date = dateAfterRepetition
         }
     }
-
-    private fun updateViewModel() {
-
-    }
-
-
 }

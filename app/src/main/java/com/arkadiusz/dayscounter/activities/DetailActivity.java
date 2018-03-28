@@ -171,7 +171,7 @@ public class DetailActivity extends Activity {
     mDateMonthNumberTextView.setText(String.valueOf(monthsN - 1));
     mDateDayNumberTextView.setText(String.valueOf(daysN));
 
-    if (mEvent.isHasAlarm()) {
+    if (mEvent.getHasAlarm()) {
       mRemiderDateTextView.setText(
           buildDate(mEvent.getReminderYear(), mEvent.getReminderMonth() - 1,
               mEvent.getReminderDay(), mEvent.getReminderHour(),
