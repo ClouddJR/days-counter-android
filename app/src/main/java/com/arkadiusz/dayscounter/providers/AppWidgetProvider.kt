@@ -65,12 +65,33 @@ class AppWidgetProvider : AppWidgetProvider() {
 
     private fun displayPicture(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {
         if (!event.hasTransparentWidget) {
-            if (event.imageID != 0) {
-                displayPictureFromBackgrounds(remoteViews, event, context, widgetId)
-            } else {
-                displayPictureFromGallery(remoteViews, event, context, widgetId)
+            when {
+                event.imageColor != 0 -> displayPictureFromChosenColor(remoteViews, event, context, widgetId)
+                event.imageID != 0 -> displayPictureFromBackgrounds(remoteViews, event, context, widgetId)
+                else -> displayPictureFromGallery(remoteViews, event, context, widgetId)
             }
         }
+    }
+
+    private fun displayPictureFromChosenColor(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {
+        val pictureDim = event.pictureDim
+        Picasso.with(context).load(event.imageColor).transform(object : Transformation {
+            override fun key(): String {
+                return "darkening"
+            }
+
+            override fun transform(source: Bitmap?): Bitmap {
+                val bitmap = source!!.copy(Bitmap.Config.ARGB_8888, true)
+                val paint = Paint()
+                val hexValue = 255 - (255 / 17 * pictureDim)
+                val stringHex = Integer.toHexString(hexValue)
+                paint.colorFilter = PorterDuffColorFilter("FF$stringHex$stringHex$stringHex".toLong(16).toInt(), PorterDuff.Mode.MULTIPLY)
+                val canvas = Canvas(bitmap)
+                canvas.drawBitmap(bitmap, 0f, 0f, paint)
+                source.recycle()
+                return bitmap
+            }
+        }).resize(0, 300).into(remoteViews, R.id.eventImage, intArrayOf(widgetId))
     }
 
     private fun displayPictureFromBackgrounds(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {

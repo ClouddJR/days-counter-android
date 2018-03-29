@@ -29,6 +29,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.FontUtils
 import com.arkadiusz.dayscounter.utils.RemindersUtils
+import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -55,6 +56,7 @@ class AddActivity : AppCompatActivity() {
     private val writeRequestCode = 1234
     private var imageUri: Uri? = null
     private var imageID = 0
+    private var imageColor = 0
 
     private var chosenYear = 0
     private var chosenMonth = 0
@@ -240,12 +242,29 @@ class AddActivity : AppCompatActivity() {
                 .show()
     }
 
+    private fun displayColorPickerForEventBackground() {
+        ColorPickerDialogBuilder
+                .with(this)
+                .setTitle("Choose color")
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(10)
+                .setPositiveButton("ok", { _, selectedColor, _ -> changeEventColor(selectedColor) })
+                .setNegativeButton("cancel", { _, _ -> })
+                .build()
+                .show()
+    }
+
     private fun changeWidgetsColors(color: Int) {
         selectedColor = color
         eventTitle.textColor = color
         eventCalculateText.textColor = color
         colorImageView.backgroundColor = color
         eventLine.backgroundColor = color
+    }
+
+    private fun changeEventColor(color: Int) {
+        imageColor = color
+        eventImage.setBackgroundColor(color)
     }
 
     private fun setUpOnClickListeners() {
@@ -328,8 +347,9 @@ class AddActivity : AppCompatActivity() {
         event.name = titleEditText.text.toString()
         event.date = dateEditText.text.toString()
         event.description = descriptionEditText.text.toString()
-        event.imageID = imageID
         event.image = imageUri.toString()
+        event.imageID = imageID
+        event.imageColor = imageColor
         event.type = eventType
         event.repeat = repeatSpinner.selectedItemPosition.toString()
         if (hasAlarm) {
@@ -373,13 +393,15 @@ class AddActivity : AppCompatActivity() {
                         when (which) {
                             0 -> askForPermissionsAndDisplayCropActivity()
                             1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery)
+                            2 -> displayColorPickerForEventBackground()
                         }
                     }.show()
         }
     }
 
     private fun setUpImageChooserDialogOptions(): Array<String> {
-        val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom), getString(R.string.add_activity_dialog_option_gallery))
+        val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom), getString(R.string.add_activity_dialog_option_gallery),
+                getString(R.string.add_activity_dialog_option_color))
         return options.toTypedArray()
     }
 
@@ -456,6 +478,7 @@ class AddActivity : AppCompatActivity() {
         data?.let {
             imageID = 0
             imageUri = CropImage.getActivityResult(data).uri as Uri
+            imageUri = saveFile(imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
         }
     }

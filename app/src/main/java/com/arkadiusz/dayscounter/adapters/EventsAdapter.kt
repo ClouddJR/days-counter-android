@@ -71,6 +71,7 @@ class EventsAdapter(context: Context, private val eventsList: OrderedRealmCollec
 
         private fun displayImage(event: Event) {
             when {
+                event.imageColor != 0 -> Glide.with(context).load(event.imageColor).into(view.eventImage)
                 event.imageID == 0 -> Glide.with(context).load(event.image).into(view.eventImage)
                 event.imageID != 0 -> Glide.with(context).load(event.imageID).into(view.eventImage)
             }

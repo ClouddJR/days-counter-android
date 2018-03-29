@@ -18,6 +18,7 @@ open class Event() : RealmObject() {
     var description: String = ""
     var image: String = ""
     var imageID: Int = 0
+    var imageColor: Int = 0
     var type: String = ""
     var repeat: String = ""
     var widgetID: Int = 0

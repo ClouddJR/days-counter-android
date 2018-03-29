@@ -70,6 +70,7 @@ class Migration : RealmMigration {
         eventSchema.addField("fontType", Int::class.javaPrimitiveType)
         eventSchema.addField("fontColor", Int::class.javaPrimitiveType)
         eventSchema.addField("pictureDim", Int::class.javaPrimitiveType)
+        eventSchema.addField("imageColor", Int::class.javaPrimitiveType)
 
         eventSchema.transform { obj ->
             obj.set("formatYearsSelected", false)
@@ -83,6 +84,7 @@ class Migration : RealmMigration {
             obj.set("fontType", "Roboto")
             obj.set("fontColor", -1)
             obj.set("pictureDim", 60)
+            obj.set("imageColor", 0)
         }
     }
 

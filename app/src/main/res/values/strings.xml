@@ -52,6 +52,7 @@
   <string name="add_activity_dialog_title">Choose an image from</string>
   <string name="add_activity_dialog_option_custom">Gallery or Camera</string>
   <string name="add_activity_dialog_option_gallery">Backgrounds</string>
+  <string name="add_activity_dialog_option_color">Solid color</string>
   <string name="add_activity_button_title">Update an event</string>
   <string name="add_activity_toolbar_title">Update</string>
   <string name="add_activity_google_photos">Images from Google Photos are not supported</string>
