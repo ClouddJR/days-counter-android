@@ -9,7 +9,7 @@ import android.widget.RemoteViews
 import android.widget.TextView
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.WidgetConfigureAdapter
-import com.arkadiusz.dayscounter.database.Event
+import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.providers.AppWidgetProvider
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import io.realm.RealmResults

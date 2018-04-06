@@ -60,8 +60,8 @@
   <string name="add_activity_date">Wrong date format</string>
   <string name="add_activity_clear_date">Clear</string>
   <string name="add_activity_back_button_title">Are you sure?</string>
-  <string name="add_activity_back_button_message"> All changes will be lost</string>
-  <string name="add_activity_back_button_cancel"> Cancel</string>
+  <string name="add_activity_back_button_message">All changes will be lost</string>
+  <string name="add_activity_back_button_cancel">Cancel</string>
   <string name="add_activity_format_text">Format of counter</string>
   <string name="add_activity_line_divider">Show line divider</string>
   <string name="add_activity_counter_font_size">Counter font size</string>

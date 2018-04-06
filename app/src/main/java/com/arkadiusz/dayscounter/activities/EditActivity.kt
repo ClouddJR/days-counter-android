@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -16,13 +17,13 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log.d
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
-import com.arkadiusz.dayscounter.database.Event
+import com.arkadiusz.dayscounter.model.Event
+import com.arkadiusz.dayscounter.providers.AppWidgetProvider
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
@@ -32,7 +33,6 @@ import com.arkadiusz.dayscounter.utils.StorageUtils
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.content_add_r.*
 import org.jetbrains.anko.*
@@ -272,8 +272,15 @@ class EditActivity : AppCompatActivity() {
             val eventToBeAdded = prepareEventBasedOnViews()
             DatabaseRepository().editEvent(eventToBeAdded)
             addReminder(eventToBeAdded)
+            updateWidgetIfOnScreen(eventToBeAdded.widgetID)
             finish()
         }
+    }
+
+    private fun updateWidgetIfOnScreen(id: Int) {
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, applicationContext, AppWidgetProvider::class.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(id))
+        sendBroadcast(intent)
     }
 
     private val showDatePicker = View.OnClickListener {
@@ -354,6 +361,8 @@ class EditActivity : AppCompatActivity() {
             }
             else -> event.hasAlarm = false
         }
+        event.widgetID = passedEvent.widgetID
+        event.hasTransparentWidget = passedEvent.hasTransparentWidget
         event.formatYearsSelected = yearsCheckbox.isChecked
         event.formatMonthsSelected = monthsCheckbox.isChecked
         event.formatWeeksSelected = weeksCheckbox.isChecked
@@ -498,6 +507,11 @@ class EditActivity : AppCompatActivity() {
 
     private fun fillReminderSectionForm() {
         if (passedEvent.reminderYear != 0) {
+            chosenReminderYear = passedEvent.reminderYear
+            chosenReminderMonth = passedEvent.reminderMonth
+            chosenReminderDay = passedEvent.reminderDay
+            chosenReminderHour = passedEvent.reminderHour
+            chosenReminderMinute = passedEvent.reminderMinute
             hasAlarm = true
             val reminderDate = DateUtils.formatDate(passedEvent.reminderYear, passedEvent.reminderMonth, passedEvent.reminderDay) +
                     " ${DateUtils.formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)}"
@@ -511,7 +525,6 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun fillCounterSectionForm() {
-        d("eventInEdit", passedEvent.toString())
         yearsCheckbox.isChecked = passedEvent.formatYearsSelected
         monthsCheckbox.isChecked = passedEvent.formatMonthsSelected
         weeksCheckbox.isChecked = passedEvent.formatWeeksSelected

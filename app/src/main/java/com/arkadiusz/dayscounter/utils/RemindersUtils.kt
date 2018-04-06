@@ -4,8 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.arkadiusz.dayscounter.database.Event
-import com.arkadiusz.dayscounter.model.AlarmBroadcast
+import com.arkadiusz.dayscounter.model.Event
+import com.arkadiusz.dayscounter.receivers.AlarmBroadcast
 import org.jetbrains.anko.alarmManager
 import java.util.*
 

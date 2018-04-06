@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.model
+package com.arkadiusz.dayscounter.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -3,7 +3,6 @@
   package="com.arkadiusz.dayscounter">
 
   <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -88,7 +87,7 @@
 
     <receiver
       android:enabled="true"
-      android:name=".model.AlarmBroadcast">
+      android:name=".receivers.AlarmBroadcast">
       <intent-filter>
         <action android:name="NOTIFICATION_SERVICE"/>
       </intent-filter>
@@ -96,7 +95,7 @@
 
     <receiver
       android:enabled="true"
-      android:name=".model.AlarmBootReceiver">
+      android:name=".receivers.AlarmBootReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
       </intent-filter>

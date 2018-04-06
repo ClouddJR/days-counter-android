@@ -12,7 +12,7 @@ import android.util.TypedValue
 import android.widget.RemoteViews
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.DetailActivity
-import com.arkadiusz.dayscounter.database.Event
+import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.FontUtils

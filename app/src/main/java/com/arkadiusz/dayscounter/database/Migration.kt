@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.model
+package com.arkadiusz.dayscounter.database
 
 import io.realm.DynamicRealm
 import io.realm.RealmMigration
@@ -54,7 +54,7 @@ class Migration : RealmMigration {
         eventSchema.removeField("color")
 
         eventSchema.renameField("year", "reminderYear")
-        eventSchema.renameField("month", "reminderMonth")
+        eventSchema.renameField("month", "reminderMonth")com.arkadiusz.dayscounter.database
         eventSchema.renameField("day", "reminderDay")
         eventSchema.renameField("hour", "reminderHour")
         eventSchema.renameField("minute", "reminderMinute")

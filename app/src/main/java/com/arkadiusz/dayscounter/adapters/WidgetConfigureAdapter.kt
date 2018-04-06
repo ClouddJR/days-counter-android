@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListAdapter
 import android.widget.TextView
-import com.arkadiusz.dayscounter.database.Event
+import com.arkadiusz.dayscounter.model.Event
 import io.realm.OrderedRealmCollection
 import io.realm.RealmBaseAdapter
 

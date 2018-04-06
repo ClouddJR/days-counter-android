@@ -11,28 +11,4 @@
   <color name="semiTransparentBlack">#00000000</color>
   <color name="black">#000000</color>
   <color name="white">#FFFFFF</color>
-
-
-  <array name="rainbow">
-    <item>#F44336</item>
-    <item>#FF4081</item>
-    <item>#9C27B0</item>
-    <item>#7C4DFF</item>
-    <item>#3F51B5</item>
-    <item>#448AFF</item>
-    <item>#03A9F4</item>
-    <item>#009688</item>
-    <item>#4CAF50</item>
-    <item>#8BC34A</item>
-    <item>#CDDC39</item>
-    <item>#FFEB3B</item>
-    <item>#FFC107</item>
-    <item>#FF9800</item>
-    <item>#FF5722</item>
-    <item>#795548</item>
-    <item>#9E9E9E</item>
-    <item>@color/white</item>
-    <item>@color/black</item>
-    <item>#607D8B</item>
-  </array>
 </resources>

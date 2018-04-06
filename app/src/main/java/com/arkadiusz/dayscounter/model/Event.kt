@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.database
+package com.arkadiusz.dayscounter.model
 
 import android.os.Parcel
 import android.os.Parcelable

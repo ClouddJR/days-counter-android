@@ -17,8 +17,8 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.DetailActivity
 import com.arkadiusz.dayscounter.activities.EditActivity
 import com.arkadiusz.dayscounter.adapters.EventsAdapter
-import com.arkadiusz.dayscounter.database.Event
-import com.arkadiusz.dayscounter.model.RecyclerItemClickListener
+import com.arkadiusz.dayscounter.model.Event
+import com.arkadiusz.dayscounter.adapters.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.RemindersUtils.deleteReminder
 import io.realm.RealmResults

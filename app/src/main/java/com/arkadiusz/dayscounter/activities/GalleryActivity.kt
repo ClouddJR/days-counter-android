@@ -8,7 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.GalleryAdapter
-import com.arkadiusz.dayscounter.model.RecyclerItemClickListener
+import com.arkadiusz.dayscounter.adapters.RecyclerItemClickListener
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_gallery.*
 import org.jetbrains.anko.startActivity

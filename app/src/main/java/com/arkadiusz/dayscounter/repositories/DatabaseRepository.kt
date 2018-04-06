@@ -2,8 +2,8 @@ package com.arkadiusz.dayscounter.repositories
 
 import android.content.Context
 import android.util.Log.d
-import com.arkadiusz.dayscounter.database.Event
-import com.arkadiusz.dayscounter.model.Migration
+import com.arkadiusz.dayscounter.database.Migration
+import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate

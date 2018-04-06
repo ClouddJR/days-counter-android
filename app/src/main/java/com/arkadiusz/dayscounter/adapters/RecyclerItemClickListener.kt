@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.model
+package com.arkadiusz.dayscounter.adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

@@ -2,7 +2,7 @@ package com.arkadiusz.dayscounter.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import com.arkadiusz.dayscounter.database.Event;
+import com.arkadiusz.dayscounter.model.Event;
 import com.arkadiusz.dayscounter.database.FirebaseTempObject;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
