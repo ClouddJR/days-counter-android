@@ -20,11 +20,13 @@ import org.jetbrains.anko.startActivity
 class GalleryActivity : AppCompatActivity() {
 
     private lateinit var imagesList: IntArray
+    private var activityType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
         setUpActionBar()
+        receiveActivityType()
         displayAd()
         setUpImagesList()
         setUpRecyclerView()
@@ -32,6 +34,10 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun setUpActionBar() {
         supportActionBar?.title = getString(R.string.gallery_activity_title)
+    }
+
+    private fun receiveActivityType() {
+        activityType = intent.getStringExtra("activity")
     }
 
     private fun displayAd() {
@@ -68,7 +74,10 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     private fun sendImageToAddActivity(position: Int) {
-        startActivity<AddActivity>("imageID" to imagesList[position])
+        when (activityType) {
+            "Add" -> startActivity<AddActivity>("imageID" to imagesList[position])
+            "Edit" -> startActivity<EditActivity>("imageID" to imagesList[position])
+        }
         finish()
     }
 }

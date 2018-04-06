@@ -34,6 +34,7 @@
   <string name="add_activity_dialog_title">Wybierz tło z</string>
   <string name="add_activity_dialog_option_custom">Galeria lub Kamera</string>
   <string name="add_activity_dialog_option_gallery">Tła</string>
+  <string name="add_activity_dialog_option_color">Kolor</string>
   <string name="add_activity_button_title">Zaktualizuj wydarzenie</string>
   <string name="add_activity_toolbar_title">Aktualizuj</string>
   <string name="add_activity_google_photos">Zdjęcia z Google Photos nie są obsługiwane</string>

@@ -62,8 +62,9 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
     }
 
     private fun setEventTransparentIfSet(event: Event) {
-        if (transparentSwitch.isChecked) {
-            databaseRepository.setTransparentWidget(event)
+        when (transparentSwitch.isChecked) {
+            true -> databaseRepository.setTransparentWidget(event)
+            false -> databaseRepository.setInTransparentWidget(event)
         }
     }
 

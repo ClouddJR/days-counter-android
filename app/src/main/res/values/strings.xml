@@ -2,6 +2,7 @@
   <string name="app_name">Days Counter</string>
   <string name="action_contact">Contact me</string>
   <string name="title_activity_add">Add an event</string>
+  <string name="title_activity_edit">Edit an event</string>
 
   <string name="action_sort_date_desc">Sort by days descending</string>
   <string name="action_sort_date_asc">Sort by days ascending</string>

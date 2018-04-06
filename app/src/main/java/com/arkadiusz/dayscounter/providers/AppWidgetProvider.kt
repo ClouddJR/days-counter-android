@@ -41,9 +41,9 @@ class AppWidgetProvider : AppWidgetProvider() {
                 val remoteViews = RemoteViews(context.packageName, R.layout.appwidget)
 
                 displayTexts(remoteViews, context, event, counterText)
+                setUpLineDivider(remoteViews, context, event)
                 displayPicture(remoteViews, event, context, widgetId)
                 setUpStackAndClickListener(event.id, context, remoteViews)
-
 
                 appWidgetManager!!.updateAppWidget(widgetId, remoteViews)
             }
@@ -63,6 +63,16 @@ class AppWidgetProvider : AppWidgetProvider() {
         remoteViews.setImageViewBitmap(R.id.eventTitle, getFontBitmap(context, event.name, event.titleFontSize.toFloat(), event.fontColor, event.fontType))
     }
 
+    private fun setUpLineDivider(remoteViews: RemoteViews, context: Context, event: Event) {
+        if (event.isLineDividerSelected) {
+            val width = convertDipToPix(context, 120f)
+            val height = convertDipToPix(context, 1.5f)
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            bitmap.eraseColor(event.fontColor)
+            remoteViews.setImageViewBitmap(R.id.eventLine, bitmap)
+        }
+    }
+
     private fun displayPicture(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {
         if (!event.hasTransparentWidget) {
             when {
@@ -74,24 +84,9 @@ class AppWidgetProvider : AppWidgetProvider() {
     }
 
     private fun displayPictureFromChosenColor(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {
-        val pictureDim = event.pictureDim
-        Picasso.with(context).load(event.imageColor).transform(object : Transformation {
-            override fun key(): String {
-                return "darkening"
-            }
-
-            override fun transform(source: Bitmap?): Bitmap {
-                val bitmap = source!!.copy(Bitmap.Config.ARGB_8888, true)
-                val paint = Paint()
-                val hexValue = 255 - (255 / 17 * pictureDim)
-                val stringHex = Integer.toHexString(hexValue)
-                paint.colorFilter = PorterDuffColorFilter("FF$stringHex$stringHex$stringHex".toLong(16).toInt(), PorterDuff.Mode.MULTIPLY)
-                val canvas = Canvas(bitmap)
-                canvas.drawBitmap(bitmap, 0f, 0f, paint)
-                source.recycle()
-                return bitmap
-            }
-        }).resize(0, 300).into(remoteViews, R.id.eventImage, intArrayOf(widgetId))
+        val bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        bitmap.eraseColor(event.imageColor)
+        remoteViews.setImageViewBitmap(R.id.eventImage, bitmap)
     }
 
     private fun displayPictureFromBackgrounds(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {

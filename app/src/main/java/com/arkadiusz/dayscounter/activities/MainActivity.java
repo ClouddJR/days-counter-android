@@ -256,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
       }
     });
-
   }
 
   public void setUpSharedPreferences() {
@@ -387,6 +386,7 @@ public class MainActivity extends AppCompatActivity {
 
         futureFragment.refreshData();
         pastFragment.refreshData();
+
 
         SharedPreferencesUtils.setFirebaseSynced(MainActivity.this, "true");
         Toast.makeText(MainActivity.this,

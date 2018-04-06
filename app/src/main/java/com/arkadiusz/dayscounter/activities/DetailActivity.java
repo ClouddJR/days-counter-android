@@ -1,7 +1,5 @@
 package com.arkadiusz.dayscounter.activities;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -72,26 +70,9 @@ public class DetailActivity extends Activity {
     setUpRealm();
     receiveID();
     setImage();
-    if (mEvent == null) {
-      return;
-    }
     setInformations();
     getSharedPref();
 
-//    if (!IsWithoutAds) {
-//      displayAd();
-//    }
-
-  }
-
-  @Override
-  public void onEnterAnimationComplete() {
-    super.onEnterAnimationComplete();
-    int startScrollPos = 100;
-    Animator animator = ObjectAnimator.ofInt(scrollView, "scrollY", startScrollPos)
-        .setDuration(370);
-    animator.setStartDelay(200);
-    animator.start();
   }
 
   public void setUpRealm() {

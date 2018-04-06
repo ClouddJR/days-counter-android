@@ -28,18 +28,8 @@
     app:showAsAction="never"/>
 
   <item
-    android:id="@+id/action_black_theme"
-    android:orderInCategory="140"
-    android:title="@string/action_black_theme"/>
-
-  <item
-    android:id="@+id/action_sign_out"
-    android:orderInCategory="150"
-    android:title="@string/action_sign_out"/>
-
-  <item
     android:id="@+id/action_remove_ads"
-    android:orderInCategory="160"
+    android:orderInCategory="140"
     android:title="@string/main_activity_ads"
     app:showAsAction="never"/>
 

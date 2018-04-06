@@ -26,7 +26,7 @@ import org.jetbrains.anko.textColor
  * Created by arkadiusz on 17.03.18
  */
 
-class EventsAdapter(context: Context, private val eventsList: OrderedRealmCollection<Event>) :
+class EventsAdapter(context: Context, private var eventsList: OrderedRealmCollection<Event>) :
         RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(context, eventsList, true) {
 
 
@@ -51,6 +51,7 @@ class EventsAdapter(context: Context, private val eventsList: OrderedRealmCollec
             displayCounterText(event)
             displayTitle(event)
             displayImage(event)
+            hideDividerIfSelected(event)
             changeFonts(event)
             dimPicture(event)
             repeatIfNecessary(event)
@@ -71,9 +72,18 @@ class EventsAdapter(context: Context, private val eventsList: OrderedRealmCollec
 
         private fun displayImage(event: Event) {
             when {
-                event.imageColor != 0 -> Glide.with(context).load(event.imageColor).into(view.eventImage)
+                event.imageColor != 0 -> {
+                    view.eventImage.setImageDrawable(null)
+                    view.eventImage.backgroundColor = event.imageColor
+                }
                 event.imageID == 0 -> Glide.with(context).load(event.image).into(view.eventImage)
-                event.imageID != 0 -> Glide.with(context).load(event.imageID).into(view.eventImage)
+                else -> Glide.with(context).load(event.imageID).into(view.eventImage)
+            }
+        }
+
+        private fun hideDividerIfSelected(event: Event) {
+            if (!event.isLineDividerSelected) {
+                view.eventLine.visibility = View.GONE
             }
         }
 

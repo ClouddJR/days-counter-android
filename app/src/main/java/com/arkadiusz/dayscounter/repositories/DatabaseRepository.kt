@@ -86,6 +86,10 @@ class DatabaseRepository {
         return realm.where(Event::class.java).equalTo("name", name).findFirst()
     }
 
+    fun getEventById(id: Int): Event {
+        return realm.where(Event::class.java).equalTo("id", id).findFirst()
+    }
+
     fun getEventByWidgetId(widgetId: Int): Event? {
         return realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()
     }
@@ -102,6 +106,12 @@ class DatabaseRepository {
         }
     }
 
+    fun setInTransparentWidget(event: Event) {
+        realm.executeTransaction {
+            event.hasTransparentWidget = false
+        }
+    }
+
     fun disableAlarmForEvent(eventId: Int) {
         realm.executeTransaction {
             val event = realm.where(Event::class.java).equalTo("id", eventId).findFirst()
@@ -111,6 +121,12 @@ class DatabaseRepository {
 
     fun addEventToDatabase(event: Event) {
         event.id = getNextId()
+        realm.executeTransaction {
+            it.copyToRealmOrUpdate(event)
+        }
+    }
+
+    fun editEvent(event: Event) {
         realm.executeTransaction {
             it.copyToRealmOrUpdate(event)
         }

@@ -14,13 +14,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.activities.AddActivity
 import com.arkadiusz.dayscounter.activities.DetailActivity
+import com.arkadiusz.dayscounter.activities.EditActivity
 import com.arkadiusz.dayscounter.adapters.EventsAdapter
 import com.arkadiusz.dayscounter.database.Event
 import com.arkadiusz.dayscounter.model.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.startActivity
@@ -34,6 +36,8 @@ class FutureFragment : Fragment() {
     private val databaseRepository = DatabaseRepository()
 
     private var sortType = ""
+    private lateinit var adapter: EventsAdapter
+    private lateinit var recyclerView: RecyclerView
     private lateinit var eventsList: RealmResults<Event>
     private lateinit var eventContextOptions: List<String>
 
@@ -46,8 +50,28 @@ class FutureFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.future_fragment, container, false)
-        setUpRecyclerView(view)
+        initRecyclerView(view)
+        setUpRecyclerView()
+        hideFABOnScroll()
         return view
+    }
+
+    private fun initRecyclerView(view: View) {
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.addOnItemTouchListener(object : RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
+                val id = eventsList[position].id
+                startActivity<DetailActivity>("event_id" to id)
+            }
+
+            override fun onItemLongClick(view: View?, position: Int) {
+                vibration()
+                displayEventOptions(eventsList[position].id, eventsList[position])
+            }
+
+        }) {})
     }
 
     private fun receiveSortType() {
@@ -74,24 +98,9 @@ class FutureFragment : Fragment() {
         }
     }
 
-    private fun setUpRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = EventsAdapter(context!!, eventsList)
-        recyclerView.setHasFixedSize(true)
+    private fun setUpRecyclerView() {
+        adapter = EventsAdapter(context!!, eventsList)
         recyclerView.adapter = adapter
-        recyclerView.addOnItemTouchListener(object : RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                val id = eventsList[position].id
-                startActivity<DetailActivity>("event_id" to id)
-            }
-
-            override fun onItemLongClick(view: View?, position: Int) {
-                vibration()
-                displayEventOptions(eventsList[position].id)
-            }
-
-        }) {})
     }
 
     private fun vibration() {
@@ -103,13 +112,14 @@ class FutureFragment : Fragment() {
         }
     }
 
-    private fun displayEventOptions(eventId: Int) {
+    private fun displayEventOptions(eventId: Int, event: Event) {
         selector(getString(R.string.fragment_main_dialog_title), eventContextOptions, { _, i ->
             when (i) {
-                0 -> startActivity<AddActivity>("Event Type" to "future")
+                0 -> startActivity<EditActivity>("eventId" to eventId)
                 1 -> {
                     alert(getString(R.string.fragment_delete_dialog_question)) {
                         positiveButton(android.R.string.yes) {
+                            RemindersUtils.deleteReminder(context!!, event)
                             databaseRepository.deleteEventFromDatabase(eventId)
                         }
                         negativeButton(android.R.string.no) {}
@@ -119,8 +129,21 @@ class FutureFragment : Fragment() {
         })
     }
 
+    private fun hideFABOnScroll() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy > 0) {
+                    activity?.fab?.hide()
+                } else if (dy < 0) {
+                    activity?.fab?.show()
+                }
+            }
+        })
+    }
+
     fun refreshData() {
         receiveSortType()
         setUpData()
+        setUpRecyclerView()
     }
 }

@@ -30,8 +30,7 @@
     android:id="@+id/eventLine"
     android:layout_width="120dp"
     android:layout_height="1.5dp"
-    android:layout_centerInParent="true"
-    android:background="@android:color/white"/>
+    android:layout_centerInParent="true"/>
 
   <ImageView
     android:id="@+id/eventTitle"

@@ -33,7 +33,7 @@
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
     android:scaleType="centerCrop"
-    android:src="@drawable/a21"
+    android:src="@drawable/a57"
     android:tint="#3C000000"
     app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
     app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:fontFamily="@font/josefinsans"
+    android:gravity="center"
     android:text="@string/add_activity_preview_title"
     android:textColor="@android:color/white"
     android:textSize="18sp"
@@ -126,7 +126,8 @@
               android:id="@+id/titleEditText"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:hint="@string/add_activity_name_form"/>
+              android:hint="@string/add_activity_name_form"
+              android:text="@string/add_activity_preview_title"/>
 
           </android.support.design.widget.TextInputLayout>
 

@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log.d
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
@@ -23,13 +24,11 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.database.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
-import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
-import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
-import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
-import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
+import com.arkadiusz.dayscounter.utils.DateUtils
+import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.utils.FontUtils
 import com.arkadiusz.dayscounter.utils.RemindersUtils
-import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
+import com.arkadiusz.dayscounter.utils.StorageUtils
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -40,12 +39,13 @@ import org.jetbrains.anko.*
 import java.io.File
 import java.util.*
 
-
 /**
- * Created by arkadiusz on 04.03.18
+ * Created by arkadiusz on 31.03.18
  */
 
-class AddActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity() {
+
+    private lateinit var passedEvent: Event
 
     private lateinit var eventType: String
     private var hasAlarm = false
@@ -54,9 +54,8 @@ class AddActivity : AppCompatActivity() {
 
     private val pickPhotoGallery = 1
     private val writeRequestCode = 1234
-
     private var imageUri: Uri? = null
-    private var imageID = 2131230778
+    private var imageID = 0
     private var imageColor = 0
 
     private var chosenYear = 0
@@ -73,8 +72,7 @@ class AddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add_r)
-        receiveEventType()
-        setCurrentDateInForm()
+        receivePassedEventId()
         setUpSpinners()
         setUpCheckboxes()
         setUpEditTexts()
@@ -82,6 +80,8 @@ class AddActivity : AppCompatActivity() {
         setUpFontPicker()
         setUpOnClickListeners()
         setUpImageChoosing()
+        fillFormWithPassedData()
+        changeAddButtonName()
     }
 
     override fun onBackPressed() {
@@ -95,36 +95,22 @@ class AddActivity : AppCompatActivity() {
         }.show()
     }
 
-    private fun receiveEventType() {
-        eventType = intent.getStringExtra("Event Type")
-    }
 
-    private fun setCurrentDateInForm() {
-        val calendar = generateTodayCalendar()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        chosenYear = year
-        chosenMonth = month
-        chosenDay = day
-        dateEditText.setText(formatDate(year, month, day))
-        eventCalculateText.text = generateCounterText()
+    private fun receivePassedEventId() {
+        val passedEventId = intent.getIntExtra("eventId", 0)
+        passedEvent = DatabaseRepository().getEventById(passedEventId)
     }
 
     private fun setUpSpinners() {
         val fontSizeAdapter = ArrayAdapter.createFromResource(this, R.array.add_activity_font_size, R.layout.support_simple_spinner_dropdown_item)
         counterFontSizeSpinner.adapter = fontSizeAdapter
         titleFontSizeSpinner.adapter = fontSizeAdapter
-        counterFontSizeSpinner.setSelection(6)
-        titleFontSizeSpinner.setSelection(5)
 
         val repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.add_activity_repeat, R.layout.support_simple_spinner_dropdown_item)
         repeatSpinner.adapter = repetitionAdapter
-        repeatSpinner.setSelection(0)
 
         val fontTypeAdapter = FontTypeSpinnerAdapter(this, R.layout.support_simple_spinner_dropdown_item, resources.getStringArray(R.array.font_type).toList())
         fontTypeSpinner.adapter = fontTypeAdapter
-        fontTypeSpinner.setSelection(8)
 
         setSpinnersListeners()
     }
@@ -152,7 +138,7 @@ class AddActivity : AppCompatActivity() {
         fontTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val fontName = (view as TextView).text.toString()
-                val typeFace = FontUtils.getFontFor(fontName, this@AddActivity)
+                val typeFace = FontUtils.getFontFor(fontName, this@EditActivity)
                 eventTitle.typeface = typeFace
                 eventCalculateText.typeface = typeFace
             }
@@ -173,7 +159,7 @@ class AddActivity : AppCompatActivity() {
                 eventLine.visibility = View.GONE
             }
         }
-        daysCheckbox.isChecked = true
+        //daysCheckbox.isChecked = true
 
         yearsCheckbox.setOnCheckedChangeListener(checkBoxListener)
         monthsCheckbox.setOnCheckedChangeListener(checkBoxListener)
@@ -284,7 +270,7 @@ class AddActivity : AppCompatActivity() {
         }
         addButton.setOnClickListener {
             val eventToBeAdded = prepareEventBasedOnViews()
-            DatabaseRepository().addEventToDatabase(eventToBeAdded)
+            DatabaseRepository().editEvent(eventToBeAdded)
             addReminder(eventToBeAdded)
             finish()
         }
@@ -300,7 +286,7 @@ class AddActivity : AppCompatActivity() {
             this.chosenYear = chosenYear
             this.chosenMonth = chosenMonth
             this.chosenDay = chosenDay
-            dateEditText.setText(formatDate(chosenYear, chosenMonth, chosenDay))
+            dateEditText.setText(DateUtils.formatDate(chosenYear, chosenMonth, chosenDay))
             eventCalculateText.text = generateCounterText()
         }, year, month, day).show()
     }
@@ -312,7 +298,7 @@ class AddActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
-            reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
+            reminderDate = DateUtils.formatDate(chosenYear, chosenMonth, chosenDay)
             chosenReminderYear = chosenYear
             chosenReminderMonth = chosenMonth
             chosenReminderDay = chosenDay
@@ -328,7 +314,7 @@ class AddActivity : AppCompatActivity() {
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, chosenHour, chosenMinute ->
             this.chosenReminderHour = chosenHour
             this.chosenReminderMinute = chosenMinute
-            val time = formatTime(chosenHour, chosenMinute)
+            val time = DateUtils.formatTime(chosenHour, chosenMinute)
             reminderDate += " $time"
             reminderDateEditText.setText(reminderDate)
             hasAlarm = true
@@ -336,7 +322,7 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun generateCounterText(): String {
-        return calculateDate(chosenYear, chosenMonth + 1, chosenDay,
+        return DateUtils.calculateDate(chosenYear, chosenMonth + 1, chosenDay,
                 yearsCheckbox.isChecked,
                 monthsCheckbox.isChecked,
                 weeksCheckbox.isChecked,
@@ -347,6 +333,7 @@ class AddActivity : AppCompatActivity() {
 
     private fun prepareEventBasedOnViews(): Event {
         val event = Event()
+        event.id = passedEvent.id
         event.name = titleEditText.text.toString()
         event.date = dateEditText.text.toString()
         event.description = descriptionEditText.text.toString()
@@ -355,18 +342,18 @@ class AddActivity : AppCompatActivity() {
         event.imageColor = imageColor
         event.type = eventType
         event.repeat = repeatSpinner.selectedItemPosition.toString()
-        if (hasAlarm) {
-            event.hasAlarm = true
-            event.reminderYear = chosenReminderYear
-            event.reminderMonth = chosenReminderMonth
-            event.reminderDay = chosenReminderDay
-            event.reminderHour = chosenReminderHour
-            event.reminderMinute = chosenReminderMinute
-            event.notificationText = reminderTextEditText.text.toString()
-        } else {
-            event.hasAlarm = false
+        when (hasAlarm) {
+            true -> {
+                event.hasAlarm = true
+                event.reminderYear = chosenReminderYear
+                event.reminderMonth = chosenReminderMonth
+                event.reminderDay = chosenReminderDay
+                event.reminderHour = chosenReminderHour
+                event.reminderMinute = chosenReminderMinute
+                event.notificationText = reminderTextEditText.text.toString()
+            }
+            else -> event.hasAlarm = false
         }
-
         event.formatYearsSelected = yearsCheckbox.isChecked
         event.formatMonthsSelected = monthsCheckbox.isChecked
         event.formatWeeksSelected = weeksCheckbox.isChecked
@@ -395,7 +382,7 @@ class AddActivity : AppCompatActivity() {
                     .setItems(setUpImageChooserDialogOptions()) { _, which ->
                         when (which) {
                             0 -> askForPermissionsAndDisplayCropActivity()
-                            1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery, "activity" to "Add")
+                            1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery, "activity" to "Edit")
                             2 -> displayColorPickerForEventBackground()
                         }
                     }.show()
@@ -414,7 +401,7 @@ class AddActivity : AppCompatActivity() {
         if (imageID != 0) {
             imageColor = 0
             imageUri = null
-            Picasso.with(this).load(imageID).resize(0, 700).into(eventImage)
+            Glide.with(this).load(imageID).into(eventImage)
         }
 
     }
@@ -483,9 +470,96 @@ class AddActivity : AppCompatActivity() {
             imageColor = 0
             imageID = 0
             imageUri = CropImage.getActivityResult(data).uri as Uri
-            imageUri = saveFile(imageUri as Uri)
+            imageUri = StorageUtils.saveFile(imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
         }
     }
 
+    private fun fillFormWithPassedData() {
+        fillGeneralSectionForm()
+        fillReminderSectionForm()
+        fillRepetitionSectionForm()
+        fillCounterSectionForm()
+        fillFontSectionForm()
+        fillPictureDimSectionForm()
+        displayEventImage()
+        assignAdditionalParameters()
+    }
+
+    private fun fillGeneralSectionForm() {
+        titleEditText.setText(passedEvent.name)
+        dateEditText.setText(passedEvent.date)
+        descriptionEditText.setText(passedEvent.description)
+        val dateTriple = getElementsFromDate(passedEvent.date)
+        chosenYear = dateTriple.first
+        chosenMonth = dateTriple.second - 1
+        chosenDay = dateTriple.third
+    }
+
+    private fun fillReminderSectionForm() {
+        if (passedEvent.reminderYear != 0) {
+            hasAlarm = true
+            val reminderDate = DateUtils.formatDate(passedEvent.reminderYear, passedEvent.reminderMonth, passedEvent.reminderDay) +
+                    " ${DateUtils.formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)}"
+            reminderDateEditText.setText(reminderDate)
+            reminderTextEditText.setText(passedEvent.notificationText)
+        }
+    }
+
+    private fun fillRepetitionSectionForm() {
+        repeatSpinner.setSelection(passedEvent.repeat.toInt())
+    }
+
+    private fun fillCounterSectionForm() {
+        d("eventInEdit", passedEvent.toString())
+        yearsCheckbox.isChecked = passedEvent.formatYearsSelected
+        monthsCheckbox.isChecked = passedEvent.formatMonthsSelected
+        weeksCheckbox.isChecked = passedEvent.formatWeeksSelected
+        daysCheckbox.isChecked = passedEvent.formatDaysSelected
+    }
+
+    private fun fillFontSectionForm() {
+        showDividerCheckbox.isChecked = passedEvent.isLineDividerSelected
+        counterFontSizeSpinner.setSelection(getSpinnerIndexFor(passedEvent.counterFontSize, counterFontSizeSpinner))
+        titleFontSizeSpinner.setSelection(getSpinnerIndexFor(passedEvent.titleFontSize, titleFontSizeSpinner))
+        fontTypeSpinner.setSelection(FontUtils.getFontPositionFor(passedEvent.fontType))
+        colorImageView.backgroundColor = passedEvent.fontColor
+        changeWidgetsColors(passedEvent.fontColor)
+    }
+
+    private fun fillPictureDimSectionForm() {
+        pictureDimSeekBar.progress = passedEvent.pictureDim
+    }
+
+    private fun displayEventImage() {
+        when {
+            passedEvent.imageColor != 0 -> changeEventColor(passedEvent.imageColor)
+            passedEvent.imageID != 0 -> {
+                imageID = passedEvent.imageID
+                Glide.with(this).load(imageID).into(eventImage)
+            }
+            else -> {
+                imageUri = Uri.parse(passedEvent.image)
+                Glide.with(this).load(File(passedEvent.image)).into(eventImage)
+            }
+        }
+    }
+
+    private fun assignAdditionalParameters() {
+        eventType = passedEvent.type
+    }
+
+
+    private fun getSpinnerIndexFor(fontSize: Int, spinner: Spinner): Int {
+        for (i in 0 until spinner.count) {
+            if (spinner.getItemAtPosition(i).toString() == fontSize.toString()) {
+                return i
+            }
+        }
+        return 6 //default font size
+    }
+
+    private fun changeAddButtonName() {
+        addButton.text = getString(R.string.add_activity_button_title)
+    }
 }

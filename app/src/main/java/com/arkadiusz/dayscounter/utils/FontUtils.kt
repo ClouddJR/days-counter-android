@@ -30,4 +30,24 @@ object FontUtils {
             else -> null
         }
     }
+
+    fun getFontPositionFor(name: String): Int {
+        return when (name) {
+            "Allerta" -> 0
+            "Fira Sans" -> 1
+            "Josefin Sans" -> 2
+            "Lato" -> 3
+            "Montserrat" -> 4
+            "Open Sans" -> 5
+            "Pacifico" -> 6
+            "PT Sans" -> 7
+            "Roboto" -> 8
+            "Roboto Slab" -> 9
+            "Ropa Sans" -> 10
+            "Source Sans Pro" -> 11
+            "Titillium Web" -> 12
+            "Ubuntu" -> 13
+            else -> 8 //default Roboto
+        }
+    }
 }
