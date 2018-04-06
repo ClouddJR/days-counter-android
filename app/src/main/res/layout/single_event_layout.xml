@@ -23,7 +23,6 @@
       android:id="@+id/eventImage"
       android:layout_width="0dp"
       android:layout_height="0dp"
-      android:background="@color/graphite"
       android:scaleType="centerCrop"
       android:tint="#3C000000"
       app:layout_constraintBottom_toBottomOf="parent"

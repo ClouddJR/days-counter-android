@@ -54,7 +54,7 @@ class Migration : RealmMigration {
         eventSchema.removeField("color")
 
         eventSchema.renameField("year", "reminderYear")
-        eventSchema.renameField("month", "reminderMonth")com.arkadiusz.dayscounter.database
+        eventSchema.renameField("month", "reminderMonth")
         eventSchema.renameField("day", "reminderDay")
         eventSchema.renameField("hour", "reminderHour")
         eventSchema.renameField("minute", "reminderMinute")

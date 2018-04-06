@@ -19,6 +19,6 @@
 
 -keepattributes Signature
 -dontwarn com.squareup.picasso.**
--keepclassmembers class com.arkadiusz.dayscounter.Database.** {
+-keepclassmembers class com.arkadiusz.dayscounter.model.** {
   *;
 }
