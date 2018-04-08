@@ -4,6 +4,7 @@ import android.os.Build
 import android.support.multidex.MultiDexApplication
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.NotificationUtils
+import com.google.firebase.database.FirebaseDatabase
 
 /**
  * Created by Arkadiusz on 14.03.2018
@@ -14,11 +15,16 @@ class DaysCounterApp : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         initializeRealm()
+        initializeFirebaseOfflinePersistence()
         createNotificationChannelForReminders()
     }
 
     private fun initializeRealm() {
         DatabaseRepository.RealmInitializer.initRealm(this)
+    }
+
+    private fun initializeFirebaseOfflinePersistence() {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 
     private fun createNotificationChannelForReminders() {

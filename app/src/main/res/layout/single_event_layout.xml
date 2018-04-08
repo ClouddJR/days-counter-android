@@ -22,7 +22,8 @@
     <ImageView
       android:id="@+id/eventImage"
       android:layout_width="0dp"
-      android:layout_height="0dp"
+      android:layout_height="179dp"
+      android:background="@android:color/darker_gray"
       android:scaleType="centerCrop"
       android:tint="#3C000000"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +60,6 @@
       android:layout_margin="5dp"
       android:fontFamily="@font/josefinsans"
       android:gravity="center"
-      android:text="@string/add_activity_preview_title"
       android:textColor="@android:color/white"
       android:textSize="18sp"
       app:layout_constraintEnd_toEndOf="@id/eventImage"

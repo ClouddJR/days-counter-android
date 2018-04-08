@@ -2,7 +2,6 @@ package com.arkadiusz.dayscounter.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.firebase.database.IgnoreExtraProperties
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
@@ -10,7 +9,6 @@ import io.realm.annotations.PrimaryKey
  * Created by arkadiusz on 04.03.18
  */
 
-@IgnoreExtraProperties
 open class Event() : RealmObject(), Parcelable {
 
     @PrimaryKey
@@ -36,7 +34,7 @@ open class Event() : RealmObject(), Parcelable {
     var formatMonthsSelected: Boolean = false
     var formatWeeksSelected: Boolean = false
     var formatDaysSelected: Boolean = true
-    var isLineDividerSelected: Boolean = false
+    var lineDividerSelected: Boolean = false
     var counterFontSize: Int = 0
     var titleFontSize: Int = 0
     var fontType: String = ""
@@ -56,6 +54,38 @@ open class Event() : RealmObject(), Parcelable {
             override fun createFromParcel(source: Parcel): Event = Event(source)
             override fun newArray(size: Int): Array<Event?> = arrayOfNulls(size)
         }
+
+    }
+
+    override fun toString(): String {
+        return "Event(id=$id, " +
+                "name='$name', " +
+                "date='$date', " +
+                "description='$description', " +
+                "image='$image', " +
+                "imageID=$imageID, " +
+                "imageColor=$imageColor, " +
+                "type='$type', " +
+                "repeat='$repeat', " +
+                "widgetID=$widgetID, " +
+                "hasAlarm=$hasAlarm, " +
+                "hasTransparentWidget=$hasTransparentWidget, " +
+                "reminderYear=$reminderYear, " +
+                "reminderMonth=$reminderMonth, " +
+                "reminderDay=$reminderDay, " +
+                "reminderHour=$reminderHour, " +
+                "reminderMinute=$reminderMinute, " +
+                "notificationText='$notificationText', " +
+                "formatYearsSelected=$formatYearsSelected, " +
+                "formatMonthsSelected=$formatMonthsSelected, " +
+                "formatWeeksSelected=$formatWeeksSelected, " +
+                "formatDaysSelected=$formatDaysSelected, " +
+                "lineDividerSelected=$lineDividerSelected, " +
+                "counterFontSize=$counterFontSize, " +
+                "titleFontSize=$titleFontSize, " +
+                "fontType='$fontType', " +
+                "fontColor=$fontColor, " +
+                "pictureDim=$pictureDim)"
     }
 
 }

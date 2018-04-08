@@ -38,7 +38,12 @@ class AppWidgetProvider : AppWidgetProvider() {
             val event = databaseRepository.getEventByWidgetId(widgetId)
             event?.let {
                 val counterText = getCounterText(event, context!!)
-                val remoteViews = RemoteViews(context.packageName, R.layout.appwidget)
+
+                val remoteViews = if (event.lineDividerSelected) {
+                    RemoteViews(context.packageName, R.layout.appwidget)
+                } else {
+                    RemoteViews(context.packageName, R.layout.appwidget_noline)
+                }
 
                 displayTexts(remoteViews, context, event, counterText)
                 setUpLineDivider(remoteViews, context, event)
@@ -64,7 +69,7 @@ class AppWidgetProvider : AppWidgetProvider() {
     }
 
     private fun setUpLineDivider(remoteViews: RemoteViews, context: Context, event: Event) {
-        if (event.isLineDividerSelected) {
+        if (event.lineDividerSelected) {
             val width = convertDipToPix(context, 120f)
             val height = convertDipToPix(context, 1.5f)
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)

@@ -1,5 +1,7 @@
 package com.arkadiusz.dayscounter.activities
 
+import PreferenceUtils.defaultPrefs
+import PreferenceUtils.get
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
@@ -23,6 +25,7 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
@@ -69,6 +72,8 @@ class AddActivity : AppCompatActivity() {
     private var chosenReminderDay = 0
     private var chosenReminderHour = 0
     private var chosenReminderMinute = 0
+
+    private var wasTimePickerAlreadyDisplayed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -284,7 +289,9 @@ class AddActivity : AppCompatActivity() {
         }
         addButton.setOnClickListener {
             val eventToBeAdded = prepareEventBasedOnViews()
-            DatabaseRepository().addEventToDatabase(eventToBeAdded)
+            val id = DatabaseRepository().addEventToDatabase(eventToBeAdded)
+            FirebaseRepository().addOrEditEventInFirebase(defaultPrefs(this)["firebase-email"]
+                    ?: "", eventToBeAdded, id)
             addReminder(eventToBeAdded)
             finish()
         }
@@ -311,12 +318,15 @@ class AddActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
+        wasTimePickerAlreadyDisplayed = false
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
             reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
             chosenReminderYear = chosenYear
             chosenReminderMonth = chosenMonth
             chosenReminderDay = chosenDay
-            displayTimePickerDialog()
+            if (!wasTimePickerAlreadyDisplayed) {
+                displayTimePickerDialog()
+            }
         }, year, month, day).show()
     }
 
@@ -325,13 +335,16 @@ class AddActivity : AppCompatActivity() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, chosenHour, chosenMinute ->
-            this.chosenReminderHour = chosenHour
-            this.chosenReminderMinute = chosenMinute
-            val time = formatTime(chosenHour, chosenMinute)
-            reminderDate += " $time"
-            reminderDateEditText.setText(reminderDate)
-            hasAlarm = true
+        wasTimePickerAlreadyDisplayed = true
+        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, chosenHour, chosenMinute ->
+            if (view.isShown) {
+                this.chosenReminderHour = chosenHour
+                this.chosenReminderMinute = chosenMinute
+                val time = formatTime(chosenHour, chosenMinute)
+                reminderDate += " $time"
+                reminderDateEditText.setText(reminderDate)
+                hasAlarm = true
+            }
         }, hour, minute, true).show()
     }
 
@@ -371,7 +384,7 @@ class AddActivity : AppCompatActivity() {
         event.formatMonthsSelected = monthsCheckbox.isChecked
         event.formatWeeksSelected = weeksCheckbox.isChecked
         event.formatDaysSelected = daysCheckbox.isChecked
-        event.isLineDividerSelected = showDividerCheckbox.isChecked
+        event.lineDividerSelected = showDividerCheckbox.isChecked
         event.counterFontSize = (counterFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
         event.titleFontSize = (titleFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
         event.fontType = (fontTypeSpinner.getChildAt(0) as TextView).text.toString()

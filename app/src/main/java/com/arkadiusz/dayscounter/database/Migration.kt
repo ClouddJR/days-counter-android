@@ -63,11 +63,11 @@ class Migration : RealmMigration {
         eventSchema.addField("formatMonthsSelected", Boolean::class.javaPrimitiveType)
         eventSchema.addField("formatWeeksSelected", Boolean::class.javaPrimitiveType)
         eventSchema.addField("formatDaysSelected", Boolean::class.javaPrimitiveType)
-        eventSchema.addField("isLineDividerSelected", Boolean::class.javaPrimitiveType)
+        eventSchema.addField("lineDividerSelected", Boolean::class.javaPrimitiveType)
         eventSchema.addField("hasTransparentWidget", Boolean::class.javaPrimitiveType)
         eventSchema.addField("counterFontSize", Int::class.javaPrimitiveType)
         eventSchema.addField("titleFontSize", Int::class.javaPrimitiveType)
-        eventSchema.addField("fontType", Int::class.javaPrimitiveType)
+        eventSchema.addField("fontType", String::class.java)
         eventSchema.addField("fontColor", Int::class.javaPrimitiveType)
         eventSchema.addField("pictureDim", Int::class.javaPrimitiveType)
         eventSchema.addField("imageColor", Int::class.javaPrimitiveType)
@@ -77,14 +77,18 @@ class Migration : RealmMigration {
             obj.set("formatMonthsSelected", false)
             obj.set("formatWeeksSelected", false)
             obj.set("formatDaysSelected", true)
-            obj.set("isLineDividerSelected", true)
+            obj.set("lineDividerSelected", true)
             obj.set("hasTransparentWidget", false)
             obj.set("counterFontSize", 30)
             obj.set("titleFontSize", 20)
-            obj.set("fontType", "Roboto")
+            obj.set("fontType", "Josefin Sans")
             obj.set("fontColor", -1)
-            obj.set("pictureDim", 60)
+            obj.set("pictureDim", 4)
             obj.set("imageColor", 0)
+            if (obj.get("imageID") as Long != 0L) {
+                val newImageID = (obj.get("imageID") as Long + 393222).toInt()
+                obj.set("imageID", newImageID)
+            }
         }
     }
 

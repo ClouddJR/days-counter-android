@@ -17,9 +17,10 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.DetailActivity
 import com.arkadiusz.dayscounter.activities.EditActivity
 import com.arkadiusz.dayscounter.adapters.EventsAdapter
-import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.adapters.RecyclerItemClickListener
+import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.RemindersUtils.deleteReminder
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,6 +35,7 @@ import org.jetbrains.anko.support.v4.startActivity
 class PastFragment : Fragment() {
 
     private val databaseRepository = DatabaseRepository()
+    private val firebaseRepository = FirebaseRepository()
 
     private var sortType = ""
     private lateinit var adapter: EventsAdapter
@@ -121,6 +123,8 @@ class PastFragment : Fragment() {
                         positiveButton(android.R.string.yes) {
                             deleteReminder(context!!, event)
                             databaseRepository.deleteEventFromDatabase(eventId)
+                            firebaseRepository.deleteEvent(defaultPrefs(context!!)["firebase-email"]
+                                    ?: "", eventId)
                         }
                         negativeButton(android.R.string.no) {}
                     }.show()

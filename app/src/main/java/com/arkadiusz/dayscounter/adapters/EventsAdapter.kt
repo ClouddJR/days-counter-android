@@ -51,7 +51,7 @@ class EventsAdapter(context: Context, private var eventsList: OrderedRealmCollec
             displayCounterText(event)
             displayTitle(event)
             displayImage(event)
-            hideDividerIfSelected(event)
+            hideOrShowDivider(event)
             changeFonts(event)
             dimPicture(event)
             repeatIfNecessary(event)
@@ -81,9 +81,11 @@ class EventsAdapter(context: Context, private var eventsList: OrderedRealmCollec
             }
         }
 
-        private fun hideDividerIfSelected(event: Event) {
-            if (!event.isLineDividerSelected) {
+        private fun hideOrShowDivider(event: Event) {
+            if (!event.lineDividerSelected) {
                 view.eventLine.visibility = View.GONE
+            } else {
+                view.eventLine.visibility = View.VISIBLE
             }
         }
 

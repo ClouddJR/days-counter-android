@@ -14,11 +14,11 @@ object StorageUtils {
 
     fun saveFile(sourceUri: Uri): Uri {
 
-        val folder = File(Environment.getExternalStorageDirectory().toString() + "/dayscounter")
+        val folder = File(Environment.getExternalStorageDirectory().toString() + "/croppedImages")
         folder.mkdir()
 
         val sourceFilename = sourceUri.path
-        val destinationFilename = Environment.getExternalStorageDirectory().path + File.separatorChar + "dayscounter/" + sourceUri.lastPathSegment
+        val destinationFilename = Environment.getExternalStorageDirectory().path + File.separatorChar + "croppedImages/" + sourceUri.lastPathSegment
 
         var bis: BufferedInputStream? = null
         var bos: BufferedOutputStream? = null

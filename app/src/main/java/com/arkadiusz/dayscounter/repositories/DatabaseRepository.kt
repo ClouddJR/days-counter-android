@@ -38,7 +38,7 @@ class DatabaseRepository {
     fun logEvents() {
         val results = realm.where(Event::class.java).findAll()
         for (event in results) {
-            d("eventRepository", event.toString())
+            d("eventRepository", event.toString() + "\n")
         }
     }
 
@@ -119,10 +119,17 @@ class DatabaseRepository {
         }
     }
 
-    fun addEventToDatabase(event: Event) {
+    fun addEventToDatabase(event: Event): Int {
         event.id = getNextId()
         realm.executeTransaction {
             it.copyToRealmOrUpdate(event)
+        }
+        return event.id
+    }
+
+    fun addEventsToDatabase(eventsList: MutableList<Event>) {
+        realm.executeTransaction {
+            it.copyToRealmOrUpdate(eventsList)
         }
     }
 
@@ -149,6 +156,12 @@ class DatabaseRepository {
         }
     }
 
+    fun deleteAllEventsFromDatabase() {
+        realm.executeTransaction {
+            it.deleteAll()
+        }
+    }
+
     fun moveEventToPast(eventToBeMoved: Event) {
         realm.executeTransaction {
             val event = it.where(Event::class.java).equalTo("id", eventToBeMoved.id).findFirst()
@@ -171,7 +184,7 @@ class DatabaseRepository {
 
         val eventCalendar = generateCalendar(year, month, day)
 
-        when (event.type) {
+        when (event.repeat) {
             "1" -> eventCalendar.add(Calendar.DAY_OF_MONTH, 1)
             "2" -> eventCalendar.add(Calendar.DAY_OF_MONTH, 7)
             "3" -> eventCalendar.add(Calendar.MONTH, 1)
