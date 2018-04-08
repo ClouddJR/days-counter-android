@@ -103,6 +103,8 @@ class PastFragment : Fragment() {
     private fun setUpRecyclerView() {
         adapter = EventsAdapter(context!!, eventsList)
         recyclerView.adapter = adapter
+        recyclerView.scheduleLayoutAnimation()
+        recyclerView.invalidate()
     }
 
     private fun vibration() {
