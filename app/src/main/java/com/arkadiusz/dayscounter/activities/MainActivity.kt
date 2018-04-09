@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
     private val requestsCodeEmail = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_NoActionBarMain)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         logEvents()

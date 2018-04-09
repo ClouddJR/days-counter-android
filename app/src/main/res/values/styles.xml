@@ -8,6 +8,10 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="AppTheme.Launcher">
+    <item name="android:windowBackground">@drawable/launch_screen</item>
+  </style>
+
   <style name="ThemeActionBar"
     parent="Widget.AppCompat.Light.ActionBar.Solid">
     <item name="android:background">#30000000</item>
