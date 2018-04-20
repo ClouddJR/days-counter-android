@@ -37,7 +37,7 @@ import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.content_add_r.*
+import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.*
 import java.io.File
 import java.util.*
@@ -76,7 +76,7 @@ class EditActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.content_add_r)
+        setContentView(R.layout.content_add)
         receivePassedEventId()
         setUpSpinners()
         setUpCheckboxes()
@@ -330,7 +330,7 @@ class EditActivity : AppCompatActivity() {
 
         wasTimePickerAlreadyDisplayed = true
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, chosenHour, chosenMinute ->
-            if (!view.isShown) {
+            if (view.isShown) {
                 this.chosenReminderHour = chosenHour
                 this.chosenReminderMinute = chosenMinute
                 val time = DateUtils.formatTime(chosenHour, chosenMinute)

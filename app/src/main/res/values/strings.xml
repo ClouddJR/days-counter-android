@@ -43,7 +43,7 @@
   <string name="add_activity_preview">Preview</string>
   <string name="add_activity_preview_title">Event title</string>
   <string name="add_activity_date_form">Date: </string>
-  <string name="add_activity_describe_form">Describe your event(optional): </string>
+  <string name="add_activity_describe_form">Describe your event: </string>
   <string name="add_activity_add_button">Add Event </string>
   <string name="add_activity_toast_name">Name field required.</string>
   <string name="add_activity_toast_date">Date field required.</string>

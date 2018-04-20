@@ -38,7 +38,7 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.content_add_r.*
+import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.*
 import java.io.File
 import java.util.*
@@ -77,7 +77,7 @@ class AddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.content_add_r)
+        setContentView(R.layout.content_add)
         receiveEventType()
         setCurrentDateInForm()
         setUpSpinners()
