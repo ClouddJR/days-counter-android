@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Days Counter</string>
-  <string name="action_contact">Kontakt</string>
+  <string name="app_name">Licznik dni</string>
   <string name="title_activity_add">Dodaj wydarzenie</string>
-  <string name="title_activity_settings">Ustawienia</string>
+  <string name="title_activity_edit">Edytuj wydarzenie</string>
 
+  <string name="action_contact">Kontakt</string>
   <string name="action_sort_date_desc">Sortuj malejąco wg dni</string>
   <string name="action_sort_date_asc">Sortuj rosnąco wg dni</string>
   <string name="action_sort_order">Sortuj wg daty dodania</string>
-  <string name="action_black_theme">Zmień motyw</string>
-  <string name="action_sign_out">Wyloguj się</string>
 
   <string name="main_activity_left_tab">Minione</string>
   <string name="main_activity_right_tab">Nadchodzące</string>
@@ -20,34 +18,42 @@
   <string name="main_activity_sync_same_email">Wydarzenia są juz zsynchrozowane z kontem:  </string>
   <string name="main_activity_sync_no_connection">Sprawdź połączenie z internetem</string>
 
-  <string name="recycler_toast_moved_past">Przeniesiono do minonych.</string>
-  <string name="recycler_toast_moved_future">Przeniesiono do nadchodzących.</string>
+  <string name="detail_activity_about_section">Ogólne</string>
+  <string name="detail_activity_repetition_section">Powtarzanie</string>
+  <string name="detail_activity_reminder_section">Powiadomienie</string>
+  <string name="detail_activity_date_header">Data</string>
+  <string name="detail_activity_description_header">Opis</string>
+  <string name="detail_activity_repetition_header">Powtarzanie</string>
+  <string name="detail_activity_reminder_date_header">Data powiadomienia</string>
+  <string name="detail_activity_reminder_text_header">Treść powiadomienia</string>
 
   <string name="add_activity_name_form">Wprowadź nazwę wydarzenia: </string>
+  <string name="add_activity_preview">Podgląd</string>
+  <string name="add_activity_preview_title">Tytuł wydarzenia</string>
   <string name="add_activity_date_form">Data: </string>
   <string name="add_activity_describe_form">Opisz swoje wydarzenie(opcjonalne): </string>
   <string name="add_activity_add_button">Dodaj wydarzenie </string>
-  <string name="add_activity_toast_name">Uzupełnij nazwę.</string>
-  <string name="add_activity_toast_date">Uzupełnij pole z datą.</string>
-  <string name="add_activity_toast_image">Wybierz tło wydarzenia.</string>
-  <string name="add_activity_toast_name_length">Pole nazwa powinno mieć mniej niz 30 znaków.</string>
+  <string name="add_activity_toast_checkbox">Przynajmniej jedna z opcji musi być zaznaczona</string>
   <string name="add_activity_dialog_title">Wybierz tło z</string>
   <string name="add_activity_dialog_option_custom">Galeria lub Kamera</string>
   <string name="add_activity_dialog_option_gallery">Tła</string>
   <string name="add_activity_dialog_option_color">Kolor</string>
   <string name="add_activity_button_title">Zaktualizuj wydarzenie</string>
-  <string name="add_activity_toolbar_title">Aktualizuj</string>
-  <string name="add_activity_google_photos">Zdjęcia z Google Photos nie są obsługiwane</string>
-  <string name="add_activity_date">Zły format daty</string>
   <string name="add_activity_clear_date">Wyczyść</string>
-  <string name="add_activity_back_button_title">Jesteś pewien?</string>
   <string name="add_activity_back_button_message">Wszelkie wprowadzone zmiany zostaną utracone</string>
   <string name="add_activity_back_button_cancel"> Anuluj</string>
+  <string name="add_activity_format_text">Format licznika</string>
+  <string name="add_activity_line_divider">Pokaż oddzielającą linię</string>
+  <string name="add_activity_counter_font_size">Rozmiar czcionki licznika</string>
+  <string name="add_activity_title_font_size">Rozmiar czcionki tytułu</string>
+  <string name="add_activity_font_color">Kolor czcionki</string>
+  <string name="add_activity_font_type">Rodzaj czcionki</string>
+  <string name="add_activity_picture_dim">Przyciemnienie tła</string>
   <string name="add_reminder">Przypomnienie</string>
   <string name="add_reminder_editText_hint">Nigdy</string>
   <string name="add_reminder_editText_notification">Ten teskt będzie wyświetlony w powiadomieniu</string>
-  <string name="add_reminder_toast">Najpierw wybierz datę dla wydarzenia</string>
   <string name="add_repeat">Powtarzanie</string>
+
   <string-array name="add_activity_repeat">
     <item>jednorazowo</item>
     <item>dziennie</item>
@@ -56,38 +62,70 @@
     <item>rocznie</item>
   </string-array>
 
+  <string-array name="add_activity_font_size">
+    <item>8</item>
+    <item>10</item>
+    <item>12</item>
+    <item>14</item>
+    <item>16</item>
+    <item>18</item>
+    <item>20</item>
+    <item>22</item>
+    <item>24</item>
+    <item>26</item>
+    <item>28</item>
+    <item>30</item>
+    <item>32</item>
+    <item>34</item>
+    <item>36</item>
+    <item>38</item>
+  </string-array>
 
+  <string-array name="font_type">
+    <item>Allerta</item>
+    <item>Fira Sans</item>
+    <item>Josefin Sans</item>
+    <item>Lato</item>
+    <item>Montserrat</item>
+    <item>Open Sans</item>
+    <item>Pacifico</item>
+    <item>PT Sans</item>
+    <item>Roboto</item>
+    <item>Roboto Slab</item>
+    <item>Ropa Sans</item>
+    <item>Source Sans Pro</item>
+    <item>Titillium Web</item>
+    <item>Ubuntu</item>
+  </string-array>
 
-  <string name="past_fragment_day_description"> dni od</string>
-  <string name="past_fragment_day_description_today">Dzisiaj!</string>
-
-  <string name="future_fragment_day_description_today">Dzisiaj!</string>
-  <string name="future_fragment_day_description"> dni do</string>
+  <string name="date_utils_single_day">dzień</string>
+  <string name="date_utils_multiple_days">dni</string>
+  <string name="date_utils_single_week">tydzień</string>
+  <string name="date_utils_multiple_weeks_below5">tygodnie</string>
+  <string name="date_utils_multiple_weeks">tygodni</string>
+  <string name="date_utils_single_month">miesiąc</string>
+  <string name="date_utils_multiple_months_below5">miesiące</string>
+  <string name="date_utils_multiple_months">miesięcy</string>
+  <string name="date_utils_single_year">rok</string>
+  <string name="date_utils_multiple_years_below5">lata</string>
+  <string name="date_utils_multiple_years">lat</string>
+  <string name="date_utils_today">Dzisiaj!</string>
 
   <string name="fragment_main_dialog_title">Wybierz</string>
   <string name="fragment_main_dialog_option_edit">Edytuj</string>
   <string name="fragment_main_dialog_option_delete">Usuń</string>
-  <string name="fragment_delete_dialog_title">Usuń</string>
   <string name="fragment_delete_dialog_question">Jesteś pewien, że chcesz usunąć wydarzenie?</string>
 
   <string name="gallery_activity_title">Wybierz tło</string>
-  <string name="gallery_activity_description_title">Opis</string>
-  <string name="gallery_activity_edit">Edytuj</string>
 
-  <string name="detail_activity_year">lat</string>
-  <string name="detail_activity_month">miesięcy</string>
-  <string name="detail_activity_day">dni</string>
-  <string name="detail_activity_reminder">brak</string>
   <string name="detail_once">jednorazowo</string>
   <string name="detail_daily">dziennie</string>
   <string name="detail_weekly">tygodniowo</string>
   <string name="detail_monthly">miesięcznie</string>
   <string name="detail_yearly">rocznie</string>
 
-  <string name="widget_configuration_dialog_title">Kolor widżetu</string>
-  <string name="widget_configuration_color">Kolor czcionki</string>
   <string name="widget_configuration_title">Po wybraniu kliknij na wybrane wydarzenie</string>
-  <string name="widget_configuration_switch">Tylko liczba dni</string>
+  <string name="widget_configuration_switch">Tylko tekst na widżecie\n(przezroczyste tło)</string>
 
   <string name="changelog_dialog_title">"Co nowego w tej wersji?"</string>
   <string name="changelog_dialog_content">
@@ -95,15 +133,11 @@
     -naprawiono błąd z resetującym się powiadomieniem podczas aktualizacji wydarzenia \n \n
   </string>
 
+  <string name="notification_channel_name">Powiadomienia wydarzeń</string>
+  <string name="notification_channel_description">Powiadomienia ustawione przez użytkownika dotyczące wydarzeń z aplikacji</string>
+
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
-
-  <string name="transition_fab">fab_transition</string>
-
-  <string name="test_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac augue velit.
-    Praesent molestie vel ipsum non feugiat. Cras sit amet fringilla erat.</string>
-
-
 
 </resources>

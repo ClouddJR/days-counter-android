@@ -146,27 +146,48 @@ object DateUtils {
                                     context: Context): String {
         var counterText = ""
         if (yearsNumber > 1) {
-            counterText += "$yearsNumber " + context.getString(R.string.date_utils_multiple_years) + " "
+            counterText += if (yearsNumber < 5 ||
+                    (yearsNumber % 10 == 2 && yearsNumber != 12) ||
+                    (yearsNumber % 10 == 3 && yearsNumber != 13) ||
+                    (yearsNumber % 10 == 4 && yearsNumber != 14)) {
+                "$yearsNumber " + context.getString(R.string.date_utils_multiple_years_below5) + " "
+            } else {
+                "$yearsNumber " + context.getString(R.string.date_utils_multiple_years) + " "
+            }
         } else if (yearsNumber == 1) {
             counterText += "$yearsNumber " + context.getString(R.string.date_utils_single_year) + " "
         } else if (yearsNumber == 0 && areYearsIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_years)} "
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_years_below5)} "
         }
 
         if (monthsNumber > 1) {
-            counterText += "$monthsNumber " + context.getString(R.string.date_utils_multiple_months) + " "
+            counterText += if (monthsNumber < 5 ||
+                    (monthsNumber % 10 == 2 && monthsNumber != 12) ||
+                    (monthsNumber % 10 == 3 && monthsNumber != 13) ||
+                    (monthsNumber % 10 == 4 && monthsNumber != 14)) {
+                "$monthsNumber " + context.getString(R.string.date_utils_multiple_months_below5) + " "
+            } else {
+                "$monthsNumber " + context.getString(R.string.date_utils_multiple_months) + " "
+            }
         } else if (monthsNumber == 1) {
             counterText += "$monthsNumber " + context.getString(R.string.date_utils_single_month) + " "
         } else if (monthsNumber == 0 && areMonthsIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_months)} "
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_months_below5)} "
         }
 
         if (weeksNumber > 1) {
-            counterText += "$weeksNumber " + context.getString(R.string.date_utils_multiple_weeks) + " "
+            counterText += if (weeksNumber < 5 ||
+                    (weeksNumber % 10 == 2 && weeksNumber != 12) ||
+                    (weeksNumber % 10 == 3 && weeksNumber != 13) ||
+                    (weeksNumber % 10 == 4 && weeksNumber != 14)) {
+                "$weeksNumber " + context.getString(R.string.date_utils_multiple_weeks_below5) + " "
+            } else {
+                "$weeksNumber " + context.getString(R.string.date_utils_multiple_weeks) + " "
+            }
         } else if (weeksNumber == 1) {
             counterText += "$weeksNumber " + context.getString(R.string.date_utils_single_week) + " "
         } else if (weeksNumber == 0 && areWeeksIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_weeks)} "
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_weeks_below5)} "
         }
 
         if (daysNumber > 1) {

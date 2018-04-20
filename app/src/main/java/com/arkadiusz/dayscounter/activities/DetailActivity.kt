@@ -88,7 +88,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun fillReminderSection() {
         if (passedEvent.reminderYear != 0) {
-            val reminderDate = "${formatDate(passedEvent.reminderYear, passedEvent.reminderMonth, passedEvent.reminderDay)} : " +
+            val reminderDate = "${formatDate(passedEvent.reminderYear, passedEvent.reminderMonth, passedEvent.reminderDay)} " +
                     formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)
             reminderSectionText.text = reminderDate
             reminderDescriptionText.text = passedEvent.notificationText
