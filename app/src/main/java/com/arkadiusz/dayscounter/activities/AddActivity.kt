@@ -516,12 +516,15 @@ class AddActivity : AppCompatActivity() {
 
     private fun showAd() {
         val prefs = defaultPrefs(this)
+        val areAdsRemoved: Boolean = prefs["ads", false] ?: false
         val wasShown: Boolean = prefs["wasAdShown", true] ?: true
-        if (interstitialAd.isLoaded && !wasShown) {
-            interstitialAd.show()
-            prefs["wasAdShown"] = true
-        } else {
-            prefs["wasAdShown"] = false
+        if (!areAdsRemoved) {
+            if (interstitialAd.isLoaded && !wasShown) {
+                interstitialAd.show()
+                prefs["wasAdShown"] = true
+            } else {
+                prefs["wasAdShown"] = false
+            }
         }
     }
 

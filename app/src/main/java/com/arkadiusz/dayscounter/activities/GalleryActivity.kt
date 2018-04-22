@@ -73,7 +73,7 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun displayAd() {
         val prefs = defaultPrefs(this)
-        val areAdsRemoved: Boolean? = prefs["ads"]
+        val areAdsRemoved: Boolean? = prefs["ads", false]
         if (areAdsRemoved != true) {
             adView.loadAd(AdRequest.Builder().build())
         } else {

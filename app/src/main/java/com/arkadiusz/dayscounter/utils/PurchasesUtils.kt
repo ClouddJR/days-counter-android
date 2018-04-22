@@ -19,7 +19,7 @@ object PurchasesUtils {
             } else {
                 val purchase = inv.getPurchase("1")
                 if (purchase != null) {
-                    sharedPreferences["removed_ads"] = "true"
+                    sharedPreferences["ads"] = true
                 }
             }
         }
@@ -30,7 +30,7 @@ object PurchasesUtils {
             if (result.isFailure) {
                 //nothing
             } else if (purchase.sku == "1") {
-                sharedPreferences["removed_ads"] = "true"
+                sharedPreferences["ads"] = true
             }
         }
     }
