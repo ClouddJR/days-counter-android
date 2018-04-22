@@ -1,7 +1,11 @@
 package com.arkadiusz.dayscounter.activities
 
+import PreferenceUtils.defaultPrefs
+import PreferenceUtils.get
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.model.Event
@@ -10,6 +14,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.notificationManager
@@ -26,13 +31,35 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        setUpToolbar()
         receiveEventAndCancelNotification()
         displayImage()
         fillMainSection()
         fillAboutSection()
         fillReminderSection()
         fillRepetitionSection()
-        setUpOnFABClickListener()
+        displayAd()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_edit -> {
+                startActivity<EditActivity>("eventId" to passedEventId)
+                finish()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setUpToolbar() {
+        setSupportActionBar(toolbar)
+        title = ""
     }
 
     private fun receiveEventAndCancelNotification() {
@@ -97,10 +124,14 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpOnFABClickListener() {
-        editFAB.setOnClickListener {
-            startActivity<EditActivity>("eventId" to passedEventId)
-            finish()
+
+    private fun displayAd() {
+        val prefs = defaultPrefs(this)
+        val areAdsRemoved: Boolean? = prefs["ads"]
+        if (areAdsRemoved != true) {
+            adView.loadAd(AdRequest.Builder().build())
+        } else {
+            adView.visibility = View.GONE
         }
     }
 }

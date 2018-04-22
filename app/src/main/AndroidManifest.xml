@@ -46,7 +46,7 @@
     </activity>
 
     <activity
-      android:label="@string/title_activity_add"
+      android:label="@string/title_activity_edit"
       android:launchMode="singleTask"
       android:name=".activities.EditActivity"
       android:parentActivityName=".activities.MainActivity"

@@ -2,6 +2,7 @@ package com.arkadiusz.dayscounter.activities
 
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
+import PreferenceUtils.set
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
@@ -36,6 +37,8 @@ import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.content_add.*
@@ -75,6 +78,8 @@ class AddActivity : AppCompatActivity() {
 
     private var wasTimePickerAlreadyDisplayed = false
 
+    private lateinit var interstitialAd: InterstitialAd
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add)
@@ -87,6 +92,7 @@ class AddActivity : AppCompatActivity() {
         setUpFontPicker()
         setUpOnClickListeners()
         setUpImageChoosing()
+        setUpAd()
     }
 
     override fun onBackPressed() {
@@ -288,6 +294,7 @@ class AddActivity : AppCompatActivity() {
             hasAlarm = false
         }
         addButton.setOnClickListener {
+            showAd()
             val eventToBeAdded = prepareEventBasedOnViews()
             val id = DatabaseRepository().addEventToDatabase(eventToBeAdded)
             FirebaseRepository().addOrEditEventInFirebase(defaultPrefs(this)["firebase-email"]
@@ -498,6 +505,23 @@ class AddActivity : AppCompatActivity() {
             imageUri = CropImage.getActivityResult(data).uri as Uri
             imageUri = saveFile(imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
+        }
+    }
+
+    private fun setUpAd() {
+        interstitialAd = InterstitialAd(this)
+        interstitialAd.adUnitId = "ca-app-pub-4098342918729972/3144606816"
+        interstitialAd.loadAd(AdRequest.Builder().build())
+    }
+
+    private fun showAd() {
+        val prefs = defaultPrefs(this)
+        val wasShown: Boolean = prefs["wasAdShown", true] ?: true
+        if (interstitialAd.isLoaded && !wasShown) {
+            interstitialAd.show()
+            prefs["wasAdShown"] = true
+        } else {
+            prefs["wasAdShown"] = false
         }
     }
 

@@ -27,9 +27,9 @@ class GalleryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gallery)
         setUpActionBar()
         receiveActivityType()
-        displayAd()
         setUpImagesList()
         setUpRecyclerView()
+        displayAd()
     }
 
     private fun setUpActionBar() {
@@ -38,16 +38,6 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun receiveActivityType() {
         activityType = intent.getStringExtra("activity")
-    }
-
-    private fun displayAd() {
-        val prefs = defaultPrefs(this)
-        val areAdsRemoved: Boolean? = prefs["ads"]
-        if (areAdsRemoved != true) {
-            adView2.loadAd(AdRequest.Builder().build())
-        } else {
-            adView2.visibility = View.GONE
-        }
     }
 
     private fun setUpImagesList() {
@@ -79,6 +69,16 @@ class GalleryActivity : AppCompatActivity() {
             "Edit" -> startActivity<EditActivity>("imageID" to imagesList[position])
         }
         finish()
+    }
+
+    private fun displayAd() {
+        val prefs = defaultPrefs(this)
+        val areAdsRemoved: Boolean? = prefs["ads"]
+        if (areAdsRemoved != true) {
+            adView.loadAd(AdRequest.Builder().build())
+        } else {
+            adView.visibility = View.GONE
+        }
     }
 }
 

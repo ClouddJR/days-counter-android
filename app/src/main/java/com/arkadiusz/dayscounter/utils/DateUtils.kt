@@ -157,7 +157,7 @@ object DateUtils {
         } else if (yearsNumber == 1) {
             counterText += "$yearsNumber " + context.getString(R.string.date_utils_single_year) + " "
         } else if (yearsNumber == 0 && areYearsIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_years_below5)} "
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_years)} "
         }
 
         if (monthsNumber > 1) {
@@ -172,7 +172,7 @@ object DateUtils {
         } else if (monthsNumber == 1) {
             counterText += "$monthsNumber " + context.getString(R.string.date_utils_single_month) + " "
         } else if (monthsNumber == 0 && areMonthsIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_months_below5)} "
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_months)} "
         }
 
         if (weeksNumber > 1) {
@@ -187,7 +187,7 @@ object DateUtils {
         } else if (weeksNumber == 1) {
             counterText += "$weeksNumber " + context.getString(R.string.date_utils_single_week) + " "
         } else if (weeksNumber == 0 && areWeeksIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_weeks_below5)} "
+            counterText += "0 ${context.getString(R.string.date_utils_multiple_weeks)} "
         }
 
         if (daysNumber > 1) {

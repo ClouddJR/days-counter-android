@@ -116,6 +116,12 @@ class DatabaseRepository {
         realm.executeTransaction {
             val event = realm.where(Event::class.java).equalTo("id", eventId).findFirst()
             event.hasAlarm = false
+            event.reminderYear = 0
+            event.reminderMonth = 0
+            event.reminderDay = 0
+            event.reminderHour = 0
+            event.reminderMinute = 0
+            event.notificationText = ""
         }
     }
 

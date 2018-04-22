@@ -9,6 +9,8 @@
   <string name="action_sort_date_asc">Sortuj rosnąco wg dni</string>
   <string name="action_sort_order">Sortuj wg daty dodania</string>
 
+  <string name="action_edit">Edytuj</string>
+
   <string name="main_activity_left_tab">Minione</string>
   <string name="main_activity_right_tab">Nadchodzące</string>
   <string name="main_activity_ads">Usuń reklamy</string>
@@ -127,10 +129,15 @@
   <string name="widget_configuration_title">Po wybraniu kliknij na wybrane wydarzenie</string>
   <string name="widget_configuration_switch">Tylko tekst na widżecie\n(przezroczyste tło)</string>
 
-  <string name="changelog_dialog_title">"Co nowego w tej wersji?"</string>
+  <string name="changelog_dialog_title">Witaj w wersji 2.0!</string>
   <string name="changelog_dialog_content">
-    -problem z widgetem pokazującym złą datę naprawiony \n \n
-    -naprawiono błąd z resetującym się powiadomieniem podczas aktualizacji wydarzenia \n \n
+    -Od teraz możesz w pełni dostosować wygląd każdego wydarzenia- rozmiar czcionki, kolor, typ itd.\n
+    -Istnieje możliwość dopasowania formatu licznika do każdego wydarzenia (dni, tygodnie, miesiące, lata)\n
+    -Zamiast zdjęcia jako tło do wydarzenia można wybrać dowolny kolor z palety\n
+    -Tło może być dowolnie zaciemnione\n
+    -Widżety mogą być przezroczyste i pokazywać tylko tekst\n
+    -Powiadomienia zostały naprawione i działają na Androidzie 8.0\n
+    -Aplikacja została przepisana z użyciem języka Kotlin\n
   </string>
 
   <string name="notification_channel_name">Powiadomienia wydarzeń</string>
