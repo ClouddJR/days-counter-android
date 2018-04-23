@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.providers
+package com.arkadiusz.dayscounter.Provider
 
 import android.app.PendingIntent
 import android.app.TaskStackBuilder

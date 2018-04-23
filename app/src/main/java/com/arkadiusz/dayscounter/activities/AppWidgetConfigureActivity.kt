@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.RemoteViews
 import android.widget.TextView
+import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.WidgetConfigureAdapter
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.providers.AppWidgetProvider
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*

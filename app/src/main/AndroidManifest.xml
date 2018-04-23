@@ -70,7 +70,7 @@
       </intent-filter>
     </activity>
 
-    <receiver android:name=".providers.AppWidgetProvider">
+    <receiver android:name=".Provider.AppWidgetProvider">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
       </intent-filter>

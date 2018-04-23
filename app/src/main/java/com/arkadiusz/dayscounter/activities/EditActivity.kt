@@ -22,10 +22,10 @@ import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
+import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.providers.AppWidgetProvider
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils
@@ -123,7 +123,7 @@ class EditActivity : AppCompatActivity() {
     private fun setSpinnersListeners() {
         counterFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as TextView).text.toString().toFloat())
+                eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -133,7 +133,7 @@ class EditActivity : AppCompatActivity() {
 
         titleFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as TextView).text.toString().toFloat())
+                eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -142,7 +142,7 @@ class EditActivity : AppCompatActivity() {
         }
         fontTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val fontName = (view as TextView).text.toString()
+                val fontName = (view as? TextView)?.text.toString()
                 val typeFace = FontUtils.getFontFor(fontName, this@EditActivity)
                 eventTitle.typeface = typeFace
                 eventCalculateText.typeface = typeFace

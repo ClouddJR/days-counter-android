@@ -143,7 +143,7 @@ class AddActivity : AppCompatActivity() {
     private fun setSpinnersListeners() {
         counterFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as TextView).text.toString().toFloat())
+                eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -153,7 +153,7 @@ class AddActivity : AppCompatActivity() {
 
         titleFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as TextView).text.toString().toFloat())
+                eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -162,7 +162,7 @@ class AddActivity : AppCompatActivity() {
         }
         fontTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val fontName = (view as TextView).text.toString()
+                val fontName = (view as? TextView)?.text.toString()
                 val typeFace = FontUtils.getFontFor(fontName, this@AddActivity)
                 eventTitle.typeface = typeFace
                 eventCalculateText.typeface = typeFace
@@ -511,20 +511,23 @@ class AddActivity : AppCompatActivity() {
     private fun setUpAd() {
         interstitialAd = InterstitialAd(this)
         interstitialAd.adUnitId = "ca-app-pub-4098342918729972/3144606816"
-        interstitialAd.loadAd(AdRequest.Builder().build())
+
+        val prefs = defaultPrefs(this)
+        val areAdsRemoved: Boolean = prefs["ads", false] ?: false
+        val wasShown: Boolean = prefs["wasAdShown", true] ?: true
+
+        if (!areAdsRemoved && !wasShown) {
+            interstitialAd.loadAd(AdRequest.Builder().build())
+        }
     }
 
     private fun showAd() {
         val prefs = defaultPrefs(this)
-        val areAdsRemoved: Boolean = prefs["ads", false] ?: false
-        val wasShown: Boolean = prefs["wasAdShown", true] ?: true
-        if (!areAdsRemoved) {
-            if (interstitialAd.isLoaded && !wasShown) {
-                interstitialAd.show()
-                prefs["wasAdShown"] = true
-            } else {
-                prefs["wasAdShown"] = false
-            }
+        if (interstitialAd.isLoaded) {
+            interstitialAd.show()
+            prefs["wasAdShown"] = true
+        } else {
+            prefs["wasAdShown"] = false
         }
     }
 
