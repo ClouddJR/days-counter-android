@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Contador de días</string>
+  <string name="title_activity_add">Añadir un evento</string>
+  <string name="title_activity_edit">Editar un evento</string>
+
+  <string name="action_contact">Contáctame</string>
+  <string name="action_sort_date_desc">Ordenar por días (des.)</string>
+  <string name="action_sort_date_asc">Ordenar por días (asc.)</string>
+  <string name="action_sort_order">Ordenar por creación</string>
+
+  <string name="action_edit">Editar</string>
+
+  <string name="main_activity_left_tab">Anteriores</string>
+  <string name="main_activity_right_tab">Próximos</string>
+  <string name="main_activity_ads">Quitar anuncios</string>
+  <string name="menu_activity_sync">Sincronizar</string>
+  <string name="main_activity_sync_toast">No se pudo escoger una cuenta</string>
+  <string name="main_activity_sync_first_time">Los eventos están sincronizados con: </string>
+  <string name="main_activity_sync_same_email">Los eventos ya se sincronizaron con: </string>
+  <string name="main_activity_sync_no_connection">Verifica tu conexión a internet</string>
+
+  <string name="detail_activity_about_section">Acerca de</string>
+  <string name="detail_activity_repetition_section">Repetición</string>
+  <string name="detail_activity_reminder_section">Recordatorio</string>
+  <string name="detail_activity_date_header">Fecha</string>
+  <string name="detail_activity_description_header">Descripción</string>
+  <string name="detail_activity_repetition_header">Repetición</string>
+  <string name="detail_activity_reminder_date_header">Fecha de la notificación</string>
+  <string name="detail_activity_reminder_text_header">Texto de la notificación</string>
+
+  <string name="add_activity_name_form">Ingresa el título del evento: </string>
+  <string name="add_activity_preview">Vista previa</string>
+  <string name="add_activity_preview_title">Título del evento</string>
+  <string name="add_activity_date_form">Fecha: </string>
+  <string name="add_activity_describe_form">Describe el evento: </string>
+  <string name="add_activity_add_button">Añadir Evento</string>
+  <string name="add_activity_toast_checkbox">Debes seleccionar al menos una opción</string>
+  <string name="add_activity_dialog_title">Abrir una imagen desde</string>
+  <string name="add_activity_dialog_option_custom">Galería o cámara</string>
+  <string name="add_activity_dialog_option_gallery">Fondos</string>
+  <string name="add_activity_dialog_option_color">Color sólido</string>
+  <string name="add_activity_button_title">Actualizar el evento</string>
+  <string name="add_activity_clear_date">Borrar</string>
+  <string name="add_activity_back_button_message">Se borrarán todos los cambios</string>
+  <string name="add_activity_back_button_cancel">Cancelar</string>
+  <string name="add_activity_format_text">Formato del contador</string>
+  <string name="add_activity_line_divider">Mostrar división</string>
+  <string name="add_activity_counter_font_size">Tamaño del contador</string>
+  <string name="add_activity_title_font_size">Tamaño del título</string>
+  <string name="add_activity_font_color">Color de la fuente</string>
+  <string name="add_activity_font_type">Tipo de fuente</string>
+  <string name="add_activity_picture_dim">Oscurecer imagen</string>
+  <string name="add_reminder">Recordatorio</string>
+  <string name="add_reminder_editText_hint">Nunca</string>
+  <string name="add_reminder_editText_notification">Fecha de la notificación</string>
+  <string name="add_repeat">Repetición del evento</string>
+
+  <string-array name="add_activity_repeat">
+    <item>solo una vez</item>
+    <item>diario</item>
+    <item>semanal</item>
+    <item>mensual</item>
+    <item>anual</item>
+  </string-array>
+
+  <string-array name="add_activity_font_size">
+    <item>8</item>
+    <item>10</item>
+    <item>12</item>
+    <item>14</item>
+    <item>16</item>
+    <item>18</item>
+    <item>20</item>
+    <item>22</item>
+    <item>24</item>
+    <item>26</item>
+    <item>28</item>
+    <item>30</item>
+    <item>32</item>
+    <item>34</item>
+    <item>36</item>
+    <item>38</item>
+  </string-array>
+
+  <string-array name="font_type">
+    <item>Allerta</item>
+    <item>Fira Sans</item>
+    <item>Josefin Sans</item>
+    <item>Lato</item>
+    <item>Montserrat</item>
+    <item>Open Sans</item>
+    <item>Pacifico</item>
+    <item>PT Sans</item>
+    <item>Roboto</item>
+    <item>Roboto Slab</item>
+    <item>Ropa Sans</item>
+    <item>Source Sans Pro</item>
+    <item>Titillium Web</item>
+    <item>Ubuntu</item>
+  </string-array>
+
+  <string name="date_utils_single_day">día</string>
+  <string name="date_utils_multiple_days">días</string>
+  <string name="date_utils_single_week">semana</string>
+  <string name="date_utils_multiple_weeks_below5">semanas</string>
+  <string name="date_utils_multiple_weeks">semanas</string>
+  <string name="date_utils_single_month">mes</string>
+  <string name="date_utils_multiple_months_below5">meses</string>
+  <string name="date_utils_multiple_months">meses</string>
+  <string name="date_utils_single_year">año</string>
+  <string name="date_utils_multiple_years_below5">años</string>
+  <string name="date_utils_multiple_years">años</string>
+  <string name="date_utils_today">¡Hoy!</string>
+
+  <string name="fragment_main_dialog_title">Escoge una acción</string>
+  <string name="fragment_main_dialog_option_edit">Editar</string>
+  <string name="fragment_main_dialog_option_delete">Eliminar</string>
+  <string name="fragment_delete_dialog_question">¿Quieres eliminar este evento?</string>
+
+  <string name="gallery_activity_title">Escoge una imagen</string>
+
+  <string name="detail_once">una vez</string>
+  <string name="detail_daily">diario</string>
+  <string name="detail_weekly">semanal</string>
+  <string name="detail_monthly">mensual</string>
+  <string name="detail_yearly">anual</string>
+
+  <string name="widget_configuration_title">Después de escoger, selecciona un evento</string>
+  <string name="widget_configuration_switch">Mostrar únicamente el texto\n(fondo transparente)</string>
+
+  <string name="changelog_dialog_title">Changelog</string>
+  <string name="changelog_dialog_content">
+    -After purchasing, the icon "remove ads" is not displayed anymore\n
+    -Added Spanish and German languages\n
+    -Bug fixes\n
+  </string>
+
+  <string name="notification_channel_name">Recordatorios de evento</string>
+  <string name="notification_channel_description">Recordatorios relacionados a eventos de la aplicación</string>
+
+  <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
+  <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
+  <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
+</resources>
