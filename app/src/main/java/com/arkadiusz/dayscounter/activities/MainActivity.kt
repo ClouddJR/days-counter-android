@@ -57,7 +57,15 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        hideRemoveButtonIfPurchased(menu)
         return true
+    }
+
+    private fun hideRemoveButtonIfPurchased(menu: Menu?) {
+        val areAdsRemoved = prefs["ads"] ?: false
+        if (areAdsRemoved) {
+            menu?.removeItem(R.id.action_remove_ads)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -223,11 +231,11 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
                 negativeButton(R.string.add_activity_back_button_cancel) {}
             }.show()
 
-            prefs["dialog-seen-200"] = true
+            prefs["dialog-seen-202"] = true
         }
     }
 
-    private fun wasDialogSeenBefore() = prefs["dialog-seen-200"] ?: false
+    private fun wasDialogSeenBefore() = prefs["dialog-seen-202"] ?: false
 
     private fun setRefreshListener() {
         firebaseRepository.setRefreshListener(this)
