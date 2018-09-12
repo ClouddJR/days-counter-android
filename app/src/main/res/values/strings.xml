@@ -129,15 +129,11 @@
   <string name="widget_configuration_title">After choosing click on an event</string>
   <string name="widget_configuration_switch">Only text on widget\n(transparent background)</string>
 
-  <string name="changelog_dialog_title">Welcome to Days Counter 2.0!</string>
+  <string name="changelog_dialog_title">Changelog</string>
   <string name="changelog_dialog_content">
-    -From now you can fully customize each event including font size, color and type\n
-    -You can specify different counter type for every event (days, weeks, months, years)\n
-    -Instead of picture you can choose color as a background for your event\n
-    -Background can be darkened as much as you want\n
-    -Widgets can be transparent and show only text\n
-    -Notifications has been fixed and now work on Android O\n
-    -App was rewritten from scratch using Kotlin\n
+    -After purchasing, the icon "remove ads" is not displayed anymore\n
+    -Added Spanish and German languages\n
+    -Bug fixes\n
   </string>
 
   <string name="notification_channel_name">Event reminders</string>
