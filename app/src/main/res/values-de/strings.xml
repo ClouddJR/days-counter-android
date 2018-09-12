@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Tageszähler</string>
+  <string name="title_activity_add">Ereignis hinzufügen</string>
+  <string name="title_activity_edit">Ereignis bearbeiten</string>
+
+  <string name="action_contact">Kontaktiere mich</string>
+  <string name="action_sort_date_desc">Nach Tagen absteigend sortieren</string>
+  <string name="action_sort_date_asc">Nach Tagen aufsteigend sortieren</string>
+  <string name="action_sort_order">Nach Zeit sortieren (hinzugefügt)</string>
+
+  <string name="action_edit">Bearbeiten</string>
+
+  <string name="main_activity_left_tab">Vergangene Ereignisse</string>
+  <string name="main_activity_right_tab">Zukünftige Ereignisse</string>
+  <string name="main_activity_ads">Werbung entfernen</string>
+  <string name="menu_activity_sync">Mit der Cloud synchronisieren</string>
+  <string name="main_activity_sync_toast">Fehler bei der Kontoauswahl</string>
+  <string name="main_activity_sync_first_time">Ereignisse sind nun synchronisiert mit: </string>
+  <string name="main_activity_sync_same_email">Ereignisse sind bereits synchronisiert mit: </string>
+  <string name="main_activity_sync_no_connection">Überprüfe deine Internetverbindung</string>
+
+  <string name="detail_activity_about_section">Über</string>
+  <string name="detail_activity_repetition_section">Wiederholung</string>
+  <string name="detail_activity_reminder_section">Erinnerung</string>
+  <string name="detail_activity_date_header">Datum</string>
+  <string name="detail_activity_description_header">Beschreibung</string>
+  <string name="detail_activity_repetition_header">Wiederholung</string>
+  <string name="detail_activity_reminder_date_header">Erinnerungsdatum</string>
+  <string name="detail_activity_reminder_text_header">Erinnerungstext</string>
+
+  <string name="add_activity_name_form">Titel des Ereignisses eingeben: </string>
+  <string name="add_activity_preview">Vorschau</string>
+  <string name="add_activity_preview_title">Ereignistitel</string>
+  <string name="add_activity_date_form">Datum: </string>
+  <string name="add_activity_describe_form">Beschreibe dein Ereignis: </string>
+  <string name="add_activity_add_button">Ereignis hinzufügen</string>
+  <string name="add_activity_toast_checkbox">Mindestens eine Option muss ausgewählt sein</string>
+  <string name="add_activity_dialog_title">Wähle ein Bild von</string>
+  <string name="add_activity_dialog_option_custom">Galerie oder Kamera</string>
+  <string name="add_activity_dialog_option_gallery">Hintergründe</string>
+  <string name="add_activity_dialog_option_color">Einfarbig</string>
+  <string name="add_activity_button_title">Ereignis aktualisieren</string>
+  <string name="add_activity_clear_date">Leeren</string>
+  <string name="add_activity_back_button_message">Alle Änderungen werden verworfen</string>
+  <string name="add_activity_back_button_cancel">Abbrechen</string>
+  <string name="add_activity_format_text">Format des Zählers</string>
+  <string name="add_activity_line_divider">Zeilenteiler anzeigen</string>
+  <string name="add_activity_counter_font_size">Schriftgröße des Zählers</string>
+  <string name="add_activity_title_font_size">Schriftgröße des Titels</string>
+  <string name="add_activity_font_color">Schriftfarbe</string>
+  <string name="add_activity_font_type">Schriftart</string>
+  <string name="add_activity_picture_dim">Bild dimmen</string>
+  <string name="add_reminder">Erinnerung</string>
+  <string name="add_reminder_editText_hint">Nie</string>
+  <string name="add_reminder_editText_notification">Benachrichtigungstext</string>
+  <string name="add_repeat">Ereigniswiederholung</string>
+
+  <string-array name="add_activity_repeat">
+    <item>nur einmal</item>
+    <item>täglich</item>
+    <item>wöchentlich</item>
+    <item>monatlich</item>
+    <item>jährlich</item>
+  </string-array>
+
+  <string-array name="add_activity_font_size">
+    <item>8</item>
+    <item>10</item>
+    <item>12</item>
+    <item>14</item>
+    <item>16</item>
+    <item>18</item>
+    <item>20</item>
+    <item>22</item>
+    <item>24</item>
+    <item>26</item>
+    <item>28</item>
+    <item>30</item>
+    <item>32</item>
+    <item>34</item>
+    <item>36</item>
+    <item>38</item>
+  </string-array>
+
+  <string-array name="font_type">
+    <item>Allerta</item>
+    <item>Fira Sans</item>
+    <item>Josefin Sans</item>
+    <item>Lato</item>
+    <item>Montserrat</item>
+    <item>Open Sans</item>
+    <item>Pacifico</item>
+    <item>PT Sans</item>
+    <item>Roboto</item>
+    <item>Roboto Slab</item>
+    <item>Ropa Sans</item>
+    <item>Source Sans Pro</item>
+    <item>Titillium Web</item>
+    <item>Ubuntu</item>
+  </string-array>
+
+  <string name="date_utils_single_day">Tag</string>
+  <string name="date_utils_multiple_days">Tage</string>
+  <string name="date_utils_single_week">Woche</string>
+  <string name="date_utils_multiple_weeks_below5">Wochen</string>
+  <string name="date_utils_multiple_weeks">Wochen</string>
+  <string name="date_utils_single_month">Monat</string>
+  <string name="date_utils_multiple_months_below5">Monate</string>
+  <string name="date_utils_multiple_months">Monate</string>
+  <string name="date_utils_single_year">Jahr</string>
+  <string name="date_utils_multiple_years_below5">Jahre</string>
+  <string name="date_utils_multiple_years">Jahre</string>
+  <string name="date_utils_today">Heute!</string>
+
+  <string name="fragment_main_dialog_title">Aktion auswählen</string>
+  <string name="fragment_main_dialog_option_edit">Bearbeiten</string>
+  <string name="fragment_main_dialog_option_delete">Löschen</string>
+  <string name="fragment_delete_dialog_question">Sicher, dass du dieses Ereignis löschen möchtest?</string>
+
+  <string name="gallery_activity_title">Bild auswählen</string>
+
+  <string name="detail_once">einmal</string>
+  <string name="detail_daily">täglich</string>
+  <string name="detail_weekly">wöchentlich</string>
+  <string name="detail_monthly">monatlich</string>
+  <string name="detail_yearly">jährlich</string>
+
+  <string name="widget_configuration_title">Nach dem Auswählen auf das Ereignis klicken</string>
+  <string name="widget_configuration_switch">Nur Text auf dem Widget\n(Transparenter Hintergrund)</string>
+
+  <string name="changelog_dialog_title">Changelog</string>
+  <string name="changelog_dialog_content">
+    -After purchasing, the icon "remove ads" is not displayed anymore\n
+    -Added Spanish and German languages\n
+    -Bug fixes\n
+  </string>
+
+  <string name="notification_channel_name">Ereigniserinnerungen</string>
+  <string name="notification_channel_description">RemiErinnerungen im Zusammenhang mit Ereignissen aus dieser App</string>
+
+  <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
+  <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
+  <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
+</resources>
