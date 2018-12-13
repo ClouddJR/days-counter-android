@@ -23,10 +23,7 @@ import com.arkadiusz.dayscounter.utils.PurchasesUtils
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.common.AccountPicker
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.email
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 
 class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
@@ -84,6 +81,9 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
             R.id.action_sort_order -> {
                 prefs["sort_type"] = "date_order"
                 refreshDataInFragments()
+            }
+            R.id.action_privacy_policy -> {
+                browse("https://sites.google.com/view/dcprivacypolicy")
             }
             R.id.action_remove_ads -> {
                 try {
