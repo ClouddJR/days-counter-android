@@ -14,6 +14,7 @@
   <string name="main_activity_left_tab">Vergangene Ereignisse</string>
   <string name="main_activity_right_tab">Zukünftige Ereignisse</string>
   <string name="main_activity_ads">Werbung entfernen</string>
+  <string name="main_activity_privacy_policy">Privacy policy</string>
   <string name="menu_activity_sync">Mit der Cloud synchronisieren</string>
   <string name="main_activity_sync_toast">Fehler bei der Kontoauswahl</string>
   <string name="main_activity_sync_first_time">Ereignisse sind nun synchronisiert mit: </string>
@@ -134,6 +135,7 @@
     -After purchasing, the icon "remove ads" is not displayed anymore\n
     -Added Spanish and German languages\n
     -Bug fixes\n
+    -Privacy policy update\n
   </string>
 
   <string name="notification_channel_name">Ereigniserinnerungen</string>
@@ -142,5 +144,6 @@
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
 
 </resources>
