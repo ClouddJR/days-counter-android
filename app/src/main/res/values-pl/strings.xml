@@ -14,6 +14,7 @@
   <string name="main_activity_left_tab">Minione</string>
   <string name="main_activity_right_tab">Nadchodzące</string>
   <string name="main_activity_ads">Usuń reklamy</string>
+  <string name="main_activity_privacy_policy">Privacy policy</string>
   <string name="menu_activity_sync">Synchronizacja z chmurą</string>
   <string name="main_activity_sync_toast">Błąd podczas wyboru konta</string>
   <string name="main_activity_sync_first_time">Wydarzenia zsynchronizowano z: </string>
@@ -134,6 +135,7 @@
     -Usunięto ikonę usunięcia reklam po uprzednim wykupieniu\n
     -Dodano języki hiszpański oraz niemiecki\n
     -Naprawiono mniejsze błędy\n
+    -Dodana polityka prywatności
   </string>
 
   <string name="notification_channel_name">Powiadomienia wydarzeń</string>

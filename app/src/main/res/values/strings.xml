@@ -14,6 +14,7 @@
   <string name="main_activity_left_tab">Past Events</string>
   <string name="main_activity_right_tab">Future Events</string>
   <string name="main_activity_ads">Remove Ads</string>
+  <string name="main_activity_privacy_policy">Privacy policy</string>
   <string name="menu_activity_sync">Sync with Cloud</string>
   <string name="main_activity_sync_toast">Failed to choose an account</string>
   <string name="main_activity_sync_first_time">Events are now synced to: </string>
@@ -134,6 +135,7 @@
     -After purchasing, the icon "remove ads" is not displayed anymore\n
     -Added Spanish and German languages\n
     -Bug fixes\n
+    -Privacy policy update\n
   </string>
 
   <string name="notification_channel_name">Event reminders</string>
