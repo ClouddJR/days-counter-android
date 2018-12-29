@@ -7,26 +7,26 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.DetailActivity
 import com.arkadiusz.dayscounter.activities.EditActivity
 import com.arkadiusz.dayscounter.adapters.EventsAdapter
 import com.arkadiusz.dayscounter.adapters.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.support.v4.selector
-import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.selector
+import org.jetbrains.anko.startActivity
 
 /**
  * Created by arkadiusz on 23.03.18
@@ -34,12 +34,12 @@ import org.jetbrains.anko.support.v4.startActivity
 
 class FutureFragment : Fragment() {
 
-    private val databaseRepository = DatabaseRepository()
+    private val databaseRepository = DatabaseProvider.provideRepository()
     private val firebaseRepository = FirebaseRepository()
 
     private var sortType = ""
     private lateinit var adapter: EventsAdapter
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var eventsList: RealmResults<Event>
     private lateinit var eventContextOptions: List<String>
 
@@ -65,7 +65,7 @@ class FutureFragment : Fragment() {
         recyclerView.addOnItemTouchListener(object : RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
                 val id = eventsList[position].id
-                startActivity<DetailActivity>("event_id" to id)
+                context?.startActivity<DetailActivity>("event_id" to id)
             }
 
             override fun onItemLongClick(view: View?, position: Int) {
@@ -117,27 +117,29 @@ class FutureFragment : Fragment() {
     }
 
     private fun displayEventOptions(eventId: Int, event: Event) {
-        selector(getString(R.string.fragment_main_dialog_title), eventContextOptions, { _, i ->
-            when (i) {
-                0 -> startActivity<EditActivity>("eventId" to eventId)
-                1 -> {
-                    alert(getString(R.string.fragment_delete_dialog_question)) {
-                        positiveButton(android.R.string.yes) {
-                            RemindersUtils.deleteReminder(context!!, event)
-                            databaseRepository.deleteEventFromDatabase(eventId)
-                            firebaseRepository.deleteEvent(defaultPrefs(context!!)["firebase-email"]
-                                    ?: "", eventId)
-                        }
-                        negativeButton(android.R.string.no) {}
-                    }.show()
+        context?.let { ctx ->
+            ctx.selector(getString(R.string.fragment_main_dialog_title), eventContextOptions) { _, i ->
+                when (i) {
+                    0 -> ctx.startActivity<EditActivity>("eventId" to eventId)
+                    1 -> {
+                        ctx.alert(getString(R.string.fragment_delete_dialog_question)) {
+                            positiveButton(android.R.string.yes) {
+                                RemindersUtils.deleteReminder(context!!, event)
+                                databaseRepository.deleteEventFromDatabase(eventId)
+                                firebaseRepository.deleteEvent(defaultPrefs(context!!)["firebase-email"]
+                                        ?: "", eventId)
+                            }
+                            negativeButton(android.R.string.no) {}
+                        }.show()
+                    }
                 }
             }
-        })
+        }
     }
 
     private fun hideFABOnScroll() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
                     activity?.fab?.hide()
                 } else if (dy < 0) {

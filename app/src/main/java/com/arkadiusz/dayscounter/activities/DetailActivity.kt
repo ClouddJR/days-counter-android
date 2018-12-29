@@ -2,18 +2,21 @@ package com.arkadiusz.dayscounter.activities
 
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.backgroundColor
@@ -23,7 +26,7 @@ import org.jetbrains.anko.startActivity
 
 class DetailActivity : AppCompatActivity() {
 
-    private val databaseRepository = DatabaseRepository()
+    private val databaseRepository = DatabaseProvider.provideRepository()
 
     private var passedEventId: Int = 0
     private lateinit var passedEvent: Event
@@ -39,6 +42,15 @@ class DetailActivity : AppCompatActivity() {
         fillReminderSection()
         fillRepetitionSection()
         displayAd()
+    }
+
+    fun createPaletteSync(bitmap: Bitmap): androidx.palette.graphics.Palette = androidx.palette.graphics.Palette.from(bitmap).generate()
+
+
+    fun createPaletteAsync(bitmap: Bitmap) {
+        androidx.palette.graphics.Palette.from(bitmap).generate { palette ->
+            // Use generated instance
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -81,6 +93,15 @@ class DetailActivity : AppCompatActivity() {
             passedEvent.imageID == 0 -> Glide.with(this).load(passedEvent.image).into(eventImage)
             else -> Glide.with(this).load(passedEvent.imageID).into(eventImage)
         }
+
+        Glide.with(this).asBitmap().load(passedEvent.imageID).into(object : SimpleTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                val pallete = createPaletteSync(resource)
+                arek.setBackgroundColor(pallete.darkMutedSwatch!!.rgb)
+            }
+        })
+
+
     }
 
     private fun fillMainSection() {

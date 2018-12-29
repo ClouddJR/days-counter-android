@@ -1,15 +1,15 @@
 package com.arkadiusz.dayscounter.adapters
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
-class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+class ViewPagerAdapter(manager: androidx.fragment.app.FragmentManager) : androidx.fragment.app.FragmentPagerAdapter(manager) {
 
-    private val fragmentList = mutableListOf<Fragment>()
+    private val fragmentList = mutableListOf<androidx.fragment.app.Fragment>()
     private val fragmentTitleList = mutableListOf<String>()
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         return fragmentList[position]
     }
 
@@ -21,7 +21,7 @@ class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager)
         return fragmentTitleList[position]
     }
 
-    fun addFragment(fragment: Fragment, title: String) {
+    fun addFragment(fragment: androidx.fragment.app.Fragment, title: String) {
         fragmentList.add(fragment)
         fragmentTitleList.add(title)
     }

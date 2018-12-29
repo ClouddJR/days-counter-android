@@ -3,9 +3,9 @@ package com.arkadiusz.dayscounter.activities
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.GalleryAdapter
 import com.arkadiusz.dayscounter.adapters.RecyclerItemClickListener
@@ -50,7 +50,7 @@ class GalleryActivity : AppCompatActivity() {
     private fun setUpRecyclerView() {
         val galleryAdapter = GalleryAdapter(imagesList, this)
         galleryRV.setHasFixedSize(true)
-        galleryRV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        galleryRV.layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(2, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
         galleryRV.adapter = galleryAdapter
         galleryRV.addOnItemTouchListener(RecyclerItemClickListener(this, galleryRV, object : RecyclerItemClickListener.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {

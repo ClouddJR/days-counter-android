@@ -8,17 +8,17 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.ViewPagerAdapter
 import com.arkadiusz.dayscounter.fragments.FutureFragment
 import com.arkadiusz.dayscounter.fragments.PastFragment
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
+import com.arkadiusz.dayscounter.settings.SettingsActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.common.AccountPicker
@@ -28,7 +28,7 @@ import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
 
-    private val databaseRepository = DatabaseRepository()
+    private val databaseRepository = DatabaseProvider.provideRepository()
     private val firebaseRepository = FirebaseRepository()
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
@@ -99,6 +99,9 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
                 } else {
                     getEmailAddress()
                 }
+            }
+            R.id.action_settings -> {
+                startActivity<SettingsActivity>()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -186,7 +189,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         viewPagerAdapter.addFragment(FutureFragment(), getString(R.string.main_activity_right_tab))
         viewPagerAdapter.addFragment(PastFragment(), getString(R.string.main_activity_left_tab))
         viewPager.adapter = viewPagerAdapter
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 fab.show()
             }

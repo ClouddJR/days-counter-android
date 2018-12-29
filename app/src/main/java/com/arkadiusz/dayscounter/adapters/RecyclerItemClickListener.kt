@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -10,8 +10,8 @@ import android.view.View
  * Created by Arkadiusz on 03.01.2017
  */
 
-open class RecyclerItemClickListener(context: Context, recyclerView: RecyclerView,
-                                     private val mListener: OnItemClickListener?) : RecyclerView.OnItemTouchListener {
+open class RecyclerItemClickListener(context: Context, recyclerView: androidx.recyclerview.widget.RecyclerView,
+                                     private val mListener: OnItemClickListener?) : androidx.recyclerview.widget.RecyclerView.OnItemTouchListener {
 
     private val mGestureDetector: GestureDetector
 
@@ -35,7 +35,7 @@ open class RecyclerItemClickListener(context: Context, recyclerView: RecyclerVie
         })
     }
 
-    override fun onInterceptTouchEvent(recyclerView: RecyclerView, motionEvent: MotionEvent): Boolean {
+    override fun onInterceptTouchEvent(recyclerView: androidx.recyclerview.widget.RecyclerView, motionEvent: MotionEvent): Boolean {
         val childView = recyclerView.findChildViewUnder(motionEvent.x, motionEvent.y)
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(motionEvent)) {
             mListener.onItemClick(childView, recyclerView.getChildAdapterPosition(childView))
@@ -43,7 +43,7 @@ open class RecyclerItemClickListener(context: Context, recyclerView: RecyclerVie
         return false
     }
 
-    override fun onTouchEvent(recyclerView: RecyclerView, motionEvent: MotionEvent) {}
+    override fun onTouchEvent(recyclerView: androidx.recyclerview.widget.RecyclerView, motionEvent: MotionEvent) {}
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
 

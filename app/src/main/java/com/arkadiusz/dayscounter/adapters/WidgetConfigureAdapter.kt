@@ -14,7 +14,7 @@ import io.realm.RealmBaseAdapter
  * Created by arkadiusz on 23.03.18
  */
 
-class WidgetConfigureAdapter(val context: Context, private val eventsList: OrderedRealmCollection<Event>) : RealmBaseAdapter<Event>(context, eventsList),
+class WidgetConfigureAdapter(val context: Context, private val eventsList: OrderedRealmCollection<Event>) : RealmBaseAdapter<Event>(eventsList),
         ListAdapter {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {

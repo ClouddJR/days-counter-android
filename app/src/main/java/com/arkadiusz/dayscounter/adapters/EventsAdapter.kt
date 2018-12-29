@@ -2,14 +2,13 @@ package com.arkadiusz.dayscounter.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
@@ -26,8 +25,8 @@ import org.jetbrains.anko.textColor
  * Created by arkadiusz on 17.03.18
  */
 
-class EventsAdapter(context: Context, private var eventsList: OrderedRealmCollection<Event>) :
-        RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(context, eventsList, true) {
+class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCollection<Event>) :
+        RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,9 +42,9 @@ class EventsAdapter(context: Context, private var eventsList: OrderedRealmCollec
         return eventsList.size
     }
 
-    inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
-        private val databaseRepository = DatabaseRepository()
+        private val databaseRepository = DatabaseProvider.provideRepository()
 
         fun bind(event: Event) {
             displayCounterText(event)

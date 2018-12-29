@@ -4,14 +4,14 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.RemoteViews
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.WidgetConfigureAdapter
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
+import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
 
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_app_widget_configure.*
 
 class AppWidgetConfigureActivity : AppCompatActivity() {
 
-    private val databaseRepository = DatabaseRepository()
+    private val databaseRepository = DatabaseProvider.provideRepository()
     private lateinit var eventsList: RealmResults<Event>
 
     private var appWidgetId = 0

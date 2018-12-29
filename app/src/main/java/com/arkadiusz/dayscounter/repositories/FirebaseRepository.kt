@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener
 class FirebaseRepository {
 
     private val databaseReference = FirebaseDatabase.getInstance().reference
-    private val databaseRepository = DatabaseRepository()
+    private val databaseRepository = DatabaseProvider.provideRepository()
 
     private lateinit var refreshListener: RefreshListener
 

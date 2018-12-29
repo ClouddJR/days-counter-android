@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter
 
 import android.os.Build
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.NotificationUtils
 import com.google.firebase.database.FirebaseDatabase

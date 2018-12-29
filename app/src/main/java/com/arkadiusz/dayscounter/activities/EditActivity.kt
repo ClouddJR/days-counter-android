@@ -14,20 +14,20 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
-import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
+import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.utils.FontUtils
@@ -103,7 +103,7 @@ class EditActivity : AppCompatActivity() {
 
     private fun receivePassedEventId() {
         val passedEventId = intent.getIntExtra("eventId", 0)
-        passedEvent = DatabaseRepository().getEventById(passedEventId)
+        passedEvent = DatabaseProvider.provideRepository().getEventById(passedEventId)
     }
 
     private fun setUpSpinners() {
@@ -275,7 +275,7 @@ class EditActivity : AppCompatActivity() {
         }
         addButton.setOnClickListener {
             val eventToBeAdded = prepareEventBasedOnViews()
-            DatabaseRepository().editEvent(eventToBeAdded)
+            DatabaseProvider.provideRepository().editEvent(eventToBeAdded)
             FirebaseRepository().addOrEditEventInFirebase(defaultPrefs(this)["firebase-email"]
                     ?: "", eventToBeAdded, eventToBeAdded.id)
             addReminder(eventToBeAdded)
