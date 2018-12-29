@@ -12,6 +12,9 @@ import java.io.*
 
 object StorageUtils {
 
+    val BACKUP_PATH = "${Environment.getExternalStorageDirectory()}/DaysCounter_Backup"
+    const val EXPORT_FILE_NAME = "dayscounter.realm"
+
     fun saveFile(sourceUri: Uri): Uri {
 
         val folder = File(Environment.getExternalStorageDirectory().toString() + "/croppedImages")
@@ -53,5 +56,15 @@ object StorageUtils {
             cursor.close()
         }
         return result
+    }
+
+    fun isCorrectFileChosenForImport(uri: Uri): Boolean {
+        return uri.toString().isNotEmpty() && uri.toString().contains(".realm")
+    }
+
+    fun InputStream.toFile(path: String) {
+        File(path).outputStream().use {
+            this.copyTo(it)
+        }
     }
 }

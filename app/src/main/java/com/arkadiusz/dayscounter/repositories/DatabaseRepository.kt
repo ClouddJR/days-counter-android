@@ -1,16 +1,21 @@
 package com.arkadiusz.dayscounter.repositories
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log.d
 import com.arkadiusz.dayscounter.database.Migration
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
+import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
+import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_NAME
+import com.arkadiusz.dayscounter.utils.StorageUtils.toFile
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.Sort
+import java.io.File
 import java.util.*
 
 /**
@@ -19,7 +24,12 @@ import java.util.*
 
 class DatabaseRepository {
 
+
     private var realm: Realm
+    private val config: RealmConfiguration = RealmConfiguration.Builder()
+            .schemaVersion(3)
+            .migration(Migration())
+            .build()
 
     object RealmInitializer {
         fun initRealm(context: Context) {
@@ -28,10 +38,6 @@ class DatabaseRepository {
     }
 
     init {
-        val config = RealmConfiguration.Builder()
-                .schemaVersion(3)
-                .migration(Migration())
-                .build()
         realm = Realm.getInstance(config)
     }
 
@@ -205,4 +211,25 @@ class DatabaseRepository {
             event.date = dateAfterRepetition
         }
     }
+
+    fun backupData(): String {
+        val backupFolder = File(BACKUP_PATH)
+        backupFolder.mkdir()
+
+        val file = File(BACKUP_PATH, EXPORT_FILE_NAME)
+        file.delete()
+        realm.writeCopyTo(file)
+        return BACKUP_PATH
+    }
+
+    fun importData(context: Context, uri: Uri) {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        inputStream?.let {
+            realm.close()
+            Realm.deleteRealm(config)
+            it.toFile("${context.filesDir}/default.realm")
+            realm = Realm.getInstance(config)
+        }
+    }
+
 }
