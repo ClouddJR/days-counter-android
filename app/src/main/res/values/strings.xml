@@ -145,4 +145,25 @@
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
 
+  <!--settings-->
+
+  <string-array name="date_formats">
+    <item>31–10–1980</item>
+    <item>10–31–1980</item>
+    <item>1980–10–31</item>
+    <item>31 October 1980</item>
+    <item>October 31, 1980</item>
+  </string-array>
+
+  <string-array name="sorting_types">
+    <item>@string/action_sort_date_desc</item>
+    <item>@string/action_sort_date_asc</item>
+    <item>@string/action_sort_order</item>
+  </string-array>
+
+  <string-array name="fragment_names">
+    <item>@string/main_activity_left_tab</item>
+    <item>@string/main_activity_right_tab</item>
+  </string-array>
+
 </resources>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <PreferenceCategory
+    app:key="main_category"
+    app:title="Main">
+
+    <ListPreference
+      app:defaultValue="31–10–1980"
+      app:entries="@array/date_formats"
+      app:entryValues="@array/date_formats"
+      app:key="dateFormat"
+      app:title="Date Format"
+      app:useSimpleSummaryProvider="true"/>
+
+    <ListPreference
+      app:defaultValue="@string/action_sort_order"
+      app:entries="@array/sorting_types"
+      app:entryValues="@array/sorting_types"
+      app:key="sortingOrder"
+      app:title="Sorting order"
+      app:useSimpleSummaryProvider="true"/>
+
+    <ListPreference
+      app:defaultValue="@string/main_activity_left_tab"
+      app:entries="@array/fragment_names"
+      app:entryValues="@array/fragment_names"
+      app:key="default_fragment"
+      app:title="Default Section"
+      app:useSimpleSummaryProvider="true"/>
+
+    <Preference
+      app:key="theme"
+      app:summary="Choose a color theme for the entire app"
+      app:title="Color theme"/>
+
+  </PreferenceCategory>
+
+  <PreferenceCategory
+    app:key="backup_category"
+    app:title="Backup">
+
+    <Preference
+      app:key="backup_import"
+      app:summary="Import your events data from a file"
+      app:title="Import events"/>
+
+    <Preference
+      app:key="backup_export"
+      app:summary="Export your events data to a file"
+      app:title="Export events"/>
+
+  </PreferenceCategory>
+
+
+  <PreferenceCategory
+    app:key="about_category"
+    app:title="About">
+
+    <Preference
+      app:key="privacy_policy"
+      app:title="Privacy Policy"/>
+
+    <Preference
+      app:key="contact"
+      app:title="Contact"/>
+
+  </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

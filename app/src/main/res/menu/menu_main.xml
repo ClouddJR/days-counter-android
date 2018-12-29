@@ -46,4 +46,10 @@
     android:title="@string/menu_activity_sync"
     app:showAsAction="ifRoom"/>
 
+  <item
+    android:id="@+id/action_settings"
+    android:orderInCategory="160"
+    android:title="Settings"
+    app:showAsAction="never"/>
+
 </menu>
