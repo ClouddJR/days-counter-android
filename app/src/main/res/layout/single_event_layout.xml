@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:fresco="http://schemas.android.com/tools"
@@ -11,10 +11,11 @@
   android:layout_marginLeft="5dp"
   android:layout_marginRight="5dp"
   android:layout_gravity="center"
+  app:cardCornerRadius="12dp"
   android:elevation="6dp"
   android:transitionName="transition_detail">
 
-  <android.support.constraint.ConstraintLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:orientation="vertical">
@@ -67,7 +68,7 @@
       app:layout_constraintTop_toBottomOf="@id/eventLine"/>
 
 
-  </android.support.constraint.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
 
