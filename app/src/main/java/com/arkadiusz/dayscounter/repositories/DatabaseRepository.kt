@@ -7,8 +7,10 @@ import com.arkadiusz.dayscounter.database.Migration
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
+import com.arkadiusz.dayscounter.utils.DateUtils.getDateForBackupFile
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
+import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_EXTENSION
 import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_NAME
 import com.arkadiusz.dayscounter.utils.StorageUtils.toFile
 import io.realm.Realm
@@ -216,7 +218,7 @@ class DatabaseRepository {
         val backupFolder = File(BACKUP_PATH)
         backupFolder.mkdir()
 
-        val file = File(BACKUP_PATH, EXPORT_FILE_NAME)
+        val file = File(BACKUP_PATH, "${EXPORT_FILE_NAME}_${getDateForBackupFile()}.$EXPORT_FILE_EXTENSION")
         file.delete()
         realm.writeCopyTo(file)
         return BACKUP_PATH
