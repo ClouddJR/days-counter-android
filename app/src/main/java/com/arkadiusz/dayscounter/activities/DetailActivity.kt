@@ -13,10 +13,9 @@ import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.backgroundColor
@@ -71,6 +70,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setUpToolbar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = ""
     }
 
@@ -93,15 +93,13 @@ class DetailActivity : AppCompatActivity() {
             passedEvent.imageID == 0 -> Glide.with(this).load(passedEvent.image).into(eventImage)
             else -> Glide.with(this).load(passedEvent.imageID).into(eventImage)
         }
-
-        Glide.with(this).asBitmap().load(passedEvent.imageID).into(object : SimpleTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                val pallete = createPaletteSync(resource)
-                arek.setBackgroundColor(pallete.darkMutedSwatch!!.rgb)
-            }
-        })
-
-
+//
+//        Glide.with(this).asBitmap().load(passedEvent.imageID).into(object : SimpleTarget<Bitmap>() {
+//            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+//                val pallete = createPaletteSync(resource)
+//                background.setBackgroundColor(pallete.dominantSwatch!!.rgb)
+//            }
+//        })
     }
 
     private fun fillMainSection() {
@@ -115,7 +113,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun fillAboutSection() {
-        dateText.text = passedEvent.date
+        dateText.text = formatDateAccordingToSettings(passedEvent.date,
+                defaultPrefs(this)["dateFormat"] ?: "")
         if (passedEvent.description.isNotEmpty()) {
             descriptionText.text = passedEvent.description
         } else {

@@ -25,10 +25,11 @@ import androidx.core.app.ActivityCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.FontUtils
@@ -118,7 +119,8 @@ class AddActivity : AppCompatActivity() {
         chosenYear = year
         chosenMonth = month
         chosenDay = day
-        dateEditText.setText(formatDate(year, month, day))
+        dateEditText.setText(formatDateAccordingToSettings(formatDate(year, month, day),
+                defaultPrefs(this)["dateFormat"] ?: ""))
         eventCalculateText.text = generateCounterText()
     }
 
@@ -314,7 +316,8 @@ class AddActivity : AppCompatActivity() {
             this.chosenYear = chosenYear
             this.chosenMonth = chosenMonth
             this.chosenDay = chosenDay
-            dateEditText.setText(formatDate(chosenYear, chosenMonth, chosenDay))
+            dateEditText.setText(formatDateAccordingToSettings(formatDate(chosenYear, chosenMonth, chosenDay),
+                    defaultPrefs(this)["dateFormat"] ?: ""))
             eventCalculateText.text = generateCounterText()
         }, year, month, day).show()
     }
@@ -348,6 +351,8 @@ class AddActivity : AppCompatActivity() {
                 this.chosenReminderHour = chosenHour
                 this.chosenReminderMinute = chosenMinute
                 val time = formatTime(chosenHour, chosenMinute)
+                reminderDate = formatDateAccordingToSettings(reminderDate,
+                        defaultPrefs(this)["dateFormat"] ?: "")
                 reminderDate += " $time"
                 reminderDateEditText.setText(reminderDate)
                 hasAlarm = true

@@ -26,9 +26,11 @@ import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.utils.FontUtils
 import com.arkadiusz.dayscounter.utils.RemindersUtils
@@ -300,7 +302,8 @@ class EditActivity : AppCompatActivity() {
             this.chosenYear = chosenYear
             this.chosenMonth = chosenMonth
             this.chosenDay = chosenDay
-            dateEditText.setText(DateUtils.formatDate(chosenYear, chosenMonth, chosenDay))
+            dateEditText.setText(formatDateAccordingToSettings(formatDate(chosenYear, chosenMonth, chosenDay),
+                    defaultPrefs(this)["dateFormat"] ?: ""))
             eventCalculateText.text = generateCounterText()
         }, year, month, day).show()
     }
@@ -334,6 +337,8 @@ class EditActivity : AppCompatActivity() {
                 this.chosenReminderHour = chosenHour
                 this.chosenReminderMinute = chosenMinute
                 val time = DateUtils.formatTime(chosenHour, chosenMinute)
+                reminderDate = formatDateAccordingToSettings(reminderDate,
+                        defaultPrefs(this)["dateFormat"] ?: "")
                 reminderDate += " $time"
                 reminderDateEditText.setText(reminderDate)
                 hasAlarm = true
@@ -511,7 +516,8 @@ class EditActivity : AppCompatActivity() {
 
     private fun fillGeneralSectionForm() {
         titleEditText.setText(passedEvent.name)
-        dateEditText.setText(passedEvent.date)
+        dateEditText.setText(formatDateAccordingToSettings(passedEvent.date,
+                defaultPrefs(this)["dateFormat"] ?: ""))
         descriptionEditText.setText(passedEvent.description)
         val dateTriple = getElementsFromDate(passedEvent.date)
         chosenYear = dateTriple.first
@@ -529,7 +535,8 @@ class EditActivity : AppCompatActivity() {
             hasAlarm = true
             val reminderDate = DateUtils.formatDate(passedEvent.reminderYear, passedEvent.reminderMonth, passedEvent.reminderDay) +
                     " ${DateUtils.formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)}"
-            reminderDateEditText.setText(reminderDate)
+            reminderDateEditText.setText(formatDateAccordingToSettings(reminderDate,
+                    defaultPrefs(this)["dateFormat"] ?: ""))
             reminderTextEditText.setText(passedEvent.notificationText)
         }
     }
