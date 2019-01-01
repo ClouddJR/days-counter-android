@@ -147,10 +147,14 @@
 
   <!--settings-->
 
+  <string name="sorting_key_date_order" translatable="false">date_order</string>
+  <string name="sorting_key_date_desc" translatable="false">date_desc</string>
+  <string name="sorting_key_date_asc" translatable="false">date_asc</string>
+
   <string-array name="date_formats">
-    <item>31–10–1980</item>
-    <item>10–31–1980</item>
-    <item>1980–10–31</item>
+    <item>31-10-1980</item>
+    <item>10-31-1980</item>
+    <item>1980-10-31</item>
     <item>31 October 1980</item>
     <item>October 31, 1980</item>
   </string-array>
@@ -159,6 +163,12 @@
     <item>@string/action_sort_date_desc</item>
     <item>@string/action_sort_date_asc</item>
     <item>@string/action_sort_order</item>
+  </string-array>
+
+  <string-array name="sorting_types_keys">
+    <item>@string/sorting_key_date_desc</item>
+    <item>@string/sorting_key_date_asc</item>
+    <item>@string/sorting_key_date_order</item>
   </string-array>
 
   <string-array name="fragment_names">
