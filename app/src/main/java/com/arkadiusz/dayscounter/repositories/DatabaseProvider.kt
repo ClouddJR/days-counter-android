@@ -3,14 +3,10 @@ package com.arkadiusz.dayscounter.repositories
 class DatabaseProvider {
 
     companion object {
-        private var repository: DatabaseRepository? = null
+        private val repository: DatabaseRepository by lazy { DatabaseRepository() }
 
         fun provideRepository(): DatabaseRepository {
-            if (repository == null) {
-                repository = DatabaseRepository()
-            }
-
-            return repository!!
+            return repository
         }
     }
 }
