@@ -14,6 +14,8 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
 import com.arkadiusz.dayscounter.utils.StorageUtils.isCorrectFileChosenForImport
+import org.jetbrains.anko.browse
+import org.jetbrains.anko.email
 import org.jetbrains.anko.longToast
 import java.io.File
 
@@ -35,7 +37,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         setUpBackupPreferences()
+        setUpAboutPreferences()
+    }
 
+    private fun setUpAboutPreferences() {
+        val policyPreference = findPreference<Preference>("privacy_policy")
+        policyPreference.setOnPreferenceClickListener {
+            context?.browse("https://sites.google.com/view/dcprivacypolicy")
+            true
+        }
+
+        val contactPreference = findPreference<Preference>("contact")
+        contactPreference.setOnPreferenceClickListener {
+            context?.email("arekchmura@gmail.com", "Days Counter app")
+            true
+        }
     }
 
     private fun setUpBackupPreferences() {
@@ -129,7 +145,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         context?.let { ctx ->
             if (isCorrectFileChosenForImport(uri)) {
                 databaseRepository.importData(ctx, uri)
-                ctx.longToast("Restart the app to see any changes")
             } else {
                 ctx.longToast("Wrong file")
             }
