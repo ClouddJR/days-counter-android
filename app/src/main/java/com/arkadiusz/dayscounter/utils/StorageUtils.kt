@@ -13,7 +13,8 @@ import java.io.*
 object StorageUtils {
 
     val BACKUP_PATH = "${Environment.getExternalStorageDirectory()}/DaysCounter_Backup"
-    const val EXPORT_FILE_NAME = "dayscounter.realm"
+    const val EXPORT_FILE_NAME = "dayscounter"
+    const val EXPORT_FILE_EXTENSION = "realm"
 
     fun saveFile(sourceUri: Uri): Uri {
 
