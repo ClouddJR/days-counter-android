@@ -15,10 +15,10 @@
       app:useSimpleSummaryProvider="true"/>
 
     <ListPreference
-      app:defaultValue="@string/action_sort_order"
+      app:defaultValue="@string/sorting_key_date_order"
       app:entries="@array/sorting_types"
-      app:entryValues="@array/sorting_types"
-      app:key="sortingOrder"
+      app:entryValues="@array/sorting_types_keys"
+      app:key="sort_type"
       app:title="Sorting order"
       app:useSimpleSummaryProvider="true"/>
 
