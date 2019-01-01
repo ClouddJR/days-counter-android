@@ -23,7 +23,9 @@ import com.arkadiusz.dayscounter.utils.PurchasesUtils
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.common.AccountPicker
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
@@ -67,24 +69,15 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_contact -> {
-                email("arekchmura@gmail.com", "Days Counter app")
+
+            R.id.action_syncing -> {
+                if (!FirebaseRepository.isNetworkEnabled(this)) {
+                    toast(getString(R.string.main_activity_sync_no_connection)).show()
+                } else {
+                    getEmailAddress()
+                }
             }
-            R.id.action_sort_date_desc -> {
-                prefs["sort_type"] = "date_desc"
-                refreshDataInFragments()
-            }
-            R.id.action_sort_date_asc -> {
-                prefs["sort_type"] = "date_asc"
-                refreshDataInFragments()
-            }
-            R.id.action_sort_order -> {
-                prefs["sort_type"] = "date_order"
-                refreshDataInFragments()
-            }
-            R.id.action_privacy_policy -> {
-                browse("https://sites.google.com/view/dcprivacypolicy")
-            }
+
             R.id.action_remove_ads -> {
                 try {
                     helper.launchPurchaseFlow(this, "1", 10001,
@@ -93,15 +86,10 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
                     e.printStackTrace()
                 }
             }
-            R.id.action_syncing -> {
-                if (!FirebaseRepository.isNetworkEnabled(this)) {
-                    toast(getString(R.string.main_activity_sync_no_connection)).show()
-                } else {
-                    getEmailAddress()
-                }
-            }
+
             R.id.action_settings -> {
                 startActivity<SettingsActivity>()
+                finish()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -186,8 +174,16 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
 
     private fun setUpViewPager() {
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(FutureFragment(), getString(R.string.main_activity_right_tab))
-        viewPagerAdapter.addFragment(PastFragment(), getString(R.string.main_activity_left_tab))
+
+        //checking the default fragment from settings
+        if (prefs["default_fragment"] ?: "" == getString(R.string.main_activity_left_tab)) {
+            viewPagerAdapter.addFragment(PastFragment(), getString(R.string.main_activity_left_tab))
+            viewPagerAdapter.addFragment(FutureFragment(), getString(R.string.main_activity_right_tab))
+        } else {
+            viewPagerAdapter.addFragment(FutureFragment(), getString(R.string.main_activity_right_tab))
+            viewPagerAdapter.addFragment(PastFragment(), getString(R.string.main_activity_left_tab))
+        }
+
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {

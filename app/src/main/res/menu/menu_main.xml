@@ -4,39 +4,9 @@
   tools:context="com.arkadiusz.dayscounter.activities.MainActivity">
 
   <item
-    android:id="@+id/action_sort_date_desc"
-    android:orderInCategory="100"
-    android:title="@string/action_sort_date_desc"
-    app:showAsAction="never"/>
-
-  <item
-    android:id="@+id/action_sort_date_asc"
-    android:orderInCategory="110"
-    android:title="@string/action_sort_date_asc"
-    app:showAsAction="never"/>
-
-  <item
-    android:id="@+id/action_sort_order"
-    android:orderInCategory="120"
-    android:title="@string/action_sort_order"
-    app:showAsAction="never"/>
-
-  <item
-    android:id="@+id/action_contact"
-    android:orderInCategory="130"
-    android:title="@string/action_contact"
-    app:showAsAction="never"/>
-
-  <item
     android:id="@+id/action_remove_ads"
     android:orderInCategory="140"
     android:title="@string/main_activity_ads"
-    app:showAsAction="never"/>
-
-  <item
-    android:id="@+id/action_privacy_policy"
-    android:orderInCategory="150"
-    android:title="@string/main_activity_privacy_policy"
     app:showAsAction="never"/>
 
   <item
