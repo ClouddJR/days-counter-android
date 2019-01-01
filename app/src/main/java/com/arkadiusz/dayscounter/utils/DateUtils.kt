@@ -2,6 +2,7 @@ package com.arkadiusz.dayscounter.utils
 
 import android.content.Context
 import com.arkadiusz.dayscounter.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -9,6 +10,7 @@ import java.util.*
  */
 
 object DateUtils {
+
 
     fun formatDate(year: Int, month: Int, day: Int): String {
         val formattedMonth = if (month + 1 < 10) {
@@ -42,6 +44,15 @@ object DateUtils {
         return "$formattedHour:$formattedMinutes"
     }
 
+    fun getDateForBackupFile(): String {
+        val date = Calendar.getInstance()
+        val year = date.get(Calendar.YEAR)
+        val month = date.get(Calendar.MONTH) + 1
+        val day = date.get(Calendar.DAY_OF_MONTH)
+
+        return "$year$month$day"
+    }
+
     fun calculateDate(passedDate: String, areYearsIncluded: Boolean,
                       areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean, context: Context): String {
 
@@ -68,6 +79,21 @@ object DateUtils {
         }
 
         return Triple(year, month, day)
+    }
+
+    fun formatDateAccordingToSettings(originalDate: String, datePreference: String): String {
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(originalDate)
+
+        val formatter = when (datePreference) {
+            "31-10-1980" -> SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            "10-31-2018" -> SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
+            "1980-10-31" -> SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            "31 October 1980" -> SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+            "October 31, 1980" -> SimpleDateFormat("LLLL d, yyyy", Locale.getDefault())
+            else -> SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        }
+
+        return formatter.format(date)
     }
 
 
