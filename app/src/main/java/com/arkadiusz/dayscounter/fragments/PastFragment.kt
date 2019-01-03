@@ -64,13 +64,13 @@ class PastFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object : RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
-                val id = eventsList[position].id
+                val id = eventsList[position]!!.id
                 context?.startActivity<DetailActivity>("event_id" to id)
             }
 
             override fun onItemLongClick(view: View?, position: Int) {
                 vibration()
-                displayEventOptions(eventsList[position].id, eventsList[position])
+                displayEventOptions(eventsList[position]!!.id, eventsList[position]!!)
             }
 
         }) {})

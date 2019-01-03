@@ -30,7 +30,7 @@ class Migration : RealmMigration {
 
     private fun migrateFromFirstVersion(realm: DynamicRealm) {
         val schema = realm.schema
-        val eventSchema = schema.get("Event")
+        val eventSchema = schema.get("Event")!!
         eventSchema.addField("hasAlarm", Boolean::class.javaPrimitiveType)
         eventSchema.addField("year", Int::class.javaPrimitiveType)
         eventSchema.addField("month", Int::class.javaPrimitiveType)
@@ -48,7 +48,7 @@ class Migration : RealmMigration {
 
     private fun migrateFromThirdVersion(realm: DynamicRealm) {
         val schema = realm.schema
-        val eventSchema = schema.get("Event")
+        val eventSchema = schema.get("Event")!!
 
         eventSchema.removeField("isOnlyDays")
         eventSchema.removeField("color")

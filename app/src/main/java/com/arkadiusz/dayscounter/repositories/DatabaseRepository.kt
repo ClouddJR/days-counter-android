@@ -1,5 +1,7 @@
 package com.arkadiusz.dayscounter.repositories
 
+import PreferenceUtils.defaultPrefs
+import PreferenceUtils.get
 import android.content.Context
 import android.net.Uri
 import android.util.Log.d
@@ -91,15 +93,19 @@ class DatabaseRepository {
     }
 
     fun getEventByName(name: String): Event {
-        return realm.where(Event::class.java).equalTo("name", name).findFirst()
+        return realm.where(Event::class.java).equalTo("name", name).findFirst()!!
     }
 
     fun getEventById(id: Int): Event {
-        return realm.where(Event::class.java).equalTo("id", id).findFirst()
+        return realm.where(Event::class.java).equalTo("id", id).findFirst()!!
     }
 
     fun getEventByWidgetId(widgetId: Int): Event? {
-        return realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()
+        realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()?.let {
+            return realm.copyFromRealm(it)
+        }
+
+        return null
     }
 
     fun setWidgetIdForEvent(event: Event, widgetId: Int) {
@@ -122,7 +128,7 @@ class DatabaseRepository {
 
     fun disableAlarmForEvent(eventId: Int) {
         realm.executeTransaction {
-            val event = realm.where(Event::class.java).equalTo("id", eventId).findFirst()
+            val event = realm.where(Event::class.java).equalTo("id", eventId).findFirst()!!
             event.hasAlarm = false
             event.reminderYear = 0
             event.reminderMonth = 0
@@ -156,7 +162,7 @@ class DatabaseRepository {
     private fun getNextId(): Int {
         var nextId = 1
         try {
-            nextId = realm.where(Event::class.java).max("id").toInt() + 1
+            nextId = realm.where(Event::class.java).max("id")!!.toInt() + 1
         } catch (e: NullPointerException) {
             return nextId
         }
@@ -177,15 +183,17 @@ class DatabaseRepository {
     }
 
     fun moveEventToPast(eventToBeMoved: Event) {
-        realm.executeTransaction {
-            val event = it.where(Event::class.java).equalTo("id", eventToBeMoved.id).findFirst()
+        val id = eventToBeMoved.id
+        realm.executeTransactionAsync {
+            val event = it.where(Event::class.java).equalTo("id", id).findFirst()!!
             event.type = "past"
         }
     }
 
     fun moveEventToFuture(eventToBeMoved: Event) {
-        realm.executeTransaction {
-            val event = it.where(Event::class.java).equalTo("id", eventToBeMoved.id).findFirst()
+        val id = eventToBeMoved.id
+        realm.executeTransactionAsync {
+            val event = it.where(Event::class.java).equalTo("id", id).findFirst()!!
             event.type = "future"
         }
     }
@@ -221,6 +229,7 @@ class DatabaseRepository {
         val file = File(BACKUP_PATH, "${EXPORT_FILE_NAME}_${getDateForBackupFile()}.$EXPORT_FILE_EXTENSION")
         file.delete()
         realm.writeCopyTo(file)
+
         return BACKUP_PATH
     }
 
@@ -231,6 +240,10 @@ class DatabaseRepository {
             Realm.deleteRealm(config)
             it.toFile("${context.filesDir}/default.realm")
             realm = Realm.getInstance(config)
+
+            FirebaseRepository().processSyncOperationFor(defaultPrefs(context)["firebase-email"]
+                    ?: "")
+
         }
     }
 
