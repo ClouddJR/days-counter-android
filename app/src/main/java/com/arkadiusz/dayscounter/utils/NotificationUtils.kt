@@ -35,10 +35,10 @@ object NotificationUtils {
         notificationManager?.createNotificationChannel(channel)
     }
 
-    fun createNotification(context: Context?, eventTitle: String, eventDate: String, eventDescription: String, eventId: Int) {
+    fun createNotification(context: Context?, eventTitle: String, eventDescription: String, eventId: Int) {
         val mBuilder = NotificationCompat.Builder(context!!, channelID)
                 .setSmallIcon(R.drawable.n_icon)
-                .setContentTitle("$eventTitle $eventDate")
+                .setContentTitle(eventTitle)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentText(eventDescription)
         val pendingIntent = buildPendingIntent(context, eventId)

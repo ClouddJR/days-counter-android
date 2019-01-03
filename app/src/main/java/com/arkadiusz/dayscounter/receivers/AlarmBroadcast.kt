@@ -19,7 +19,7 @@ class AlarmBroadcast : BroadcastReceiver() {
         val eventDate = intent?.getStringExtra("eventDate")
 
         if (id != null && eventTitle != null && eventDate != null && eventDescription != null) {
-            NotificationUtils.createNotification(context, eventTitle, eventDate, eventDescription, id)
+            NotificationUtils.createNotification(context, eventTitle, eventDescription, id)
             DatabaseProvider.provideRepository().disableAlarmForEvent(id)
         }
     }
