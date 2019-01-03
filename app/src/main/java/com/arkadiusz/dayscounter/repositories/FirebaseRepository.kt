@@ -139,7 +139,9 @@ class FirebaseRepository {
                 val eventsTempList = mutableListOf<Event>()
                 eventsList?.children?.let { it.mapTo(eventsTempList) { it.getValue(Event::class.java) as Event } }
                 databaseRepository.addEventsToDatabase(eventsTempList)
-                refreshListener.refreshFragments()
+                if (::refreshListener.isInitialized) {
+                    refreshListener.refreshFragments()
+                }
             }
         })
     }
