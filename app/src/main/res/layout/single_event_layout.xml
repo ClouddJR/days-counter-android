@@ -11,7 +11,9 @@
   android:layout_marginLeft="5dp"
   android:layout_marginRight="5dp"
   android:layout_gravity="center"
+  android:clickable="true"
   android:elevation="6dp"
+  android:foreground="?android:attr/selectableItemBackground"
   android:transitionName="transition_detail">
 
   <androidx.constraintlayout.widget.ConstraintLayout

@@ -52,6 +52,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="45dp"
+    android:overScrollMode="never"
     app:behavior_overlapTop="32dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

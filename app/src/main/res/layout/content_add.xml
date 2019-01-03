@@ -99,7 +99,7 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:paddingBottom="55dp"
+      android:paddingBottom="24dp"
       android:orientation="vertical">
 
       <androidx.cardview.widget.CardView
@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.arkadiusz.dayscounter.utils.ClearableEditText
               android:id="@+id/titleEditText"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.arkadiusz.dayscounter.utils.ClearableEditText
               android:id="@+id/descriptionEditText"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
               android:layout_height="wrap_content"
               android:layout_weight="0.3"/>
 
-            <EditText
+            <com.arkadiusz.dayscounter.utils.ClearableEditText
               android:id="@+id/reminderTextEditText"
               android:layout_width="0dp"
               android:layout_height="wrap_content"
