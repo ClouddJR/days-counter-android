@@ -41,6 +41,7 @@
   <string name="add_activity_dialog_option_custom">Galerie oder Kamera</string>
   <string name="add_activity_dialog_option_gallery">Hintergründe</string>
   <string name="add_activity_dialog_option_color">Einfarbig</string>
+  <string name="add_activity_dialog_option_internet">Aus dem Internet (Pro)</string>
   <string name="add_activity_button_title">Ereignis aktualisieren</string>
   <string name="add_activity_clear_date">Leeren</string>
   <string name="add_activity_back_button_message">Alle Änderungen werden verworfen</string>
@@ -144,6 +145,7 @@
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
 
 
 </resources>

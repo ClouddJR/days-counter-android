@@ -41,6 +41,7 @@
   <string name="add_activity_dialog_option_custom">Gallery or Camera</string>
   <string name="add_activity_dialog_option_gallery">Backgrounds</string>
   <string name="add_activity_dialog_option_color">Solid color</string>
+  <string name="add_activity_dialog_option_internet">From the Internet (Pro)</string>
   <string name="add_activity_button_title">Update an event</string>
   <string name="add_activity_clear_date">Clear</string>
   <string name="add_activity_back_button_message">All changes will be lost</string>
