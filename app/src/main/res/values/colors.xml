@@ -2,13 +2,9 @@
 <resources>
   <color name="colorPrimary">#34495e</color>
   <color name="colorPrimaryDark">#2c3e50</color>
-  <color name="primary_light">#B3E5FC</color>
   <color name="colorAccent">#f2845b</color>
   <color name="primary_text">#212121</color>
   <color name="secondary_text">#757575</color>
-  <color name="icons">#212121</color>
-  <color name="divider">#BDBDBD</color>
-  <color name="semiTransparentBlack">#00000000</color>
   <color name="black">#000000</color>
   <color name="white">#FFFFFF</color>
 </resources>
