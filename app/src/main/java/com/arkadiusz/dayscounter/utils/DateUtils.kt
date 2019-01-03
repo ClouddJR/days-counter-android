@@ -50,7 +50,10 @@ object DateUtils {
         val month = date.get(Calendar.MONTH) + 1
         val day = date.get(Calendar.DAY_OF_MONTH)
 
-        return "$year$month$day"
+        val hour = date.get(Calendar.HOUR_OF_DAY)
+        val minute = date.get(Calendar.MINUTE)
+
+        return "$year$month${day}_$hour$minute"
     }
 
     fun calculateDate(passedDate: String, areYearsIncluded: Boolean,
