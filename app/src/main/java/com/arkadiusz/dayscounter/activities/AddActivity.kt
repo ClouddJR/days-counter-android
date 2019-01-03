@@ -54,12 +54,15 @@ import java.util.*
 
 class AddActivity : AppCompatActivity() {
 
+    private var unformattedDate = ""
+
     private lateinit var eventType: String
     private var hasAlarm = false
     private var selectedColor = -1
     private var dimValue = 4
 
     private val pickPhotoGallery = 1
+    private val pickPhotoInternet = 2
     private val writeRequestCode = 1234
 
     private var imageUri: Uri? = null
@@ -119,7 +122,8 @@ class AddActivity : AppCompatActivity() {
         chosenYear = year
         chosenMonth = month
         chosenDay = day
-        dateEditText.setText(formatDateAccordingToSettings(formatDate(year, month, day),
+        unformattedDate = formatDate(year, month, day)
+        dateEditText.setText(formatDateAccordingToSettings(unformattedDate,
                 defaultPrefs(this)["dateFormat"] ?: ""))
         eventCalculateText.text = generateCounterText()
     }
@@ -316,7 +320,8 @@ class AddActivity : AppCompatActivity() {
             this.chosenYear = chosenYear
             this.chosenMonth = chosenMonth
             this.chosenDay = chosenDay
-            dateEditText.setText(formatDateAccordingToSettings(formatDate(chosenYear, chosenMonth, chosenDay),
+            unformattedDate = formatDate(chosenYear, chosenMonth, chosenDay)
+            dateEditText.setText(formatDateAccordingToSettings(unformattedDate,
                     defaultPrefs(this)["dateFormat"] ?: ""))
             eventCalculateText.text = generateCounterText()
         }, year, month, day).show()
@@ -373,7 +378,7 @@ class AddActivity : AppCompatActivity() {
     private fun prepareEventBasedOnViews(): Event {
         val event = Event()
         event.name = titleEditText.text.toString()
-        event.date = dateEditText.text.toString()
+        event.date = unformattedDate
         event.description = descriptionEditText.text.toString()
         event.image = imageUri.toString()
         event.imageID = imageID
@@ -411,7 +416,7 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
-    private fun isReminderSet(): Boolean = chosenReminderYear != 0 && chosenReminderMonth != 0 && chosenReminderDay != 0
+    private fun isReminderSet(): Boolean = chosenReminderYear != 0 && chosenReminderDay != 0
 
     private fun setUpImageChoosing() {
         imageChooserButton.setOnClickListener {
@@ -422,6 +427,7 @@ class AddActivity : AppCompatActivity() {
                             0 -> askForPermissionsAndDisplayCropActivity()
                             1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery, "activity" to "Add")
                             2 -> displayColorPickerForEventBackground()
+                            3 -> askForPermissionsAndDisplayInternetImageActivity()
                         }
                     }.show()
         }
@@ -429,12 +435,14 @@ class AddActivity : AppCompatActivity() {
 
     private fun setUpImageChooserDialogOptions(): Array<String> {
         val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom), getString(R.string.add_activity_dialog_option_gallery),
-                getString(R.string.add_activity_dialog_option_color))
+                getString(R.string.add_activity_dialog_option_color), getString(R.string.add_activity_dialog_option_internet))
         return options.toTypedArray()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
+        //intent from GalleryActivity
         imageID = intent?.getIntExtra("imageID", 0) ?: 0
         if (imageID != 0) {
             imageColor = 0
@@ -442,6 +450,14 @@ class AddActivity : AppCompatActivity() {
             Picasso.with(this).load(imageID).resize(0, 700).into(eventImage)
         }
 
+        //intent from InternetGalleryActivity
+        val internetImageUri = intent?.getStringExtra("internetImageUri") ?: ""
+        if (internetImageUri.isNotEmpty()) {
+            imageUri = Uri.parse(internetImageUri)
+            imageColor = 0
+            imageID = 0
+            Glide.with(this).load(File(imageUri?.path)).into(eventImage)
+        }
     }
 
     private fun askForPermissionsAndDisplayCropActivity() {
@@ -453,16 +469,32 @@ class AddActivity : AppCompatActivity() {
         }
     }
 
+    private fun askForPermissionsAndDisplayInternetImageActivity() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), pickPhotoInternet)
+        } else {
+            startActivityForResult<InternetGalleryActivity>(pickPhotoInternet, "activity" to "Add")
+        }
+    }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == writeRequestCode && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             CropImage.startPickImageActivity(this)
         }
+
+        if (requestCode == pickPhotoInternet && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startActivityForResult<InternetGalleryActivity>(pickPhotoInternet, "activity" to "Add")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageData: Intent?) {
         super.onActivityResult(requestCode, resultCode, imageData)
+
+        if (isComingFromInternetActivity(requestCode, resultCode)) {
+            startCropImageActivity(imageData!!.data!!)
+        }
 
         if (isPossibleToOpenCropActivityAfterChoosingImage(requestCode, resultCode)) {
             val chosenImageUri = CropImage.getPickImageResultUri(this, imageData)
@@ -476,6 +508,10 @@ class AddActivity : AppCompatActivity() {
         if (isResultComingWithImageAfterCropping(requestCode)) {
             displayImageHere(imageData)
         }
+    }
+
+    private fun isComingFromInternetActivity(requestCode: Int, resultCode: Int): Boolean {
+        return requestCode == pickPhotoInternet && resultCode == Activity.RESULT_OK
     }
 
     private fun isPossibleToOpenCropActivityAfterChoosingImage(requestCode: Int, resultCode: Int): Boolean {

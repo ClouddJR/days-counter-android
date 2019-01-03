@@ -2,7 +2,6 @@ package com.arkadiusz.dayscounter.activities
 
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -41,15 +40,6 @@ class DetailActivity : AppCompatActivity() {
         fillReminderSection()
         fillRepetitionSection()
         displayAd()
-    }
-
-    fun createPaletteSync(bitmap: Bitmap): androidx.palette.graphics.Palette = androidx.palette.graphics.Palette.from(bitmap).generate()
-
-
-    fun createPaletteAsync(bitmap: Bitmap) {
-        androidx.palette.graphics.Palette.from(bitmap).generate { palette ->
-            // Use generated instance
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,13 +83,6 @@ class DetailActivity : AppCompatActivity() {
             passedEvent.imageID == 0 -> Glide.with(this).load(passedEvent.image).into(eventImage)
             else -> Glide.with(this).load(passedEvent.imageID).into(eventImage)
         }
-//
-//        Glide.with(this).asBitmap().load(passedEvent.imageID).into(object : SimpleTarget<Bitmap>() {
-//            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-//                val pallete = createPaletteSync(resource)
-//                background.setBackgroundColor(pallete.dominantSwatch!!.rgb)
-//            }
-//        })
     }
 
     private fun fillMainSection() {
@@ -135,8 +118,12 @@ class DetailActivity : AppCompatActivity() {
 
     private fun fillReminderSection() {
         if (passedEvent.reminderYear != 0) {
-            val reminderDate = "${formatDate(passedEvent.reminderYear, passedEvent.reminderMonth, passedEvent.reminderDay)} " +
+            val reminderDate = "${formatDateAccordingToSettings(formatDate(passedEvent.reminderYear,
+                    passedEvent.reminderMonth,
+                    passedEvent.reminderDay),
+                    defaultPrefs(this)["dateFormat"] ?: "")} " +
                     formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)
+
             reminderSectionText.text = reminderDate
             reminderDescriptionText.text = passedEvent.notificationText
         } else {
