@@ -7,7 +7,7 @@
     app:title="Main">
 
     <ListPreference
-      app:defaultValue="31–10–1980"
+      app:defaultValue="31-10-1980"
       app:entries="@array/date_formats"
       app:entryValues="@array/date_formats"
       app:key="dateFormat"
