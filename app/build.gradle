@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.arkadiusz.dayscounter"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 33
         versionName "2.02"
