@@ -100,10 +100,11 @@ class AppWidgetProvider : AppWidgetProvider() {
         val pictureDim = event.pictureDim
         Picasso.with(context).load(event.imageID).transform(object : Transformation {
             override fun key(): String {
-                return "darkening"
+                return "darkening$pictureDim"
             }
 
             override fun transform(source: Bitmap?): Bitmap {
+                Log.d("Transforming", "transfortrrrrm")
                 val bitmap = source!!.copy(Bitmap.Config.ARGB_8888, true)
                 val paint = Paint()
                 val hexValue = 255 - (255 / 17 * pictureDim)
@@ -122,7 +123,7 @@ class AppWidgetProvider : AppWidgetProvider() {
         val pictureDim = event.pictureDim
         Picasso.with(context).load(file).transform(object : Transformation {
             override fun key(): String {
-                return "darkening"
+                return "darkening$pictureDim"
             }
 
             override fun transform(source: Bitmap?): Bitmap {
