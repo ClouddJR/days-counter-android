@@ -17,6 +17,7 @@ import com.arkadiusz.dayscounter.fragments.FutureFragment
 import com.arkadiusz.dayscounter.fragments.PastFragment
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.settings.SettingsActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initRealm()
         logEvents()
         setUpPreferences()
         setUpToolbar()
@@ -52,6 +54,15 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         checkForPurchases()
         showChangelog()
         setRefreshListener()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        helper.disposeWhenFinished()
+    }
+
+    private fun initRealm() {
+        DatabaseRepository.RealmInitializer.initRealm(applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
