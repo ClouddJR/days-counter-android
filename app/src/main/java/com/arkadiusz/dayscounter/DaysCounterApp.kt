@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter
 
+import android.app.Application
 import android.os.Build
-import androidx.multidex.MultiDexApplication
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.NotificationUtils
 import com.google.firebase.database.FirebaseDatabase
@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase
  * Created by Arkadiusz on 14.03.2018
  */
 
-class DaysCounterApp : MultiDexApplication() {
+class DaysCounterApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
