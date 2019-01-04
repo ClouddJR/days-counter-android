@@ -7,7 +7,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.net.Uri
 import android.util.Log
 import android.util.TypedValue
 import android.widget.RemoteViews
@@ -17,7 +16,6 @@ import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.FontUtils
-import com.arkadiusz.dayscounter.utils.StorageUtils
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import java.io.File
@@ -119,7 +117,8 @@ class AppWidgetProvider : AppWidgetProvider() {
     }
 
     private fun displayPictureFromGallery(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {
-        val file = File(StorageUtils.getRealPathFromURI(Uri.parse(event.image), context))
+        Log.d("widgetImage", event.image)
+        val file = File(event.image)
         val pictureDim = event.pictureDim
         Picasso.with(context).load(file).transform(object : Transformation {
             override fun key(): String {

@@ -1,9 +1,7 @@
 package com.arkadiusz.dayscounter.utils
 
-import android.content.Context
 import android.net.Uri
 import android.os.Environment
-import android.provider.MediaStore
 import java.io.*
 
 /**
@@ -42,21 +40,6 @@ object StorageUtils {
             bos?.close()
             return Uri.parse(destinationFilename)
         }
-    }
-
-    fun getRealPathFromURI(contentURI: Uri, context: Context): String {
-        val result: String
-        val cursor = context.contentResolver
-                .query(contentURI, null, null, null, null) //security exception
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.path
-        } else {
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
-            cursor.close()
-        }
-        return result
     }
 
     fun isCorrectFileChosenForImport(uri: Uri): Boolean {
