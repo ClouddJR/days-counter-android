@@ -30,10 +30,13 @@
       app:title="Default Section"
       app:useSimpleSummaryProvider="true"/>
 
-    <Preference
+    <ListPreference
+      app:defaultValue="1"
+      app:entries="@array/themes"
+      app:entryValues="@array/themes"
       app:key="theme"
-      app:summary="Choose a color theme for the entire app"
-      app:title="Color theme"/>
+      app:title="App theme"
+      app:useSimpleSummaryProvider="true"/>
 
   </PreferenceCategory>
 
