@@ -5,12 +5,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.MainActivity
+import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
 import org.jetbrains.anko.startActivity
 
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         actionBar?.setDisplayHomeAsUpEnabled(true)

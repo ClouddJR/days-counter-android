@@ -35,6 +35,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.FontUtils
 import com.arkadiusz.dayscounter.utils.RemindersUtils
 import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -85,6 +86,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var interstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add)
         receiveEventType()

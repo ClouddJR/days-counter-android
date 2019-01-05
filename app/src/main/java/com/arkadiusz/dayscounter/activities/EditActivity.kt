@@ -28,14 +28,11 @@ import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
-import com.arkadiusz.dayscounter.utils.DateUtils
+import com.arkadiusz.dayscounter.utils.*
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
-import com.arkadiusz.dayscounter.utils.FontUtils
-import com.arkadiusz.dayscounter.utils.RemindersUtils
-import com.arkadiusz.dayscounter.utils.StorageUtils
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -82,6 +79,7 @@ class EditActivity : AppCompatActivity() {
     private var wasTimePickerAlreadyDisplayed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add)
         receivePassedEventId()

@@ -12,6 +12,7 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.WidgetConfigureAdapter
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
 
@@ -27,6 +28,7 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
     private var appWidgetId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_widget_configure)
         setResult(RESULT_CANCELED)

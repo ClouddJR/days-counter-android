@@ -19,6 +19,7 @@ import com.arkadiusz.dayscounter.api.Image
 import com.arkadiusz.dayscounter.api.InternetGalleryActivityViewModel
 import com.arkadiusz.dayscounter.api.paging.Status
 import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_internet_gallery.*
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -35,6 +36,7 @@ class InternetGalleryActivity : AppCompatActivity() {
     private lateinit var progressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_internet_gallery)
         actionBar?.setDisplayHomeAsUpEnabled(true)

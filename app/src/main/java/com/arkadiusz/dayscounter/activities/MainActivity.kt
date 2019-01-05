@@ -21,6 +21,7 @@ import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.settings.SettingsActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
+import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.common.AccountPicker
 import kotlinx.android.synthetic.main.activity_main.*
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
     private val requestsCodeEmail = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme_NoActionBar)
+        setTheme(getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initRealm()

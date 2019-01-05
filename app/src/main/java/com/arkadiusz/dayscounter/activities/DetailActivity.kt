@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
@@ -14,6 +16,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -30,8 +33,10 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var passedEvent: Event
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        setStatusBarColor()
         setUpToolbar()
         receiveEventAndCancelNotification()
         displayImage()
@@ -40,6 +45,11 @@ class DetailActivity : AppCompatActivity() {
         fillReminderSection()
         fillRepetitionSection()
         displayAd()
+    }
+
+    private fun setStatusBarColor() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

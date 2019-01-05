@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.GalleryAdapter
 import com.arkadiusz.dayscounter.adapters.RecyclerItemClickListener
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_gallery.*
 import org.jetbrains.anko.startActivity
@@ -23,6 +24,7 @@ class GalleryActivity : AppCompatActivity() {
     private var activityType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeUtils.getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
         setUpActionBar()
