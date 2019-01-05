@@ -24,7 +24,7 @@
     <ImageView
       android:id="@+id/eventImage"
       android:layout_width="0dp"
-      android:layout_height="179dp"
+      android:layout_height="match_parent"
       android:background="@android:color/darker_gray"
       android:scaleType="centerCrop"
       android:tint="#3C000000"

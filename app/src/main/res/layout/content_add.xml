@@ -17,7 +17,7 @@
   <View
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:background="@color/colorPrimary"
+    android:background="?themePrimary"
     app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,6 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:background="#ededed"
     android:overScrollMode="never"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -105,12 +104,13 @@
       <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?themeCardBackground">
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -170,7 +170,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?themeCardBackground">
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -188,7 +189,7 @@
               android:layout_height="wrap_content"
               android:layout_weight="0.3"
               android:text="@string/add_reminder"
-              android:textColor="@color/black"/>
+              android:textColor="?themePrimaryFontColor"/>
 
             <EditText
               android:id="@+id/reminderDateEditText"
@@ -242,7 +243,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?themeCardBackground">
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -256,14 +258,15 @@
             android:layout_weight="0.3"
             android:layout_gravity="center_vertical"
             android:text="@string/add_repeat"
-            android:textColor="@color/black"/>
+            android:textColor="?themePrimaryFontColor"/>
 
           <Spinner
             android:id="@+id/repeatSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:popupBackground="?themeCardBackground"/>
 
         </LinearLayout>
 
@@ -276,7 +279,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?themeCardBackground">
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -290,39 +294,42 @@
             android:layout_weight="0.3"
             android:layout_gravity="start|center"
             android:text="@string/add_activity_format_text"
-            android:textColor="@color/black"/>
+            android:textColor="?themePrimaryFontColor"/>
 
           <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.7"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:orientation="vertical">
 
             <CheckBox
               android:id="@+id/yearsCheckbox"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/date_utils_multiple_years"/>
+              android:text="@string/date_utils_multiple_years"
+              android:textColor="?themeSecondaryFontColor"/>
 
             <CheckBox
               android:id="@+id/monthsCheckbox"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/date_utils_multiple_months"/>
+              android:text="@string/date_utils_multiple_months"
+              android:textColor="?themeSecondaryFontColor"/>
 
             <CheckBox
               android:id="@+id/weeksCheckbox"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/date_utils_multiple_weeks"/>
+              android:text="@string/date_utils_multiple_weeks"
+              android:textColor="?themeSecondaryFontColor"/>
 
             <CheckBox
               android:id="@+id/daysCheckbox"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@string/date_utils_multiple_days"/>
+              android:text="@string/date_utils_multiple_days"
+              android:textColor="?themeSecondaryFontColor"/>
 
           </LinearLayout>
 
@@ -337,7 +344,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?themeCardBackground">
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -357,7 +365,7 @@
               android:layout_weight="0.3"
               android:layout_gravity="start|center"
               android:text="@string/add_activity_line_divider"
-              android:textColor="@color/black"/>
+              android:textColor="?themePrimaryFontColor"/>
 
             <CheckBox
               android:id="@+id/showDividerCheckbox"
@@ -365,7 +373,6 @@
               android:layout_height="wrap_content"
               android:layout_weight="0.7"
               android:layout_marginStart="30dp"
-              android:layout_marginLeft="30dp"
               android:gravity="start"/>
 
           </LinearLayout>
@@ -382,7 +389,7 @@
               android:layout_weight="0.3"
               android:layout_gravity="start|center"
               android:text="@string/add_activity_counter_font_size"
-              android:textColor="@color/black"/>
+              android:textColor="?themePrimaryFontColor"/>
 
             <Spinner
               android:id="@+id/counterFontSizeSpinner"
@@ -390,8 +397,8 @@
               android:layout_height="wrap_content"
               android:layout_weight="0.7"
               android:layout_marginStart="16dp"
-              android:layout_marginLeft="16dp"
-              android:layout_gravity="center_vertical"/>
+              android:layout_gravity="center_vertical"
+              android:popupBackground="?themeCardBackground"/>
 
           </LinearLayout>
 
@@ -408,7 +415,7 @@
               android:layout_weight="0.3"
               android:layout_gravity="start|center"
               android:text="@string/add_activity_title_font_size"
-              android:textColor="@color/black"/>
+              android:textColor="?themePrimaryFontColor"/>
 
             <Spinner
               android:id="@+id/titleFontSizeSpinner"
@@ -416,8 +423,8 @@
               android:layout_height="wrap_content"
               android:layout_weight="0.7"
               android:layout_marginStart="16dp"
-              android:layout_marginLeft="16dp"
-              android:layout_gravity="center_vertical"/>
+              android:layout_gravity="center_vertical"
+              android:popupBackground="?themeCardBackground"/>
 
           </LinearLayout>
 
@@ -433,7 +440,7 @@
               android:layout_weight="0.3"
               android:layout_gravity="start|center"
               android:text="@string/add_activity_font_type"
-              android:textColor="@color/black"/>
+              android:textColor="?themePrimaryFontColor"/>
 
             <Spinner
               android:id="@+id/fontTypeSpinner"
@@ -441,8 +448,8 @@
               android:layout_height="wrap_content"
               android:layout_weight="0.7"
               android:layout_marginStart="16dp"
-              android:layout_marginLeft="16dp"
-              android:layout_gravity="center_vertical"/>
+              android:layout_gravity="center_vertical"
+              android:popupBackground="?themeCardBackground"/>
 
           </LinearLayout>
 
@@ -457,7 +464,7 @@
               android:layout_weight="0.3"
               android:layout_gravity="start|center"
               android:text="@string/add_activity_font_color"
-              android:textColor="@color/black"/>
+              android:textColor="?themePrimaryFontColor"/>
 
             <FrameLayout
               android:layout_width="0dp"
@@ -468,7 +475,6 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_gravity="start"
                 android:padding="1dp"
                 android:background="@android:color/darker_gray">
@@ -493,7 +499,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?themeCardBackground">
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -507,7 +514,7 @@
             android:layout_weight="0.3"
             android:layout_gravity="start|center"
             android:text="@string/add_activity_picture_dim"
-            android:textColor="@color/black"/>
+            android:textColor="?themePrimaryFontColor"/>
 
           <SeekBar
             android:id="@+id/pictureDimSeekBar"
@@ -546,6 +553,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:backgroundTint="?themeLightAccent"
     android:clickable="true"
     android:focusable="true"
     android:src="@drawable/ic_action_picture"

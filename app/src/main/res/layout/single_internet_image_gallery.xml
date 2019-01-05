@@ -5,9 +5,10 @@
   android:id="@+id/photoCard"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:foreground="?android:attr/selectableItemBackground"
+  android:layout_margin="8dp"
+  android:backgroundTint="?themeCardBackground"
   android:clickable="true"
-  android:layout_margin="8dp">
+  android:foreground="?android:attr/selectableItemBackground">
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
