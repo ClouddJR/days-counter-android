@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
@@ -38,6 +39,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         setUpBackupPreferences()
         setUpAboutPreferences()
+        setUpThemesPreferences()
     }
 
     private fun setUpAboutPreferences() {
@@ -68,6 +70,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             activity?.let { activity ->
                 checkStoragePermissions(activity, false)
             }
+            true
+        }
+    }
+
+    private fun setUpThemesPreferences() {
+        val themesPreference = findPreference<ListPreference>("theme")
+        themesPreference.setOnPreferenceChangeListener { _, _ ->
+            activity?.recreate()
             true
         }
     }
