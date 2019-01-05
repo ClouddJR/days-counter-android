@@ -47,7 +47,6 @@
       android:name=".activities.AddActivity"
       android:parentActivityName=".activities.MainActivity"
       android:screenOrientation="portrait"
-      android:theme="@style/AppTheme.NoActionBar"
       android:windowSoftInputMode="adjustResize|stateHidden">
     </activity>
 
@@ -57,15 +56,13 @@
       android:name=".activities.EditActivity"
       android:parentActivityName=".activities.MainActivity"
       android:screenOrientation="portrait"
-      android:theme="@style/AppTheme.NoActionBar"
       android:windowSoftInputMode="adjustResize|stateHidden">
     </activity>
 
     <activity
       android:name=".activities.DetailActivity"
       android:parentActivityName=".activities.MainActivity"
-      android:screenOrientation="portrait"
-      android:theme="@style/AppTheme.NoActionBarDetail">
+      android:screenOrientation="portrait">
     </activity>
 
     <activity
@@ -75,11 +72,19 @@
       android:windowSoftInputMode="adjustNothing">
     </activity>
 
-    <activity android:name=".activities.GalleryActivity">
+    <activity
+      android:name=".activities.GalleryActivity">
       <intent-filter>
         <action android:name="android.intent.action.OPEN_DOCUMENT"/>
         <category android:name="android.intent.category.OPENABLE"/>
         <data android:mimeType="image/*"/>
+      </intent-filter>
+    </activity>
+
+    <activity
+      android:name=".activities.AppWidgetConfigureActivity">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
       </intent-filter>
     </activity>
 
@@ -91,12 +96,6 @@
         android:name="android.appwidget.provider"
         android:resource="@xml/appwidget_info"/>
     </receiver>
-
-    <activity android:name=".activities.AppWidgetConfigureActivity">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
-      </intent-filter>
-    </activity>
 
     <receiver
       android:enabled="true"
