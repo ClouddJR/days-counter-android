@@ -33,6 +33,8 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.FontUtils
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.utils.RemindersUtils
 import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
 import com.arkadiusz.dayscounter.utils.ThemeUtils
@@ -429,15 +431,23 @@ class AddActivity : AppCompatActivity() {
                             0 -> askForPermissionsAndDisplayCropActivity()
                             1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery, "activity" to "Add")
                             2 -> displayColorPickerForEventBackground()
-                            3 -> askForPermissionsAndDisplayInternetImageActivity()
+                            3 -> {
+                                if (!isPremiumUser(this)) {
+                                    askForPermissionsAndDisplayInternetImageActivity()
+                                } else {
+                                    displayPremiumInfoDialog(this)
+                                }
+                            }
                         }
                     }.show()
         }
     }
 
     private fun setUpImageChooserDialogOptions(): Array<String> {
-        val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom), getString(R.string.add_activity_dialog_option_gallery),
-                getString(R.string.add_activity_dialog_option_color), getString(R.string.add_activity_dialog_option_internet))
+        val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom),
+                getString(R.string.add_activity_dialog_option_gallery),
+                getString(R.string.add_activity_dialog_option_color),
+                getString(R.string.add_activity_dialog_option_internet))
         return options.toTypedArray()
     }
 

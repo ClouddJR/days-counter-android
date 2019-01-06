@@ -21,6 +21,7 @@ import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.settings.SettingsActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.common.AccountPicker
@@ -73,8 +74,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
     }
 
     private fun hideRemoveButtonIfPurchased(menu: Menu?) {
-        val areAdsRemoved = prefs["ads"] ?: false
-        if (areAdsRemoved) {
+        if (isPremiumUser(this)) {
             menu?.removeItem(R.id.action_remove_ads)
         }
     }
@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         when (item?.itemId) {
 
             R.id.action_syncing -> {
+                PurchasesUtils.displayPremiumInfoDialog(this)
                 if (!FirebaseRepository.isNetworkEnabled(this)) {
                     toast(getString(R.string.main_activity_sync_no_connection)).show()
                 } else {
@@ -91,12 +92,7 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
             }
 
             R.id.action_remove_ads -> {
-                try {
-                    helper.launchPurchaseFlow(this, "1", 10001,
-                            PurchasesUtils.PurchaseFinishedListener, "")
-                } catch (e: IabHelper.IabAsyncInProgressException) {
-                    e.printStackTrace()
-                }
+                startActivity<PremiumActivity>()
             }
 
             R.id.action_settings -> {
@@ -134,8 +130,13 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
     }
 
     private fun refreshDataInFragments() {
-        (viewPagerAdapter.getItem(0) as FutureFragment).refreshData()
-        (viewPagerAdapter.getItem(1) as PastFragment).refreshData()
+        if (viewPagerAdapter.getItem(0) is FutureFragment) {
+            (viewPagerAdapter.getItem(0) as FutureFragment).refreshData()
+            (viewPagerAdapter.getItem(1) as PastFragment).refreshData()
+        } else {
+            (viewPagerAdapter.getItem(0) as PastFragment).refreshData()
+            (viewPagerAdapter.getItem(1) as FutureFragment).refreshData()
+        }
     }
 
     private fun getEmailAddress() {
@@ -229,8 +230,8 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
                     e.printStackTrace()
                 }
             }
+            invalidateOptionsMenu()
         }
-        invalidateOptionsMenu()
     }
 
     private fun showChangelog() {

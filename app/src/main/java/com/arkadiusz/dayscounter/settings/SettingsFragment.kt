@@ -8,11 +8,12 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
-import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
 import com.arkadiusz.dayscounter.utils.StorageUtils.isCorrectFileChosenForImport
 import org.jetbrains.anko.browse
@@ -75,10 +76,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setUpThemesPreferences() {
-        val themesPreference = findPreference<ListPreference>("theme")
-        themesPreference.setOnPreferenceChangeListener { _, _ ->
-            activity?.recreate()
-            true
+        val themesPreference = findPreference<Preference>("theme")
+
+        if (!isPremiumUser(context)) {
+            themesPreference.setOnPreferenceClickListener {
+                displayPremiumInfoDialog(context)
+                true
+            }
+            
+        } else {
+            themesPreference.setOnPreferenceChangeListener { _, _ ->
+                activity?.recreate()
+                true
+            }
         }
     }
 
