@@ -20,6 +20,7 @@ import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.single_event_layout.view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.textColor
+import java.io.File
 
 /**
  * Created by arkadiusz on 17.03.18
@@ -75,7 +76,11 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
                     view.eventImage.setImageDrawable(null)
                     view.eventImage.backgroundColor = event.imageColor
                 }
-                event.imageID == 0 -> Glide.with(context).load(event.image).into(view.eventImage)
+                event.imageID == 0 -> {
+                    if (File(event.image).exists()) {
+                        Glide.with(context).load(event.image).into(view.eventImage)
+                    }
+                }
                 else -> Glide.with(context).load(event.imageID).into(view.eventImage)
             }
         }
