@@ -23,14 +23,14 @@
       app:useSimpleSummaryProvider="true"/>
 
     <ListPreference
-      app:defaultValue="@string/main_activity_left_tab"
+      app:defaultValue="@string/main_activity_right_tab"
       app:entries="@array/fragment_names"
       app:entryValues="@array/fragment_names"
       app:key="default_fragment"
       app:title="Default Section"
       app:useSimpleSummaryProvider="true"/>
 
-    <ListPreference
+    <com.arkadiusz.dayscounter.utils.MyListPreference
       app:defaultValue="1"
       app:entries="@array/themes"
       app:entryValues="@array/themes"
