@@ -188,4 +188,18 @@
     <item>8</item>
   </string-array>
 
+  <!--Premium-->
+
+  <string name="premium_headline" translatable="false">Premium version</string>
+  <string name="premium_big_headline" translatable="false">All premium features</string>
+  <string name="buy_button" translatable="false">Buy now</string>
+
+  <string name="feature_one" translatable="false">No ads</string>
+  <string name="feature_two" translatable="false">Ability to choose images from the Internet for every event</string>
+  <string name="feature_three" translatable="false">Many themes to choose from (including dark and light versions)</string>
+
+  <string name="features_pro_big" translatable="false">
+    All features listed for the pro version plus additional support for further development
+  </string>
+
 </resources>
