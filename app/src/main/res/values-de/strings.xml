@@ -13,7 +13,7 @@
 
   <string name="main_activity_left_tab">Vergangene Ereignisse</string>
   <string name="main_activity_right_tab">Zukünftige Ereignisse</string>
-  <string name="main_activity_ads">Werbung entfernen</string>
+  <string name="main_activity_ads">Premium</string>
   <string name="main_activity_privacy_policy">Privacy policy</string>
   <string name="menu_activity_sync">Mit der Cloud synchronisieren</string>
   <string name="main_activity_sync_toast">Fehler bei der Kontoauswahl</string>
@@ -145,6 +145,85 @@
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
+  <!--settings-->
+
+  <string name="settings_menu_action">die Einstellungen</string>
+
+  <string name="main_section_title">Main</string>
+
+  <string name="date_format_title">Datumsformat</string>
+  <string name="sorting_order_title">Sortierreihenfolge</string>
+  <string name="default_section_title">Standardabschnitt</string>
+  <string name="app_theme_title">Aussehen</string>
+  <string name="premium_features_title">Premium</string>
+  <string name="rate_app_title">Bewerte diese App</string>
+
+  <string name="backup_section_title">Backup</string>
+
+  <string name="backup_import_title">Ereignisse importieren</string>
+  <string name="backup_import_summary">Importieren Sie Ihre Ereignisdaten aus einer Datei</string>
+
+  <string name="backup_export_title">Ereignisse exportieren</string>
+  <string name="backup_export_summary">Exportieren Sie Ihre Ereignisdaten in eine Datei</string>
+
+  <string name="about_section_title">About</string>
+
+  <string-array name="themes">
+    <item>Standard</item>
+    <item>Hellblau</item>
+    <item>Hellrot</item>
+    <item>Hellgrün</item>
+    <item>Dunkelgrün</item>
+    <item>Dunkelviolett</item>
+    <item>Dunkelblau</item>
+    <item>Dunkelrot</item>
+  </string-array>
+
+  <string name="backup_saved_toast">Sicherung gespeichert in %s</string>
+  <string name="backup_toast_wrong_file">Falsche Datei</string>
+
+  <!--Premium-->
+
+  <string name="premium_dialog_title">Premium</string>
+  <string name="premium_dialog_content">Diese Funktion ist nur für Premium-Benutzer verfügbar. Klicke, um mehr zu lernen.</string>
+  <string name="premium_dialog_more_button">Mehr Info</string>
+
+  <string name="premium_already_own_dialog_title">Information</string>
+  <string name="premium_already_own_dialog_message">Sie hatten das schon gekauft</string>
+
+  <!--Login-->
+
+  <string name="login_activity_title">LoginActivity</string>
+  <string name="login_activity_email">Email</string>
+  <string name="login_activity_password">Passwort</string>
+  <string name="login_activity_login_button">LOGIN</string>
+  <string name="login_activity_create_account"><u>Ein Konto erstellen</u></string>
+  <string name="login_activity_create_q_account">Ich habe noch kein Konto</string>
+  <string name="login_activity_or">oder</string>
+  <string name="login_activity_google">Einloggen mit Google</string>
+  <string name="login_activity_wrong_credentials">Überprüfen Sie Ihre Email und Ihr Passwort</string>
+  <string name="login_activity_connection_problem">Prüfe deine Internetverbindung</string>
+  <string name="login_activity_password_reset"><u>Passwort vergessen?</u></string>
+  <string name="login_activity_password_reset_dialog"><u>Passwort zurücksetzen</u></string>
+  <string name="login_activity_password_reset_toast_success">An diese Adresse wurde eine E-Mail mit Anweisungen gesendet</string>
+  <string name="login_activity_password_reset_toast_fail">Diese E-Mail existiert nicht in der Datenbank</string>
+  <string name="login_activity_password_reset_form_edit_text">Email</string>
+  <string name="login_activity_password_reset_form_button">Zurücksetzen</string>
+
+  <string name="main_activity_sign_out">Ausloggen</string>
+  <string name="main_activity_email">Ihr Konto: %s \nDu bist bereits eingeloggt</string>
+
+
+  <!--InternetGallery-->
+
+  <string name="dialog_wait_prompt">Warten Sie mal...</string>
+  <string name="dialog_downloading">wird heruntergeladen</string>
+  <string name="dialog_saving">Speichern</string>
+  <string name="no_results">Keine Ergebnisse</string>
+  <string name="internet_gallery_search_hint">Suche</string>
+
+  <string name="author_link">Autor: </string>
 
 
 

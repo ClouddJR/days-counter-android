@@ -13,7 +13,7 @@
 
   <string name="main_activity_left_tab">Minione</string>
   <string name="main_activity_right_tab">Nadchodzące</string>
-  <string name="main_activity_ads">Usuń reklamy</string>
+  <string name="main_activity_ads">Premium</string>
   <string name="main_activity_privacy_policy">Privacy policy</string>
   <string name="menu_activity_sync">Synchronizacja z chmurą</string>
   <string name="main_activity_sync_toast">Błąd podczas wyboru konta</string>
@@ -145,6 +145,85 @@
   <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
   <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
   <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+
+  <!--settings-->
+
+  <string name="premium_dialog_title">Premium</string>
+  <string name="premium_dialog_content">Ta funkcja jest tylko dla użytkowników premium. Kliknij aby dowiedzieć się więcej.</string>
+  <string name="premium_dialog_more_button">OK</string>
+
+  <string name="settings_menu_action">Ustawienia</string>
+
+  <string name="main_section_title">Główne</string>
+
+  <string name="date_format_title">Format daty</string>
+  <string name="sorting_order_title">Kolejność sortowania</string>
+  <string name="default_section_title">Domyślna sekcja</string>
+  <string name="app_theme_title">Motyw</string>
+  <string name="premium_features_title">Premium</string>
+  <string name="rate_app_title">Oceń tę aplikację</string>
+
+  <string name="backup_section_title">Backup</string>
+
+  <string name="backup_import_title">Zimportuj wydarzenia</string>
+  <string name="backup_import_summary">Importuj swoje wydarzenia z pliku</string>
+
+  <string name="backup_export_title">Eksportuj wydarzenia</string>
+  <string name="backup_export_summary">Wyeksportuj swoje wydarzenia do pliku</string>
+
+  <string name="about_section_title">O aplikacji</string>
+
+  <string-array name="themes">
+    <item>Domyślne (Jasny)</item>
+    <item>Niebieski(Jasny)</item>
+    <item>Czerwony (Jasny)</item>
+    <item>Zielony (Jasny)</item>
+    <item>Zielony (Ciemny)</item>
+    <item>Fioletowy (Ciemny)</item>
+    <item>Niebieski (Ciemny)</item>
+    <item>Czerwony (Ciemny)</item>
+  </string-array>
+
+  <string name="backup_saved_toast">Backup zapisany w %s</string>
+  <string name="backup_toast_wrong_file">Zły typ pliku</string>
+
+  <!--Premium-->
+
+  <string name="premium_already_own_dialog_title">Informacja</string>
+  <string name="premium_already_own_dialog_message">Już zakupiłeś tę usługę</string>
+
+  <!--Login-->
+
+  <string name="login_activity_title">LoginActivity</string>
+  <string name="login_activity_email">Adres email</string>
+  <string name="login_activity_password">Hasło</string>
+  <string name="login_activity_login_button">Login</string>
+  <string name="login_activity_create_account"><u>Załóż konto</u></string>
+  <string name="login_activity_create_q_account">Nie posiadasz konta?</string>
+  <string name="login_activity_or">albo</string>
+  <string name="login_activity_google">Zaloguj się z Google</string>
+  <string name="login_activity_wrong_credentials">Sprawdź swój email i hasło</string>
+  <string name="login_activity_connection_problem">Sprawdź swoje połączenie internetowe</string>
+  <string name="login_activity_password_reset"><u>Zapomniałeś hasła?</u></string>
+  <string name="login_activity_password_reset_dialog"><u>Zresetuj hasło</u></string>
+  <string name="login_activity_password_reset_toast_success">Email z instrukcją został wysłany</string>
+  <string name="login_activity_password_reset_toast_fail">Ten email nie istnieje w bazie</string>
+  <string name="login_activity_password_reset_form_edit_text">Adres email</string>
+  <string name="login_activity_password_reset_form_button">Resetuj</string>
+
+  <string name="main_activity_sign_out">Wyloguj się</string>
+  <string name="main_activity_email">Twoje konto: %s \nJesteś już zalogowany</string>
+
+
+  <!--InternetGallery-->
+
+  <string name="dialog_wait_prompt">Proszę czekać...</string>
+  <string name="dialog_downloading">Pobieranie</string>
+  <string name="dialog_saving">Zapisywanie</string>
+  <string name="no_results">Brak wyników</string>
+  <string name="internet_gallery_search_hint">Szukaj</string>
+
+  <string name="author_link">Autor: </string>
 
 
 </resources>

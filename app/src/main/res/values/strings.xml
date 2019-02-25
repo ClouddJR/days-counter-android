@@ -13,7 +13,7 @@
 
   <string name="main_activity_left_tab">Past Events</string>
   <string name="main_activity_right_tab">Future Events</string>
-  <string name="main_activity_ads">Remove Ads</string>
+  <string name="main_activity_ads">Premium</string>
   <string name="main_activity_privacy_policy">Privacy policy</string>
   <string name="menu_activity_sync">Sync with Cloud</string>
   <string name="main_activity_sync_toast">Failed to choose an account</string>
@@ -148,9 +148,30 @@
 
   <!--settings-->
 
+  <string name="settings_menu_action">Settings</string>
+
   <string name="sorting_key_date_order" translatable="false">date_order</string>
   <string name="sorting_key_date_desc" translatable="false">date_desc</string>
   <string name="sorting_key_date_asc" translatable="false">date_asc</string>
+
+  <string name="main_section_title">Main</string>
+
+  <string name="date_format_title">Date Format</string>
+  <string name="sorting_order_title">Sorting order</string>
+  <string name="default_section_title">Default section</string>
+  <string name="app_theme_title">App theme</string>
+  <string name="premium_features_title">Premium</string>
+  <string name="rate_app_title">Rate this app</string>
+
+  <string name="backup_section_title">Backup</string>
+
+  <string name="backup_import_title">Import events</string>
+  <string name="backup_import_summary">Import your events data from a file</string>
+
+  <string name="backup_export_title">Export events</string>
+  <string name="backup_export_summary">Export your events data to a file</string>
+
+  <string name="about_section_title">About</string>
 
   <string-array name="date_formats">
     <item>31-10-1980</item>
@@ -178,6 +199,17 @@
   </string-array>
 
   <string-array name="themes">
+    <item>Default (Light)</item>
+    <item>Blue (Light)</item>
+    <item>Red (Light)</item>
+    <item>Green (Light)</item>
+    <item>Green (Dark)</item>
+    <item>Purple (Dark)</item>
+    <item>Blue (Dark)</item>
+    <item>Red (Dark)</item>
+  </string-array>
+
+  <string-array name="themes_keys">
     <item>1</item>
     <item>2</item>
     <item>3</item>
@@ -188,18 +220,62 @@
     <item>8</item>
   </string-array>
 
+  <string name="backup_saved_toast">Backup saved in %s</string>
+  <string name="backup_toast_wrong_file">Wrong file</string>
+
   <!--Premium-->
+
+  <string name="premium_dialog_title">Premium</string>
+  <string name="premium_dialog_content">This feature is only for premium users. Click to learn more.</string>
+  <string name="premium_dialog_more_button">More info</string>
 
   <string name="premium_headline" translatable="false">Premium version</string>
   <string name="premium_big_headline" translatable="false">All premium features</string>
   <string name="buy_button" translatable="false">Buy now</string>
 
   <string name="feature_one" translatable="false">No ads</string>
-  <string name="feature_two" translatable="false">Ability to choose images from the Internet for every event</string>
-  <string name="feature_three" translatable="false">Many themes to choose from (including dark and light versions)</string>
+  <string name="feature_two" translatable="false">Full sync between multiple devices (including images)</string>
+  <string name="feature_three" translatable="false">Ability to choose images from the Internet for every event</string>
+  <string name="feature_four" translatable="false">Many themes to choose from (including dark and light versions)</string>
 
   <string name="features_pro_big" translatable="false">
     All features listed for the pro version plus additional support for further development
   </string>
+
+  <string name="premium_already_own_dialog_title">Information</string>
+  <string name="premium_already_own_dialog_message">You had already bought this</string>
+
+  <!--Login-->
+
+  <string name="login_activity_title">LoginActivity</string>
+  <string name="login_activity_email">Email address</string>
+  <string name="login_activity_password">Password</string>
+  <string name="login_activity_login_button">LOGIN</string>
+  <string name="login_activity_create_account"><u>Create an account</u></string>
+  <string name="login_activity_create_q_account">Don\'t have an account?</string>
+  <string name="login_activity_or">or</string>
+  <string name="login_activity_google">Log in with Google</string>
+  <string name="login_activity_wrong_credentials">Check your email and password</string>
+  <string name="login_activity_connection_problem">Check your Internet connection</string>
+  <string name="login_activity_password_reset"><u>Forgot password?</u></string>
+  <string name="login_activity_password_reset_dialog"><u>Reset password</u></string>
+  <string name="login_activity_password_reset_toast_success">Email with instructions was sent to this address</string>
+  <string name="login_activity_password_reset_toast_fail">That email does not exist in database</string>
+  <string name="login_activity_password_reset_form_edit_text">Email address</string>
+  <string name="login_activity_password_reset_form_button">Reset</string>
+
+  <string name="main_activity_sign_out">Sign out</string>
+  <string name="main_activity_email">Your account: %s \nYou are already logged in</string>
+
+  <!--InternetGallery-->
+
+  <string name="dialog_wait_prompt">Please wait...</string>
+  <string name="dialog_downloading">Downloading</string>
+  <string name="dialog_saving">Saving</string>
+  <string name="no_results">No results</string>
+  <string name="internet_gallery_search_hint">Search</string>
+
+  <string name="author_link">Author: </string>
+
 
 </resources>
