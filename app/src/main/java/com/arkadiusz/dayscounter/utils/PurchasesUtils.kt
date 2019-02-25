@@ -5,6 +5,7 @@ import PreferenceUtils.get
 import PreferenceUtils.set
 import android.content.Context
 import android.content.SharedPreferences
+import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.PremiumActivity
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.purchaseutils.IabResult
@@ -51,12 +52,13 @@ object PurchasesUtils {
     }
 
     fun displayPremiumInfoDialog(context: Context?) {
-        context?.alert("This feature is only for premium users. Click to learn more.", "Premium") {
-            positiveButton("More info") {
+        context?.alert(context.getString(R.string.premium_dialog_content),
+                context.getString(R.string.premium_dialog_title)) {
+            positiveButton(context.getString(R.string.premium_dialog_more_button)) {
                 context.startActivity<PremiumActivity>()
                 it.dismiss()
             }
-            negativeButton("cancel") {
+            negativeButton(context.getString(R.string.add_activity_back_button_cancel)) {
                 it.dismiss()
             }
         }?.show()
