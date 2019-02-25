@@ -9,11 +9,14 @@ import com.arkadiusz.dayscounter.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
 import com.arkadiusz.dayscounter.utils.ThemeUtils
 import kotlinx.android.synthetic.main.activity_premium.*
+import org.jetbrains.anko.alert
 
 class PremiumActivity : AppCompatActivity() {
 
     private lateinit var helper: IabHelper
     private var isHelperSetup = false
+    private var isPremiumAlreadyBought = false
+    private var isPremiumBigAlreadyBought = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(true, this))
@@ -31,23 +34,53 @@ class PremiumActivity : AppCompatActivity() {
     }
 
     private fun setUpHelper() {
+        PurchasesUtils.sharedPreferences = defaultPrefs(this)
         helper = IabHelper(this, PurchasesUtils.base64EncodedPublicKey)
         helper.startSetup { result ->
             if (result.isSuccess) {
                 isHelperSetup = true
+                try {
+
+                    //checking if a user have already bought any of the premium accounts
+                    helper.queryInventoryAsync { res, inv ->
+                        if (res?.isFailure != false) {
+                            //nothing
+                        } else {
+                            val purchasePro = inv?.getPurchase("1")
+
+                            if (purchasePro != null) {
+                                isPremiumAlreadyBought = true
+                            }
+                            val purchaseProBig = inv?.getPurchase("2")
+
+                            if (purchaseProBig != null) {
+                                isPremiumBigAlreadyBought = true
+                            }
+                        }
+                    }
+                } catch (e: IabHelper.IabAsyncInProgressException) {
+                    e.printStackTrace()
+                }
             }
         }
-        PurchasesUtils.sharedPreferences = defaultPrefs(this)
     }
 
     private fun setUpButtons() {
         buyButton.setOnClickListener {
             if (isHelperSetup) {
-                try {
-                    helper.launchPurchaseFlow(this, "1", 10001,
-                            PurchasesUtils.PurchaseFinishedListener, "")
-                } catch (e: Exception) {
-                    e.printStackTrace()
+
+                if (!isPremiumAlreadyBought) {
+                    try {
+                        helper.launchPurchaseFlow(this, "1", 10001,
+                                PurchasesUtils.PurchaseFinishedListener, "")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    alert(getString(R.string.premium_already_own_dialog_message)) {
+                        title = getString(R.string.premium_already_own_dialog_title)
+                        positiveButton("OK") {}
+                    }.show()
                 }
             }
 
@@ -55,11 +88,18 @@ class PremiumActivity : AppCompatActivity() {
 
         buyButtonBig.setOnClickListener {
             if (isHelperSetup) {
-                try {
-                    helper.launchPurchaseFlow(this, "2", 10001,
-                            PurchasesUtils.PurchaseFinishedListener, "")
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                if (!isPremiumBigAlreadyBought) {
+                    try {
+                        helper.launchPurchaseFlow(this, "2", 10001,
+                                PurchasesUtils.PurchaseFinishedListener, "")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    alert(getString(R.string.premium_already_own_dialog_message)) {
+                        title = getString(R.string.premium_already_own_dialog_title)
+                        positiveButton("OK") {}
+                    }.show()
                 }
             }
 

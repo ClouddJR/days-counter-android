@@ -92,6 +92,20 @@
           android:textColor="?themePrimaryFontColor"
           app:layout_constraintTop_toBottomOf="@id/featureTwoTV"/>
 
+        <TextView
+          android:id="@+id/featureFourTV"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="4dp"
+          android:paddingStart="4dp"
+          android:paddingEnd="4dp"
+          android:drawablePadding="6dp"
+          android:drawableStart="@drawable/bullet"
+          android:gravity="start"
+          android:text="@string/feature_four"
+          android:textColor="?themePrimaryFontColor"
+          app:layout_constraintTop_toBottomOf="@id/featureThreeTV"/>
+
 
         <Button
           android:id="@+id/buyButton"
@@ -104,7 +118,7 @@
           android:text="@string/buy_button"
           android:textColor="@color/white"
           app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintTop_toBottomOf="@id/featureThreeTV"/>
+          app:layout_constraintTop_toBottomOf="@id/featureFourTV"/>
 
       </androidx.constraintlayout.widget.ConstraintLayout>
 
