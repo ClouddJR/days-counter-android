@@ -89,7 +89,7 @@ object DateUtils {
 
         val formatter = when (datePreference) {
             "31-10-1980" -> SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-            "10-31-2018" -> SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
+            "10-31-1980" -> SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
             "1980-10-31" -> SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             "31 October 1980" -> SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
             "October 31, 1980" -> SimpleDateFormat("LLLL d, yyyy", Locale.getDefault())
