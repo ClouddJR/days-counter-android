@@ -54,7 +54,9 @@ class ImageDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Image>) {
-        if (params.key.toInt() <= 3) {
+
+        //loading only three pages maximum to save api calls
+        if (params.key.toInt() <= 3 && params.key.toInt() != -1) {
 
             unsplashService.getPhotosForQuery(queryString, params.key.toString()).enqueue(object : Callback<ImagesResponse> {
 
@@ -79,6 +81,7 @@ class ImageDataSource(
 
 
     private fun getNextPageFromResponse(response: Response<ImagesResponse>): Int {
+        Log.d("responseHeaders", response.headers()["link"].toString())
         response.headers()["link"]?.let {
             val nextPageUrl = it.split(",").last().trim().split(";")[0]
                     .removePrefix("<")
@@ -90,7 +93,9 @@ class ImageDataSource(
                 return page.toInt()
             }
         }
-        return 0
+
+        //return -1 if there was no more images
+        return -1
     }
 
     class Factory(private val unsplashService: UnsplashService,
