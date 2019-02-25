@@ -64,8 +64,8 @@ interface IInAppBillingService {
      * @param packageName the package name of the calling app
      * @param type of the in-app items ("inapp" for one-time purchases
      *        and "subs" for subscriptions)
-     * @param skusBundle bundle containing a StringArrayList of SKUs with key "ITEM_ID_LIST"
-     * @return Bundle containing the following key-value pairs
+     * @param skusBundle bundle containing a StringArrayList of SKUs with id "ITEM_ID_LIST"
+     * @return Bundle containing the following id-value pairs
      *         "RESPONSE_CODE" with int value, RESULT_OK(0) if success, appropriate response codes
      *                         on failures.
      *         "DETAILS_LIST" with a StringArrayList containing purchase information
@@ -89,14 +89,14 @@ interface IInAppBillingService {
      * @param type of the in-app item being purchased ("inapp" for one-time purchases
      *        and "subs" for subscriptions)
      * @param developerPayload optional argument to be sent back with the purchase information
-     * @return Bundle containing the following key-value pairs
+     * @return Bundle containing the following id-value pairs
      *         "RESPONSE_CODE" with int value, RESULT_OK(0) if success, appropriate response codes
      *                         on failures.
      *         "BUY_INTENT" - PendingIntent to start the purchase flow
      *
      * The Pending intent should be launched with startIntentSenderForResult. When purchase flow
      * has completed, the onActivityResult() will give a resultCode of OK or CANCELED.
-     * If the purchase is successful, the result data will contain the following key-value pairs
+     * If the purchase is successful, the result data will contain the following id-value pairs
      *         "RESPONSE_CODE" with int value, RESULT_OK(0) if success, appropriate response
      *                         codes on failures.
      *         "INAPP_PURCHASE_DATA" - String in JSON format similar to
@@ -107,7 +107,7 @@ interface IInAppBillingService {
      *                                   "purchaseToken" : "122333444455555",
      *                                   "developerPayload":"example developer payload" }'
      *         "INAPP_DATA_SIGNATURE" - String containing the signature of the purchase data that
-     *                                  was signed with the private key of the developer
+     *                                  was signed with the private id of the developer
      *                                  TODO: change this to app-specific keys.
      */
     Bundle getBuyIntent(int apiVersion, String packageName, String sku, String type,
@@ -126,7 +126,7 @@ interface IInAppBillingService {
      *        skus are too many, a continuationToken is returned in the response bundle.
      *        This method can be called again with the continuation token to get the next set of
      *        owned skus.
-     * @return Bundle containing the following key-value pairs
+     * @return Bundle containing the following id-value pairs
      *         "RESPONSE_CODE" with int value, RESULT_OK(0) if success, appropriate response codes
                                on failures.
      *         "INAPP_PURCHASE_ITEM_LIST" - StringArrayList containing the list of SKUs
@@ -166,14 +166,14 @@ interface IInAppBillingService {
      * @param newSku the SKU that the user is upgrading or downgrading to
      * @param type of the item being purchased, currently must be "subs"
      * @param developerPayload optional argument to be sent back with the purchase information
-     * @return Bundle containing the following key-value pairs
+     * @return Bundle containing the following id-value pairs
      *         "RESPONSE_CODE" with int value, RESULT_OK(0) if success, appropriate response codes
      *                         on failures.
      *         "BUY_INTENT" - PendingIntent to start the purchase flow
      *
      * The Pending intent should be launched with startIntentSenderForResult. When purchase flow
      * has completed, the onActivityResult() will give a resultCode of OK or CANCELED.
-     * If the purchase is successful, the result data will contain the following key-value pairs
+     * If the purchase is successful, the result data will contain the following id-value pairs
      *         "RESPONSE_CODE" with int value, RESULT_OK(0) if success, appropriate response
      *                         codes on failures.
      *         "INAPP_PURCHASE_DATA" - String in JSON format similar to
@@ -184,7 +184,7 @@ interface IInAppBillingService {
      *                                   "purchaseToken" : "122333444455555",
      *                                   "developerPayload":"example developer payload" }'
      *         "INAPP_DATA_SIGNATURE" - String containing the signature of the purchase data that
-     *                                  was signed with the private key of the developer
+     *                                  was signed with the private id of the developer
      *                                  TODO: change this to app-specific keys.
      */
     Bundle getBuyIntentToReplaceSkus(int apiVersion, String packageName,
