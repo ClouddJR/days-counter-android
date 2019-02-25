@@ -15,6 +15,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.utils.FontUtils.getFontFor
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import kotlinx.android.synthetic.main.single_event_layout.view.*
@@ -77,8 +78,13 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
                     view.eventImage.backgroundColor = event.imageColor
                 }
                 event.imageID == 0 -> {
-                    if (File(event.image).exists()) {
-                        Glide.with(context).load(event.image).into(view.eventImage)
+                    when {
+                        File(event.image).exists() -> Glide.with(context).load(event.image).into(view.eventImage)
+                        event.imageCloudPath.isNotEmpty() -> Glide.with(context).load(
+                                FirebaseStorage.getInstance().getReference(event.imageCloudPath))
+                                .into(view.eventImage)
+                        else -> Glide.with(context).load(android.R.color.darker_gray)
+                                .into(view.eventImage)
                     }
                 }
                 else -> Glide.with(context).load(event.imageID).into(view.eventImage)
