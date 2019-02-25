@@ -7,15 +7,18 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.util.Log
 import android.util.TypedValue
 import android.widget.RemoteViews
+import com.arkadiusz.dayscounter.GlideApp
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.activities.DetailActivity
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.FontUtils
+import com.bumptech.glide.request.target.AppWidgetTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 import java.io.File
@@ -35,7 +38,6 @@ class AppWidgetProvider : AppWidgetProvider() {
         for (i in 0 until widgetsCount) {
             val widgetId = appWidgetIds!![i]
             val event = databaseRepository.getEventByWidgetId(widgetId)
-            Log.d("eventWIDGET", event.toString())
             event?.let {
                 val counterText = getCounterText(event, context!!)
 
@@ -102,7 +104,6 @@ class AppWidgetProvider : AppWidgetProvider() {
             }
 
             override fun transform(source: Bitmap?): Bitmap {
-                Log.d("Transforming", "transfortrrrrm")
                 val bitmap = source!!.copy(Bitmap.Config.ARGB_8888, true)
                 val paint = Paint()
                 val hexValue = 255 - (255 / 17 * pictureDim)
@@ -117,35 +118,57 @@ class AppWidgetProvider : AppWidgetProvider() {
     }
 
     private fun displayPictureFromGallery(remoteViews: RemoteViews, event: Event, context: Context, widgetId: Int) {
-        Log.d("widgetImage", event.image)
         val file = File(event.image)
         val pictureDim = event.pictureDim
-        Picasso.with(context).load(file).transform(object : Transformation {
-            override fun key(): String {
-                return "darkening$pictureDim"
+        if (file.exists()) {
+            Picasso.with(context).load(file).transform(object : Transformation {
+                override fun key(): String {
+                    return "darkening$pictureDim"
+                }
+
+                override fun transform(source: Bitmap?): Bitmap {
+                    val bitmap = source!!.copy(Bitmap.Config.ARGB_8888, true)
+                    val paint = Paint()
+                    val hexValue = 255 - (255 / 17 * pictureDim)
+                    val stringHex = Integer.toHexString(hexValue)
+                    paint.colorFilter = PorterDuffColorFilter("FF$stringHex$stringHex$stringHex".toLong(16).toInt(), PorterDuff.Mode.MULTIPLY)
+                    val canvas = Canvas(bitmap)
+                    canvas.drawBitmap(bitmap, 0f, 0f, paint)
+                    source.recycle()
+                    return bitmap
+                }
+            }).resize(0, 250).into(remoteViews, R.id.eventImage, intArrayOf(widgetId))
+        } else if (event.imageCloudPath.isNotEmpty()) {
+
+            val appWidgetTarget = object : AppWidgetTarget(context, R.id.eventImage, remoteViews, widgetId) {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    val paint = Paint()
+                    val hexValue = 255 - (255 / 17 * pictureDim)
+                    val stringHex = Integer.toHexString(hexValue)
+                    paint.colorFilter = PorterDuffColorFilter("FF$stringHex$stringHex$stringHex".toLong(16).toInt(), PorterDuff.Mode.MULTIPLY)
+                    val canvas = Canvas(resource)
+                    canvas.drawBitmap(resource, 0f, 0f, paint)
+                    super.onResourceReady(resource, transition)
+                }
             }
 
-            override fun transform(source: Bitmap?): Bitmap {
-                val bitmap = source!!.copy(Bitmap.Config.ARGB_8888, true)
-                val paint = Paint()
-                val hexValue = 255 - (255 / 17 * pictureDim)
-                val stringHex = Integer.toHexString(hexValue)
-                paint.colorFilter = PorterDuffColorFilter("FF$stringHex$stringHex$stringHex".toLong(16).toInt(), PorterDuff.Mode.MULTIPLY)
-                val canvas = Canvas(bitmap)
-                canvas.drawBitmap(bitmap, 0f, 0f, paint)
-                source.recycle()
-                return bitmap
-            }
-        }).resize(0, 250).into(remoteViews, R.id.eventImage, intArrayOf(widgetId))
+            GlideApp
+                    .with(context.applicationContext)
+                    .asBitmap()
+                    .load(FirebaseStorage.getInstance().getReference(event.imageCloudPath))
+                    .override(800, 600)
+                    .into(appWidgetTarget)
+
+        }
     }
 
 
-    private fun setUpStackAndClickListener(eventId: Int, context: Context?, remoteViews: RemoteViews) {
+    private fun setUpStackAndClickListener(eventId: String, context: Context?, remoteViews: RemoteViews) {
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra("event_id", eventId)
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addNextIntentWithParentStack(intent)
-        val pendingIntent = stackBuilder.getPendingIntent(eventId, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = stackBuilder.getPendingIntent(eventId.hashCode(), PendingIntent.FLAG_UPDATE_CURRENT)
         remoteViews.setOnClickPendingIntent(R.id.eventImage, pendingIntent)
     }
 
