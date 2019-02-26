@@ -37,14 +37,16 @@ class InternetGalleryAdapter(val listener: ImageClickListener) :
                         .into(itemView.photoIV)
 
                 val userProfileUrl = if (Build.VERSION.SDK_INT >= 24) {
-                    Html.fromHtml("Author: <a href ='${image.imageAuthor.userLinks.profileUrl}?utm_source=Days Counter&" +
+                    Html.fromHtml(itemView.context.getString(R.string.author_link) +
+                            "<a href ='${image.imageAuthor.userLinks.profileUrl}?utm_source=Days Counter&" +
                             "utm_medium=referral'>" +
-                            image.imageAuthor.userName,
+                            image.imageAuthor.fullName,
                             Html.FROM_HTML_MODE_COMPACT)
                 } else {
-                    Html.fromHtml("Author: <a href ='${image.imageAuthor.userLinks.profileUrl}?utm_source=Days Counter&" +
+                    Html.fromHtml(itemView.context.getString(R.string.author_link) +
+                            "<a href ='${image.imageAuthor.userLinks.profileUrl}?utm_source=Days Counter&" +
                             "utm_medium=referral'>" +
-                            image.imageAuthor.userName)
+                            image.imageAuthor.fullName)
                 }
                 itemView.authorTV.text = userProfileUrl
                 itemView.authorTV.isClickable = true
