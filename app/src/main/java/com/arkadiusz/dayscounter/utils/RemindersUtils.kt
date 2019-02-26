@@ -46,6 +46,6 @@ object RemindersUtils {
         intentSend.putExtra("eventId", event.id)
         intentSend.putExtra("eventDate", event.date)
 
-        return PendingIntent.getBroadcast(context, event.id, intentSend, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, event.id.hashCode(), intentSend, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }

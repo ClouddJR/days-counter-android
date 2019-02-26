@@ -13,7 +13,7 @@ import com.arkadiusz.dayscounter.utils.NotificationUtils
 class AlarmBroadcast : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val id = intent?.getIntExtra("eventId", 0)
+        val id = intent?.getStringExtra("eventId")
         val eventTitle = intent?.getStringExtra("eventTitle")
         val eventDescription = intent?.getStringExtra("eventText")
         val eventDate = intent?.getStringExtra("eventDate")

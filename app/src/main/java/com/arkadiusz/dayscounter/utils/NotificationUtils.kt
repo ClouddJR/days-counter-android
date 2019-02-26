@@ -35,7 +35,7 @@ object NotificationUtils {
         notificationManager?.createNotificationChannel(channel)
     }
 
-    fun createNotification(context: Context?, eventTitle: String, eventDescription: String, eventId: Int) {
+    fun createNotification(context: Context?, eventTitle: String, eventDescription: String, eventId: String) {
         val mBuilder = NotificationCompat.Builder(context!!, channelID)
                 .setSmallIcon(R.drawable.n_icon)
                 .setContentTitle(eventTitle)
@@ -44,10 +44,10 @@ object NotificationUtils {
         val pendingIntent = buildPendingIntent(context, eventId)
         mBuilder.setContentIntent(pendingIntent)
         val notificationManager = context.notificationManager
-        notificationManager.notify(eventId, mBuilder.build())
+        notificationManager.notify(eventId.hashCode(), mBuilder.build())
     }
 
-    private fun buildPendingIntent(context: Context?, eventId: Int): PendingIntent {
+    private fun buildPendingIntent(context: Context?, eventId: String): PendingIntent {
         val resultIntent = Intent(context, DetailActivity::class.java)
         resultIntent.putExtra("event_id", eventId)
         resultIntent.putExtra("notificationClick", "clicked")
@@ -55,6 +55,6 @@ object NotificationUtils {
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addNextIntentWithParentStack(resultIntent)
 
-        return stackBuilder.getPendingIntent(eventId, PendingIntent.FLAG_UPDATE_CURRENT)
+        return stackBuilder.getPendingIntent(eventId.hashCode(), PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }
