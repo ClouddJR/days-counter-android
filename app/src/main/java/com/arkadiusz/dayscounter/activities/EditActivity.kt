@@ -27,7 +27,6 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
-import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.*
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
@@ -38,6 +37,7 @@ import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.*
@@ -109,7 +109,7 @@ class EditActivity : AppCompatActivity() {
 
 
     private fun receivePassedEventId() {
-        val passedEventId = intent.getIntExtra("eventId", 0)
+        val passedEventId = intent.getStringExtra("eventId")
         passedEvent = DatabaseProvider.provideRepository().getEventById(passedEventId)
     }
 
@@ -283,9 +283,8 @@ class EditActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             val eventToBeAdded = prepareEventBasedOnViews()
             DatabaseProvider.provideRepository().editEvent(eventToBeAdded)
-            FirebaseRepository().addOrEditEventInFirebase(defaultPrefs(this)["firebase-email"]
-                    ?: "", eventToBeAdded, eventToBeAdded.id)
             addReminder(eventToBeAdded)
+            updateWidgetIfOnScreen(eventToBeAdded.widgetID)
             updateWidgetIfOnScreen(eventToBeAdded.widgetID)
             finish()
         }
@@ -372,6 +371,7 @@ class EditActivity : AppCompatActivity() {
         event.image = imageUri.toString()
         event.imageID = imageID
         event.imageColor = imageColor
+        event.imageCloudPath = passedEvent.imageCloudPath
         event.type = eventType
         event.repeat = repeatSpinner.selectedItemPosition.toString()
         when (hasAlarm) {
@@ -615,7 +615,14 @@ class EditActivity : AppCompatActivity() {
             }
             else -> {
                 imageUri = Uri.parse(passedEvent.image)
-                Glide.with(this).load(File(passedEvent.image)).into(eventImage)
+                when {
+                    File(passedEvent.image).exists() -> Glide.with(this).load(passedEvent.image).into(eventImage)
+                    passedEvent.imageCloudPath.isNotEmpty() -> Glide.with(this).load(
+                            FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath))
+                            .into(eventImage)
+                    else -> Glide.with(this).load(android.R.color.darker_gray)
+                            .into(eventImage)
+                }
             }
         }
     }
