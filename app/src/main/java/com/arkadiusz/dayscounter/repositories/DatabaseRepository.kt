@@ -1,7 +1,5 @@
 package com.arkadiusz.dayscounter.repositories
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.get
 import android.content.Context
 import android.net.Uri
 import android.util.Log.d
@@ -15,12 +13,15 @@ import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
 import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_EXTENSION
 import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_NAME
 import com.arkadiusz.dayscounter.utils.StorageUtils.toFile
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.Sort
 import java.io.File
 import java.util.*
+import kotlin.concurrent.schedule
 
 /**
  * Created by Arkadiusz on 14.03.2018
@@ -28,10 +29,12 @@ import java.util.*
 
 class DatabaseRepository {
 
+    private val userRepository = UserRepository()
+    private val firebaseRepository = FirebaseRepository(userRepository)
 
     private var realm: Realm
     private val config: RealmConfiguration = RealmConfiguration.Builder()
-            .schemaVersion(3)
+            .schemaVersion(4)
             .migration(Migration())
             .build()
 
@@ -58,6 +61,10 @@ class DatabaseRepository {
             results = it.where(Event::class.java).findAll()
         }
         return results
+    }
+
+    private fun getCopyOfAllEvents(): List<Event> {
+        return realm.copyFromRealm(realm.where(Event::class.java).findAll())
     }
 
     fun getFutureEvents(): RealmResults<Event> {
@@ -96,7 +103,7 @@ class DatabaseRepository {
         return realm.where(Event::class.java).equalTo("name", name).findFirst()!!
     }
 
-    fun getEventById(id: Int): Event {
+    fun getEventById(id: String): Event {
         return realm.where(Event::class.java).equalTo("id", id).findFirst()!!
     }
 
@@ -126,7 +133,7 @@ class DatabaseRepository {
         }
     }
 
-    fun disableAlarmForEvent(eventId: Int) {
+    fun disableAlarmForEvent(eventId: String) {
         realm.executeTransaction {
             val event = realm.where(Event::class.java).equalTo("id", eventId).findFirst()!!
             event.hasAlarm = false
@@ -139,62 +146,129 @@ class DatabaseRepository {
         }
     }
 
-    fun addEventToDatabase(event: Event): Int {
+    fun addEventToDatabase(event: Event): String {
         event.id = getNextId()
-        realm.executeTransaction {
-            it.copyToRealmOrUpdate(event)
+
+        //set up image path in firebase
+        if (event.image.isNotEmpty() && userRepository.isLoggedIn()) {
+            val imageName = Uri.parse(event.image).lastPathSegment
+            val path = "${userRepository.getUserId()}/${event.id}/$imageName"
+            event.imageCloudPath = path
         }
+
+        realm.executeTransactionAsync(Realm.Transaction {
+
+            it.copyToRealmOrUpdate(event)
+
+        }, Realm.Transaction.OnSuccess {
+            if (userRepository.isLoggedIn()) {
+                Timer("Firebase", false).schedule(1000) {
+                    if (event.image.isNotEmpty()) {
+                        firebaseRepository.addImageForEvent(event)
+                    }
+                    firebaseRepository.addEvent(event)
+                }
+            }
+        })
+
+
         return event.id
     }
 
-    fun addEventsToDatabase(eventsList: MutableList<Event>) {
-        realm.executeTransaction {
-            it.copyToRealmOrUpdate(eventsList)
-        }
-    }
-
     fun editEvent(event: Event) {
-        realm.executeTransaction {
+        val oldEvent = realm.copyFromRealm(realm.where(Event::class.java)
+                .equalTo("id", event.id).findFirst()!!)
+
+        //set up image path in firebase
+        if (userRepository.isLoggedIn()) {
+
+            Timer("Firebase", false).schedule(1000) {
+                //previously background or color, now image from sdcard
+                if ((oldEvent.imageColor != 0 || oldEvent.imageID != 0) && event.image.isNotEmpty()) {
+                    event.imageCloudPath = getCloudImagePath(event)
+                    firebaseRepository.addImageForEvent(event)
+                }
+
+                //previously image, now background or color
+                if ((oldEvent.image.isNotEmpty() || oldEvent.imageCloudPath.isNotEmpty()) &&
+                        (event.imageID != 0 || event.imageColor != 0)) {
+                    firebaseRepository.deleteImageForEvent(oldEvent)
+                }
+
+                //previously image, now the same image
+                if (oldEvent.image.isNotEmpty() && event.image == "null" && oldEvent.imageCloudPath == event.imageCloudPath) {
+
+                }
+
+                //previously image, now different one
+                if (oldEvent.image != event.image && oldEvent.imageCloudPath == event.imageCloudPath
+                        && oldEvent.image.isNotEmpty() && event.image != "null") {
+                    firebaseRepository.deleteImageForEvent(oldEvent)
+                    event.imageCloudPath = getCloudImagePath(event)
+                    firebaseRepository.addImageForEvent(event)
+                }
+
+                firebaseRepository.addEvent(event)
+            }
+        }
+
+        realm.executeTransactionAsync {
             it.copyToRealmOrUpdate(event)
         }
     }
 
-    private fun getNextId(): Int {
-        var nextId = 1
-        try {
-            nextId = realm.where(Event::class.java).max("id")!!.toInt() + 1
-        } catch (e: NullPointerException) {
-            return nextId
-        }
-        return nextId
+    private fun getCloudImagePath(event: Event): String {
+        val imageName = Uri.parse(event.image).lastPathSegment
+        return "${userRepository.getUserId()}/${event.id}/$imageName"
     }
 
-    fun deleteEventFromDatabase(eventId: Int) {
-        val results = realm.where(Event::class.java).equalTo("id", eventId).findAll()
+
+    fun deleteEventFromDatabase(eventId: String) {
+        lateinit var eventCopy: Event
+
         realm.executeTransaction {
-            results.deleteAllFromRealm()
+            val event = it.where(Event::class.java).equalTo("id", eventId).findFirst()!!
+            eventCopy = it.copyFromRealm(event)
+            event.deleteFromRealm()
+        }
+
+        if (userRepository.isLoggedIn()) {
+            Timer("Firebase", false).schedule(1000) {
+                if (eventCopy.imageCloudPath.isNotEmpty()) {
+                    firebaseRepository.deleteImageForEvent(eventCopy)
+                }
+                firebaseRepository.deleteEvent(eventCopy)
+            }
         }
     }
 
-    fun deleteAllEventsFromDatabase() {
-        realm.executeTransaction {
-            it.deleteAll()
-        }
+    private fun getNextId(): String {
+        return firebaseRepository.getNewId()
     }
 
     fun moveEventToPast(eventToBeMoved: Event) {
         val id = eventToBeMoved.id
+
         realm.executeTransactionAsync {
             val event = it.where(Event::class.java).equalTo("id", id).findFirst()!!
             event.type = "past"
+
+            if (userRepository.isLoggedIn()) {
+                firebaseRepository.addEvent(event)
+            }
         }
     }
 
     fun moveEventToFuture(eventToBeMoved: Event) {
         val id = eventToBeMoved.id
+
         realm.executeTransactionAsync {
             val event = it.where(Event::class.java).equalTo("id", id).findFirst()!!
             event.type = "future"
+
+            if (userRepository.isLoggedIn()) {
+                firebaseRepository.addEvent(event)
+            }
         }
     }
 
@@ -217,8 +291,14 @@ class DatabaseRepository {
                 eventCalendar.get(Calendar.MONTH),
                 eventCalendar.get(Calendar.DAY_OF_MONTH))
 
-        realm.executeTransaction {
-            event.date = dateAfterRepetition
+        val id = event.id
+        realm.executeTransactionAsync {
+            val eventToBeRepeated = it.where(Event::class.java).equalTo("id", id).findFirst()!!
+            eventToBeRepeated.date = dateAfterRepetition
+
+            if (userRepository.isLoggedIn()) {
+                firebaseRepository.addEvent(eventToBeRepeated)
+            }
         }
     }
 
@@ -241,8 +321,69 @@ class DatabaseRepository {
             it.toFile("${context.filesDir}/default.realm")
             realm = Realm.getInstance(config)
 
-            FirebaseRepository().processSyncOperationFor(defaultPrefs(context)["firebase-email"]
-                    ?: "")
+            if (userRepository.isLoggedIn()) {
+                addLocalEventsToCloud()
+            }
+        }
+    }
+
+    fun addLocalEventsToCloud() {
+        val events = getCopyOfAllEvents()
+        events.forEach {
+            firebaseRepository.addImageForEvent(it)
+            firebaseRepository.addEvent(it)
+        }
+    }
+
+    fun syncToCloud(context: Context?) {
+        if (userRepository.isLoggedIn() && FirebaseRepository.isNetworkEnabled(context)) {
+            observeCloudEvents()
+        }
+    }
+
+    private fun observeCloudEvents() {
+        val disposable = firebaseRepository.getEvents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { events: List<Event> ->
+
+                            deleteIfNotExist(events)
+
+                            events.forEach { event ->
+                                editCloudEvent(event)
+                            }
+
+                        },
+                        { error: Throwable ->
+                            error.printStackTrace()
+
+                        }
+                )
+    }
+
+    private fun deleteIfNotExist(passedEvents: List<Event>) {
+        val events = getAllEvents()
+        events.forEach { localEvent ->
+            if (passedEvents.none { it.id == localEvent.id }) {
+                realm.executeTransaction {
+                    localEvent.deleteFromRealm()
+                }
+            }
+        }
+    }
+
+    private fun editCloudEvent(event: Event) {
+        realm.executeTransactionAsync {
+            val existingEvent = it.where(Event::class.java).equalTo("id", event.id).findFirst()
+
+            if (existingEvent != null) {
+                if (!existingEvent.isTheSameAs(event)) {
+                    existingEvent.copyValuesFrom(event)
+                }
+            } else {
+                it.copyToRealmOrUpdate(event)
+            }
 
         }
     }

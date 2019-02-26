@@ -2,149 +2,126 @@ package com.arkadiusz.dayscounter.repositories
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Uri
 import com.arkadiusz.dayscounter.model.Event
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import io.reactivex.Observable
+import java.io.File
 
 /**
  * Created by Arkadiusz on 14.03.2018
  */
 
-class FirebaseRepository {
+class FirebaseRepository(private val userRepository: UserRepository) {
 
-    private val databaseReference = FirebaseDatabase.getInstance().reference
-    private val databaseRepository = DatabaseProvider.provideRepository()
-
-    private lateinit var refreshListener: RefreshListener
-
-    interface RefreshListener {
-        fun refreshFragments()
-    }
-
-    fun setRefreshListener(listener: RefreshListener) {
-        refreshListener = listener
-    }
+    private val firestoreDatabase = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
 
     companion object {
-        fun isNetworkEnabled(context: Context): Boolean {
-            val connectivityManager = context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            return connectivityManager.activeNetworkInfo != null && connectivityManager
-                    .activeNetworkInfo.isConnected
-        }
-    }
 
-    fun deletePreviousMail(mail: String) {
-        databaseReference.child(mail.hashCode().toString()).removeValue()
-    }
-
-    fun deleteEvent(mail: String, id: Int) {
-        if (mail.isNotEmpty()) {
-            databaseReference.child(mail.hashCode().toString()).child(id.toString()).removeValue()
-        }
-    }
-
-    fun processSyncOperationFor(selectedMail: String) {
-        databaseReference.child(selectedMail.hashCode().toString()).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {}
-
-            override fun onDataChange(eventsList: DataSnapshot?) {
-                val eventsTempList = mutableListOf<Event>()
-                eventsList?.children?.let { it.mapTo(eventsTempList) { it.getValue(Event::class.java) as Event } }
-                addLocalEventsToFirebase(eventsTempList, selectedMail)
+        fun isNetworkEnabled(context: Context?): Boolean {
+            context?.let {
+                val connectivityManager = context
+                        .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                return connectivityManager.activeNetworkInfo != null && connectivityManager
+                        .activeNetworkInfo.isConnected
             }
-        })
+
+            return false
+        }
     }
 
-    private fun addLocalEventsToFirebase(firebaseEvents: MutableList<Event>, selectedMail: String) {
-        var lastIdInFirebase = 0
-        if (firebaseEvents.isNotEmpty()) {
-            lastIdInFirebase = firebaseEvents.last().id
+    fun getNewId(): String {
+        return if (userRepository.isLoggedIn()) {
+            firestoreDatabase.collection(userRepository.getUserId()).document().id
+        } else {
+            firestoreDatabase.collection("newId").document().id
         }
+    }
 
-        val localEvents = databaseRepository.getAllEvents()
 
-        if (selectedMail.isNotEmpty()) {
-            for (localEvent in localEvents) {
-                if (isEventUnique(localEvent, firebaseEvents)) {
-                    addOrEditEventInFirebase(selectedMail, localEvent, ++lastIdInFirebase)
-                }
+    fun getEvents(): Observable<List<Event>> {
+        return Observable.create { emitter ->
+            firestoreDatabase
+                    .collection(userRepository.getUserId())
+                    .addSnapshotListener { querySnapshot, exception ->
+                        exception?.let {
+                            emitter.onError(it)
+                            return@addSnapshotListener
+                        }
+
+                        val tempList = mutableListOf<Event>()
+                        querySnapshot?.forEach {
+                            tempList.add(it.toObject(Event::class.java))
+                        }
+
+                        emitter.onNext(tempList)
+                    }
+        }
+    }
+
+    fun addEvent(event: Event) {
+        val document = firestoreDatabase.collection(userRepository.getUserId())
+                .document(event.id)
+
+        val eventToBeAdded = HashMap<String, Any>()
+        eventToBeAdded["id"] = event.id
+        eventToBeAdded["name"] = event.name
+        eventToBeAdded["date"] = event.date
+        eventToBeAdded["description"] = event.description
+        eventToBeAdded["image"] = event.image
+        eventToBeAdded["imageCloudPath"] = event.imageCloudPath
+        eventToBeAdded["imageID"] = event.imageID
+        eventToBeAdded["imageColor"] = event.imageColor
+        eventToBeAdded["type"] = event.type
+        eventToBeAdded["repeat"] = event.repeat
+        eventToBeAdded["formatYearsSelected"] = event.formatYearsSelected
+        eventToBeAdded["formatMonthsSelected"] = event.formatMonthsSelected
+        eventToBeAdded["formatWeeksSelected"] = event.formatWeeksSelected
+        eventToBeAdded["formatDaysSelected"] = event.formatDaysSelected
+        eventToBeAdded["lineDividerSelected"] = event.lineDividerSelected
+        eventToBeAdded["counterFontSize"] = event.counterFontSize
+        eventToBeAdded["titleFontSize"] = event.titleFontSize
+        eventToBeAdded["fontType"] = event.fontType
+        eventToBeAdded["fontColor"] = event.fontColor
+        eventToBeAdded["pictureDim"] = event.pictureDim
+
+
+
+        document.set(eventToBeAdded)
+
+    }
+
+    fun deleteEvent(event: Event?) {
+        event?.let {
+            firestoreDatabase.collection(userRepository.getUserId())
+                    .document(event.id)
+                    .delete()
+        }
+    }
+
+    fun addImageForEvent(event: Event) {
+        if (event.image.isNotEmpty() && event.image != "null" && File(event.image).exists()) {
+            if (event.imageCloudPath.isEmpty()) {
+                event.imageCloudPath = getCloudImagePath(event)
             }
-            databaseRepository.deleteAllEventsFromDatabase()
-            getAllEventsFor(selectedMail)
+            val storageReference = storage.getReference(event.imageCloudPath)
+            storageReference.putFile(Uri.fromFile(File(event.image)))
         }
     }
 
-    private fun isEventUnique(event: Event, eventsList: MutableList<Event>): Boolean {
-        var isUnique = true
-        for (eventInFirebase in eventsList) {
-            if (eventInFirebase.name == event.name &&
-                    eventInFirebase.date == event.date &&
-                    eventInFirebase.description == event.description &&
-                    eventInFirebase.repeat == event.repeat &&
-                    eventInFirebase.image == event.image &&
-                    eventInFirebase.imageID == event.imageID &&
-                    eventInFirebase.imageColor == event.imageColor &&
-                    eventInFirebase.fontColor == event.fontColor &&
-                    eventInFirebase.titleFontSize == event.titleFontSize &&
-                    eventInFirebase.counterFontSize == event.counterFontSize &&
-                    eventInFirebase.pictureDim == event.pictureDim) {
-                isUnique = false
+    private fun getCloudImagePath(event: Event): String {
+        val imageName = Uri.parse(event.image).lastPathSegment
+        return "${userRepository.getUserId()}/${event.id}/$imageName"
+    }
+
+    fun deleteImageForEvent(oldEvent: Event?) {
+        oldEvent?.let {
+            if (it.imageCloudPath.isNotEmpty()) {
+                val storageReference = storage.getReference(it.imageCloudPath)
+                storageReference.delete()
             }
         }
-
-        return isUnique
     }
-
-    fun addOrEditEventInFirebase(userMail: String, event: Event, id: Int) {
-        if (userMail.isNotEmpty()) {
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("id").setValue(id)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("name").setValue(event.name)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("date").setValue(event.date)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("description").setValue(event.description)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("image").setValue(event.image)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("imageID").setValue(event.imageID)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("imageColor").setValue(event.imageColor)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("type").setValue(event.type)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("repeat").setValue(event.repeat)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("widgetID").setValue(event.widgetID)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("hasAlarm").setValue(event.hasAlarm)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("hasTransparentWidget").setValue(event.hasTransparentWidget)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("reminderYear").setValue(event.reminderYear)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("reminderMonth").setValue(event.reminderMonth)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("reminderDay").setValue(event.reminderDay)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("reminderHour").setValue(event.reminderHour)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("reminderMinute").setValue(event.reminderMinute)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("notificationText").setValue(event.notificationText)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("formatYearsSelected").setValue(event.formatYearsSelected)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("formatMonthsSelected").setValue(event.formatMonthsSelected)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("formatWeeksSelected").setValue(event.formatWeeksSelected)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("formatDaysSelected").setValue(event.formatDaysSelected)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("lineDividerSelected").setValue(event.lineDividerSelected)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("counterFontSize").setValue(event.counterFontSize)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("titleFontSize").setValue(event.titleFontSize)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("fontType").setValue(event.fontType)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("fontColor").setValue(event.fontColor)
-            databaseReference.child(userMail.hashCode().toString()).child(id.toString()).child("pictureDim").setValue(event.pictureDim)
-        }
-    }
-
-    private fun getAllEventsFor(mail: String) {
-        databaseReference.child(mail.hashCode().toString()).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {}
-
-            override fun onDataChange(eventsList: DataSnapshot?) {
-                val eventsTempList = mutableListOf<Event>()
-                eventsList?.children?.let { it.mapTo(eventsTempList) { it.getValue(Event::class.java) as Event } }
-                databaseRepository.addEventsToDatabase(eventsTempList)
-                if (::refreshListener.isInitialized) {
-                    refreshListener.refreshFragments()
-                }
-            }
-        })
-    }
-
-
 }
