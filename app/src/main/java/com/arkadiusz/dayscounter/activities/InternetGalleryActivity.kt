@@ -101,7 +101,8 @@ class InternetGalleryActivity : AppCompatActivity() {
 
         lateinit var dialog: AlertDialog
         viewModel.getDialogStart().observe(this, Observer {
-            dialog = indeterminateProgressDialog(message = "Please wait...", title = "Downloading")
+            dialog = indeterminateProgressDialog(message = getString(R.string.dialog_wait_prompt),
+                    title = getString(R.string.dialog_downloading))
         })
 
         viewModel.getDialogEnd().observe(this, Observer {
@@ -128,7 +129,8 @@ class InternetGalleryActivity : AppCompatActivity() {
 
         val adapter = InternetGalleryAdapter(object : InternetGalleryAdapter.ImageClickListener {
             override fun onImageClick(image: Image) {
-                progressDialog = indeterminateProgressDialog(message = "Please wait...", title = "Saving")
+                progressDialog = indeterminateProgressDialog(message = getString(R.string.dialog_wait_prompt),
+                        title = getString(R.string.dialog_saving))
                 viewModel.saveImage(image, cacheDir)
             }
         })
