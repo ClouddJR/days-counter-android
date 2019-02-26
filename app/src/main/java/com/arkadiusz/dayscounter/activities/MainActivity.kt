@@ -3,9 +3,6 @@ package com.arkadiusz.dayscounter.activities
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
 import PreferenceUtils.set
-import android.accounts.AccountManager
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
@@ -18,30 +15,27 @@ import com.arkadiusz.dayscounter.fragments.PastFragment
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
-import com.arkadiusz.dayscounter.repositories.FirebaseRepository
+import com.arkadiusz.dayscounter.repositories.UserRepository
 import com.arkadiusz.dayscounter.settings.SettingsActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
-import com.google.android.gms.auth.GoogleAuthUtil
-import com.google.android.gms.common.AccountPicker
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 
-class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
+class MainActivity : AppCompatActivity() {
+
 
     private val databaseRepository = DatabaseProvider.provideRepository()
-    private val firebaseRepository = FirebaseRepository()
+    private val userRepository = UserRepository()
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
 
     private lateinit var prefs: SharedPreferences
     private lateinit var helper: IabHelper
-
-    private val requestsCodeEmail = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(getThemeFromPreferences(false, this))
@@ -54,14 +48,9 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         setUpViewPager()
         setUpFABClickListener()
         checkForPurchases()
-        showChangelog()
-        setRefreshListener()
+        //showChangelog()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        helper.disposeWhenFinished()
-    }
 
     private fun initRealm() {
         DatabaseRepository.RealmInitializer.initRealm(applicationContext)
@@ -83,11 +72,15 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         when (item?.itemId) {
 
             R.id.action_syncing -> {
-                PurchasesUtils.displayPremiumInfoDialog(this)
-                if (!FirebaseRepository.isNetworkEnabled(this)) {
-                    toast(getString(R.string.main_activity_sync_no_connection)).show()
+                if (isPremiumUser(this)) {
+                    if (!userRepository.isLoggedIn()) {
+                        startActivity<LoginActivity>()
+                        finish()
+                    } else {
+                        displaySignOutDialog()
+                    }
                 } else {
-                    getEmailAddress()
+                    displayPremiumInfoDialog(this)
                 }
             }
 
@@ -103,73 +96,16 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun refreshFragments() {
-        val selectedMail = prefs["firebase-email"] ?: ""
-        toast(getString(R.string.main_activity_sync_first_time) + " $selectedMail").show()
-        refreshDataInFragments()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == requestsCodeEmail && resultCode == RESULT_OK) {
-            data?.extras?.let {
-                val selectedMail = data.extras.getString(AccountManager.KEY_ACCOUNT_NAME)
-                if (isMailTheSameAsPrevious(selectedMail)) {
-                    displayWarningToast()
-                    return
-                }
-
-                if (isMailDifferentFromPrevious(selectedMail)) {
-                    firebaseRepository.deletePreviousMail(selectedMail)
-                }
-
-                setMailToSync(selectedMail)
-                processFirebase(selectedMail)
+    private fun displaySignOutDialog() {
+        alert(getString(R.string.main_activity_email, userRepository.getUserEmail())) {
+            positiveButton(getString(R.string.main_activity_sign_out)) {
+                userRepository.signOut()
             }
-        }
-    }
 
-    private fun refreshDataInFragments() {
-        if (viewPagerAdapter.getItem(0) is FutureFragment) {
-            (viewPagerAdapter.getItem(0) as FutureFragment).refreshData()
-            (viewPagerAdapter.getItem(1) as PastFragment).refreshData()
-        } else {
-            (viewPagerAdapter.getItem(0) as PastFragment).refreshData()
-            (viewPagerAdapter.getItem(1) as FutureFragment).refreshData()
-        }
-    }
-
-    private fun getEmailAddress() {
-        try {
-            val intent = AccountPicker.newChooseAccountIntent(null, null,
-                    arrayOf(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE), true, null, null, null, null)
-            startActivityForResult(intent, requestsCodeEmail)
-        } catch (e: ActivityNotFoundException) {
-            toast(getString(R.string.main_activity_sync_toast)).show()
-        }
-    }
-
-    private fun isMailTheSameAsPrevious(selectedMail: String): Boolean {
-        val previousMail = prefs["firebase-email"] ?: ""
-        return previousMail == selectedMail
-    }
-
-    private fun displayWarningToast() {
-        val previousMail = prefs["firebase-email"] ?: ""
-        toast(getString(R.string.main_activity_sync_same_email) + " $previousMail").show()
-    }
-
-    private fun isMailDifferentFromPrevious(selectedMail: String): Boolean {
-        val previousMail = prefs["firebase-email"] ?: ""
-        return previousMail != "" && selectedMail != previousMail
-    }
-
-    private fun setMailToSync(selectedMail: String) {
-        prefs["firebase-email"] = selectedMail
-    }
-
-    private fun processFirebase(selectedMail: String) {
-        firebaseRepository.processSyncOperationFor(selectedMail)
+            negativeButton(getString(R.string.add_activity_back_button_cancel)) {
+                it.dismiss()
+            }
+        }.show()
     }
 
     private fun logEvents() {
@@ -230,8 +166,8 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
                     e.printStackTrace()
                 }
             }
-            invalidateOptionsMenu()
         }
+        invalidateOptionsMenu()
     }
 
     private fun showChangelog() {
@@ -248,9 +184,5 @@ class MainActivity : AppCompatActivity(), FirebaseRepository.RefreshListener {
     }
 
     private fun wasDialogSeenBefore() = prefs["dialog-seen-202"] ?: false
-
-    private fun setRefreshListener() {
-        firebaseRepository.setRefreshListener(this)
-    }
 
 }
