@@ -1,6 +1,6 @@
 # DaysCounter
 
-This app allows you to track a number of days to/from a specific event with a fully customizable counter (font color, size, type, background color/image etc). There is an option to put every event counter on the home screen as a widget. Local storage is managed by Realm and cloud backup is done using Firebase Database.
+This app allows you to track a number of days to/from a specific event with a fully customizable counter (font color, size, type, background color/image etc). There is an option to put every event counter on the home screen as a widget. Local storage is managed by Realm and cloud backup is done using Firestore.
 
 In order to run this app on your machine you need to create a google-services.json under /app folder with a API KEY from Firebase
 
@@ -12,10 +12,15 @@ In order to run this app on your machine you need to create a google-services.js
 ## Built with
 
 * **Kotlin**
-* **Picasso** - image loading
-* **Glide** - image loading
-* **Realm** - local database
-* **Firebase** - cloud backup
+* **Android Architecture Components**
+* **Paging library**
+* **Unsplash API**
+* **RxJava**
+* **Picasso**
+* **Glide**
+* **Realm**
+* **Firestore**
+* **Firebase Storage**
 * **Material design**
 
 ## Google Play link
