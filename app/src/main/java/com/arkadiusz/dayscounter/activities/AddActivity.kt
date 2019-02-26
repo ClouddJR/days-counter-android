@@ -26,7 +26,6 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.FontTypeSpinnerAdapter
 import com.arkadiusz.dayscounter.model.Event
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
-import com.arkadiusz.dayscounter.repositories.FirebaseRepository
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
@@ -306,9 +305,7 @@ class AddActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             showAd()
             val eventToBeAdded = prepareEventBasedOnViews()
-            val id = DatabaseProvider.provideRepository().addEventToDatabase(eventToBeAdded)
-            FirebaseRepository().addOrEditEventInFirebase(defaultPrefs(this)["firebase-email"]
-                    ?: "", eventToBeAdded, id)
+            DatabaseProvider.provideRepository().addEventToDatabase(eventToBeAdded)
             addReminder(eventToBeAdded)
             finish()
         }
@@ -432,7 +429,7 @@ class AddActivity : AppCompatActivity() {
                             1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery, "activity" to "Add")
                             2 -> displayColorPickerForEventBackground()
                             3 -> {
-                                if (!isPremiumUser(this)) {
+                                if (isPremiumUser(this)) {
                                     askForPermissionsAndDisplayInternetImageActivity()
                                 } else {
                                     displayPremiumInfoDialog(this)
