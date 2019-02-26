@@ -12,11 +12,12 @@ import io.realm.annotations.PrimaryKey
 open class Event() : RealmObject(), Parcelable {
 
     @PrimaryKey
-    var id: Int = 0
+    var id: String = ""
     var name: String = ""
     var date: String = ""
     var description: String = ""
     var image: String = ""
+    var imageCloudPath: String = ""
     var imageID: Int = 0
     var imageColor: Int = 0
     var type: String = ""
@@ -47,6 +48,21 @@ open class Event() : RealmObject(), Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
 
+    override fun toString(): String {
+        return "Event(id='$id', name='$name', date='$date', description='$description', " +
+                "image='$image', imageCloudPath='$imageCloudPath', imageID=$imageID, " +
+                "imageColor=$imageColor, type='$type', repeat='$repeat', widgetID=$widgetID, " +
+                "hasAlarm=$hasAlarm, hasTransparentWidget=$hasTransparentWidget, " +
+                "reminderYear=$reminderYear, reminderMonth=$reminderMonth, " +
+                "reminderDay=$reminderDay, reminderHour=$reminderHour, " +
+                "reminderMinute=$reminderMinute, notificationText='$notificationText', " +
+                "formatYearsSelected=$formatYearsSelected, formatMonthsSelected=$formatMonthsSelected, " +
+                "formatWeeksSelected=$formatWeeksSelected, formatDaysSelected=$formatDaysSelected, " +
+                "lineDividerSelected=$lineDividerSelected, counterFontSize=$counterFontSize, " +
+                "titleFontSize=$titleFontSize, fontType='$fontType', fontColor=$fontColor, " +
+                "pictureDim=$pictureDim)"
+    }
+
     companion object {
 
         @JvmField
@@ -57,35 +73,50 @@ open class Event() : RealmObject(), Parcelable {
 
     }
 
-    override fun toString(): String {
-        return "Event(id=$id, " +
-                "name='$name', " +
-                "date='$date', " +
-                "description='$description', " +
-                "image='$image', " +
-                "imageID=$imageID, " +
-                "imageColor=$imageColor, " +
-                "type='$type', " +
-                "repeat='$repeat', " +
-                "widgetID=$widgetID, " +
-                "hasAlarm=$hasAlarm, " +
-                "hasTransparentWidget=$hasTransparentWidget, " +
-                "reminderYear=$reminderYear, " +
-                "reminderMonth=$reminderMonth, " +
-                "reminderDay=$reminderDay, " +
-                "reminderHour=$reminderHour, " +
-                "reminderMinute=$reminderMinute, " +
-                "notificationText='$notificationText', " +
-                "formatYearsSelected=$formatYearsSelected, " +
-                "formatMonthsSelected=$formatMonthsSelected, " +
-                "formatWeeksSelected=$formatWeeksSelected, " +
-                "formatDaysSelected=$formatDaysSelected, " +
-                "lineDividerSelected=$lineDividerSelected, " +
-                "counterFontSize=$counterFontSize, " +
-                "titleFontSize=$titleFontSize, " +
-                "fontType='$fontType', " +
-                "fontColor=$fontColor, " +
-                "pictureDim=$pictureDim)"
+    fun isTheSameAs(other: Event): Boolean {
+        return this.id == other.id &&
+                this.name == other.name &&
+                this.date == other.date &&
+                this.description == other.description &&
+                this.image == other.image &&
+                this.imageCloudPath == other.imageCloudPath &&
+                this.imageID == other.imageID &&
+                this.imageColor == other.imageColor &&
+                this.type == other.type &&
+                this.repeat == other.repeat &&
+                this.formatYearsSelected == other.formatYearsSelected &&
+                this.formatMonthsSelected == other.formatMonthsSelected &&
+                this.formatWeeksSelected == other.formatWeeksSelected &&
+                this.formatDaysSelected == other.formatDaysSelected &&
+                this.lineDividerSelected == other.lineDividerSelected &&
+                this.counterFontSize == other.counterFontSize &&
+                this.titleFontSize == other.titleFontSize &&
+                this.fontType == other.fontType &&
+                this.fontColor == other.fontColor &&
+                this.pictureDim == other.pictureDim
     }
+
+    fun copyValuesFrom(event: Event) {
+        this.name = event.name
+        this.date = event.date
+        this.description = event.description
+        this.image = event.image
+        this.imageCloudPath = event.imageCloudPath
+        this.imageID = event.imageID
+        this.imageColor = event.imageColor
+        this.type = event.type
+        this.repeat = event.repeat
+        this.formatYearsSelected = event.formatYearsSelected
+        this.formatMonthsSelected = event.formatMonthsSelected
+        this.formatWeeksSelected = event.formatWeeksSelected
+        this.formatDaysSelected = event.formatDaysSelected
+        this.lineDividerSelected = event.lineDividerSelected
+        this.counterFontSize = event.counterFontSize
+        this.titleFontSize = event.titleFontSize
+        this.fontType = event.fontType
+        this.fontColor = event.fontColor
+        this.pictureDim = event.pictureDim
+    }
+
 
 }
