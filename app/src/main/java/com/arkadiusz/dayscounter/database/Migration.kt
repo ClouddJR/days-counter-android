@@ -1,5 +1,6 @@
 package com.arkadiusz.dayscounter.database
 
+import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.DynamicRealm
 import io.realm.RealmMigration
 
@@ -8,6 +9,8 @@ import io.realm.RealmMigration
  */
 
 class Migration : RealmMigration {
+
+    val firebase = FirebaseFirestore.getInstance()
 
     override fun hashCode(): Int {
         return 37
@@ -25,6 +28,10 @@ class Migration : RealmMigration {
 
         if (oldVersion == 2L) {
             migrateFromThirdVersion(realm)
+        }
+
+        if (oldVersion == 3L) {
+            migrateFromFourthVersion(realm)
         }
     }
 
@@ -90,6 +97,23 @@ class Migration : RealmMigration {
                 obj.set("imageID", newImageID)
             }
         }
+    }
+
+    private fun migrateFromFourthVersion(realm: DynamicRealm) {
+        val schema = realm.schema
+        val eventSchema = schema.get("Event")!!
+
+        eventSchema
+                .removePrimaryKey()
+                .removeField("id")
+                .addField("id", String::class.java)
+                .addField("imageCloudPath", String::class.java)
+                .transform {
+                    val newId = firebase.collection("getId").document().id
+                    it.set("id", newId)
+                    it.set("imageCloudPath", "")
+                }
+                .addPrimaryKey("id")
     }
 
 }
