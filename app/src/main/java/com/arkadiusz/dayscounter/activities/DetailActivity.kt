@@ -19,17 +19,19 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
+import java.io.File
 
 
 class DetailActivity : AppCompatActivity() {
 
     private val databaseRepository = DatabaseProvider.provideRepository()
 
-    private var passedEventId: Int = 0
+    private var passedEventId: String = ""
     private lateinit var passedEvent: Event
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,12 +77,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun receiveEventAndCancelNotification() {
-        passedEventId = intent.getIntExtra("event_id", 1)
+        passedEventId = intent.getStringExtra("event_id")
         passedEvent = databaseRepository.getEventById(passedEventId)
         val isComingFromNotification = intent.getStringExtra("notificationClick")
 
         if (isComingFromNotification != null && isComingFromNotification == "clicked") {
-            notificationManager.cancel(passedEventId)
+            notificationManager.cancel(passedEventId.hashCode())
         }
     }
 
@@ -90,7 +92,19 @@ class DetailActivity : AppCompatActivity() {
                 eventImage.setImageDrawable(null)
                 eventImage.backgroundColor = passedEvent.imageColor
             }
-            passedEvent.imageID == 0 -> Glide.with(this).load(passedEvent.image).into(eventImage)
+            passedEvent.imageID == 0 -> {
+                when {
+                    File(passedEvent.image).exists() -> Glide.with(this).load(passedEvent.image).into(eventImage)
+                    passedEvent.imageCloudPath.isNotEmpty() -> {
+                        Glide.with(this).load(
+                                FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath))
+                                .into(eventImage)
+                    }
+                    else -> {
+
+                    }
+                }
+            }
             else -> Glide.with(this).load(passedEvent.imageID).into(eventImage)
         }
     }
@@ -149,6 +163,7 @@ class DetailActivity : AppCompatActivity() {
             adView.loadAd(AdRequest.Builder().build())
         } else {
             adView.visibility = View.GONE
+            scrollN.setPadding(0, 0, 0, 0)
         }
     }
 }
