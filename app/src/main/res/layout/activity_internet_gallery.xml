@@ -15,7 +15,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:queryHint="Search"/>
+    app:queryHint="@string/internet_gallery_search_hint"/>
 
   <TextView
     android:id="@+id/unsplashTV"
@@ -31,7 +31,7 @@
     android:id="@+id/noResultsTV"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="No Results"
+    android:text="@string/no_results"
     android:textSize="18sp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

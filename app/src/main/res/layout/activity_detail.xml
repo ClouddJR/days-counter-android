@@ -22,6 +22,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:fitsSystemWindows="true"
+      app:contentScrim="?themePrimaryDark"
       app:layout_scrollFlags="scroll|exitUntilCollapsed"
       app:titleEnabled="false">
 
@@ -126,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:text="@string/detail_activity_about_section"
-            android:textColor="@color/colorAccent"
+            android:textColor="?themeAccent"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -223,7 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:text="@string/detail_activity_repetition_section"
-            android:textColor="@color/colorAccent"
+            android:textColor="?themeAccent"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -285,7 +286,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:text="@string/detail_activity_reminder_section"
-            android:textColor="@color/colorAccent"
+            android:textColor="?themeAccent"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
