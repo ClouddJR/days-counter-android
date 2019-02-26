@@ -4,14 +4,14 @@
 
   <PreferenceCategory
     app:key="main_category"
-    app:title="Main">
+    app:title="@string/main_section_title">
 
     <ListPreference
       app:defaultValue="31-10-1980"
       app:entries="@array/date_formats"
       app:entryValues="@array/date_formats"
       app:key="dateFormat"
-      app:title="Date Format"
+      app:title="@string/date_format_title"
       app:useSimpleSummaryProvider="true"/>
 
     <ListPreference
@@ -19,7 +19,7 @@
       app:entries="@array/sorting_types"
       app:entryValues="@array/sorting_types_keys"
       app:key="sort_type"
-      app:title="Sorting order"
+      app:title="@string/sorting_order_title"
       app:useSimpleSummaryProvider="true"/>
 
     <ListPreference
@@ -27,39 +27,47 @@
       app:entries="@array/fragment_names"
       app:entryValues="@array/fragment_names"
       app:key="default_fragment"
-      app:title="Default Section"
+      app:title="@string/default_section_title"
       app:useSimpleSummaryProvider="true"/>
 
     <com.arkadiusz.dayscounter.utils.MyListPreference
       app:defaultValue="1"
       app:entries="@array/themes"
-      app:entryValues="@array/themes"
+      app:entryValues="@array/themes_keys"
       app:key="theme"
-      app:title="App theme"
+      app:title="@string/app_theme_title"
       app:useSimpleSummaryProvider="true"/>
+
+    <Preference
+      app:key="premium"
+      app:title="@string/premium_features_title"/>
+
+    <Preference
+      app:key="rate"
+      app:title="@string/rate_app_title"/>
 
   </PreferenceCategory>
 
   <PreferenceCategory
     app:key="backup_category"
-    app:title="Backup">
+    app:title="@string/backup_section_title">
 
     <Preference
       app:key="backup_import"
-      app:summary="Import your events data from a file"
-      app:title="Import events"/>
+      app:summary="@string/backup_import_summary"
+      app:title="@string/backup_import_title"/>
 
     <Preference
       app:key="backup_export"
-      app:summary="Export your events data to a file"
-      app:title="Export events"/>
+      app:summary="@string/backup_export_summary"
+      app:title="@string/backup_export_title"/>
 
   </PreferenceCategory>
 
 
   <PreferenceCategory
     app:key="about_category"
-    app:title="About">
+    app:title="@string/about_section_title">
 
     <Preference
       app:key="privacy_policy"
@@ -67,7 +75,7 @@
 
     <Preference
       app:key="contact"
-      app:title="Contact"/>
+      app:title="@string/action_contact"/>
 
   </PreferenceCategory>
 

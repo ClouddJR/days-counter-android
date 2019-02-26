@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
+import com.arkadiusz.dayscounter.activities.PremiumActivity
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
@@ -19,6 +20,7 @@ import com.arkadiusz.dayscounter.utils.StorageUtils.isCorrectFileChosenForImport
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 import org.jetbrains.anko.longToast
+import org.jetbrains.anko.startActivity
 import java.io.File
 
 
@@ -38,9 +40,33 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+        setUpRatePreference()
+        setUpPremiumPreference()
         setUpBackupPreferences()
         setUpAboutPreferences()
         setUpThemesPreferences()
+    }
+
+    private fun setUpRatePreference() {
+        val ratePreference = findPreference<Preference>("rate")
+        ratePreference.setOnPreferenceClickListener {
+            val appPackageName = context?.packageName // package name of the app
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+            } catch (exception: android.content.ActivityNotFoundException) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+            }
+            true
+
+        }
+    }
+
+    private fun setUpPremiumPreference() {
+        val premiumPreference = findPreference<Preference>("premium")
+        premiumPreference.setOnPreferenceClickListener {
+            context?.startActivity<PremiumActivity>()
+            true
+        }
     }
 
     private fun setUpAboutPreferences() {
@@ -83,7 +109,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 displayPremiumInfoDialog(context)
                 true
             }
-            
+
         } else {
             themesPreference.setOnPreferenceChangeListener { _, _ ->
                 activity?.recreate()
@@ -143,7 +169,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun backupData() {
         context?.let { ctx ->
             val backupPath = databaseRepository.backupData()
-            ctx.longToast("Backup saved in $backupPath")
+            ctx.longToast(getString(R.string.backup_saved_toast, backupPath))
         }
     }
 
@@ -166,7 +192,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (isCorrectFileChosenForImport(uri)) {
                 databaseRepository.importData(ctx, uri)
             } else {
-                ctx.longToast("Wrong file")
+                ctx.longToast(getString(R.string.backup_toast_wrong_file))
             }
         }
 
