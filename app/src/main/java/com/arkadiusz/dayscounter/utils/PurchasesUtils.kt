@@ -10,7 +10,6 @@ import com.arkadiusz.dayscounter.activities.PremiumActivity
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.purchaseutils.IabResult
 import com.arkadiusz.dayscounter.purchaseutils.Inventory
-import com.arkadiusz.dayscounter.purchaseutils.Purchase
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 
@@ -32,20 +31,6 @@ object PurchasesUtils {
                 val purchaseProBig = inv?.getPurchase("2")
                 if (purchaseProBig != null) {
                     sharedPreferences["ads"] = true
-                }
-            }
-        }
-    }
-
-    object PurchaseFinishedListener : IabHelper.OnIabPurchaseFinishedListener {
-        override fun onIabPurchaseFinished(result: IabResult?, purchase: Purchase?) {
-            result?.let {
-                when {
-                    result.isFailure -> {
-                        //nothing
-                    }
-                    purchase?.sku == "1" -> sharedPreferences["ads"] = true
-                    purchase?.sku == "2" -> sharedPreferences["ads"] = true
                 }
             }
         }

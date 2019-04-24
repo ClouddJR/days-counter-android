@@ -276,6 +276,8 @@
   <string name="internet_gallery_search_hint">Search</string>
 
   <string name="author_link">Author: </string>
+  <string name="detail_activity_toast_event_deleted">Event does not exist</string>
+  <string name="premium_thank_you_dialog">Thank you for buying premium version!</string>
 
 
 </resources>

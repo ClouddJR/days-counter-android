@@ -224,6 +224,8 @@
   <string name="internet_gallery_search_hint">Szukaj</string>
 
   <string name="author_link">Autor: </string>
+    <string name="detail_activity_toast_event_deleted">Wydarzenie nie istnieje</string>
+    <string name="premium_thank_you_dialog">Dziękuję za zakup wersji premium!</string>
 
 
 </resources>
