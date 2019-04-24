@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.io.File
 
 
@@ -40,7 +41,17 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         setStatusBarColor()
         setUpToolbar()
-        receiveEventAndCancelNotification()
+
+        passedEventId = intent.getStringExtra("event_id")
+        val event = databaseRepository.getEventById(passedEventId)
+        if (event == null) {
+            displayToastAndFinishActivity()
+            return
+        } else {
+            passedEvent = event
+        }
+
+        cancelNotification()
         displayImage()
         fillMainSection()
         fillAboutSection()
@@ -76,14 +87,17 @@ class DetailActivity : AppCompatActivity() {
         title = ""
     }
 
-    private fun receiveEventAndCancelNotification() {
-        passedEventId = intent.getStringExtra("event_id")
-        passedEvent = databaseRepository.getEventById(passedEventId)
+    private fun cancelNotification() {
         val isComingFromNotification = intent.getStringExtra("notificationClick")
 
         if (isComingFromNotification != null && isComingFromNotification == "clicked") {
             notificationManager.cancel(passedEventId.hashCode())
         }
+    }
+
+    private fun displayToastAndFinishActivity() {
+        toast(getString(R.string.detail_activity_toast_event_deleted))
+        finish()
     }
 
     private fun displayImage() {

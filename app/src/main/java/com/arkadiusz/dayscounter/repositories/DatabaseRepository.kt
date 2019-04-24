@@ -103,8 +103,8 @@ class DatabaseRepository {
         return realm.where(Event::class.java).equalTo("name", name).findFirst()!!
     }
 
-    fun getEventById(id: String): Event {
-        return realm.where(Event::class.java).equalTo("id", id).findFirst()!!
+    fun getEventById(id: String): Event? {
+        return realm.where(Event::class.java).equalTo("id", id).findFirst()
     }
 
     fun getEventByWidgetId(widgetId: Int): Event? {

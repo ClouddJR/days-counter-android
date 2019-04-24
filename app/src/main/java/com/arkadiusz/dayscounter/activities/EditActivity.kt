@@ -110,7 +110,7 @@ class EditActivity : AppCompatActivity() {
 
     private fun receivePassedEventId() {
         val passedEventId = intent.getStringExtra("eventId")
-        passedEvent = DatabaseProvider.provideRepository().getEventById(passedEventId)
+        passedEvent = DatabaseProvider.provideRepository().getEventById(passedEventId)!!
     }
 
     private fun setUpSpinners() {
