@@ -5,8 +5,6 @@ import android.os.Build
 import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.NotificationUtils
 import com.google.android.gms.ads.MobileAds
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 
 /**
@@ -21,13 +19,6 @@ class DaysCounterApp : Application() {
         createNotificationChannelForReminders()
 
         MobileAds.initialize(this, "ca-app-pub-4098342918729972~7968062049")
-
-        val firestore = FirebaseFirestore.getInstance()
-        val settings = FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(false)
-                .setPersistenceEnabled(false)
-                .build()
-        firestore.firestoreSettings = settings
     }
 
     private fun initializeRealm() {
