@@ -13,8 +13,8 @@ android {
         applicationId "com.arkadiusz.dayscounter"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 39
-        versionName "2.13"
+        versionCode 40
+        versionName "2.15"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
