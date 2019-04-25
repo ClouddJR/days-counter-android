@@ -224,7 +224,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Is this one time payment?"
+            android:text="@string/question_one"
             android:textColor="?themePrimaryFontColor"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -238,7 +238,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:text="Yes, you only pay once and you will also have access to every premium feature that will be added in the future."
+            android:text="@string/question_one_answer"
             android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -250,7 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Will it still work if I change the device?"
+            android:text="@string/question_two"
             android:textColor="?themePrimaryFontColor"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -265,14 +265,13 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Yes, this payment is tied to your Google account, so every device that is logged in to the same account will have access to all premium features."
+            android:text="@string/question_two_answer"
             android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/q2" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

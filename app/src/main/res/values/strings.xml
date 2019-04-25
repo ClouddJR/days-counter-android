@@ -1,283 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Days Counter</string>
-  <string name="title_activity_add">Add an event</string>
-  <string name="title_activity_edit">Edit an event</string>
+    <string name="app_name">Days Counter</string>
+    <string name="title_activity_add">Add an event</string>
+    <string name="title_activity_edit">Edit an event</string>
 
-  <string name="action_contact">Contact me</string>
-  <string name="action_sort_date_desc">Sort by days descending</string>
-  <string name="action_sort_date_asc">Sort by days ascending</string>
-  <string name="action_sort_order">Sort by time added</string>
+    <string name="action_contact">Contact me</string>
+    <string name="action_sort_date_desc">Sort by days descending</string>
+    <string name="action_sort_date_asc">Sort by days ascending</string>
+    <string name="action_sort_order">Sort by time added</string>
 
-  <string name="action_edit">Edit</string>
+    <string name="action_edit">Edit</string>
 
-  <string name="main_activity_left_tab">Past Events</string>
-  <string name="main_activity_right_tab">Future Events</string>
-  <string name="main_activity_ads">Premium</string>
-  <string name="main_activity_privacy_policy">Privacy policy</string>
-  <string name="menu_activity_sync">Sync with Cloud</string>
-  <string name="main_activity_sync_toast">Failed to choose an account</string>
-  <string name="main_activity_sync_first_time">Events are now synced to: </string>
-  <string name="main_activity_sync_same_email">Events are already synced to: </string>
-  <string name="main_activity_sync_no_connection">Check your internet connection</string>
+    <string name="main_activity_left_tab">Past Events</string>
+    <string name="main_activity_right_tab">Future Events</string>
+    <string name="main_activity_ads">Premium</string>
+    <string name="main_activity_privacy_policy">Privacy policy</string>
+    <string name="menu_activity_sync">Sync with Cloud</string>
+    <string name="main_activity_sync_toast">Failed to choose an account</string>
+    <string name="main_activity_sync_first_time">Events are now synced to: </string>
+    <string name="main_activity_sync_same_email">Events are already synced to: </string>
+    <string name="main_activity_sync_no_connection">Check your internet connection</string>
 
-  <string name="detail_activity_about_section">About</string>
-  <string name="detail_activity_repetition_section">Repetition</string>
-  <string name="detail_activity_reminder_section">Reminder</string>
-  <string name="detail_activity_date_header">Date</string>
-  <string name="detail_activity_description_header">Description</string>
-  <string name="detail_activity_repetition_header">Repetition</string>
-  <string name="detail_activity_reminder_date_header">Reminder date</string>
-  <string name="detail_activity_reminder_text_header">Reminder text</string>
+    <string name="detail_activity_about_section">About</string>
+    <string name="detail_activity_repetition_section">Repetition</string>
+    <string name="detail_activity_reminder_section">Reminder</string>
+    <string name="detail_activity_date_header">Date</string>
+    <string name="detail_activity_description_header">Description</string>
+    <string name="detail_activity_repetition_header">Repetition</string>
+    <string name="detail_activity_reminder_date_header">Reminder date</string>
+    <string name="detail_activity_reminder_text_header">Reminder text</string>
 
-  <string name="add_activity_name_form">Enter event title: </string>
-  <string name="add_activity_preview">Preview</string>
-  <string name="add_activity_preview_title">Event title</string>
-  <string name="add_activity_date_form">Date: </string>
-  <string name="add_activity_describe_form">Describe your event: </string>
-  <string name="add_activity_add_button">Add Event </string>
-  <string name="add_activity_toast_checkbox">At least one options has to be selected</string>
-  <string name="add_activity_dialog_title">Choose an image from</string>
-  <string name="add_activity_dialog_option_custom">Gallery or Camera</string>
-  <string name="add_activity_dialog_option_gallery">Backgrounds</string>
-  <string name="add_activity_dialog_option_color">Solid color</string>
-  <string name="add_activity_dialog_option_internet">From the Internet (Pro)</string>
-  <string name="add_activity_button_title">Update an event</string>
-  <string name="add_activity_clear_date">Clear</string>
-  <string name="add_activity_back_button_message">All changes will be lost</string>
-  <string name="add_activity_back_button_cancel">Cancel</string>
-  <string name="add_activity_format_text">Format of counter</string>
-  <string name="add_activity_line_divider">Show line divider</string>
-  <string name="add_activity_counter_font_size">Counter font size</string>
-  <string name="add_activity_title_font_size">Title font size</string>
-  <string name="add_activity_font_color">Font color</string>
-  <string name="add_activity_font_type">Font type</string>
-  <string name="add_activity_picture_dim">Picture dim</string>
-  <string name="add_reminder">Reminder</string>
-  <string name="add_reminder_editText_hint">Never</string>
-  <string name="add_reminder_editText_notification">Notification text</string>
-  <string name="add_repeat">Event repetition</string>
+    <string name="add_activity_name_form">Enter event title: </string>
+    <string name="add_activity_preview">Preview</string>
+    <string name="add_activity_preview_title">Event title</string>
+    <string name="add_activity_date_form">Date: </string>
+    <string name="add_activity_describe_form">Describe your event: </string>
+    <string name="add_activity_add_button">Add Event </string>
+    <string name="add_activity_toast_checkbox">At least one options has to be selected</string>
+    <string name="add_activity_dialog_title">Choose an image from</string>
+    <string name="add_activity_dialog_option_custom">Gallery or Camera</string>
+    <string name="add_activity_dialog_option_gallery">Backgrounds</string>
+    <string name="add_activity_dialog_option_color">Solid color</string>
+    <string name="add_activity_dialog_option_internet">From the Internet (Pro)</string>
+    <string name="add_activity_button_title">Update an event</string>
+    <string name="add_activity_clear_date">Clear</string>
+    <string name="add_activity_back_button_message">All changes will be lost</string>
+    <string name="add_activity_back_button_cancel">Cancel</string>
+    <string name="add_activity_format_text">Format of counter</string>
+    <string name="add_activity_line_divider">Show line divider</string>
+    <string name="add_activity_counter_font_size">Counter font size</string>
+    <string name="add_activity_title_font_size">Title font size</string>
+    <string name="add_activity_font_color">Font color</string>
+    <string name="add_activity_font_type">Font type</string>
+    <string name="add_activity_picture_dim">Picture dim</string>
+    <string name="add_reminder">Reminder</string>
+    <string name="add_reminder_editText_hint">Never</string>
+    <string name="add_reminder_editText_notification">Notification text</string>
+    <string name="add_repeat">Event repetition</string>
 
-  <string-array name="add_activity_repeat">
-    <item>only once</item>
-    <item>daily</item>
-    <item>weekly</item>
-    <item>monthly</item>
-    <item>yearly</item>
-  </string-array>
+    <string-array name="add_activity_repeat">
+        <item>only once</item>
+        <item>daily</item>
+        <item>weekly</item>
+        <item>monthly</item>
+        <item>yearly</item>
+    </string-array>
 
-  <string-array name="add_activity_font_size">
-    <item>8</item>
-    <item>10</item>
-    <item>12</item>
-    <item>14</item>
-    <item>16</item>
-    <item>18</item>
-    <item>20</item>
-    <item>22</item>
-    <item>24</item>
-    <item>26</item>
-    <item>28</item>
-    <item>30</item>
-    <item>32</item>
-    <item>34</item>
-    <item>36</item>
-    <item>38</item>
-  </string-array>
+    <string-array name="add_activity_font_size">
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
 
-  <string-array name="font_type">
-    <item>Allerta</item>
-    <item>Fira Sans</item>
-    <item>Josefin Sans</item>
-    <item>Lato</item>
-    <item>Montserrat</item>
-    <item>Open Sans</item>
-    <item>Pacifico</item>
-    <item>PT Sans</item>
-    <item>Roboto</item>
-    <item>Roboto Slab</item>
-    <item>Ropa Sans</item>
-    <item>Source Sans Pro</item>
-    <item>Titillium Web</item>
-    <item>Ubuntu</item>
-  </string-array>
+    <string-array name="font_type">
+        <item>Allerta</item>
+        <item>Fira Sans</item>
+        <item>Josefin Sans</item>
+        <item>Lato</item>
+        <item>Montserrat</item>
+        <item>Open Sans</item>
+        <item>Pacifico</item>
+        <item>PT Sans</item>
+        <item>Roboto</item>
+        <item>Roboto Slab</item>
+        <item>Ropa Sans</item>
+        <item>Source Sans Pro</item>
+        <item>Titillium Web</item>
+        <item>Ubuntu</item>
+    </string-array>
 
-  <string name="date_utils_single_day">day</string>
-  <string name="date_utils_multiple_days">days</string>
-  <string name="date_utils_single_week">week</string>
-  <string name="date_utils_multiple_weeks_below5">weeks</string>
-  <string name="date_utils_multiple_weeks">weeks</string>
-  <string name="date_utils_single_month">month</string>
-  <string name="date_utils_multiple_months_below5">months</string>
-  <string name="date_utils_multiple_months">months</string>
-  <string name="date_utils_single_year">year</string>
-  <string name="date_utils_multiple_years_below5">years</string>
-  <string name="date_utils_multiple_years">years</string>
-  <string name="date_utils_today">Today!</string>
+    <string name="date_utils_single_day">day</string>
+    <string name="date_utils_multiple_days">days</string>
+    <string name="date_utils_single_week">week</string>
+    <string name="date_utils_multiple_weeks_below5">weeks</string>
+    <string name="date_utils_multiple_weeks">weeks</string>
+    <string name="date_utils_single_month">month</string>
+    <string name="date_utils_multiple_months_below5">months</string>
+    <string name="date_utils_multiple_months">months</string>
+    <string name="date_utils_single_year">year</string>
+    <string name="date_utils_multiple_years_below5">years</string>
+    <string name="date_utils_multiple_years">years</string>
+    <string name="date_utils_today">Today!</string>
 
-  <string name="fragment_main_dialog_title">Choose action</string>
-  <string name="fragment_main_dialog_option_edit">Edit</string>
-  <string name="fragment_main_dialog_option_delete">Delete</string>
-  <string name="fragment_delete_dialog_question">Are you sure you want to delete this event?</string>
+    <string name="fragment_main_dialog_title">Choose action</string>
+    <string name="fragment_main_dialog_option_edit">Edit</string>
+    <string name="fragment_main_dialog_option_delete">Delete</string>
+    <string name="fragment_delete_dialog_question">Are you sure you want to delete this event?</string>
 
-  <string name="gallery_activity_title">Pick an image</string>
+    <string name="gallery_activity_title">Pick an image</string>
 
-  <string name="detail_once">once</string>
-  <string name="detail_daily">daily</string>
-  <string name="detail_weekly">weekly</string>
-  <string name="detail_monthly">monthly</string>
-  <string name="detail_yearly">yearly</string>
+    <string name="detail_once">once</string>
+    <string name="detail_daily">daily</string>
+    <string name="detail_weekly">weekly</string>
+    <string name="detail_monthly">monthly</string>
+    <string name="detail_yearly">yearly</string>
 
-  <string name="widget_configuration_title">After choosing click on an event</string>
-  <string name="widget_configuration_switch">Only text on widget\n(transparent background)</string>
+    <string name="widget_configuration_title">After choosing click on an event</string>
+    <string name="widget_configuration_switch">Only text on widget\n(transparent background)</string>
 
-  <string name="changelog_dialog_title">Changelog</string>
-  <string name="changelog_dialog_content">
+    <string name="changelog_dialog_title">Changelog</string>
+    <string name="changelog_dialog_content">
     -After purchasing, the icon "remove ads" is not displayed anymore\n
     -Added Spanish and German languages\n
     -Bug fixes\n
     -Privacy policy update\n
   </string>
 
-  <string name="notification_channel_name">Event reminders</string>
-  <string name="notification_channel_description">Reminders related to events from the app</string>
+    <string name="notification_channel_name">Event reminders</string>
+    <string name="notification_channel_description">Reminders related to events from the app</string>
 
-  <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
-  <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
-  <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+    <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
+    <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
+    <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
 
-  <!--settings-->
+    <!--settings-->
 
-  <string name="settings_menu_action">Settings</string>
+    <string name="settings_menu_action">Settings</string>
 
-  <string name="sorting_key_date_order" translatable="false">date_order</string>
-  <string name="sorting_key_date_desc" translatable="false">date_desc</string>
-  <string name="sorting_key_date_asc" translatable="false">date_asc</string>
+    <string name="sorting_key_date_order" translatable="false">date_order</string>
+    <string name="sorting_key_date_desc" translatable="false">date_desc</string>
+    <string name="sorting_key_date_asc" translatable="false">date_asc</string>
 
-  <string name="main_section_title">Main</string>
+    <string name="main_section_title">Main</string>
 
-  <string name="date_format_title">Date Format</string>
-  <string name="sorting_order_title">Sorting order</string>
-  <string name="default_section_title">Default section</string>
-  <string name="app_theme_title">App theme</string>
-  <string name="premium_features_title">Premium</string>
-  <string name="rate_app_title">Rate this app</string>
+    <string name="date_format_title">Date Format</string>
+    <string name="sorting_order_title">Sorting order</string>
+    <string name="default_section_title">Default section</string>
+    <string name="app_theme_title">App theme</string>
+    <string name="premium_features_title">Premium</string>
+    <string name="rate_app_title">Rate this app</string>
 
-  <string name="backup_section_title">Backup</string>
+    <string name="backup_section_title">Backup</string>
 
-  <string name="backup_import_title">Import events</string>
-  <string name="backup_import_summary">Import your events data from a file</string>
+    <string name="backup_import_title">Import events</string>
+    <string name="backup_import_summary">Import your events data from a file</string>
 
-  <string name="backup_export_title">Export events</string>
-  <string name="backup_export_summary">Export your events data to a file</string>
+    <string name="backup_export_title">Export events</string>
+    <string name="backup_export_summary">Export your events data to a file</string>
 
-  <string name="about_section_title">About</string>
+    <string name="about_section_title">About</string>
 
-  <string-array name="date_formats">
-    <item>31-10-1980</item>
-    <item>10-31-1980</item>
-    <item>1980-10-31</item>
-    <item>31 October 1980</item>
-    <item>October 31, 1980</item>
-  </string-array>
+    <string-array name="date_formats">
+        <item>31-10-1980</item>
+        <item>10-31-1980</item>
+        <item>1980-10-31</item>
+        <item>31 October 1980</item>
+        <item>October 31, 1980</item>
+    </string-array>
 
-  <string-array name="sorting_types">
-    <item>@string/action_sort_date_desc</item>
-    <item>@string/action_sort_date_asc</item>
-    <item>@string/action_sort_order</item>
-  </string-array>
+    <string-array name="sorting_types">
+        <item>@string/action_sort_date_desc</item>
+        <item>@string/action_sort_date_asc</item>
+        <item>@string/action_sort_order</item>
+    </string-array>
 
-  <string-array name="sorting_types_keys">
-    <item>@string/sorting_key_date_desc</item>
-    <item>@string/sorting_key_date_asc</item>
-    <item>@string/sorting_key_date_order</item>
-  </string-array>
+    <string-array name="sorting_types_keys">
+        <item>@string/sorting_key_date_desc</item>
+        <item>@string/sorting_key_date_asc</item>
+        <item>@string/sorting_key_date_order</item>
+    </string-array>
 
-  <string-array name="fragment_names">
-    <item>@string/main_activity_left_tab</item>
-    <item>@string/main_activity_right_tab</item>
-  </string-array>
+    <string-array name="fragment_names">
+        <item>@string/main_activity_left_tab</item>
+        <item>@string/main_activity_right_tab</item>
+    </string-array>
 
-  <string-array name="themes">
-    <item>Default (Light)</item>
-    <item>Blue (Light)</item>
-    <item>Red (Light)</item>
-    <item>Green (Light)</item>
-    <item>Green (Dark)</item>
-    <item>Purple (Dark)</item>
-    <item>Blue (Dark)</item>
-    <item>Red (Dark)</item>
-  </string-array>
+    <string-array name="themes">
+        <item>Default (Light)</item>
+        <item>Blue (Light)</item>
+        <item>Red (Light)</item>
+        <item>Green (Light)</item>
+        <item>Green (Dark)</item>
+        <item>Purple (Dark)</item>
+        <item>Blue (Dark)</item>
+        <item>Red (Dark)</item>
+    </string-array>
 
-  <string-array name="themes_keys">
-    <item>1</item>
-    <item>2</item>
-    <item>3</item>
-    <item>4</item>
-    <item>5</item>
-    <item>6</item>
-    <item>7</item>
-    <item>8</item>
-  </string-array>
+    <string-array name="themes_keys">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
 
-  <string name="backup_saved_toast">Backup saved in %s</string>
-  <string name="backup_toast_wrong_file">Wrong file</string>
+    <string name="backup_saved_toast">Backup saved in %s</string>
+    <string name="backup_toast_wrong_file">Wrong file</string>
 
-  <!--Premium-->
+    <!--Premium-->
 
-  <string name="premium_dialog_title">Premium</string>
-  <string name="premium_dialog_content">This feature is only for premium users. Click to learn more.</string>
-  <string name="premium_dialog_more_button">More info</string>
+    <string name="premium_dialog_title">Premium</string>
+    <string name="premium_dialog_content">This feature is only for premium users. Click to learn more.</string>
+    <string name="premium_dialog_more_button">More info</string>
 
-  <string name="premium_headline" translatable="false">Premium version</string>
-  <string name="premium_big_headline" translatable="false">All premium features</string>
-  <string name="buy_button" translatable="false">Buy now</string>
+    <string name="premium_headline">Premium version</string>
+    <string name="premium_big_headline">Additional support</string>
+    <string name="buy_button">Buy now</string>
 
-  <string name="feature_one" translatable="false">No ads</string>
-  <string name="feature_two" translatable="false">Full sync between multiple devices (including images)</string>
-  <string name="feature_three" translatable="false">Ability to choose images from the Internet for every event</string>
-  <string name="feature_four" translatable="false">Many themes to choose from (including dark and light versions)</string>
+    <string name="feature_one">No ads</string>
+    <string name="feature_two">Full sync between multiple devices (including images)</string>
+    <string name="feature_three">Ability to choose images from the Internet for every event</string>
+    <string name="feature_four">Many themes to choose from (including dark and light versions)</string>
 
-  <string name="features_pro_big" translatable="false">
-    All features listed for the pro version plus additional support for further development
-  </string>
+    <string name="question_one">Is this one time payment?</string>
+    <string name="question_one_answer">Yes, you only pay once and you will also have access to every premium feature that will be added in the future.</string>
+    <string name="question_two">Will it still work if I change the device?</string>
+    <string name="question_two_answer">Yes, this payment is tied to your Google account, so every device that is logged in to the same account will have access to all premium features.</string>
 
-  <string name="premium_already_own_dialog_title">Information</string>
-  <string name="premium_already_own_dialog_message">You had already bought this</string>
+    <string name="features_pro_big">Includes all features listed for the pro version plus additional support for app developer</string>
 
-  <!--Login-->
+    <string name="premium_already_own_dialog_title">Information</string>
+    <string name="premium_already_own_dialog_message">You had already bought this</string>
 
-  <string name="login_activity_title">LoginActivity</string>
-  <string name="login_activity_email">Email address</string>
-  <string name="login_activity_password">Password</string>
-  <string name="login_activity_login_button">LOGIN</string>
-  <string name="login_activity_create_account"><u>Create an account</u></string>
-  <string name="login_activity_create_q_account">Don\'t have an account?</string>
-  <string name="login_activity_or">or</string>
-  <string name="login_activity_google">Log in with Google</string>
-  <string name="login_activity_wrong_credentials">Check your email and password</string>
-  <string name="login_activity_connection_problem">Check your Internet connection</string>
-  <string name="login_activity_password_reset"><u>Forgot password?</u></string>
-  <string name="login_activity_password_reset_dialog"><u>Reset password</u></string>
-  <string name="login_activity_password_reset_toast_success">Email with instructions was sent to this address</string>
-  <string name="login_activity_password_reset_toast_fail">That email does not exist in database</string>
-  <string name="login_activity_password_reset_form_edit_text">Email address</string>
-  <string name="login_activity_password_reset_form_button">Reset</string>
+    <!--Login-->
 
-  <string name="main_activity_sign_out">Sign out</string>
-  <string name="main_activity_email">Your account: %s \nYou are already logged in</string>
+    <string name="login_activity_title">LoginActivity</string>
+    <string name="login_activity_email">Email address</string>
+    <string name="login_activity_password">Password</string>
+    <string name="login_activity_login_button">LOGIN</string>
+    <string name="login_activity_create_account"><u>Create an account</u></string>
+    <string name="login_activity_create_q_account">Don\'t have an account?</string>
+    <string name="login_activity_or">or</string>
+    <string name="login_activity_google">Log in with Google</string>
+    <string name="login_activity_wrong_credentials">Check your email and password</string>
+    <string name="login_activity_connection_problem">Check your Internet connection</string>
+    <string name="login_activity_password_reset"><u>Forgot password?</u></string>
+    <string name="login_activity_password_reset_dialog"><u>Reset password</u></string>
+    <string name="login_activity_password_reset_toast_success">Email with instructions was sent to this address</string>
+    <string name="login_activity_password_reset_toast_fail">That email does not exist in database</string>
+    <string name="login_activity_password_reset_form_edit_text">Email address</string>
+    <string name="login_activity_password_reset_form_button">Reset</string>
 
-  <!--InternetGallery-->
+    <string name="main_activity_sign_out">Sign out</string>
+    <string name="main_activity_email">Your account: %s \nYou are already logged in</string>
 
-  <string name="dialog_wait_prompt">Please wait...</string>
-  <string name="dialog_downloading">Downloading</string>
-  <string name="dialog_saving">Saving</string>
-  <string name="no_results">No results</string>
-  <string name="internet_gallery_search_hint">Search</string>
+    <!--InternetGallery-->
 
-  <string name="author_link">Author: </string>
-  <string name="detail_activity_toast_event_deleted">Event does not exist</string>
-  <string name="premium_thank_you_dialog">Thank you for buying premium version!</string>
+    <string name="dialog_wait_prompt">Please wait...</string>
+    <string name="dialog_downloading">Downloading</string>
+    <string name="dialog_saving">Saving</string>
+    <string name="no_results">No results</string>
+    <string name="internet_gallery_search_hint">Search</string>
+
+    <string name="author_link">Author: </string>
+    <string name="detail_activity_toast_event_deleted">Event does not exist</string>
+    <string name="premium_thank_you_dialog">Thank you for buying premium version!</string>
 
 
 </resources>

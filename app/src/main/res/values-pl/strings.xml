@@ -1,229 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Licznik dni</string>
-  <string name="title_activity_add">Dodaj wydarzenie</string>
-  <string name="title_activity_edit">Edytuj wydarzenie</string>
+    <string name="app_name">Licznik dni</string>
+    <string name="title_activity_add">Dodaj wydarzenie</string>
+    <string name="title_activity_edit">Edytuj wydarzenie</string>
 
-  <string name="action_contact">Kontakt</string>
-  <string name="action_sort_date_desc">Sortuj malejąco wg dni</string>
-  <string name="action_sort_date_asc">Sortuj rosnąco wg dni</string>
-  <string name="action_sort_order">Sortuj wg daty dodania</string>
+    <string name="action_contact">Kontakt</string>
+    <string name="action_sort_date_desc">Sortuj malejąco wg dni</string>
+    <string name="action_sort_date_asc">Sortuj rosnąco wg dni</string>
+    <string name="action_sort_order">Sortuj wg daty dodania</string>
 
-  <string name="action_edit">Edytuj</string>
+    <string name="action_edit">Edytuj</string>
 
-  <string name="main_activity_left_tab">Minione</string>
-  <string name="main_activity_right_tab">Nadchodzące</string>
-  <string name="main_activity_ads">Premium</string>
-  <string name="main_activity_privacy_policy">Privacy policy</string>
-  <string name="menu_activity_sync">Synchronizacja z chmurą</string>
-  <string name="main_activity_sync_toast">Błąd podczas wyboru konta</string>
-  <string name="main_activity_sync_first_time">Wydarzenia zsynchronizowano z: </string>
-  <string name="main_activity_sync_same_email">Wydarzenia są juz zsynchrozowane z kontem:  </string>
-  <string name="main_activity_sync_no_connection">Sprawdź połączenie z internetem</string>
+    <string name="main_activity_left_tab">Minione</string>
+    <string name="main_activity_right_tab">Nadchodzące</string>
+    <string name="main_activity_ads">Premium</string>
+    <string name="main_activity_privacy_policy">Privacy policy</string>
+    <string name="menu_activity_sync">Synchronizacja z chmurą</string>
+    <string name="main_activity_sync_toast">Błąd podczas wyboru konta</string>
+    <string name="main_activity_sync_first_time">Wydarzenia zsynchronizowano z: </string>
+    <string name="main_activity_sync_same_email">Wydarzenia są juz zsynchrozowane z kontem:  </string>
+    <string name="main_activity_sync_no_connection">Sprawdź połączenie z internetem</string>
 
-  <string name="detail_activity_about_section">Ogólne</string>
-  <string name="detail_activity_repetition_section">Powtarzanie</string>
-  <string name="detail_activity_reminder_section">Powiadomienie</string>
-  <string name="detail_activity_date_header">Data</string>
-  <string name="detail_activity_description_header">Opis</string>
-  <string name="detail_activity_repetition_header">Powtarzanie</string>
-  <string name="detail_activity_reminder_date_header">Data powiadomienia</string>
-  <string name="detail_activity_reminder_text_header">Treść powiadomienia</string>
+    <string name="detail_activity_about_section">Ogólne</string>
+    <string name="detail_activity_repetition_section">Powtarzanie</string>
+    <string name="detail_activity_reminder_section">Powiadomienie</string>
+    <string name="detail_activity_date_header">Data</string>
+    <string name="detail_activity_description_header">Opis</string>
+    <string name="detail_activity_repetition_header">Powtarzanie</string>
+    <string name="detail_activity_reminder_date_header">Data powiadomienia</string>
+    <string name="detail_activity_reminder_text_header">Treść powiadomienia</string>
 
-  <string name="add_activity_name_form">Wprowadź nazwę wydarzenia: </string>
-  <string name="add_activity_preview">Podgląd</string>
-  <string name="add_activity_preview_title">Tytuł wydarzenia</string>
-  <string name="add_activity_date_form">Data: </string>
-  <string name="add_activity_describe_form">Opisz swoje wydarzenie(opcjonalne): </string>
-  <string name="add_activity_add_button">Dodaj wydarzenie </string>
-  <string name="add_activity_toast_checkbox">Przynajmniej jedna z opcji musi być zaznaczona</string>
-  <string name="add_activity_dialog_title">Wybierz tło z</string>
-  <string name="add_activity_dialog_option_custom">Galeria lub Kamera</string>
-  <string name="add_activity_dialog_option_gallery">Tła</string>
-  <string name="add_activity_dialog_option_color">Kolor</string>
-  <string name="add_activity_dialog_option_internet">Z Internetu (Pro)</string>
-  <string name="add_activity_button_title">Zaktualizuj wydarzenie</string>
-  <string name="add_activity_clear_date">Wyczyść</string>
-  <string name="add_activity_back_button_message">Wszelkie wprowadzone zmiany zostaną utracone</string>
-  <string name="add_activity_back_button_cancel"> Anuluj</string>
-  <string name="add_activity_format_text">Format licznika</string>
-  <string name="add_activity_line_divider">Pokaż oddzielającą linię</string>
-  <string name="add_activity_counter_font_size">Rozmiar czcionki licznika</string>
-  <string name="add_activity_title_font_size">Rozmiar czcionki tytułu</string>
-  <string name="add_activity_font_color">Kolor czcionki</string>
-  <string name="add_activity_font_type">Rodzaj czcionki</string>
-  <string name="add_activity_picture_dim">Przyciemnienie tła</string>
-  <string name="add_reminder">Przypomnienie</string>
-  <string name="add_reminder_editText_hint">Nigdy</string>
-  <string name="add_reminder_editText_notification">Ten teskt będzie wyświetlony w powiadomieniu</string>
-  <string name="add_repeat">Powtarzanie</string>
+    <string name="add_activity_name_form">Wprowadź nazwę wydarzenia: </string>
+    <string name="add_activity_preview">Podgląd</string>
+    <string name="add_activity_preview_title">Tytuł wydarzenia</string>
+    <string name="add_activity_date_form">Data: </string>
+    <string name="add_activity_describe_form">Opisz swoje wydarzenie(opcjonalne): </string>
+    <string name="add_activity_add_button">Dodaj wydarzenie </string>
+    <string name="add_activity_toast_checkbox">Przynajmniej jedna z opcji musi być zaznaczona</string>
+    <string name="add_activity_dialog_title">Wybierz tło z</string>
+    <string name="add_activity_dialog_option_custom">Galeria lub Kamera</string>
+    <string name="add_activity_dialog_option_gallery">Tła</string>
+    <string name="add_activity_dialog_option_color">Kolor</string>
+    <string name="add_activity_dialog_option_internet">Z Internetu (Pro)</string>
+    <string name="add_activity_button_title">Zaktualizuj wydarzenie</string>
+    <string name="add_activity_clear_date">Wyczyść</string>
+    <string name="add_activity_back_button_message">Wszelkie wprowadzone zmiany zostaną utracone</string>
+    <string name="add_activity_back_button_cancel"> Anuluj</string>
+    <string name="add_activity_format_text">Format licznika</string>
+    <string name="add_activity_line_divider">Pokaż oddzielającą linię</string>
+    <string name="add_activity_counter_font_size">Rozmiar czcionki licznika</string>
+    <string name="add_activity_title_font_size">Rozmiar czcionki tytułu</string>
+    <string name="add_activity_font_color">Kolor czcionki</string>
+    <string name="add_activity_font_type">Rodzaj czcionki</string>
+    <string name="add_activity_picture_dim">Przyciemnienie tła</string>
+    <string name="add_reminder">Przypomnienie</string>
+    <string name="add_reminder_editText_hint">Nigdy</string>
+    <string name="add_reminder_editText_notification">Ten teskt będzie wyświetlony w powiadomieniu</string>
+    <string name="add_repeat">Powtarzanie</string>
 
-  <string-array name="add_activity_repeat">
-    <item>jednorazowo</item>
-    <item>dziennie</item>
-    <item>tygodniowo</item>
-    <item>miesięcznie</item>
-    <item>rocznie</item>
-  </string-array>
+    <string-array name="add_activity_repeat">
+        <item>jednorazowo</item>
+        <item>dziennie</item>
+        <item>tygodniowo</item>
+        <item>miesięcznie</item>
+        <item>rocznie</item>
+    </string-array>
 
-  <string-array name="add_activity_font_size">
-    <item>8</item>
-    <item>10</item>
-    <item>12</item>
-    <item>14</item>
-    <item>16</item>
-    <item>18</item>
-    <item>20</item>
-    <item>22</item>
-    <item>24</item>
-    <item>26</item>
-    <item>28</item>
-    <item>30</item>
-    <item>32</item>
-    <item>34</item>
-    <item>36</item>
-    <item>38</item>
-  </string-array>
+    <string-array name="add_activity_font_size">
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>30</item>
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+    </string-array>
 
-  <string-array name="font_type">
-    <item>Allerta</item>
-    <item>Fira Sans</item>
-    <item>Josefin Sans</item>
-    <item>Lato</item>
-    <item>Montserrat</item>
-    <item>Open Sans</item>
-    <item>Pacifico</item>
-    <item>PT Sans</item>
-    <item>Roboto</item>
-    <item>Roboto Slab</item>
-    <item>Ropa Sans</item>
-    <item>Source Sans Pro</item>
-    <item>Titillium Web</item>
-    <item>Ubuntu</item>
-  </string-array>
+    <string-array name="font_type">
+        <item>Allerta</item>
+        <item>Fira Sans</item>
+        <item>Josefin Sans</item>
+        <item>Lato</item>
+        <item>Montserrat</item>
+        <item>Open Sans</item>
+        <item>Pacifico</item>
+        <item>PT Sans</item>
+        <item>Roboto</item>
+        <item>Roboto Slab</item>
+        <item>Ropa Sans</item>
+        <item>Source Sans Pro</item>
+        <item>Titillium Web</item>
+        <item>Ubuntu</item>
+    </string-array>
 
-  <string name="date_utils_single_day">dzień</string>
-  <string name="date_utils_multiple_days">dni</string>
-  <string name="date_utils_single_week">tydzień</string>
-  <string name="date_utils_multiple_weeks_below5">tygodnie</string>
-  <string name="date_utils_multiple_weeks">tygodni</string>
-  <string name="date_utils_single_month">miesiąc</string>
-  <string name="date_utils_multiple_months_below5">miesiące</string>
-  <string name="date_utils_multiple_months">miesięcy</string>
-  <string name="date_utils_single_year">rok</string>
-  <string name="date_utils_multiple_years_below5">lata</string>
-  <string name="date_utils_multiple_years">lat</string>
-  <string name="date_utils_today">Dzisiaj!</string>
+    <string name="date_utils_single_day">dzień</string>
+    <string name="date_utils_multiple_days">dni</string>
+    <string name="date_utils_single_week">tydzień</string>
+    <string name="date_utils_multiple_weeks_below5">tygodnie</string>
+    <string name="date_utils_multiple_weeks">tygodni</string>
+    <string name="date_utils_single_month">miesiąc</string>
+    <string name="date_utils_multiple_months_below5">miesiące</string>
+    <string name="date_utils_multiple_months">miesięcy</string>
+    <string name="date_utils_single_year">rok</string>
+    <string name="date_utils_multiple_years_below5">lata</string>
+    <string name="date_utils_multiple_years">lat</string>
+    <string name="date_utils_today">Dzisiaj!</string>
 
-  <string name="fragment_main_dialog_title">Wybierz</string>
-  <string name="fragment_main_dialog_option_edit">Edytuj</string>
-  <string name="fragment_main_dialog_option_delete">Usuń</string>
-  <string name="fragment_delete_dialog_question">Jesteś pewien, że chcesz usunąć wydarzenie?</string>
+    <string name="fragment_main_dialog_title">Wybierz</string>
+    <string name="fragment_main_dialog_option_edit">Edytuj</string>
+    <string name="fragment_main_dialog_option_delete">Usuń</string>
+    <string name="fragment_delete_dialog_question">Jesteś pewien, że chcesz usunąć wydarzenie?</string>
 
-  <string name="gallery_activity_title">Wybierz tło</string>
+    <string name="gallery_activity_title">Wybierz tło</string>
 
-  <string name="detail_once">jednorazowo</string>
-  <string name="detail_daily">dziennie</string>
-  <string name="detail_weekly">tygodniowo</string>
-  <string name="detail_monthly">miesięcznie</string>
-  <string name="detail_yearly">rocznie</string>
+    <string name="detail_once">jednorazowo</string>
+    <string name="detail_daily">dziennie</string>
+    <string name="detail_weekly">tygodniowo</string>
+    <string name="detail_monthly">miesięcznie</string>
+    <string name="detail_yearly">rocznie</string>
 
-  <string name="widget_configuration_title">Po wybraniu kliknij na wybrane wydarzenie</string>
-  <string name="widget_configuration_switch">Tylko tekst na widżecie\n(przezroczyste tło)</string>
+    <string name="widget_configuration_title">Po wybraniu kliknij na wybrane wydarzenie</string>
+    <string name="widget_configuration_switch">Tylko tekst na widżecie\n(przezroczyste tło)</string>
 
-  <string name="changelog_dialog_title">Zmiany</string>
-  <string name="changelog_dialog_content">
+    <string name="changelog_dialog_title">Zmiany</string>
+    <string name="changelog_dialog_content">
     -Usunięto ikonę usunięcia reklam po uprzednim wykupieniu\n
     -Dodano języki hiszpański oraz niemiecki\n
     -Naprawiono mniejsze błędy\n
     -Dodana polityka prywatności
   </string>
 
-  <string name="notification_channel_name">Powiadomienia wydarzeń</string>
-  <string name="notification_channel_description">Powiadomienia ustawione przez użytkownika dotyczące wydarzeń z aplikacji</string>
+    <string name="notification_channel_name">Powiadomienia wydarzeń</string>
+    <string name="notification_channel_description">Powiadomienia ustawione przez użytkownika dotyczące wydarzeń z aplikacji</string>
 
-  <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
-  <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
-  <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
+    <string name="banner_ad_unit_id_activity">ca-app-pub-4098342918729972/3398261649</string>
+    <string name="banner_ad_unit_id_detail">ca-app-pub-4098342918729972/5406058444</string>
+    <string name="banner_ad_unit_id_gallery">ca-app-pub-4098342918729972/3943176849</string>
 
-  <!--settings-->
+    <!--settings-->
 
-  <string name="premium_dialog_title">Premium</string>
-  <string name="premium_dialog_content">Ta funkcja jest tylko dla użytkowników premium. Kliknij aby dowiedzieć się więcej.</string>
-  <string name="premium_dialog_more_button">OK</string>
+    <string name="settings_menu_action">Ustawienia</string>
 
-  <string name="settings_menu_action">Ustawienia</string>
+    <string name="main_section_title">Główne</string>
 
-  <string name="main_section_title">Główne</string>
+    <string name="date_format_title">Format daty</string>
+    <string name="sorting_order_title">Kolejność sortowania</string>
+    <string name="default_section_title">Domyślna sekcja</string>
+    <string name="app_theme_title">Motyw</string>
+    <string name="premium_features_title">Premium</string>
+    <string name="rate_app_title">Oceń tę aplikację</string>
 
-  <string name="date_format_title">Format daty</string>
-  <string name="sorting_order_title">Kolejność sortowania</string>
-  <string name="default_section_title">Domyślna sekcja</string>
-  <string name="app_theme_title">Motyw</string>
-  <string name="premium_features_title">Premium</string>
-  <string name="rate_app_title">Oceń tę aplikację</string>
+    <string name="backup_section_title">Backup</string>
 
-  <string name="backup_section_title">Backup</string>
+    <string name="backup_import_title">Zimportuj wydarzenia</string>
+    <string name="backup_import_summary">Importuj swoje wydarzenia z pliku</string>
 
-  <string name="backup_import_title">Zimportuj wydarzenia</string>
-  <string name="backup_import_summary">Importuj swoje wydarzenia z pliku</string>
+    <string name="backup_export_title">Eksportuj wydarzenia</string>
+    <string name="backup_export_summary">Wyeksportuj swoje wydarzenia do pliku</string>
 
-  <string name="backup_export_title">Eksportuj wydarzenia</string>
-  <string name="backup_export_summary">Wyeksportuj swoje wydarzenia do pliku</string>
+    <string name="about_section_title">O aplikacji</string>
 
-  <string name="about_section_title">O aplikacji</string>
+    <string-array name="themes">
+        <item>Domyślne (Jasny)</item>
+        <item>Niebieski(Jasny)</item>
+        <item>Czerwony (Jasny)</item>
+        <item>Zielony (Jasny)</item>
+        <item>Zielony (Ciemny)</item>
+        <item>Fioletowy (Ciemny)</item>
+        <item>Niebieski (Ciemny)</item>
+        <item>Czerwony (Ciemny)</item>
+    </string-array>
 
-  <string-array name="themes">
-    <item>Domyślne (Jasny)</item>
-    <item>Niebieski(Jasny)</item>
-    <item>Czerwony (Jasny)</item>
-    <item>Zielony (Jasny)</item>
-    <item>Zielony (Ciemny)</item>
-    <item>Fioletowy (Ciemny)</item>
-    <item>Niebieski (Ciemny)</item>
-    <item>Czerwony (Ciemny)</item>
-  </string-array>
+    <string name="backup_saved_toast">Backup zapisany w %s</string>
+    <string name="backup_toast_wrong_file">Zły typ pliku</string>
 
-  <string name="backup_saved_toast">Backup zapisany w %s</string>
-  <string name="backup_toast_wrong_file">Zły typ pliku</string>
+    <!--Premium-->
 
-  <!--Premium-->
+    <string name="premium_dialog_title">Premium</string>
+    <string name="premium_dialog_content">Ta funkcja jest tylko dla użytkowników premium. Kliknij aby dowiedzieć się więcej.</string>
+    <string name="premium_dialog_more_button">OK</string>
 
-  <string name="premium_already_own_dialog_title">Informacja</string>
-  <string name="premium_already_own_dialog_message">Już zakupiłeś tę usługę</string>
+    <string name="premium_already_own_dialog_title">Informacja</string>
+    <string name="premium_already_own_dialog_message">Już zakupiłeś tę usługę</string>
 
-  <!--Login-->
+    <string name="premium_headline">Wersja premium</string>
+    <string name="premium_big_headline">Dodatkowe wsparcie</string>
+    <string name="buy_button">Kup teraz</string>
 
-  <string name="login_activity_title">LoginActivity</string>
-  <string name="login_activity_email">Adres email</string>
-  <string name="login_activity_password">Hasło</string>
-  <string name="login_activity_login_button">Login</string>
-  <string name="login_activity_create_account"><u>Załóż konto</u></string>
-  <string name="login_activity_create_q_account">Nie posiadasz konta?</string>
-  <string name="login_activity_or">albo</string>
-  <string name="login_activity_google">Zaloguj się z Google</string>
-  <string name="login_activity_wrong_credentials">Sprawdź swój email i hasło</string>
-  <string name="login_activity_connection_problem">Sprawdź swoje połączenie internetowe</string>
-  <string name="login_activity_password_reset"><u>Zapomniałeś hasła?</u></string>
-  <string name="login_activity_password_reset_dialog"><u>Zresetuj hasło</u></string>
-  <string name="login_activity_password_reset_toast_success">Email z instrukcją został wysłany</string>
-  <string name="login_activity_password_reset_toast_fail">Ten email nie istnieje w bazie</string>
-  <string name="login_activity_password_reset_form_edit_text">Adres email</string>
-  <string name="login_activity_password_reset_form_button">Resetuj</string>
+    <string name="feature_one">Brak reklam</string>
+    <string name="feature_two">Pełna synchronizacja pomiędzy urządzeniami (włącznie ze zdjęciami)</string>
+    <string name="feature_three">Możliwość pobierania zdjęć z Internetu dla każdego wydarzenia</string>
+    <string name="feature_four">Duża ilość motywów aplikacji do wyboru (różne warianty ciemnych i jasnych motywów)</string>
 
-  <string name="main_activity_sign_out">Wyloguj się</string>
-  <string name="main_activity_email">Twoje konto: %s \nJesteś już zalogowany</string>
+    <string name="question_one">Czy jest to płatność jednorazowa?</string>
+    <string name="question_one_answer">Tak, płatność jest jednorazowa i gwarantuje również dostęp do każdej nowej funkcji premium, która będzie dodana w przyszłości.</string>
+    <string name="question_two">Czy funkcje premium będą działały kiedy zmienię telefon?</string>
+    <string name="question_two_answer">Tak, płatność jest przypisana do konta Google, stąd każde urządzenie które będzie zalogowane przy użyciu tego samego konta Google, będzie miało dostęp do funkcji premium.</string>
+
+    <string name="features_pro_big">Zawiera wszystkie funkcje, które obejmuje standardowa wersja premium oraz dodatkowe wsparcie dla developera aplikacji</string>
+
+    <!--Login-->
+
+    <string name="login_activity_title">LoginActivity</string>
+    <string name="login_activity_email">Adres email</string>
+    <string name="login_activity_password">Hasło</string>
+    <string name="login_activity_login_button">Login</string>
+    <string name="login_activity_create_account"><u>Załóż konto</u></string>
+    <string name="login_activity_create_q_account">Nie posiadasz konta?</string>
+    <string name="login_activity_or">albo</string>
+    <string name="login_activity_google">Zaloguj się z Google</string>
+    <string name="login_activity_wrong_credentials">Sprawdź swój email i hasło</string>
+    <string name="login_activity_connection_problem">Sprawdź swoje połączenie internetowe</string>
+    <string name="login_activity_password_reset"><u>Zapomniałeś hasła?</u></string>
+    <string name="login_activity_password_reset_dialog"><u>Zresetuj hasło</u></string>
+    <string name="login_activity_password_reset_toast_success">Email z instrukcją został wysłany</string>
+    <string name="login_activity_password_reset_toast_fail">Ten email nie istnieje w bazie</string>
+    <string name="login_activity_password_reset_form_edit_text">Adres email</string>
+    <string name="login_activity_password_reset_form_button">Resetuj</string>
+
+    <string name="main_activity_sign_out">Wyloguj się</string>
+    <string name="main_activity_email">Twoje konto: %s \nJesteś już zalogowany</string>
 
 
-  <!--InternetGallery-->
+    <!--InternetGallery-->
 
-  <string name="dialog_wait_prompt">Proszę czekać...</string>
-  <string name="dialog_downloading">Pobieranie</string>
-  <string name="dialog_saving">Zapisywanie</string>
-  <string name="no_results">Brak wyników</string>
-  <string name="internet_gallery_search_hint">Szukaj</string>
+    <string name="dialog_wait_prompt">Proszę czekać...</string>
+    <string name="dialog_downloading">Pobieranie</string>
+    <string name="dialog_saving">Zapisywanie</string>
+    <string name="no_results">Brak wyników</string>
+    <string name="internet_gallery_search_hint">Szukaj</string>
 
-  <string name="author_link">Autor: </string>
+    <string name="author_link">Autor: </string>
     <string name="detail_activity_toast_event_deleted">Wydarzenie nie istnieje</string>
     <string name="premium_thank_you_dialog">Dziękuję za zakup wersji premium!</string>
 
