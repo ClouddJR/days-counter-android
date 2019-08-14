@@ -1,75 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:fresco="http://schemas.android.com/tools"
-  android:id="@+id/card_view"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:layout_marginTop="10dp"
-  android:layout_marginLeft="5dp"
-  android:layout_marginRight="5dp"
-  android:layout_gravity="center"
-  android:clickable="true"
-  android:elevation="6dp"
-  android:foreground="?android:attr/selectableItemBackground"
-  android:transitionName="transition_detail">
-
-  <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="5dp"
+    android:clickable="true"
+    android:elevation="6dp"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:transitionName="transition_detail">
 
-    <ImageView
-      android:id="@+id/eventImage"
-      android:layout_width="0dp"
-      android:layout_height="match_parent"
-      android:background="@android:color/darker_gray"
-      android:scaleType="centerCrop"
-      android:tint="#3C000000"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="vertical">
 
-    <TextView
-      android:id="@+id/eventCalculateText"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_margin="5dp"
-      android:gravity="center"
-      android:textColor="@android:color/white"
-      android:textSize="20sp"
-      app:layout_constraintBottom_toTopOf="@id/eventLine"
-      app:layout_constraintEnd_toEndOf="@+id/eventImage"
-      app:layout_constraintStart_toStartOf="@+id/eventImage"/>
+        <ImageView
+            android:id="@+id/eventImage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:scaleType="centerCrop"
+            android:tint="#3C000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-      android:id="@+id/eventLine"
-      android:layout_width="120dp"
-      android:layout_height="1.5dp"
-      android:background="@android:color/white"
-      app:layout_constraintBottom_toBottomOf="@+id/eventImage"
-      app:layout_constraintEnd_toEndOf="@+id/eventImage"
-      app:layout_constraintStart_toStartOf="@+id/eventImage"
-      app:layout_constraintTop_toTopOf="@+id/eventImage"/>
+        <TextView
+            android:id="@+id/eventCalculateText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/eventLine"
+            app:layout_constraintEnd_toEndOf="@+id/eventImage"
+            app:layout_constraintStart_toStartOf="@+id/eventImage" />
 
-    <TextView
-      android:id="@+id/eventTitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="5dp"
-      android:fontFamily="@font/josefinsans"
-      android:gravity="center"
-      android:textColor="@android:color/white"
-      android:textSize="18sp"
-      app:layout_constraintEnd_toEndOf="@id/eventImage"
-      app:layout_constraintStart_toStartOf="@id/eventImage"
-      app:layout_constraintTop_toBottomOf="@id/eventLine"/>
+        <View
+            android:id="@+id/eventLine"
+            android:layout_width="120dp"
+            android:layout_height="1.5dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImage"
+            app:layout_constraintEnd_toEndOf="@+id/eventImage"
+            app:layout_constraintStart_toStartOf="@+id/eventImage"
+            app:layout_constraintTop_toTopOf="@+id/eventImage" />
+
+        <TextView
+            android:id="@+id/eventTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/josefinsans"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/eventImage"
+            app:layout_constraintStart_toStartOf="@id/eventImage"
+            app:layout_constraintTop_toBottomOf="@id/eventLine" />
 
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
 
