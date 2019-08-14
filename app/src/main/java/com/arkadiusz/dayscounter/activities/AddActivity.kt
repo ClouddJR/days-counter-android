@@ -152,7 +152,9 @@ class AddActivity : AppCompatActivity() {
     private fun setSpinnersListeners() {
         counterFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
+                if ((view as? TextView)?.text != null) {
+                    eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -162,7 +164,9 @@ class AddActivity : AppCompatActivity() {
 
         titleFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
+                if ((view as? TextView)?.text != null) {
+                    eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -171,10 +175,12 @@ class AddActivity : AppCompatActivity() {
         }
         fontTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val fontName = (view as? TextView)?.text.toString()
-                val typeFace = FontUtils.getFontFor(fontName, this@AddActivity)
-                eventTitle.typeface = typeFace
-                eventCalculateText.typeface = typeFace
+                if ((view as? TextView)?.text != null) {
+                    val fontName = (view as? TextView)?.text.toString()
+                    val typeFace = FontUtils.getFontFor(fontName, this@AddActivity)
+                    eventTitle.typeface = typeFace
+                    eventCalculateText.typeface = typeFace
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
