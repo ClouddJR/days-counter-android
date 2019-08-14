@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
+import com.arkadiusz.dayscounter.Provider.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.WidgetConfigureAdapter
 import com.arkadiusz.dayscounter.model.Event
@@ -15,6 +18,7 @@ import com.arkadiusz.dayscounter.repositories.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.ThemeUtils
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by arkadiusz on 23.03.18
@@ -60,6 +64,7 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
             databaseRepository.setWidgetIdForEvent(chosenEvent, appWidgetId)
             setEventTransparentIfSet(chosenEvent)
             setUpWidgetUpdating()
+            setUpWorkerManager()
         }
     }
 
@@ -84,6 +89,13 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         setResult(Activity.RESULT_OK, resultValue)
         finish()
+    }
+
+    private fun setUpWorkerManager() {
+        val widgetUpdateRequest = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(3, TimeUnit.HOURS)
+                .build()
+
+        WorkManager.getInstance(this).enqueue(widgetUpdateRequest)
     }
 
     private fun setUpTransparencySwitch() {

@@ -16,6 +16,7 @@ android {
         versionCode 40
         versionName "2.15"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -26,6 +27,9 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     lintOptions {
         checkReleaseBuilds false
@@ -60,6 +64,8 @@ dependencies {
 
     //architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation "androidx.work:work-runtime-ktx:2.1.0"
+    androidTestImplementation "androidx.work:work-testing:2.1.0"
 
     //anko
     implementation "org.jetbrains.anko:anko:0.10.4"
@@ -108,8 +114,13 @@ dependencies {
     //konfetti
     implementation 'nl.dionsegijn:konfetti:1.1.2'
 
-
+    //testing
     testImplementation 'junit:junit:4.12'
+    testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
+    androidTestImplementation 'org.mockito:mockito-android:2.27.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

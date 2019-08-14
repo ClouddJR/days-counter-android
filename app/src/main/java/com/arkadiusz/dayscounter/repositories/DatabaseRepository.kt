@@ -63,6 +63,15 @@ class DatabaseRepository {
         return results
     }
 
+    fun getEventsWithWidgets(): List<Event> {
+        val realm = Realm.getInstance(config)
+        val list = realm.copyFromRealm(
+                realm.where(Event::class.java).notEqualTo("widgetID", 0L).findAll()
+        )
+        realm.close()
+        return list
+    }
+
     private fun getCopyOfAllEvents(): List<Event> {
         return realm.copyFromRealm(realm.where(Event::class.java).findAll())
     }
@@ -108,11 +117,15 @@ class DatabaseRepository {
     }
 
     fun getEventByWidgetId(widgetId: Int): Event? {
-        realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()?.let {
-            return realm.copyFromRealm(it)
+        val realm = Realm.getInstance(config)
+        val event = realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()
+        return if (event != null) {
+            val eventCopy = realm.copyFromRealm(event)
+            realm.close()
+            eventCopy
+        } else {
+            null
         }
-
-        return null
     }
 
     fun setWidgetIdForEvent(event: Event, widgetId: Int) {
