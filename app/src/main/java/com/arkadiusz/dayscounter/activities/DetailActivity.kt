@@ -21,10 +21,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_detail.*
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.notificationManager
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import java.io.File
 
 
@@ -75,6 +72,16 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_edit -> {
                 startActivity<EditActivity>("eventId" to passedEventId)
                 finish()
+            }
+
+            R.id.action_delete -> {
+                alert(getString(R.string.fragment_delete_dialog_question)) {
+                    positiveButton(android.R.string.yes) {
+                        databaseRepository.deleteEventFromDatabase(passedEventId)
+                        finish()
+                    }
+                    negativeButton(android.R.string.no) {}
+                }.show()
             }
         }
 
