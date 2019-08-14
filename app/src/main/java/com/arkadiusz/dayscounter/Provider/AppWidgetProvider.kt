@@ -142,13 +142,14 @@ class AppWidgetProvider : AppWidgetProvider() {
 
             val appWidgetTarget = object : AppWidgetTarget(context, R.id.eventImage, remoteViews, widgetId) {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    val bitmap = resource.copy(Bitmap.Config.ARGB_8888, true)
                     val paint = Paint()
                     val hexValue = 255 - (255 / 17 * pictureDim)
                     val stringHex = Integer.toHexString(hexValue)
                     paint.colorFilter = PorterDuffColorFilter("FF$stringHex$stringHex$stringHex".toLong(16).toInt(), PorterDuff.Mode.MULTIPLY)
-                    val canvas = Canvas(resource)
-                    canvas.drawBitmap(resource, 0f, 0f, paint)
-                    super.onResourceReady(resource, transition)
+                    val canvas = Canvas(bitmap)
+                    canvas.drawBitmap(bitmap, 0f, 0f, paint)
+                    super.onResourceReady(bitmap, transition)
                 }
             }
 
