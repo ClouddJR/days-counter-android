@@ -18,6 +18,7 @@
 
   -dontwarn com.squareup.picasso.**
   -dontwarn okhttp3.**
+  -dontwarn org.jetbrains.anko.**
   -keepclassmembers class com.arkadiusz.dayscounter.model.** {
     *;
     }
