@@ -8,6 +8,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.arkadiusz.dayscounter.Provider.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.adapters.ViewPagerAdapter
 import com.arkadiusz.dayscounter.fragments.FutureFragment
@@ -24,10 +28,10 @@ import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
-
 
     private val databaseRepository = DatabaseProvider.provideRepository()
     private val userRepository = UserRepository()
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         setUpViewPager()
         setUpFABClickListener()
         checkForPurchases()
+        setUpWorkerManager()
         //showChangelog()
     }
 
@@ -168,6 +173,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
         invalidateOptionsMenu()
+    }
+
+    private fun setUpWorkerManager() {
+        val widgetUpdateRequest = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(3, TimeUnit.HOURS)
+                .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
+                ExistingPeriodicWorkPolicy.KEEP,
+                widgetUpdateRequest)
     }
 
     private fun showChangelog() {
