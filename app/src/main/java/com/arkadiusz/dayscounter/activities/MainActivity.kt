@@ -18,7 +18,6 @@ import com.arkadiusz.dayscounter.fragments.FutureFragment
 import com.arkadiusz.dayscounter.fragments.PastFragment
 import com.arkadiusz.dayscounter.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.repositories.DatabaseProvider
-import com.arkadiusz.dayscounter.repositories.DatabaseRepository
 import com.arkadiusz.dayscounter.repositories.UserRepository
 import com.arkadiusz.dayscounter.settings.SettingsActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils
@@ -45,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         setTheme(getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initRealm()
         logEvents()
         setUpPreferences()
         setUpToolbar()
@@ -54,11 +52,6 @@ class MainActivity : AppCompatActivity() {
         checkForPurchases()
         setUpWorkerManager()
         //showChangelog()
-    }
-
-
-    private fun initRealm() {
-        DatabaseRepository.RealmInitializer.initRealm(applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
