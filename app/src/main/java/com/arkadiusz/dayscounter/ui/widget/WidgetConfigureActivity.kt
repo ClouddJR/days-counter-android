@@ -8,20 +8,18 @@ import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.ThemeUtils
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
 
 /**
  * Created by arkadiusz on 23.03.18
  */
 
-class AppWidgetConfigureActivity : AppCompatActivity() {
+class WidgetConfigureActivity : AppCompatActivity() {
 
-    private val databaseRepository = DatabaseProvider.provideRepository()
-    private lateinit var eventsList: RealmResults<Event>
+    private lateinit var viewModel: WidgetConfigureActivityViewModel
 
     private var appWidgetId = 0
 
@@ -30,14 +28,14 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_widget_configure)
         setResult(RESULT_CANCELED)
-        getAllEvents()
+        initViewModel()
         getAppWidgetIdFromBundle()
         setUpListAdapter()
         setUpTransparencySwitch()
     }
 
-    private fun getAllEvents() {
-        eventsList = databaseRepository.getAllEvents()
+    private fun initViewModel() {
+        viewModel = getViewModel(this)
     }
 
     private fun getAppWidgetIdFromBundle() {
@@ -49,13 +47,14 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
     }
 
     private fun setUpListAdapter() {
+        val eventsList = viewModel.getAllEvents()
         val adapter = WidgetConfigureAdapter(this, eventsList)
         eventListView.adapter = adapter
         eventListView.setOnItemClickListener { _, _, position, _ ->
             eventsList[position]?.id?.let {
-                val chosenEvent = databaseRepository.getEventById(it)
+                val chosenEvent = viewModel.getEventById(it)
                 chosenEvent?.let {
-                    databaseRepository.setWidgetIdForEvent(chosenEvent, appWidgetId)
+                    viewModel.setWidgetIdForEvent(chosenEvent, appWidgetId)
                     setWidgetTransparencyIfSet(chosenEvent)
                     setUpWidgetUpdating()
                 }
@@ -64,7 +63,7 @@ class AppWidgetConfigureActivity : AppCompatActivity() {
     }
 
     private fun setWidgetTransparencyIfSet(event: Event) {
-        databaseRepository.setWidgetTransparencyFor(event, transparentSwitch.isChecked)
+        viewModel.setWidgetTransparencyFor(event, transparentSwitch.isChecked)
     }
 
     private fun setUpWidgetUpdating() {

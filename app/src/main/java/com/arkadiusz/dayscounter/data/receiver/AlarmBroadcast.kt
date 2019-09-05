@@ -3,7 +3,7 @@ package com.arkadiusz.dayscounter.data.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
+import com.arkadiusz.dayscounter.data.local.DatabaseRepository
 import com.arkadiusz.dayscounter.utils.NotificationUtils
 
 /**
@@ -20,7 +20,7 @@ class AlarmBroadcast : BroadcastReceiver() {
 
         if (id != null && eventTitle != null && eventDate != null && eventDescription != null) {
             NotificationUtils.createNotification(context, eventTitle, eventDescription, id)
-            DatabaseProvider.provideRepository().disableAlarmForEvent(id)
+            DatabaseRepository().disableAlarmForEvent(id)
         }
     }
 }

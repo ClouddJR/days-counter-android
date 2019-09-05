@@ -10,9 +10,9 @@ import android.graphics.*
 import android.util.TypedValue
 import android.widget.RemoteViews
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
+import com.arkadiusz.dayscounter.data.local.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
+import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.GlideApp
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.FontUtils
@@ -30,7 +30,7 @@ import java.io.File
 
 class AppWidgetProvider : AppWidgetProvider() {
 
-    private val databaseRepository = DatabaseProvider.provideRepository()
+    private val databaseRepository = DatabaseRepository()
 
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         val widgetsCount = appWidgetIds?.size ?: 0
@@ -55,6 +55,8 @@ class AppWidgetProvider : AppWidgetProvider() {
                 appWidgetManager!!.updateAppWidget(widgetId, remoteViews)
             }
         }
+
+        databaseRepository.closeDatabase()
     }
 
     private fun getCounterText(event: Event, context: Context): String {

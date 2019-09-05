@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
@@ -28,7 +28,7 @@ import java.io.File
 
 class DetailActivity : AppCompatActivity() {
 
-    private val databaseRepository = DatabaseProvider.provideRepository()
+    private lateinit var viewModel: DetailActivityViewModel
 
     private var passedEventId: String = ""
     private lateinit var passedEvent: Event
@@ -37,18 +37,10 @@ class DetailActivity : AppCompatActivity() {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        initViewModel()
+        getPassedEventAndFinishIfNull()
         setStatusBarColor()
         setUpToolbar()
-
-        passedEventId = intent.getStringExtra("event_id")
-        val event = databaseRepository.getEventById(passedEventId)
-        if (event == null) {
-            displayToastAndFinishActivity()
-            return
-        } else {
-            passedEvent = event
-        }
-
         cancelNotification()
         displayImage()
         fillMainSection()
@@ -56,11 +48,6 @@ class DetailActivity : AppCompatActivity() {
         fillReminderSection()
         fillRepetitionSection()
         displayAd()
-    }
-
-    private fun setStatusBarColor() {
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -78,7 +65,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.action_delete -> {
                 alert(getString(R.string.fragment_delete_dialog_question)) {
                     positiveButton(android.R.string.yes) {
-                        databaseRepository.deleteEventFromDatabase(passedEventId)
+                        viewModel.deleteEvent(passedEventId)
                         finish()
                     }
                     negativeButton(android.R.string.no) {}
@@ -87,6 +74,31 @@ class DetailActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initViewModel() {
+        viewModel = getViewModel(this)
+    }
+
+    private fun getPassedEventAndFinishIfNull() {
+        passedEventId = intent.getStringExtra("event_id")
+        val event = viewModel.getEventById(passedEventId)
+        if (event == null) {
+            displayToastAndFinishActivity()
+            return
+        } else {
+            passedEvent = event
+        }
+    }
+
+    private fun displayToastAndFinishActivity() {
+        toast(getString(R.string.detail_activity_toast_event_deleted))
+        finish()
+    }
+
+    private fun setStatusBarColor() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
     }
 
     private fun setUpToolbar() {
@@ -101,11 +113,6 @@ class DetailActivity : AppCompatActivity() {
         if (isComingFromNotification != null && isComingFromNotification == "clicked") {
             notificationManager.cancel(passedEventId.hashCode())
         }
-    }
-
-    private fun displayToastAndFinishActivity() {
-        toast(getString(R.string.detail_activity_toast_event_deleted))
-        finish()
     }
 
     private fun displayImage() {
@@ -185,7 +192,7 @@ class DetailActivity : AppCompatActivity() {
             adView.loadAd(AdRequest.Builder().build())
         } else {
             adView.visibility = View.GONE
-            scrollN.setPadding(0, 0, 0, 0)
+            nestedScroll.setPadding(0, 0, 0, 0)
         }
     }
 }

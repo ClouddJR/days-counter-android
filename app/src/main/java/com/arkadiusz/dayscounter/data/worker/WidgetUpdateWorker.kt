@@ -17,13 +17,18 @@ class WidgetUpdateWorker(private val appContext: Context, workerParams: WorkerPa
     }
 
     override fun doWork(): Result {
-        val eventsWithWidget = DatabaseRepository().getEventsWithWidgets()
+        val databaseRepository = DatabaseRepository()
+
+        val eventsWithWidget = databaseRepository.getEventsWithWidgets()
         val widgetIds = eventsWithWidget.map { it.widgetID }.toIntArray()
 
         val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, appContext,
                 AppWidgetProvider::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
         appContext.sendBroadcast(intent)
+
+        databaseRepository.closeDatabase()
+
         return Result.success(Data.Builder().putIntArray("widgetIds", widgetIds).build())
     }
 }

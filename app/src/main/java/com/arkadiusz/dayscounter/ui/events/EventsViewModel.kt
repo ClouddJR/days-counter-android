@@ -2,17 +2,22 @@ package com.arkadiusz.dayscounter.ui.events
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
+import com.arkadiusz.dayscounter.data.local.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults
 
-class EventsViewModel : ViewModel() {
-
-    private val databaseRepository = DatabaseProvider.provideRepository()
+class EventsViewModel(
+        private val databaseRepository: DatabaseRepository = DatabaseRepository()
+) : ViewModel() {
 
     private lateinit var eventsPastList: RealmResults<Event>
     private lateinit var eventsFutureList: RealmResults<Event>
+
+    override fun onCleared() {
+        super.onCleared()
+        databaseRepository.closeDatabase()
+    }
 
     fun init(sortType: String, context: Context?) {
         if (!::eventsFutureList.isInitialized && !::eventsPastList.isInitialized) {

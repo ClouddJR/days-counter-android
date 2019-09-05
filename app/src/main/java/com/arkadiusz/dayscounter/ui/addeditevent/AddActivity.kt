@@ -24,9 +24,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
@@ -56,6 +56,8 @@ import java.util.*
  */
 
 class AddActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: AddEditViewModel
 
     private var unformattedDate = ""
 
@@ -91,6 +93,7 @@ class AddActivity : AppCompatActivity() {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add)
+        initViewModel()
         receiveEventType()
         setCurrentDateInForm()
         setUpSpinners()
@@ -112,6 +115,10 @@ class AddActivity : AppCompatActivity() {
                 it.dismiss()
             }
         }.show()
+    }
+
+    private fun initViewModel() {
+        viewModel = getViewModel(this)
     }
 
     private fun receiveEventType() {
@@ -312,7 +319,7 @@ class AddActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             showAd()
             val eventToBeAdded = prepareEventBasedOnViews()
-            DatabaseProvider.provideRepository().addEventToDatabase(eventToBeAdded)
+            viewModel.addEvent(eventToBeAdded)
             addReminder(eventToBeAdded)
             finish()
         }

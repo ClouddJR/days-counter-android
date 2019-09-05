@@ -10,7 +10,7 @@
   android:paddingLeft="@dimen/activity_horizontal_margin"
   android:paddingRight="@dimen/activity_horizontal_margin"
   android:orientation="vertical"
-  tools:context="com.arkadiusz.dayscounter.ui.widget.AppWidgetConfigureActivity">
+  tools:context="com.arkadiusz.dayscounter.ui.widget.WidgetConfigureActivity">
 
   <Switch
     android:id="@+id/transparentSwitch"

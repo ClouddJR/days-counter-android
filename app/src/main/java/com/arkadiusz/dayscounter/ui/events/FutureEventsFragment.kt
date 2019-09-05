@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
@@ -19,6 +18,7 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -53,7 +53,7 @@ class FutureEventsFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(activity!!).get(EventsViewModel::class.java)
+        viewModel = getViewModel(activity!!)
 
         val sharedPref = defaultPrefs(context!!)
         val sortType = sharedPref["sort_type"] ?: "date_order"

@@ -11,8 +11,8 @@ import androidx.core.app.ActivityCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
+import com.arkadiusz.dayscounter.data.local.DatabaseRepository
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
@@ -26,7 +26,7 @@ import java.io.File
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private val databaseRepository = DatabaseProvider.provideRepository()
+    private val databaseRepository = DatabaseRepository()
 
     private val REQUEST_EXPORT_DATA = 1
     private val REQUEST_IMPORT_DATA = 2

@@ -342,12 +342,9 @@ class DatabaseRepository(
                             },
                             { error: Throwable ->
                                 error.printStackTrace()
-
                             }
                     )
         }
-
-        remoteListenerDisposable.dispose()
     }
 
     private fun deleteIfNotExist(passedEvents: List<Event>) {
@@ -374,6 +371,10 @@ class DatabaseRepository(
             }
 
         }
+    }
+
+    fun closeDatabase() {
+        realm.close()
     }
 
 }

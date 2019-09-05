@@ -12,7 +12,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.data.local.UserRepository
 import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
@@ -34,7 +33,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private val databaseRepository = DatabaseProvider.provideRepository()
     private val userRepository = UserRepository()
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
@@ -46,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         setTheme(getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        logEvents()
         setUpPreferences()
         setUpToolbar()
         setUpViewPager()
@@ -106,10 +103,6 @@ class MainActivity : AppCompatActivity() {
                 it.dismiss()
             }
         }.show()
-    }
-
-    private fun logEvents() {
-        databaseRepository.logEvents()
     }
 
     private fun setUpPreferences() {

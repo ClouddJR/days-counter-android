@@ -25,9 +25,9 @@ import androidx.core.app.ActivityCompat
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.*
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
@@ -50,6 +50,8 @@ import java.util.*
  */
 
 class EditActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: AddEditViewModel
 
     private var unformattedDate = ""
 
@@ -85,6 +87,7 @@ class EditActivity : AppCompatActivity() {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_add)
+        initViewModel()
         receivePassedEventId()
         setUpSpinners()
         setUpCheckboxes()
@@ -108,10 +111,13 @@ class EditActivity : AppCompatActivity() {
         }.show()
     }
 
+    private fun initViewModel() {
+        viewModel = getViewModel(this)
+    }
+
 
     private fun receivePassedEventId() {
-        val passedEventId = intent.getStringExtra("eventId")
-        passedEvent = DatabaseProvider.provideRepository().getEventById(passedEventId)!!
+        passedEvent = viewModel.getPassedEventById(intent.getStringExtra("eventId"))
     }
 
     private fun setUpSpinners() {
@@ -288,11 +294,11 @@ class EditActivity : AppCompatActivity() {
             hasAlarm = false
         }
         addButton.setOnClickListener {
-            val eventToBeAdded = prepareEventBasedOnViews()
-            DatabaseProvider.provideRepository().editEvent(eventToBeAdded)
-            addReminder(eventToBeAdded)
-            updateWidgetIfOnScreen(eventToBeAdded.widgetID)
-            updateWidgetIfOnScreen(eventToBeAdded.widgetID)
+            val eventToBeEdited = prepareEventBasedOnViews()
+            viewModel.editEvent(eventToBeEdited)
+            addReminder(eventToBeEdited)
+            updateWidgetIfOnScreen(eventToBeEdited.widgetID)
+            updateWidgetIfOnScreen(eventToBeEdited.widgetID)
             finish()
         }
     }

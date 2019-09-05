@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arkadiusz.dayscounter.R
+import com.arkadiusz.dayscounter.data.local.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
@@ -46,7 +46,7 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
 
     inner class ViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
-        private val databaseRepository = DatabaseProvider.provideRepository()
+        private val databaseRepository = DatabaseRepository()
 
         fun bind(event: Event) {
             displayCounterText(event)

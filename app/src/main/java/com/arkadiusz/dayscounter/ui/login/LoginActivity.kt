@@ -8,10 +8,10 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.local.DatabaseProvider
-import com.arkadiusz.dayscounter.data.local.UserRepository
 import com.arkadiusz.dayscounter.ui.main.MainActivity
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -20,10 +20,9 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.*
 import java.util.*
 
-class LoginActivity : AppCompatActivity(), UserRepository.OnEmailResetListener,
-        UserRepository.OnLoggedListener {
+class LoginActivity : AppCompatActivity(){
 
-    private val userRepository = UserRepository()
+    private lateinit var viewModel: LoginActivityViewModel
 
     private val RC_SIGN_IN = 123
     private val providers = arrayListOf(
@@ -35,7 +34,8 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnEmailResetListener,
         setTheme(getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        initUserRepository()
+        initViewModel()
+        listenToLoginEvents()
         initLogInButtons()
         initGoogleLoginButtonText()
     }
@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnEmailResetListener,
             if (resultCode == Activity.RESULT_OK) {
                 startActivity<MainActivity>()
                 finish()
-                DatabaseProvider.provideRepository().addLocalEventsToCloud()
+                viewModel.addLocalEventsToCloud()
             } else {
                 if (response?.errorCode == ErrorCodes.NO_NETWORK) {
                     longToast(getString(R.string.login_activity_connection_problem))
@@ -65,15 +65,36 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnEmailResetListener,
         progressBar.visibility = View.GONE
     }
 
-    private fun initUserRepository() {
-        userRepository.addOnLoggedListener(this)
-        userRepository.addOnEmailResetListener(this)
+    private fun initViewModel() {
+        viewModel = getViewModel(this)
+        viewModel.init()
+    }
+
+    private fun listenToLoginEvents() {
+        viewModel.loginResult.observe(this, Observer { wasSuccessful ->
+            if (wasSuccessful) {
+                viewModel.addLocalEventsToCloud()
+                startActivity<MainActivity>()
+                finish()
+            } else {
+                longToast(getString(R.string.login_activity_wrong_credentials))
+                progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.emailResetResult.observe(this, Observer { wasSuccessful ->
+            val toastText = when (wasSuccessful) {
+                true -> getString(R.string.login_activity_password_reset_toast_success)
+                else -> getString(R.string.login_activity_password_reset_toast_fail)
+            }
+            longToast(toastText)
+        })
     }
 
     private fun initLogInButtons() {
         loginButton.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            userRepository.signInWithLoginAndPassword(emailEditText.text.toString(), passwordEditText.text.toString())
+            viewModel.signInWithLoginAndPassword(emailEditText.text.toString(), passwordEditText.text.toString())
         }
 
         signInWithGoogleButton.setOnClickListener {
@@ -102,7 +123,7 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnEmailResetListener,
         lateinit var editText: EditText
         alert {
             positiveButton(getString(R.string.login_activity_password_reset_form_button)) {
-                userRepository.sendPasswordResetEmail(editText.text.toString().trim())
+                viewModel.sendPasswordResetEmail(editText.text.toString().trim())
             }
 
             negativeButton(getString(R.string.add_activity_back_button_cancel)) {
@@ -127,26 +148,7 @@ class LoginActivity : AppCompatActivity(), UserRepository.OnEmailResetListener,
         }.show()
     }
 
-    override fun onLoggedResult(wasSuccessful: Boolean) {
-        if (wasSuccessful) {
-            DatabaseProvider.provideRepository().addLocalEventsToCloud()
-            startActivity<MainActivity>()
-            finish()
-        } else {
-            longToast(getString(R.string.login_activity_wrong_credentials))
-            progressBar.visibility = View.GONE
-        }
-    }
-
     private fun initGoogleLoginButtonText() {
         (signInWithGoogleButton.getChildAt(0) as TextView).text = getString(R.string.login_activity_google)
-    }
-
-    override fun onEmailReset(wasSuccessful: Boolean) {
-        val toastText = when (wasSuccessful) {
-            true -> getString(R.string.login_activity_password_reset_toast_success)
-            else -> getString(R.string.login_activity_password_reset_toast_fail)
-        }
-        longToast(toastText)
     }
 }
