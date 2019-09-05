@@ -55,7 +55,7 @@ class PastFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this).get(EventsViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(EventsViewModel::class.java)
 
         val sharedPref = defaultPrefs(context!!)
         val sortType = sharedPref["sort_type"] ?: "date_order"

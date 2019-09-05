@@ -14,6 +14,7 @@ import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_EXTENSION
 import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_NAME
 import com.arkadiusz.dayscounter.utils.StorageUtils.toFile
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -31,6 +32,7 @@ class DatabaseRepository {
 
     private val userRepository = UserRepository()
     private val firebaseRepository = FirebaseRepository(userRepository)
+    private lateinit var remoteListenerDisposable: Disposable
 
     private var realm: Realm
     private val config: RealmConfiguration = RealmConfiguration.Builder()
@@ -355,24 +357,28 @@ class DatabaseRepository {
     }
 
     private fun observeCloudEvents() {
-        val disposable = firebaseRepository.getEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { events: List<Event> ->
+        if (!::remoteListenerDisposable.isInitialized) {
+            remoteListenerDisposable = firebaseRepository.getEvents()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { events: List<Event> ->
 
-                            deleteIfNotExist(events)
+                                deleteIfNotExist(events)
 
-                            events.forEach { event ->
-                                editCloudEvent(event)
+                                events.forEach { event ->
+                                    editCloudEvent(event)
+                                }
+
+                            },
+                            { error: Throwable ->
+                                error.printStackTrace()
+
                             }
+                    )
+        }
 
-                        },
-                        { error: Throwable ->
-                            error.printStackTrace()
-
-                        }
-                )
+        remoteListenerDisposable.dispose()
     }
 
     private fun deleteIfNotExist(passedEvents: List<Event>) {
