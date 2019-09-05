@@ -6,7 +6,7 @@
   android:id="@+id/activity_gallery"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="com.arkadiusz.dayscounter.activities.GalleryActivity">
+  tools:context="com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity">
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/galleryRV"

@@ -5,9 +5,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.work.ListenableWorker
 import androidx.work.testing.TestWorkerBuilder
-import com.arkadiusz.dayscounter.Provider.WidgetUpdateWorker
-import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.data.local.DatabaseProvider
+import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import junit.framework.TestCase.fail
 import org.junit.Assert.assertArrayEquals
 import org.junit.Before

@@ -33,7 +33,7 @@
     <activity
       android:label="@string/app_name"
       android:launchMode="singleTop"
-      android:name=".activities.MainActivity"
+      android:name=".ui.main.MainActivity"
       android:theme="@style/AppTheme.Launcher">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -47,14 +47,14 @@
 
     <activity
       android:label="@string/settings_menu_action"
-      android:name=".settings.SettingsActivity"
-      android:parentActivityName=".activities.MainActivity"/>
+      android:name="com.arkadiusz.dayscounter.ui.settings.SettingsActivity"
+      android:parentActivityName=".ui.main.MainActivity"/>
 
     <activity
       android:label="@string/title_activity_add"
       android:launchMode="singleTask"
-      android:name=".activities.AddActivity"
-      android:parentActivityName=".activities.MainActivity"
+      android:name=".ui.addeditevent.AddActivity"
+      android:parentActivityName=".ui.main.MainActivity"
       android:screenOrientation="portrait"
       android:windowSoftInputMode="adjustResize|stateHidden">
     </activity>
@@ -62,27 +62,27 @@
     <activity
       android:label="@string/title_activity_edit"
       android:launchMode="singleTask"
-      android:name=".activities.EditActivity"
-      android:parentActivityName=".activities.MainActivity"
+      android:name=".ui.addeditevent.EditActivity"
+      android:parentActivityName=".ui.main.MainActivity"
       android:screenOrientation="portrait"
       android:windowSoftInputMode="adjustResize|stateHidden">
     </activity>
 
     <activity
-      android:name=".activities.DetailActivity"
-      android:parentActivityName=".activities.MainActivity"
+      android:name=".ui.eventdetails.DetailActivity"
+      android:parentActivityName=".ui.main.MainActivity"
       android:screenOrientation="portrait">
     </activity>
 
     <activity
-      android:name=".activities.InternetGalleryActivity"
-      android:parentActivityName=".activities.AddActivity"
+      android:name=".ui.internetgallery.InternetGalleryActivity"
+      android:parentActivityName=".ui.addeditevent.AddActivity"
       android:screenOrientation="portrait"
       android:windowSoftInputMode="adjustNothing">
     </activity>
 
     <activity
-      android:name=".activities.GalleryActivity">
+      android:name=".ui.localgallery.GalleryActivity">
       <intent-filter>
         <action android:name="android.intent.action.OPEN_DOCUMENT"/>
         <category android:name="android.intent.category.OPENABLE"/>
@@ -91,20 +91,20 @@
     </activity>
 
     <activity
-      android:name=".activities.AppWidgetConfigureActivity">
+      android:name=".ui.widget.AppWidgetConfigureActivity">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
       </intent-filter>
     </activity>
 
     <activity
-      android:name=".activities.PremiumActivity"
-      android:parentActivityName=".activities.MainActivity"
+      android:name=".ui.premium.PremiumActivity"
+      android:parentActivityName=".ui.main.MainActivity"
       android:screenOrientation="portrait">
     </activity>
 
     <activity
-      android:name=".activities.LoginActivity"
+      android:name=".ui.login.LoginActivity"
       android:screenOrientation="portrait">
     </activity>
 
@@ -119,7 +119,7 @@
 
     <receiver
       android:enabled="true"
-      android:name=".receivers.AlarmBroadcast">
+      android:name=".data.receiver.AlarmBroadcast">
       <intent-filter>
         <action android:name="NOTIFICATION_SERVICE"/>
       </intent-filter>
@@ -127,7 +127,7 @@
 
     <receiver
       android:enabled="true"
-      android:name=".receivers.AlarmBootReceiver">
+      android:name=".data.receiver.AlarmBootReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
       </intent-filter>

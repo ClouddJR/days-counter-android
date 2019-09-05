@@ -9,11 +9,11 @@ import android.content.Intent
 import android.graphics.*
 import android.util.TypedValue
 import android.widget.RemoteViews
-import com.arkadiusz.dayscounter.GlideApp
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.activities.DetailActivity
-import com.arkadiusz.dayscounter.model.Event
-import com.arkadiusz.dayscounter.repositories.DatabaseProvider
+import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
+import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.data.local.DatabaseProvider
+import com.arkadiusz.dayscounter.util.GlideApp
 import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.FontUtils
 import com.bumptech.glide.request.target.AppWidgetTarget
