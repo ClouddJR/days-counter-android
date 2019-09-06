@@ -1,8 +1,8 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
 import androidx.lifecycle.ViewModel
-import com.arkadiusz.dayscounter.data.local.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 
 class AddEditViewModel(
         private val databaseRepository: DatabaseRepository = DatabaseRepository()
@@ -14,7 +14,7 @@ class AddEditViewModel(
     }
 
     fun addEvent(eventToBeAdded: Event) {
-        databaseRepository.addEventToDatabase(eventToBeAdded)
+        databaseRepository.addEvent(eventToBeAdded)
     }
 
     fun editEvent(eventToBeEdited: Event) {

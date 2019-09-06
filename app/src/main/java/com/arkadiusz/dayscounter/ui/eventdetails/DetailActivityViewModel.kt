@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.ui.eventdetails
 
 import androidx.lifecycle.ViewModel
-import com.arkadiusz.dayscounter.data.local.DatabaseRepository
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
 
 class DetailActivityViewModel(

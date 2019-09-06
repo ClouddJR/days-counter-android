@@ -12,7 +12,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.local.UserRepository
+import com.arkadiusz.dayscounter.data.repository.UserRepository
 import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.events.FutureEventsFragment

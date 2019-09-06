@@ -2,8 +2,8 @@ package com.arkadiusz.dayscounter.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.arkadiusz.dayscounter.data.local.DatabaseRepository
-import com.arkadiusz.dayscounter.data.local.UserRepository
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
+import com.arkadiusz.dayscounter.data.repository.UserRepository
 
 class LoginActivityViewModel(
         private var userRepository: UserRepository = UserRepository(),

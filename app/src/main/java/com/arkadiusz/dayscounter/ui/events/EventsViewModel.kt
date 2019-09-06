@@ -2,7 +2,7 @@ package com.arkadiusz.dayscounter.ui.events
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.arkadiusz.dayscounter.data.local.DatabaseRepository
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults

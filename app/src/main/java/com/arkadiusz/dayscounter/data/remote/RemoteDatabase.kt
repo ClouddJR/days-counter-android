@@ -1,8 +1,8 @@
 package com.arkadiusz.dayscounter.data.remote
 
 import android.net.Uri
-import com.arkadiusz.dayscounter.data.local.UserRepository
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.data.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Observable
@@ -12,7 +12,7 @@ import java.io.File
  * Created by Arkadiusz on 14.03.2018
  */
 
-class FirebaseRepository(
+class RemoteDatabase(
         private val userRepository: UserRepository = UserRepository(),
         private val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance(),
         private val storage: FirebaseStorage = FirebaseStorage.getInstance()
@@ -47,7 +47,7 @@ class FirebaseRepository(
         }
     }
 
-    fun addEvent(event: Event) {
+    fun addOrUpdateEvent(event: Event) {
         val document = firestoreDatabase.collection(userRepository.getUserId())
                 .document(event.id)
 

@@ -11,7 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.local.DatabaseRepository
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser

@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.data.local
+package com.arkadiusz.dayscounter.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 

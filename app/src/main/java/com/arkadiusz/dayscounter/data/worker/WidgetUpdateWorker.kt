@@ -7,7 +7,7 @@ import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
-import com.arkadiusz.dayscounter.data.local.DatabaseRepository
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 
 class WidgetUpdateWorker(private val appContext: Context, workerParams: WorkerParameters) :
         Worker(appContext, workerParams) {
