@@ -10,9 +10,10 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.getDateForBackupFile
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
-import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
+import com.arkadiusz.dayscounter.utils.StorageUtils
 import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_EXTENSION
 import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_NAME
+import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -153,9 +154,11 @@ class DatabaseRepository(
     }
 
 
-    fun deleteEventFromDatabase(eventId: String) {
+    fun deleteEvent(eventId: String) {
         val eventCopy = localDatabase.getEventCopyById(eventId)
         localDatabase.deleteEvent(eventCopy)
+
+        removeLocalImageIfPresent(File(eventCopy.image))
 
         if (userRepository.isLoggedIn()) {
             //remove associated image stored in cloud
@@ -163,6 +166,12 @@ class DatabaseRepository(
                 remoteDatabase.deleteImageForEvent(eventCopy)
             }
             remoteDatabase.deleteEvent(eventCopy)
+        }
+    }
+
+    private fun removeLocalImageIfPresent(imageFile: File) {
+        if (imageFile.exists()) {
+            imageFile.delete()
         }
     }
 

@@ -18,6 +18,6 @@ class DetailActivityViewModel(
     }
 
     fun deleteEvent(eventId: String) {
-        databaseRepository.deleteEventFromDatabase(eventId)
+        databaseRepository.deleteEvent(eventId)
     }
 }
