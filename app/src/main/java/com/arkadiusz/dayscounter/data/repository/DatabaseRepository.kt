@@ -285,6 +285,23 @@ class DatabaseRepository(
         localDatabase.updateLocalEventBasedOn(cloudEvent)
     }
 
+    fun saveCloudImageLocallyFrom(event: Event, sourceDirectory: File) {
+        val storageReference = FirebaseStorage.getInstance().getReference(event.imageCloudPath)
+
+        sourceDirectory.mkdir()
+
+        val filePath = sourceDirectory.path + File.separator + Uri.parse(event.imageCloudPath).lastPathSegment
+        val file = File(filePath)
+
+        storageReference.getFile(file).addOnSuccessListener {
+            if (!localDatabase.isClosed()) {
+                localDatabase.setLocalImagePath(event, file) {
+                    remoteDatabase.addOrUpdateEvent(event)
+                }
+            }
+        }
+    }
+
     fun closeDatabase() {
         localDatabase.closeDatabase()
         if (::remoteListenerDisposable.isInitialized && !remoteListenerDisposable.isDisposed) {

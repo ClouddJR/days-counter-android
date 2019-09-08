@@ -69,6 +69,16 @@ class LocalDatabase {
         }
     }
 
+    fun setLocalImagePath(eventToBeSet: Event, file: File, onFinished: () -> Unit) {
+        val id = eventToBeSet.id
+        realm.executeTransactionAsync(Realm.Transaction {
+            val event = it.where(Event::class.java).equalTo("id", id).findFirst()
+            event?.image = file.path
+        }, Realm.Transaction.OnSuccess {
+            onFinished()
+        })
+    }
+
     fun disableAlarmForEvent(eventId: String) {
         realm.executeTransaction {
             val event = getEventById(eventId)
@@ -137,10 +147,6 @@ class LocalDatabase {
         realm = Realm.getInstance(config)
     }
 
-    fun closeDatabase() {
-        realm.close()
-    }
-
     fun updateLocalEventBasedOn(cloudEvent: Event) {
         realm.executeTransactionAsync {
             val existingEvent = it.where(Event::class.java).equalTo("id", cloudEvent.id).findFirst()
@@ -153,5 +159,13 @@ class LocalDatabase {
                 it.copyToRealmOrUpdate(cloudEvent)
             }
         }
+    }
+
+    fun closeDatabase() {
+        realm.close()
+    }
+
+    fun isClosed(): Boolean {
+        return realm.isClosed
     }
 }
