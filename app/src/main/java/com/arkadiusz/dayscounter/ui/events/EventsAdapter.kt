@@ -167,7 +167,8 @@ class EventsAdapter(
 
             val eventCalendar = generateCalendar(year, month, day)
 
-            return eventCalendar.before(todayCalendar)
+            return eventCalendar.before(todayCalendar) &&
+                    todayCalendar.get(Calendar.DAY_OF_MONTH) != day
         }
 
         private fun eventIsNotRepeated(event: Event): Boolean {
@@ -184,7 +185,8 @@ class EventsAdapter(
 
             val eventCalendar = generateCalendar(year, month, day)
 
-            return todayCalendar.before(eventCalendar)
+            return todayCalendar.before(eventCalendar) &&
+                    todayCalendar.get(Calendar.DAY_OF_MONTH) != day
         }
     }
 }
