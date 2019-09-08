@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
@@ -116,6 +117,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun displayImage() {
+        val circularProgressDrawable = CircularProgressDrawable(this)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent))
+        circularProgressDrawable.start()
+
         when {
             passedEvent.imageColor != 0 -> {
                 eventImage.setImageDrawable(null)
@@ -123,10 +130,15 @@ class DetailActivity : AppCompatActivity() {
             }
             passedEvent.imageID == 0 -> {
                 when {
-                    File(passedEvent.image).exists() -> Glide.with(this).load(passedEvent.image).into(eventImage)
+                    File(passedEvent.image).exists() ->
+                        Glide.with(this)
+                                .load(passedEvent.image)
+                                .skipMemoryCache(true)
+                                .into(eventImage)
                     passedEvent.imageCloudPath.isNotEmpty() -> {
-                        Glide.with(this).load(
-                                FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath))
+                        Glide.with(this)
+                                .load(FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath))
+                                .placeholder(circularProgressDrawable)
                                 .into(eventImage)
                     }
                     else -> {

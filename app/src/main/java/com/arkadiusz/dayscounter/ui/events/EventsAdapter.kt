@@ -72,6 +72,12 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
         }
 
         private fun displayImage(event: Event) {
+            val circularProgressDrawable = CircularProgressDrawable(context)
+            circularProgressDrawable.strokeWidth = 5f
+            circularProgressDrawable.centerRadius = 30f
+            circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(context, R.color.colorAccent))
+            circularProgressDrawable.start()
+
             when {
                 event.imageColor != 0 -> {
                     view.eventImage.setImageDrawable(null)
@@ -79,12 +85,20 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
                 }
                 event.imageID == 0 -> {
                     when {
-                        File(event.image).exists() -> Glide.with(context).load(event.image).into(view.eventImage)
-                        event.imageCloudPath.isNotEmpty() -> Glide.with(context).load(
-                                FirebaseStorage.getInstance().getReference(event.imageCloudPath))
-                                .into(view.eventImage)
-                        else -> Glide.with(context).load(android.R.color.darker_gray)
-                                .into(view.eventImage)
+                        File(event.image).exists() ->
+                            Glide.with(context)
+                                    .load(event.image)
+                                    .skipMemoryCache(true)
+                                    .into(view.eventImage)
+                        event.imageCloudPath.isNotEmpty() -> {
+                            Glide.with(context)
+                                    .load(FirebaseStorage.getInstance().getReference(event.imageCloudPath))
+                                    .placeholder(circularProgressDrawable)
+                                    .into(view.eventImage)
+                        }
+                        else ->
+                            Glide.with(context).load(android.R.color.darker_gray)
+                                    .into(view.eventImage)
                     }
                 }
                 else -> Glide.with(context).load(event.imageID).into(view.eventImage)
