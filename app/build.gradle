@@ -93,9 +93,8 @@ dependencies {
     implementation 'com.github.QuadFlask:colorpicker:0.0.13'
 
     //image loading
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
-    kapt 'com.github.bumptech.glide:compiler:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'io.realm:android-adapters:2.0.0'
 
