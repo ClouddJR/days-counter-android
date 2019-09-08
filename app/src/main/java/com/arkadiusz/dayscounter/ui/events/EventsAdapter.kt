@@ -6,8 +6,10 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
@@ -22,14 +24,24 @@ import kotlinx.android.synthetic.main.single_event_layout.view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.textColor
 import java.io.File
+import java.util.*
 
 /**
  * Created by arkadiusz on 17.03.18
  */
 
-class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCollection<Event>) :
-        RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
+class EventsAdapter(
+        var context: Context,
+        private var eventsList: OrderedRealmCollection<Event>,
+        private var delegate: Delegate
+) : RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
 
+    interface Delegate {
+        fun moveEventToFuture(event: Event)
+        fun moveEventToPast(event: Event)
+        fun repeatEvent(event: Event)
+        fun saveCloudImageLocallyFrom(event: Event, context: Context)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.single_event_layout, parent, false)
@@ -44,9 +56,7 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
         return eventsList.size
     }
 
-    inner class ViewHolder(val view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
-
-        private val databaseRepository = DatabaseRepository()
+    inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(event: Event) {
             displayCounterText(event)
@@ -95,6 +105,7 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
                                     .load(FirebaseStorage.getInstance().getReference(event.imageCloudPath))
                                     .placeholder(circularProgressDrawable)
                                     .into(view.eventImage)
+                            delegate.saveCloudImageLocallyFrom(event, context)
                         }
                         else ->
                             Glide.with(context).load(android.R.color.darker_gray)
@@ -132,15 +143,15 @@ class EventsAdapter(var context: Context, private var eventsList: OrderedRealmCo
                 "future" -> {
                     if (eventDateIsFromThePast(event)) {
                         if (eventIsNotRepeated(event)) {
-                            databaseRepository.moveEventToPast(event)
+                            delegate.moveEventToPast(event)
                         } else {
-                            databaseRepository.repeatEvent(event)
+                            delegate.repeatEvent(event)
                         }
                     }
                 }
                 "past" -> {
                     if (eventDateIsFromTheFuture(event)) {
-                        databaseRepository.moveEventToFuture(event)
+                        delegate.moveEventToFuture(event)
                     }
                 }
             }

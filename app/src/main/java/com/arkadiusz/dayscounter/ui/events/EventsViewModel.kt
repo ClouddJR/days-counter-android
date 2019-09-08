@@ -1,9 +1,12 @@
 package com.arkadiusz.dayscounter.ui.events
 
 import android.content.Context
+import android.os.Environment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
+import com.arkadiusz.dayscounter.data.repository.UserRepository
 import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults
 
@@ -55,7 +58,24 @@ class EventsViewModel(
 
     fun deleteEventAndRelatedReminder(context: Context, event: Event) {
         RemindersUtils.deleteReminder(context, event)
-        databaseRepository.deleteEventFromDatabase(event.id)
+        databaseRepository.deleteEvent(event.id)
+    }
+
+    fun moveEventToFuture(event: Event) {
+        databaseRepository.moveEventToFuture(event)
+    }
+
+    fun moveEventToPast(event: Event) {
+        databaseRepository.moveEventToPast(event)
+    }
+
+    fun repeatEvent(event: Event) {
+        databaseRepository.repeatEvent(event)
+    }
+
+    fun saveCloudImageLocallyFrom(event: Event, context: Context) {
+        val sourceDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        databaseRepository.saveCloudImageLocallyFrom(event, sourceDirectory!!)
     }
 
     fun getPastEvents(): RealmResults<Event> = eventsPastList
