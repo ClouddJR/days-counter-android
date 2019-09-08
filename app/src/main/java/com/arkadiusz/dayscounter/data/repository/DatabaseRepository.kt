@@ -245,30 +245,31 @@ class DatabaseRepository(
 
     fun syncToCloud(context: Context?) {
         if (userRepository.isLoggedIn() && NetworkConnectivityUtils.isNetworkEnabled(context)) {
-            observeCloudEvents()
+            fetchCloudEvents()
         }
     }
 
-    private fun observeCloudEvents() {
-        if (!::remoteListenerDisposable.isInitialized) {
-            remoteListenerDisposable = remoteDatabase.getEvents()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            { cloudEvents: List<Event> ->
-
-                                deleteIfNotExist(cloudEvents)
-
-                                cloudEvents.forEach { cloudEvent ->
-                                    updateLocalEventBasedOn(cloudEvent)
-                                }
-
-                            },
-                            { error: Throwable ->
-                                error.printStackTrace()
-                            }
-                    )
+    private fun fetchCloudEvents() {
+        if (::remoteListenerDisposable.isInitialized) {
+            remoteListenerDisposable.dispose()
         }
+        remoteListenerDisposable = remoteDatabase.getEvents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { cloudEvents: List<Event> ->
+
+                            deleteIfNotExist(cloudEvents)
+
+                            cloudEvents.forEach { cloudEvent ->
+                                updateLocalEventBasedOn(cloudEvent)
+                            }
+
+                        },
+                        { error: Throwable ->
+                            error.printStackTrace()
+                        }
+                )
     }
 
     private fun deleteIfNotExist(passedEvents: List<Event>) {

@@ -31,18 +31,17 @@ class RemoteDatabase(
         return Observable.create { emitter ->
             firestoreDatabase
                     .collection(userRepository.getUserId())
-                    .addSnapshotListener { querySnapshot, exception ->
-                        exception?.let {
-                            emitter.onError(it)
-                            return@addSnapshotListener
-                        }
-
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
                         val tempList = mutableListOf<Event>()
                         querySnapshot?.forEach {
                             tempList.add(it.toObject(Event::class.java))
                         }
 
                         emitter.onNext(tempList)
+                    }
+                    .addOnFailureListener { exception ->
+                        emitter.onError(exception)
                     }
         }
     }
