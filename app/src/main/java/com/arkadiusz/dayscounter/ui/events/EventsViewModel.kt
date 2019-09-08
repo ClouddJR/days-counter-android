@@ -8,11 +8,14 @@ import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults
 
 class EventsViewModel(
-        private val databaseRepository: DatabaseRepository = DatabaseRepository()
+        private val databaseRepository: DatabaseRepository = DatabaseRepository(),
+        private val userRepository: UserRepository = UserRepository()
 ) : ViewModel() {
 
     private lateinit var eventsPastList: RealmResults<Event>
     private lateinit var eventsFutureList: RealmResults<Event>
+
+    var isPremiumUser = MutableLiveData<Boolean>()
 
     override fun onCleared() {
         super.onCleared()
@@ -29,6 +32,12 @@ class EventsViewModel(
 
             sortEventsList(sortType)
         }
+
+        isPremiumUser.value = userRepository.isLoggedIn()
+    }
+
+    fun fetchData(context: Context?) {
+        databaseRepository.syncToCloud(context)
     }
 
     private fun sortEventsList(sortType: String) {

@@ -2,6 +2,7 @@ package com.arkadiusz.dayscounter.ui.events
 
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
+import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
@@ -21,9 +23,12 @@ import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.future_fragment.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
+import java.util.*
+import kotlin.concurrent.schedule
 
 /**
  * Created by arkadiusz on 23.03.18
@@ -46,9 +51,11 @@ class FutureEventsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.future_fragment, container, false)
+        observeState()
         initRecyclerView(view)
-        setUpRecyclerView()
-        hideFABOnScroll()
+        setUpRecyclerViewData()
+        scheduleRVAnimation()
+        addOnScrollListener()
         return view
     }
 
@@ -70,6 +77,24 @@ class FutureEventsFragment : Fragment() {
                 getString(R.string.fragment_main_dialog_option_delete))
     }
 
+    private fun observeState() {
+        viewModel.isPremiumUser.observe(this, Observer { isPremium ->
+            setUpRefreshLayout(isPremium ?: false)
+        })
+    }
+
+    private fun setUpRefreshLayout(isPremium: Boolean) {
+        refreshLayout.isNestedScrollingEnabled = true
+        refreshLayout.isEnabled = isPremium
+        refreshLayout.setOnRefreshListener {
+            viewModel.fetchData(context)
+            Timer(false).schedule(200) {
+                scheduleRVAnimation()
+                refreshLayout?.isRefreshing = false
+            }
+        }
+    }
+
     private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -88,9 +113,28 @@ class FutureEventsFragment : Fragment() {
         }) {})
     }
 
-    private fun setUpRecyclerView() {
-        val adapter = EventsAdapter(context!!, eventsList)
+    private fun setUpRecyclerViewData() {
+        val adapter = EventsAdapter(context!!, eventsList, object : EventsAdapter.Delegate {
+            override fun moveEventToFuture(event: Event) {
+                viewModel.moveEventToFuture(event)
+            }
+
+            override fun moveEventToPast(event: Event) {
+                viewModel.moveEventToPast(event)
+            }
+
+            override fun repeatEvent(event: Event) {
+                viewModel.repeatEvent(event)
+            }
+
+            override fun saveCloudImageLocallyFrom(event: Event, context: Context) {
+                viewModel.saveCloudImageLocallyFrom(event, context)
+            }
+        })
         recyclerView.adapter = adapter
+    }
+
+    private fun scheduleRVAnimation() {
         recyclerView.scheduleLayoutAnimation()
         recyclerView.invalidate()
     }
@@ -122,7 +166,7 @@ class FutureEventsFragment : Fragment() {
         }
     }
 
-    private fun hideFABOnScroll() {
+    private fun addOnScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
