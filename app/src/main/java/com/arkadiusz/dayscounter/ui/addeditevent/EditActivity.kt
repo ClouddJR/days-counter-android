@@ -549,7 +549,7 @@ class EditActivity : AppCompatActivity() {
             imageColor = 0
             imageID = 0
             imageUri = CropImage.getActivityResult(data).uri as Uri
-            imageUri = StorageUtils.saveFile(imageUri as Uri)
+            imageUri = StorageUtils.saveFile(this, imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
         }
     }

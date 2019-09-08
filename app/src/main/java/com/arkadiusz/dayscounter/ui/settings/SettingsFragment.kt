@@ -15,7 +15,7 @@ import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
-import com.arkadiusz.dayscounter.utils.StorageUtils.BACKUP_PATH
+import com.arkadiusz.dayscounter.utils.StorageUtils
 import com.arkadiusz.dayscounter.utils.StorageUtils.isCorrectFileChosenForImport
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
@@ -168,7 +168,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun backupData() {
         context?.let { ctx ->
-            val backupPath = databaseRepository.backupData()
+            val backupPath = databaseRepository.backupData(ctx)
             ctx.longToast(getString(R.string.backup_saved_toast, backupPath))
         }
     }
@@ -176,8 +176,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun launchImportIntent() {
         val intent = Intent()
 
-        if (File(BACKUP_PATH).exists()) {
-            val uri = Uri.parse(BACKUP_PATH)
+        val backupPath = StorageUtils.getBackupPath(context!!)
+
+        if (File(backupPath).exists()) {
+            val uri = Uri.parse(backupPath)
             intent.setDataAndType(uri, "*/*")
         } else {
             intent.type = "*/*"

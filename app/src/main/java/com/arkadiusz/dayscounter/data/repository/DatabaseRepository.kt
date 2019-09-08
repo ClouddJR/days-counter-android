@@ -212,15 +212,16 @@ class DatabaseRepository(
         }
     }
 
-    fun backupData(): String {
-        val backupFolder = File(BACKUP_PATH)
+    fun backupData(ctx: Context): String {
+        val backupPath = StorageUtils.getBackupPath(ctx)
+        val backupFolder = File(backupPath)
         backupFolder.mkdir()
 
-        val file = File(BACKUP_PATH, "${EXPORT_FILE_NAME}_${getDateForBackupFile()}.$EXPORT_FILE_EXTENSION")
+        val file = File(backupPath, "${EXPORT_FILE_NAME}_${getDateForBackupFile()}.$EXPORT_FILE_EXTENSION")
         file.delete()
         localDatabase.writeCopyToFile(file)
 
-        return BACKUP_PATH
+        return backupPath
     }
 
     fun importData(context: Context, uri: Uri) {

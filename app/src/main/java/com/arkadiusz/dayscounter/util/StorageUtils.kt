@@ -1,5 +1,6 @@
 package com.arkadiusz.dayscounter.utils
 
+import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import java.io.*
@@ -10,17 +11,16 @@ import java.io.*
 
 object StorageUtils {
 
-    val BACKUP_PATH = "${Environment.getExternalStorageDirectory()}/DaysCounter_Backup"
     const val EXPORT_FILE_NAME = "dayscounter"
     const val EXPORT_FILE_EXTENSION = "realm"
 
-    fun saveFile(sourceUri: Uri): Uri {
+    fun saveFile(context: Context, sourceUri: Uri): Uri {
+        val folder = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
-        val folder = File(Environment.getExternalStorageDirectory().toString() + "/croppedImages")
-        folder.mkdir()
+        folder!!.mkdir()
 
         val sourceFilename = sourceUri.path
-        val destinationFilename = Environment.getExternalStorageDirectory().path + File.separatorChar + "croppedImages/" + sourceUri.lastPathSegment
+        val destinationFilename = folder.path + File.separatorChar + sourceUri.lastPathSegment
 
         var bis: BufferedInputStream? = null
         var bos: BufferedOutputStream? = null
@@ -40,6 +40,11 @@ object StorageUtils {
             bos?.close()
             return Uri.parse(destinationFilename)
         }
+
+    }
+
+    fun getBackupPath(context: Context): String {
+        return context.getExternalFilesDir(null)!!.toString() + "/Backup"
     }
 
     fun isCorrectFileChosenForImport(uri: Uri): Boolean {
