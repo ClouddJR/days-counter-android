@@ -14,10 +14,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
+import com.arkadiusz.dayscounter.data.model.Status
+import com.arkadiusz.dayscounter.data.model.unsplash.Image
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
-import com.arkadiusz.dayscounter.data.model.unsplash.Image
-import com.arkadiusz.dayscounter.data.model.Status
 import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
 import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.theartofdev.edmodo.cropper.CropImage
@@ -157,7 +157,7 @@ class InternetGalleryActivity : AppCompatActivity() {
         if (isResultComingWithImageAfterCropping(requestCode)) {
             data?.let {
                 var imageUri = CropImage.getActivityResult(data).uri as Uri
-                imageUri = saveFile(imageUri)
+                imageUri = saveFile(this, imageUri)
                 returnToActivity(imageUri.toString())
             }
         }

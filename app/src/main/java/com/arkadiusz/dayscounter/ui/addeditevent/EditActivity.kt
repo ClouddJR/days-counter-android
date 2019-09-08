@@ -474,8 +474,8 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun askForPermissionsAndDisplayCropActivity() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), writeRequestCode)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), writeRequestCode)
         } else {
             //permission already granted, so display crop dialog
             CropImage.startPickImageActivity(this)
@@ -483,8 +483,8 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun askForPermissionsAndDisplayInternetImageActivity() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), pickPhotoInternet)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), pickPhotoInternet)
         } else {
             startActivityForResult<InternetGalleryActivity>(pickPhotoInternet, "activity" to "Edit")
         }
