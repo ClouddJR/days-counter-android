@@ -89,33 +89,41 @@ class LocalDatabase {
     }
 
     fun deleteEvent(event: Event) {
+        val id = event.id
         realm.executeTransactionAsync {
-            it.where(Event::class.java).equalTo("id", event.id).findFirst()?.deleteFromRealm()
+            it.where(Event::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
         }
     }
 
-    fun moveEventToPast(eventToBeMoved: Event) {
+    fun moveEventToPast(eventToBeMoved: Event, onFinished: (() -> Unit)? = null) {
         val id = eventToBeMoved.id
-        realm.executeTransactionAsync {
+        realm.executeTransactionAsync(Realm.Transaction {
             val event = it.where(Event::class.java).equalTo("id", id).findFirst()
             event?.type = "past"
-        }
+        }, Realm.Transaction.OnSuccess {
+            onFinished?.let { it() }
+        })
     }
 
-    fun moveEventToFuture(eventToBeMoved: Event) {
+    fun moveEventToFuture(eventToBeMoved: Event, onFinished: (() -> Unit)? = null) {
         val id = eventToBeMoved.id
-        realm.executeTransactionAsync {
+        realm.executeTransactionAsync(Realm.Transaction {
             val event = it.where(Event::class.java).equalTo("id", id).findFirst()
             event?.type = "future"
-        }
+        }, Realm.Transaction.OnSuccess {
+            onFinished?.let { it() }
+        })
     }
 
-    fun repeatEvent(eventToBeRepeated: Event, dateAfterRepetition: String) {
+    fun repeatEvent(eventToBeRepeated: Event, dateAfterRepetition: String,
+                    onFinished: (() -> Unit)? = null) {
         val id = eventToBeRepeated.id
-        realm.executeTransactionAsync {
+        realm.executeTransactionAsync(Realm.Transaction {
             val event = it.where(Event::class.java).equalTo("id", id).findFirst()
             event?.date = dateAfterRepetition
-        }
+        }, Realm.Transaction.OnSuccess {
+            onFinished?.let { it() }
+        })
     }
 
     fun writeCopyToFile(file: File) {

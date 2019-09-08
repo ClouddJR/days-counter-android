@@ -171,18 +171,18 @@ class DatabaseRepository(
     }
 
     fun moveEventToPast(eventToBeMoved: Event) {
-        localDatabase.moveEventToPast(eventToBeMoved)
-
-        if (userRepository.isLoggedIn()) {
-            remoteDatabase.addOrUpdateEvent(eventToBeMoved)
+        localDatabase.moveEventToPast(eventToBeMoved) {
+            if (userRepository.isLoggedIn()) {
+                remoteDatabase.addOrUpdateEvent(eventToBeMoved)
+            }
         }
     }
 
     fun moveEventToFuture(eventToBeMoved: Event) {
-        localDatabase.moveEventToFuture(eventToBeMoved)
-
-        if (userRepository.isLoggedIn()) {
-            remoteDatabase.addOrUpdateEvent(eventToBeMoved)
+        localDatabase.moveEventToFuture(eventToBeMoved) {
+            if (userRepository.isLoggedIn()) {
+                remoteDatabase.addOrUpdateEvent(eventToBeMoved)
+            }
         }
     }
 
@@ -205,9 +205,10 @@ class DatabaseRepository(
                 eventCalendar.get(Calendar.MONTH),
                 eventCalendar.get(Calendar.DAY_OF_MONTH))
 
-        localDatabase.repeatEvent(event, dateAfterRepetition)
-        if (userRepository.isLoggedIn()) {
-            remoteDatabase.addOrUpdateEvent(event)
+        localDatabase.repeatEvent(event, dateAfterRepetition) {
+            if (userRepository.isLoggedIn()) {
+                remoteDatabase.addOrUpdateEvent(event)
+            }
         }
     }
 
