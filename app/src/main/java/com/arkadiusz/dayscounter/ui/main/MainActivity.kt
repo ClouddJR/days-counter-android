@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         hideRemoveButtonIfPurchased(menu)
+        setUpViewModeIcon(menu?.findItem(R.id.action_change_view))
         return true
     }
 
@@ -85,6 +87,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity<PremiumActivity>()
             }
 
+            R.id.action_change_view -> {
+                val isCompactView = prefs["is_compact_view", false] ?: false
+                prefs["is_compact_view"] = !isCompactView
+                setUpViewModeIcon(item)
+            }
+
             R.id.action_settings -> {
                 startActivity<SettingsActivity>()
                 finish()
@@ -103,6 +111,17 @@ class MainActivity : AppCompatActivity() {
                 it.dismiss()
             }
         }.show()
+    }
+
+    private fun setUpViewModeIcon(menuItem: MenuItem?) {
+        val isCompactView = prefs["is_compact_view", false] ?: false
+        if (isCompactView) {
+            menuItem?.icon =
+                    ContextCompat.getDrawable(this, R.drawable.ic_view_agenda_black_24dp)
+        } else {
+            menuItem?.icon =
+                    ContextCompat.getDrawable(this, R.drawable.ic_view_list_black_24dp)
+        }
     }
 
     private fun setUpPreferences() {
@@ -169,7 +188,7 @@ class MainActivity : AppCompatActivity() {
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
                 WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.REPLACE,
                 widgetUpdateRequest)
     }
 
