@@ -19,7 +19,7 @@
   -dontwarn com.squareup.picasso.**
   -dontwarn okhttp3.**
   -dontwarn org.jetbrains.anko.**
-  -keepclassmembers class com.arkadiusz.dayscounter.model.** {
+  -keepclassmembers class com.arkadiusz.dayscounter.data.model.** {
     *;
     }
 
@@ -45,4 +45,12 @@
   -dontwarn retrofit2.-KotlinExtensions
 
   #Proguard complaining about displayEventOptions in Fragments
-  -dontwarn com.arkadiusz.dayscounter.fragments.**
+  -dontwarn com.arkadiusz.dayscounter.ui.events.**
+
+  #Glide
+  -keep public class * implements com.bumptech.glide.module.GlideModule
+  -keep public class * extends com.bumptech.glide.module.AppGlideModule
+  -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+  }
