@@ -20,6 +20,7 @@
     <string name="main_activity_sync_first_time">Los eventos están sincronizados con: </string>
     <string name="main_activity_sync_same_email">Los eventos ya se sincronizaron con: </string>
     <string name="main_activity_sync_no_connection">Verifica tu conexión a internet</string>
+    <string name="menu_activity_change_view">Ansicht ändern</string>
 
     <string name="detail_activity_about_section">Acerca de</string>
     <string name="detail_activity_repetition_section">Repetición</string>

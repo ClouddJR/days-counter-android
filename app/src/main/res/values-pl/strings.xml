@@ -20,6 +20,7 @@
     <string name="main_activity_sync_first_time">Wydarzenia zsynchronizowano z: </string>
     <string name="main_activity_sync_same_email">Wydarzenia są juz zsynchrozowane z kontem:  </string>
     <string name="main_activity_sync_no_connection">Sprawdź połączenie z internetem</string>
+    <string name="menu_activity_change_view">Zmień widok</string>
 
     <string name="detail_activity_about_section">Ogólne</string>
     <string name="detail_activity_repetition_section">Powtarzanie</string>

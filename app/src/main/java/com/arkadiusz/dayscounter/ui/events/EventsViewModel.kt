@@ -1,6 +1,8 @@
 package com.arkadiusz.dayscounter.ui.events
 
+import PreferenceUtils
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,12 +15,13 @@ import io.realm.RealmResults
 class EventsViewModel(
         private val databaseRepository: DatabaseRepository = DatabaseRepository(),
         private val userRepository: UserRepository = UserRepository()
-) : ViewModel() {
+) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var eventsPastList: RealmResults<Event>
     private lateinit var eventsFutureList: RealmResults<Event>
 
     var isPremiumUser = MutableLiveData<Boolean>()
+    var isCompactViewMode = MutableLiveData<Boolean>()
 
     override fun onCleared() {
         super.onCleared()
@@ -37,6 +40,19 @@ class EventsViewModel(
         }
 
         isPremiumUser.value = userRepository.isLoggedIn()
+        registerSharedPreferencesListener(context)
+    }
+
+    private fun registerSharedPreferencesListener(context: Context?) {
+        context?.let {
+            PreferenceUtils.defaultPrefs(it).registerOnSharedPreferenceChangeListener(this)
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == "is_compact_view") {
+            isCompactViewMode.value = sharedPreferences?.getBoolean(key, false)
+        }
     }
 
     fun fetchData(context: Context?) {

@@ -30,7 +30,7 @@
       app:title="@string/default_section_title"
       app:useSimpleSummaryProvider="true"/>
 
-    <com.arkadiusz.dayscounter.utils.MyListPreference
+    <com.arkadiusz.dayscounter.util.MyListPreference
       app:defaultValue="1"
       app:entries="@array/themes"
       app:entryValues="@array/themes_keys"

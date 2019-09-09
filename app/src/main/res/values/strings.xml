@@ -20,6 +20,7 @@
     <string name="main_activity_sync_first_time">Events are now synced to: </string>
     <string name="main_activity_sync_same_email">Events are already synced to: </string>
     <string name="main_activity_sync_no_connection">Check your internet connection</string>
+    <string name="menu_activity_change_view">Change view</string>
 
     <string name="detail_activity_about_section">About</string>
     <string name="detail_activity_repetition_section">Repetition</string>

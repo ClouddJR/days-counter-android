@@ -4,6 +4,7 @@ import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -37,6 +38,7 @@ import kotlin.concurrent.schedule
 class FutureEventsFragment : Fragment() {
 
     private lateinit var viewModel: EventsViewModel
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var eventsList: RealmResults<Event>
@@ -44,6 +46,7 @@ class FutureEventsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initSharedPreferences()
         initViewModel()
         setUpData()
         setUpContextOptions()
@@ -53,17 +56,20 @@ class FutureEventsFragment : Fragment() {
         val view = inflater.inflate(R.layout.future_fragment, container, false)
         observeState()
         initRecyclerView(view)
-        setUpRecyclerViewData()
+        setUpRecyclerViewData(sharedPreferences["is_compact_view", false] ?: false)
         scheduleRVAnimation()
         addOnScrollListener()
         return view
     }
 
+    private fun initSharedPreferences() {
+        sharedPreferences = defaultPrefs(context!!)
+    }
+
     private fun initViewModel() {
         viewModel = getViewModel(activity!!)
 
-        val sharedPref = defaultPrefs(context!!)
-        val sortType = sharedPref["sort_type"] ?: "date_order"
+        val sortType = sharedPreferences["sort_type"] ?: "date_order"
 
         viewModel.init(sortType, context)
     }
@@ -80,6 +86,11 @@ class FutureEventsFragment : Fragment() {
     private fun observeState() {
         viewModel.isPremiumUser.observe(this, Observer { isPremium ->
             setUpRefreshLayout(isPremium ?: false)
+        })
+
+        viewModel.isCompactViewMode.observe(this, Observer {
+            setUpRecyclerViewData(it)
+            scheduleRVAnimation()
         })
     }
 
@@ -113,8 +124,8 @@ class FutureEventsFragment : Fragment() {
         }) {})
     }
 
-    private fun setUpRecyclerViewData() {
-        val adapter = EventsAdapter(context!!, eventsList, object : EventsAdapter.Delegate {
+    private fun setUpRecyclerViewData(isCompactView: Boolean) {
+        val adapter = EventsAdapter(context!!, isCompactView, eventsList, object : EventsAdapter.Delegate {
             override fun moveEventToFuture(event: Event) {
                 viewModel.moveEventToFuture(event)
             }

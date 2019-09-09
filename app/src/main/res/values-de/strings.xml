@@ -20,6 +20,7 @@
     <string name="main_activity_sync_first_time">Ereignisse sind nun synchronisiert mit: </string>
     <string name="main_activity_sync_same_email">Ereignisse sind bereits synchronisiert mit: </string>
     <string name="main_activity_sync_no_connection">Überprüfe deine Internetverbindung</string>
+    <string name="menu_activity_change_view">Cambio Vista</string>
 
     <string name="detail_activity_about_section">Über</string>
     <string name="detail_activity_repetition_section">Wiederholung</string>

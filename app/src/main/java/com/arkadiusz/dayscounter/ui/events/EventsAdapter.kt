@@ -1,26 +1,34 @@
 package com.arkadiusz.dayscounter.ui.events
 
+import PreferenceUtils.defaultPrefs
+import PreferenceUtils.get
 import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.utils.DateUtils
 import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.utils.FontUtils.getFontFor
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
+import kotlinx.android.synthetic.main.event_compact_counter_stack.view.*
 import kotlinx.android.synthetic.main.single_event_layout.view.*
+import kotlinx.android.synthetic.main.single_event_layout_compact.view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.textColor
 import java.io.File
@@ -32,6 +40,7 @@ import java.util.*
 
 class EventsAdapter(
         var context: Context,
+        var isCompactView: Boolean,
         private var eventsList: OrderedRealmCollection<Event>,
         private var delegate: Delegate
 ) : RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
@@ -44,8 +53,12 @@ class EventsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.single_event_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(getLayoutId(), parent, false)
         return ViewHolder(view)
+    }
+
+    private fun getLayoutId(): Int {
+        return if (isCompactView) R.layout.single_event_layout_compact else R.layout.single_event_layout
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -59,12 +72,19 @@ class EventsAdapter(
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(event: Event) {
-            displayCounterText(event)
-            displayTitle(event)
-            displayImage(event)
-            hideOrShowDivider(event)
-            changeFonts(event)
-            dimPicture(event)
+            if (isCompactView) {
+                displayTitle(event, view.eventTitleTextView)
+                displayCompactCounterText(event)
+                displayDate(event)
+                displayImage(event, view.eventImageView)
+            } else {
+                displayTitle(event, view.eventTitle)
+                displayCounterText(event)
+                displayImage(event, view.eventImage)
+                hideOrShowDivider(event)
+                changeFonts(event)
+                dimPicture(event)
+            }
             repeatIfNecessary(event)
         }
 
@@ -77,11 +97,66 @@ class EventsAdapter(
             view.eventCalculateText.text = counterText
         }
 
-        private fun displayTitle(event: Event) {
-            view.eventTitle.text = event.name
+        private fun displayCompactCounterText(event: Event) {
+            val counterText = calculateDate(event.date,
+                    event.formatYearsSelected,
+                    event.formatMonthsSelected,
+                    event.formatWeeksSelected,
+                    event.formatDaysSelected, context)
+
+            view.counterStackView.yearsSection.visibility = View.GONE
+            view.counterStackView.monthsSection.visibility = View.GONE
+            view.counterStackView.weeksSection.visibility = View.GONE
+            view.counterStackView.daysSection.visibility = View.GONE
+
+            if (counterText == context.getString(R.string.date_utils_today)) {
+                view.counterStackView.daysSection.visibility = View.VISIBLE
+                view.counterStackView.daysCaptionTextView.visibility = View.GONE
+                view.counterStackView.daysNumberTextView.text = context.getString(R.string.date_utils_today)
+            } else {
+                counterText.split(" ").chunked(2).forEach {
+                    when (it[1]) {
+                        context.getString(R.string.date_utils_single_year),
+                        context.getString(R.string.date_utils_multiple_years),
+                        context.getString(R.string.date_utils_multiple_years_below5) -> {
+                            view.counterStackView.yearsSection.visibility = View.VISIBLE
+                            view.counterStackView.yearsNumberTextView.text = it.first()
+                        }
+                        context.getString(R.string.date_utils_single_month),
+                        context.getString(R.string.date_utils_multiple_months),
+                        context.getString(R.string.date_utils_multiple_months_below5) -> {
+                            view.counterStackView.monthsSection.visibility = View.VISIBLE
+                            view.counterStackView.monthsNumberTextView.text = it.first()
+                        }
+                        context.getString(R.string.date_utils_single_week),
+                        context.getString(R.string.date_utils_multiple_weeks),
+                        context.getString(R.string.date_utils_multiple_weeks_below5) -> {
+                            view.counterStackView.weeksSection.visibility = View.VISIBLE
+                            view.counterStackView.weeksNumberTextView.text = it.first()
+                        }
+                        context.getString(R.string.date_utils_single_day),
+                        context.getString(R.string.date_utils_multiple_days) -> {
+                            view.counterStackView.daysSection.visibility = View.VISIBLE
+                            view.counterStackView.daysCaptionTextView.visibility = View.VISIBLE
+                            view.counterStackView.daysNumberTextView.text = it.first()
+                        }
+                    }
+                }
+            }
+
         }
 
-        private fun displayImage(event: Event) {
+        private fun displayDate(event: Event) {
+            val formattedDate = DateUtils.formatDateAccordingToSettings(event.date, defaultPrefs(context)["dateFormat"]
+                    ?: "")
+            view.eventDateTextView.text = formattedDate
+        }
+
+        private fun displayTitle(event: Event, textView: TextView) {
+            textView.text = event.name
+        }
+
+        private fun displayImage(event: Event, imageView: ImageView) {
             val circularProgressDrawable = CircularProgressDrawable(context)
             circularProgressDrawable.strokeWidth = 5f
             circularProgressDrawable.centerRadius = 30f
@@ -90,29 +165,30 @@ class EventsAdapter(
 
             when {
                 event.imageColor != 0 -> {
-                    view.eventImage.setImageDrawable(null)
-                    view.eventImage.backgroundColor = event.imageColor
+                    imageView.setImageDrawable(null)
+                    imageView.backgroundColor = event.imageColor
                 }
                 event.imageID == 0 -> {
                     when {
                         File(event.image).exists() ->
                             Glide.with(context)
                                     .load(event.image)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                                     .skipMemoryCache(true)
-                                    .into(view.eventImage)
+                                    .into(imageView)
                         event.imageCloudPath.isNotEmpty() -> {
                             Glide.with(context)
                                     .load(FirebaseStorage.getInstance().getReference(event.imageCloudPath))
                                     .placeholder(circularProgressDrawable)
-                                    .into(view.eventImage)
+                                    .into(imageView)
                             delegate.saveCloudImageLocallyFrom(event, context)
                         }
                         else ->
                             Glide.with(context).load(android.R.color.darker_gray)
-                                    .into(view.eventImage)
+                                    .into(imageView)
                     }
                 }
-                else -> Glide.with(context).load(event.imageID).into(view.eventImage)
+                else -> Glide.with(context).load(event.imageID).into(imageView)
             }
         }
 

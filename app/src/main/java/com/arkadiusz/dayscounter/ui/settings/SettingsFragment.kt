@@ -34,8 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val REQUEST_FILE_CHOOSING = 3
 
     private val PERMISSIONS_STORAGE = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            Manifest.permission.READ_EXTERNAL_STORAGE)
 
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

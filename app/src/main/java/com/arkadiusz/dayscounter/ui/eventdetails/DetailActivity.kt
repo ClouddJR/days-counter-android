@@ -20,6 +20,7 @@ import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
 import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -133,6 +134,7 @@ class DetailActivity : AppCompatActivity() {
                     File(passedEvent.image).exists() ->
                         Glide.with(this)
                                 .load(passedEvent.image)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true)
                                 .into(eventImage)
                     passedEvent.imageCloudPath.isNotEmpty() -> {
