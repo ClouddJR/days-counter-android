@@ -46,6 +46,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setUpThemesPreferences()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        databaseRepository.closeDatabase()
+    }
+
     private fun setUpRatePreference() {
         val ratePreference = findPreference<Preference>("rate")
         ratePreference.setOnPreferenceClickListener {

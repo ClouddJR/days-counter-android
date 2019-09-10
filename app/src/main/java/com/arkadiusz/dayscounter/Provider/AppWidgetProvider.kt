@@ -10,8 +10,8 @@ import android.graphics.*
 import android.util.TypedValue
 import android.widget.RemoteViews
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.GlideApp
 import com.arkadiusz.dayscounter.utils.DateUtils
@@ -30,9 +30,9 @@ import java.io.File
 
 class AppWidgetProvider : AppWidgetProvider() {
 
-    private val databaseRepository = DatabaseRepository()
-
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
+        val databaseRepository = DatabaseRepository()
+
         val widgetsCount = appWidgetIds?.size ?: 0
 
         for (i in 0 until widgetsCount) {
