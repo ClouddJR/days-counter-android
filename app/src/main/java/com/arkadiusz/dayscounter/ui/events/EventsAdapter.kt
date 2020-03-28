@@ -98,49 +98,64 @@ class EventsAdapter(
         }
 
         private fun displayCompactCounterText(event: Event) {
-            val counterText = calculateDate(event.date,
+            val dateElements = getElementsFromDate(event.date)
+            val calculatedComponents = calculateDate(
+                    dateElements.first,
+                    dateElements.second,
+                    dateElements.third,
                     event.formatYearsSelected,
                     event.formatMonthsSelected,
                     event.formatWeeksSelected,
-                    event.formatDaysSelected, context)
+                    event.formatDaysSelected
+            )
 
             view.counterStackView.yearsSection.visibility = View.GONE
             view.counterStackView.monthsSection.visibility = View.GONE
             view.counterStackView.weeksSection.visibility = View.GONE
             view.counterStackView.daysSection.visibility = View.GONE
 
-            if (counterText == context.getString(R.string.date_utils_today)) {
+            if (calculatedComponents.years == 0 && calculatedComponents.months == 0 &&
+                    calculatedComponents.weeks == 0 && calculatedComponents.days == 0) {
                 view.counterStackView.daysSection.visibility = View.VISIBLE
                 view.counterStackView.daysCaptionTextView.visibility = View.GONE
-                view.counterStackView.daysNumberTextView.text = context.getString(R.string.date_utils_today)
+                view.counterStackView.daysNumberTextView.text = context
+                        .getString(R.string.date_utils_today)
             } else {
-                counterText.split(" ").chunked(2).forEach {
-                    when (it[1]) {
-                        context.getString(R.string.date_utils_single_year),
-                        context.getString(R.string.date_utils_multiple_years),
-                        context.getString(R.string.date_utils_multiple_years_below5) -> {
-                            view.counterStackView.yearsSection.visibility = View.VISIBLE
-                            view.counterStackView.yearsNumberTextView.text = it.first()
-                        }
-                        context.getString(R.string.date_utils_single_month),
-                        context.getString(R.string.date_utils_multiple_months),
-                        context.getString(R.string.date_utils_multiple_months_below5) -> {
-                            view.counterStackView.monthsSection.visibility = View.VISIBLE
-                            view.counterStackView.monthsNumberTextView.text = it.first()
-                        }
-                        context.getString(R.string.date_utils_single_week),
-                        context.getString(R.string.date_utils_multiple_weeks),
-                        context.getString(R.string.date_utils_multiple_weeks_below5) -> {
-                            view.counterStackView.weeksSection.visibility = View.VISIBLE
-                            view.counterStackView.weeksNumberTextView.text = it.first()
-                        }
-                        context.getString(R.string.date_utils_single_day),
-                        context.getString(R.string.date_utils_multiple_days) -> {
-                            view.counterStackView.daysSection.visibility = View.VISIBLE
-                            view.counterStackView.daysCaptionTextView.visibility = View.VISIBLE
-                            view.counterStackView.daysNumberTextView.text = it.first()
-                        }
-                    }
+                if (event.formatYearsSelected) {
+                    view.counterStackView.yearsSection.visibility = View.VISIBLE
+                    view.counterStackView.yearsCaptionTextView.text = context
+                            .resources.getQuantityText(R.plurals.years_number,
+                            calculatedComponents.years)
+                    view.counterStackView.yearsNumberTextView.text =
+                            calculatedComponents.years.toString()
+                }
+
+                if (event.formatMonthsSelected) {
+                    view.counterStackView.monthsSection.visibility = View.VISIBLE
+                    view.counterStackView.monthsCaptionTextView.text = context
+                            .resources.getQuantityText(R.plurals.months_number,
+                            calculatedComponents.months)
+                    view.counterStackView.monthsNumberTextView.text =
+                            calculatedComponents.months.toString()
+                }
+
+                if (event.formatWeeksSelected) {
+                    view.counterStackView.weeksSection.visibility = View.VISIBLE
+                    view.counterStackView.weeksCaptionTextView.text = context
+                            .resources.getQuantityText(R.plurals.weeks_number,
+                            calculatedComponents.weeks)
+                    view.counterStackView.weeksNumberTextView.text =
+                            calculatedComponents.weeks.toString()
+                }
+
+                if (event.formatDaysSelected) {
+                    view.counterStackView.daysSection.visibility = View.VISIBLE
+                    view.counterStackView.daysCaptionTextView.visibility = View.VISIBLE
+                    view.counterStackView.daysCaptionTextView.text = context
+                            .resources.getQuantityText(R.plurals.days_number,
+                            calculatedComponents.days)
+                    view.counterStackView.daysNumberTextView.text =
+                            calculatedComponents.days.toString()
                 }
             }
 
