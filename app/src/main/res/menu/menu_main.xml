@@ -14,18 +14,24 @@
         android:icon="@drawable/ic_cloud_upload"
         android:orderInCategory="150"
         android:title="@string/menu_activity_sync"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_change_view"
-        android:icon="@drawable/ic_view_list_black_24dp"
-        android:orderInCategory="160"
-        android:title="Change View"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_calculator"
+        android:icon="@drawable/ic_action_calculator"
+        android:orderInCategory="160"
+        android:title="@string/menu_activity_calculator"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_change_view"
         android:orderInCategory="170"
+        android:title="@string/menu_activity_change_view"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="180"
         android:title="@string/settings_menu_action"
         app:showAsAction="never" />
 

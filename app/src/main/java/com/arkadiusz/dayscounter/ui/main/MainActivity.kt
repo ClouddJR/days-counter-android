@@ -83,6 +83,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            R.id.action_calculator -> {
+                startActivity<CalculatorActivity>()
+            }
+
             R.id.action_remove_ads -> {
                 startActivity<PremiumActivity>()
             }
