@@ -5,8 +5,11 @@ import PreferenceUtils.get
 import PreferenceUtils.set
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -16,6 +19,7 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.repository.UserRepository
 import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
+import com.arkadiusz.dayscounter.ui.calculator.CalculatorActivity
 import com.arkadiusz.dayscounter.ui.events.FutureEventsFragment
 import com.arkadiusz.dayscounter.ui.events.PastEventsFragment
 import com.arkadiusz.dayscounter.ui.login.LoginActivity
@@ -26,6 +30,8 @@ import com.arkadiusz.dayscounter.utils.PurchasesUtils
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
@@ -40,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
     private lateinit var helper: IabHelper
+    private var calculatorIcon: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(getThemeFromPreferences(false, this))
@@ -57,7 +64,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         hideRemoveButtonIfPurchased(menu)
-        setUpViewModeIcon(menu?.findItem(R.id.action_change_view))
+        Handler().post {
+            calculatorIcon = findViewById(R.id.action_calculator)
+            highlightCalculatorFeature()
+        }
         return true
     }
 
@@ -94,7 +104,6 @@ class MainActivity : AppCompatActivity() {
             R.id.action_change_view -> {
                 val isCompactView = prefs["is_compact_view", false] ?: false
                 prefs["is_compact_view"] = !isCompactView
-                setUpViewModeIcon(item)
             }
 
             R.id.action_settings -> {
@@ -115,17 +124,6 @@ class MainActivity : AppCompatActivity() {
                 it.dismiss()
             }
         }.show()
-    }
-
-    private fun setUpViewModeIcon(menuItem: MenuItem?) {
-        val isCompactView = prefs["is_compact_view", false] ?: false
-        if (isCompactView) {
-            menuItem?.icon =
-                    ContextCompat.getDrawable(this, R.drawable.ic_view_agenda_black_24dp)
-        } else {
-            menuItem?.icon =
-                    ContextCompat.getDrawable(this, R.drawable.ic_view_list_black_24dp)
-        }
     }
 
     private fun setUpPreferences() {
@@ -194,6 +192,50 @@ class MainActivity : AppCompatActivity() {
                 WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
                 ExistingPeriodicWorkPolicy.REPLACE,
                 widgetUpdateRequest)
+    }
+
+    private fun highlightCalculatorFeature() {
+        val wasShown = prefs["showcase_feature_calculator"] ?: false
+        if (!wasShown) {
+            calculatorIcon?.let { icon ->
+                TapTargetView.showFor(this, TapTarget.forView(
+                                icon,
+                                getString(R.string.new_feature_title),
+                                getString(R.string.new_feature_calculator)
+                        )
+                        .targetRadius(50), object : TapTargetView.Listener() {
+                    override fun onTargetLongClick(view: TapTargetView?) {
+                        super.onTargetLongClick(view)
+                        setCalculatorFeatureAsSeen()
+                    }
+
+                    override fun onOuterCircleClick(view: TapTargetView?) {
+                        super.onOuterCircleClick(view)
+                        setCalculatorFeatureAsSeen()
+                    }
+
+                    override fun onTargetCancel(view: TapTargetView?) {
+                        super.onTargetCancel(view)
+                        setCalculatorFeatureAsSeen()
+                    }
+
+                    override fun onTargetDismissed(view: TapTargetView?, userInitiated: Boolean) {
+                        super.onTargetDismissed(view, userInitiated)
+                        setCalculatorFeatureAsSeen()
+                    }
+
+                    override fun onTargetClick(view: TapTargetView?) {
+                        super.onTargetClick(view)
+                        startActivity<CalculatorActivity>()
+                        setCalculatorFeatureAsSeen()
+                    }
+                })
+            }
+        }
+    }
+
+    private fun setCalculatorFeatureAsSeen() {
+        prefs["showcase_feature_calculator"] = true
     }
 
     private fun showChangelog() {
