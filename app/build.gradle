@@ -113,10 +113,15 @@ dependencies {
     //konfetti
     implementation 'nl.dionsegijn:konfetti:1.1.2'
 
+    //showcase view
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
+
     //testing
     testImplementation 'junit:junit:4.12'
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
-    androidTestImplementation 'org.mockito:mockito-android:2.27.0'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    testImplementation 'org.mockito:mockito-core:2.27.0'
+    androidTestImplementation 'org.mockito:mockito-core:2.27.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 
