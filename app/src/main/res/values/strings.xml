@@ -21,6 +21,7 @@
     <string name="main_activity_sync_same_email">Events are already synced to: </string>
     <string name="main_activity_sync_no_connection">Check your internet connection</string>
     <string name="menu_activity_change_view">Change view</string>
+    <string name="menu_activity_calculator">Calculator</string>
 
     <string name="detail_activity_about_section">About</string>
     <string name="detail_activity_repetition_section">Repetition</string>
@@ -282,6 +283,68 @@
     <string name="author_link">Author: </string>
     <string name="detail_activity_toast_event_deleted">Event does not exist</string>
     <string name="premium_thank_you_dialog">Thank you for buying premium version!</string>
+
+    <!--Date Calculator-->
+
+    <string name="date_calculator_activity_title">Date calculator</string>
+    <string name="date_calculator_activity_calculate">Calculate</string>
+    <string name="date_calculator_activity_dates">Dates</string>
+    <string name="date_calculator_activity_start_date">Start date:</string>
+    <string name="date_calculator_activity_end_date">End date:</string>
+    <string name="date_calculator_activity_counter_format">Counter format</string>
+    <string name="date_calculator_activity_result">Result</string>
+    <string name="date_calculator_additional_formats">Additional formats:</string>
+
+    <!--Plurals-->
+
+    <plurals name="years_number">
+        <item quantity="zero">years</item>
+        <item quantity="one">year</item>
+        <item quantity="two">years</item>
+        <item quantity="few">years</item>
+        <item quantity="many">years</item>
+        <item quantity="other">years</item>
+    </plurals>
+
+    <plurals name="months_number">
+        <item quantity="zero">months</item>
+        <item quantity="one">month</item>
+        <item quantity="two">months</item>
+        <item quantity="few">months</item>
+        <item quantity="many">months</item>
+        <item quantity="other">months</item>
+    </plurals>
+
+    <plurals name="weeks_number">
+        <item quantity="zero">weeks</item>
+        <item quantity="one">weeks</item>
+        <item quantity="two">weeks</item>
+        <item quantity="few">weeks</item>
+        <item quantity="many">weeks</item>
+        <item quantity="other">weeks</item>
+    </plurals>
+
+    <plurals name="days_number">
+        <item quantity="zero">days</item>
+        <item quantity="one">day</item>
+        <item quantity="two">days</item>
+        <item quantity="few">days</item>
+        <item quantity="many">days</item>
+        <item quantity="other">days</item>
+    </plurals>
+
+    <plurals name="workdays_number">
+        <item quantity="zero">workdays</item>
+        <item quantity="one">workday</item>
+        <item quantity="two">workdays</item>
+        <item quantity="few">workdays</item>
+        <item quantity="many">workdays</item>
+        <item quantity="other">workdays</item>
+    </plurals>
+
+    <!--New features-->
+    <string name="new_feature_title">New feature!</string>
+    <string name="new_feature_calculator">There is a new date calculator for you to use now</string>
 
 
 </resources>

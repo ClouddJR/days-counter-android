@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Tageszähler</string>
     <string name="title_activity_add">Ereignis hinzufügen</string>
     <string name="title_activity_edit">Ereignis bearbeiten</string>
@@ -21,6 +21,7 @@
     <string name="main_activity_sync_same_email">Ereignisse sind bereits synchronisiert mit: </string>
     <string name="main_activity_sync_no_connection">Überprüfe deine Internetverbindung</string>
     <string name="menu_activity_change_view">Cambio Vista</string>
+    <string name="menu_activity_calculator">der Rechner</string>
 
     <string name="detail_activity_about_section">Über</string>
     <string name="detail_activity_repetition_section">Wiederholung</string>
@@ -244,5 +245,66 @@
     <string name="detail_activity_toast_event_deleted">" Ereignis existiert nicht"</string>
     <string name="premium_thank_you_dialog">"Vielen Dank für den Kauf einer Premium-Version! "</string>
 
+    <!--Date Calculator-->
+
+    <string name="date_calculator_activity_title">Datumsrechner</string>
+    <string name="date_calculator_activity_calculate">Berechnen</string>
+    <string name="date_calculator_activity_dates">Daten</string>
+    <string name="date_calculator_activity_start_date">Anfangsdatum:</string>
+    <string name="date_calculator_activity_end_date">Enddatum:</string>
+    <string name="date_calculator_activity_counter_format">Format des Zählers</string>
+    <string name="date_calculator_activity_result">Ergebnis</string>
+    <string name="date_calculator_additional_formats">Zusätzliche Formate:</string>
+
+    <!--Plurals-->
+
+    <plurals name="years_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Jahre</item>
+        <item quantity="one">Jahr</item>
+        <item quantity="two">Jahre</item>
+        <item quantity="few">Jahre</item>
+        <item quantity="many">Jahre</item>
+        <item quantity="other">Jahre</item>
+    </plurals>
+
+    <plurals name="months_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Montate</item>
+        <item quantity="one">Montat</item>
+        <item quantity="two">Montat</item>
+        <item quantity="few">Montat</item>
+        <item quantity="many">Montat</item>
+        <item quantity="other">Montat</item>
+    </plurals>
+
+    <plurals name="weeks_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Wochen</item>
+        <item quantity="one">Woche</item>
+        <item quantity="two">Wochen</item>
+        <item quantity="few">Wochen</item>
+        <item quantity="many">Wochen</item>
+        <item quantity="other">Wochen</item>
+    </plurals>
+
+    <plurals name="days_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Tage</item>
+        <item quantity="one">Tag</item>
+        <item quantity="two">Tage</item>
+        <item quantity="few">Tage</item>
+        <item quantity="many">Tage</item>
+        <item quantity="other">Tage</item>
+    </plurals>
+
+    <plurals name="workdays_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Arbeitstage</item>
+        <item quantity="one">Arbeitstag</item>
+        <item quantity="two">Arbeitstag</item>
+        <item quantity="few">Arbeitstag</item>
+        <item quantity="many">Arbeitstag</item>
+        <item quantity="other">Arbeitstag</item>
+    </plurals>
+
+    <!--New features-->
+    <string name="new_feature_title">Neue Funktion!</string>
+    <string name="new_feature_calculator">Es gibt einen neuen Datumsrechner</string>
 
 </resources>
