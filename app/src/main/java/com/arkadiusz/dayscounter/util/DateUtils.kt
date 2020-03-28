@@ -2,6 +2,7 @@ package com.arkadiusz.dayscounter.utils
 
 import android.content.Context
 import com.arkadiusz.dayscounter.R
+import com.arkadiusz.dayscounter.data.model.DateComponents
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,6 +14,8 @@ object DateUtils {
 
 
     fun formatDate(year: Int, month: Int, day: Int): String {
+        if (year < 1 || month < 0 || day < 0) throw IllegalArgumentException()
+
         val formattedMonth = if (month + 1 < 10) {
             "0${month + 1}"
         } else {
@@ -29,6 +32,8 @@ object DateUtils {
     }
 
     fun formatTime(hour: Int, minute: Int): String {
+        if (hour < 0 || minute < 0) throw IllegalArgumentException()
+
         val formattedHour = if (hour < 10) {
             "0$hour"
         } else {
@@ -44,31 +49,34 @@ object DateUtils {
         return "$formattedHour:$formattedMinutes"
     }
 
-    fun getDateForBackupFile(): String {
-        val date = Calendar.getInstance()
-        val year = date.get(Calendar.YEAR)
-        val month = date.get(Calendar.MONTH) + 1
-        val day = date.get(Calendar.DAY_OF_MONTH)
+    fun getDateForBackupFile(calendar: Calendar = Calendar.getInstance()): String {
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val hour = date.get(Calendar.HOUR_OF_DAY)
-        val minute = date.get(Calendar.MINUTE)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
 
         return "$year$month${day}_$hour$minute"
     }
 
     fun calculateDate(passedDate: String, areYearsIncluded: Boolean,
-                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean, context: Context): String {
+                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
+                      areDaysIncluded: Boolean, context: Context): String {
 
         val triple = getElementsFromDate(passedDate)
         val year = triple.first
         val month = triple.second
         val day = triple.third
 
-        return calculateDate(year, month, day, areYearsIncluded, areMonthsIncluded, areWeeksIncluded, areDaysIncluded, context)
+        return calculateDate(year, month, day, areYearsIncluded, areMonthsIncluded,
+                areWeeksIncluded, areDaysIncluded, context)
 
     }
 
     fun getElementsFromDate(date: String): Triple<Int, Int, Int> {
+        SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(date)
+
         val year = date.substring(0, 4).toInt()
         val month = if (date[5] == '0') {
             date.substring(6, 7).toInt()
@@ -84,16 +92,17 @@ object DateUtils {
         return Triple(year, month, day)
     }
 
-    fun formatDateAccordingToSettings(originalDate: String, datePreference: String): String {
+    fun formatDateAccordingToSettings(originalDate: String, datePreference: String,
+                                      locale: Locale = Locale.getDefault()): String {
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(originalDate)
 
         val formatter = when (datePreference) {
-            "31-10-1980" -> SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-            "10-31-1980" -> SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
-            "1980-10-31" -> SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            "31 October 1980" -> SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-            "October 31, 1980" -> SimpleDateFormat("LLLL d, yyyy", Locale.getDefault())
-            else -> SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            "31-10-1980" -> SimpleDateFormat("dd-MM-yyyy", locale)
+            "10-31-1980" -> SimpleDateFormat("MM-dd-yyyy", locale)
+            "1980-10-31" -> SimpleDateFormat("yyyy-MM-dd", locale)
+            "31 October 1980" -> SimpleDateFormat("d MMMM yyyy", locale)
+            "October 31, 1980" -> SimpleDateFormat("LLLL d, yyyy", locale)
+            else -> SimpleDateFormat("yyyy-MM-dd", locale)
         }
 
         return formatter.format(date)
@@ -101,10 +110,12 @@ object DateUtils {
 
 
     fun calculateDate(dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
-                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean, context: Context): String {
+                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
+                      areDaysIncluded: Boolean, context: Context,
+                      today: Calendar = generateTodayCalendar()): String {
 
         var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
-        var todayCalendar = generateTodayCalendar()
+        var todayCalendar = today
 
         var yearsNumber = 0
         var monthsNumber = 0
@@ -170,67 +181,131 @@ object DateUtils {
                 context)
     }
 
-    private fun generateCounterText(yearsNumber: Int, monthsNumber: Int, weeksNumber: Int, daysNumber: Int,
-                                    areYearsIncluded: Boolean, areMonthsIncluded: Boolean, areWeeksIncluded: Boolean, areDaysIncluded: Boolean,
-                                    context: Context): String {
-        var counterText = ""
-        if (yearsNumber > 1) {
-            counterText += if (yearsNumber < 5 ||
-                    (yearsNumber % 10 == 2 && yearsNumber != 12) ||
-                    (yearsNumber % 10 == 3 && yearsNumber != 13) ||
-                    (yearsNumber % 10 == 4 && yearsNumber != 14)) {
-                "$yearsNumber " + context.getString(R.string.date_utils_multiple_years_below5) + " "
-            } else {
-                "$yearsNumber " + context.getString(R.string.date_utils_multiple_years) + " "
+    fun calculateDate(dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
+                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
+                      areDaysIncluded: Boolean,
+                      today: Calendar = generateTodayCalendar()): DateComponents {
+
+        var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
+        var todayCalendar = today
+
+        var yearsNumber = 0
+        var monthsNumber = 0
+        var weeksNumber = 0
+        var daysNumber = 0
+
+        if (!eventCalendar.before(todayCalendar)) {
+            val tempCalendar = eventCalendar
+            eventCalendar = todayCalendar
+            todayCalendar = tempCalendar
+        }
+
+        //calculate years
+        if (areYearsIncluded) {
+            while (eventCalendar.before(todayCalendar)) {
+                eventCalendar.add(Calendar.YEAR, 1)
+                yearsNumber++
             }
-        } else if (yearsNumber == 1) {
-            counterText += "$yearsNumber " + context.getString(R.string.date_utils_single_year) + " "
-        } else if (yearsNumber == 0 && areYearsIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_years)} "
-        }
-
-        if (monthsNumber > 1) {
-            counterText += if (monthsNumber < 5 ||
-                    (monthsNumber % 10 == 2 && monthsNumber != 12) ||
-                    (monthsNumber % 10 == 3 && monthsNumber != 13) ||
-                    (monthsNumber % 10 == 4 && monthsNumber != 14)) {
-                "$monthsNumber " + context.getString(R.string.date_utils_multiple_months_below5) + " "
-            } else {
-                "$monthsNumber " + context.getString(R.string.date_utils_multiple_months) + " "
+            if (!eventCalendar.isTheSameInstanceAs(todayCalendar)) {
+                eventCalendar.add(Calendar.YEAR, -1)
+                yearsNumber--
             }
-        } else if (monthsNumber == 1) {
-            counterText += "$monthsNumber " + context.getString(R.string.date_utils_single_month) + " "
-        } else if (monthsNumber == 0 && areMonthsIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_months)} "
         }
 
-        if (weeksNumber > 1) {
-            counterText += if (weeksNumber < 5 ||
-                    (weeksNumber % 10 == 2 && weeksNumber != 12) ||
-                    (weeksNumber % 10 == 3 && weeksNumber != 13) ||
-                    (weeksNumber % 10 == 4 && weeksNumber != 14)) {
-                "$weeksNumber " + context.getString(R.string.date_utils_multiple_weeks_below5) + " "
-            } else {
-                "$weeksNumber " + context.getString(R.string.date_utils_multiple_weeks) + " "
+        //calculate months
+        if (areMonthsIncluded) {
+            while (eventCalendar.before(todayCalendar)) {
+                eventCalendar.add(Calendar.MONTH, 1)
+                monthsNumber++
             }
-        } else if (weeksNumber == 1) {
-            counterText += "$weeksNumber " + context.getString(R.string.date_utils_single_week) + " "
-        } else if (weeksNumber == 0 && areWeeksIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_weeks)} "
+            if (!eventCalendar.isTheSameInstanceAs(todayCalendar)) {
+                eventCalendar.add(Calendar.MONTH, -1)
+                monthsNumber--
+            }
         }
 
-        if (daysNumber > 1) {
-            counterText += "$daysNumber " + context.getString(R.string.date_utils_multiple_days)
-        } else if (daysNumber == 1) {
-            counterText += "$daysNumber " + context.getString(R.string.date_utils_single_day)
-        } else if (daysNumber == 0 && areDaysIncluded) {
-            counterText += "0 ${context.getString(R.string.date_utils_multiple_days)} "
+        //calculate weeks
+        if (areWeeksIncluded) {
+            while (eventCalendar.before(todayCalendar)) {
+                eventCalendar.add(Calendar.WEEK_OF_YEAR, 1)
+                weeksNumber++
+            }
+            if (!eventCalendar.isTheSameInstanceAs(todayCalendar)) {
+                eventCalendar.add(Calendar.WEEK_OF_YEAR, -1)
+                weeksNumber--
+            }
         }
 
+        //calculate days
+        if (areDaysIncluded) {
+            while (eventCalendar.before(todayCalendar)) {
+                eventCalendar.add(Calendar.DAY_OF_MONTH, 1)
+                daysNumber++
+            }
+            if (!eventCalendar.isTheSameInstanceAs(todayCalendar)) {
+                eventCalendar.add(Calendar.DAY_OF_MONTH, -1)
+                daysNumber--
+            }
+        }
+
+        return DateComponents(
+                yearsNumber,
+                monthsNumber,
+                weeksNumber,
+                daysNumber
+        )
+    }
+
+    fun generateCounterText(yearsNumber: Int, monthsNumber: Int, weeksNumber: Int,
+                            daysNumber: Int,
+                            areYearsIncluded: Boolean, areMonthsIncluded: Boolean,
+                            areWeeksIncluded: Boolean, areDaysIncluded: Boolean,
+                            context: Context): String {
         if (yearsNumber == 0 && monthsNumber == 0 && weeksNumber == 0 && daysNumber == 0) {
-            counterText = context.getString(R.string.date_utils_today)
+            return context.getString(R.string.date_utils_today)
         }
+
+        var counterText = ""
+        if (areYearsIncluded) counterText += "$yearsNumber " +
+                "${context.resources.getQuantityString(R.plurals.years_number, yearsNumber)} "
+
+        if (areMonthsIncluded) counterText += "$monthsNumber " +
+                "${context.resources.getQuantityString(R.plurals.months_number, monthsNumber)} "
+
+        if (areWeeksIncluded) counterText += "$weeksNumber " +
+                "${context.resources.getQuantityString(R.plurals.weeks_number, weeksNumber)} "
+
+        if (areDaysIncluded) counterText += "$daysNumber " +
+                "${context.resources.getQuantityString(R.plurals.days_number, daysNumber)} "
+
         return counterText.trim()
+    }
+
+    fun calculateWorkdays(dateYear: Int, dateMonth: Int, dateDay: Int,
+                          today: Calendar = generateTodayCalendar()): Int {
+
+        var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
+        var todayCalendar = today
+
+        if (!eventCalendar.before(todayCalendar)) {
+            val tempCalendar = eventCalendar
+            eventCalendar = todayCalendar
+            todayCalendar = tempCalendar
+        }
+
+        var daysNumber = 0
+        while (eventCalendar.before(todayCalendar)) {
+            val dayOfWeek = eventCalendar.get(Calendar.DAY_OF_WEEK)
+            if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+                daysNumber++
+            }
+            eventCalendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+        if (!eventCalendar.isTheSameInstanceAs(todayCalendar)) {
+            eventCalendar.add(Calendar.DAY_OF_MONTH, -1)
+            daysNumber--
+        }
+        return daysNumber
     }
 
     fun generateCalendar(dateYear: Int, dateMonth: Int, dateDay: Int): Calendar {
