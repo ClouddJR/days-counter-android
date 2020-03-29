@@ -8,8 +8,8 @@
         android:id="@+id/yearsSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="?themeAccent"
-            android:textSize="22sp" />
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/yearsCaptionTextView"
@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textSize="14sp"
             android:text="@string/date_utils_multiple_years"
             android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
@@ -36,8 +37,8 @@
         android:id="@+id/monthsSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="?themeAccent"
-            android:textSize="22sp" />
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/monthsCaptionTextView"
@@ -57,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_months"
+            android:textSize="14sp"
             android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 
@@ -64,8 +66,8 @@
         android:id="@+id/weeksSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -76,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="?themeAccent"
-            android:textSize="22sp" />
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/weeksCaptionTextView"
@@ -85,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_weeks"
+            android:textSize="14sp"
             android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 
@@ -92,8 +95,8 @@
         android:id="@+id/daysSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -104,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="?themeAccent"
-            android:textSize="22sp" />
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/daysCaptionTextView"
@@ -113,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_days"
+            android:textSize="14sp"
             android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 

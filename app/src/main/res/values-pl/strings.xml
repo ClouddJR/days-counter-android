@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Licznik dni</string>
     <string name="title_activity_add">Dodaj wydarzenie</string>
     <string name="title_activity_edit">Edytuj wydarzenie</string>
@@ -21,6 +21,7 @@
     <string name="main_activity_sync_same_email">Wydarzenia są juz zsynchrozowane z kontem:  </string>
     <string name="main_activity_sync_no_connection">Sprawdź połączenie z internetem</string>
     <string name="menu_activity_change_view">Zmień widok</string>
+    <string name="menu_activity_calculator">Kalkulator</string>
 
     <string name="detail_activity_about_section">Ogólne</string>
     <string name="detail_activity_repetition_section">Powtarzanie</string>
@@ -244,5 +245,66 @@
     <string name="detail_activity_toast_event_deleted">Wydarzenie nie istnieje</string>
     <string name="premium_thank_you_dialog">Dziękuję za zakup wersji premium!</string>
 
+    <!--Date Calculator-->
+
+    <string name="date_calculator_activity_title">Kalkulator dat</string>
+    <string name="date_calculator_activity_calculate">Oblicz</string>
+    <string name="date_calculator_activity_dates">Daty</string>
+    <string name="date_calculator_activity_start_date">Data początkowa:</string>
+    <string name="date_calculator_activity_end_date">Data końcowa:</string>
+    <string name="date_calculator_activity_counter_format">Format licznika</string>
+    <string name="date_calculator_activity_result">Wynik</string>
+    <string name="date_calculator_additional_formats">Dodatkowe formaty:</string>
+
+    <!--Plurals-->
+
+    <plurals name="years_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">lat</item>
+        <item quantity="one">rok</item>
+        <item quantity="two">lata</item>
+        <item quantity="few">lata</item>
+        <item quantity="many">lat</item>
+        <item quantity="other">lata</item>
+    </plurals>
+
+    <plurals name="months_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">miesięcy</item>
+        <item quantity="one">miesiąc</item>
+        <item quantity="two">miesiące</item>
+        <item quantity="few">miesiące</item>
+        <item quantity="many">miesięcy</item>
+        <item quantity="other">miesiąca</item>
+    </plurals>
+
+    <plurals name="weeks_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">tygodni</item>
+        <item quantity="one">tydzień</item>
+        <item quantity="two">tygodnie</item>
+        <item quantity="few">tygodnie</item>
+        <item quantity="many">tygodni</item>
+        <item quantity="other">tygodnia</item>
+    </plurals>
+
+    <plurals name="days_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">dni</item>
+        <item quantity="one">dzień</item>
+        <item quantity="two">dni</item>
+        <item quantity="few">dni</item>
+        <item quantity="many">dni</item>
+        <item quantity="other">dnia</item>
+    </plurals>
+
+    <plurals name="workdays_number" tools:ignore="UnusedQuantity">
+        <item quantity="zero">dni roboczych</item>
+        <item quantity="one">dzień roboczy</item>
+        <item quantity="two">dni robocze</item>
+        <item quantity="few">dni roboczych</item>
+        <item quantity="many">dni roboczych</item>
+        <item quantity="other">dni roboczych</item>
+    </plurals>
+
+    <!--New features-->
+    <string name="new_feature_title">Nowa funkcja!</string>
+    <string name="new_feature_calculator">Dostępny jest nowy kalkulator dat</string>
 
 </resources>

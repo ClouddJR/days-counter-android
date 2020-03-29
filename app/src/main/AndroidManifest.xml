@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   package="com.arkadiusz.dayscounter">
@@ -45,7 +44,7 @@
 
     <activity
       android:label="@string/settings_menu_action"
-      android:name="com.arkadiusz.dayscounter.ui.settings.SettingsActivity"
+      android:name=".ui.settings.SettingsActivity"
       android:parentActivityName=".ui.main.MainActivity"/>
 
     <activity
@@ -104,6 +103,13 @@
     <activity
       android:name=".ui.login.LoginActivity"
       android:screenOrientation="portrait">
+    </activity>
+
+    <activity
+        android:label="@string/date_calculator_activity_title"
+        android:name=".ui.calculator.CalculatorActivity"
+        android:parentActivityName=".ui.main.MainActivity"
+        android:screenOrientation="portrait">
     </activity>
 
     <receiver android:name=".Provider.AppWidgetProvider">
