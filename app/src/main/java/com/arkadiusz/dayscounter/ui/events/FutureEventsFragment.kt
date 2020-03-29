@@ -12,6 +12,7 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,12 +53,13 @@ class FutureEventsFragment : Fragment() {
         setUpContextOptions()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.future_fragment, container, false)
         observeState()
         initRecyclerView(view)
         setUpRecyclerViewData(sharedPreferences["is_compact_view", false] ?: false)
-        scheduleRVAnimation()
+        if (savedInstanceState == null) scheduleRVAnimation()
         addOnScrollListener()
         return view
     }
@@ -110,44 +112,47 @@ class FutureEventsFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-        recyclerView.addOnItemTouchListener(object : RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                val id = eventsList[position]!!.id
-                context?.startActivity<DetailActivity>("event_id" to id)
-            }
+        recyclerView.addOnItemTouchListener(object :
+                RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
+                    override fun onItemClick(view: View?, position: Int) {
+                        val id = eventsList[position]!!.id
+                        context?.startActivity<DetailActivity>("event_id" to id)
+                    }
 
-            override fun onItemLongClick(view: View?, position: Int) {
-                vibration()
-                displayEventOptions(eventsList[position]!!)
-            }
+                    override fun onItemLongClick(view: View?, position: Int) {
+                        vibration()
+                        displayEventOptions(eventsList[position]!!)
+                    }
 
-        }) {})
+                }) {})
     }
 
     private fun setUpRecyclerViewData(isCompactView: Boolean) {
-        val adapter = EventsAdapter(context!!, isCompactView, eventsList, object : EventsAdapter.Delegate {
-            override fun moveEventToFuture(event: Event) {
-                viewModel.moveEventToFuture(event)
-            }
+        val adapter = EventsAdapter(context!!, isCompactView, eventsList,
+                object : EventsAdapter.Delegate {
+                    override fun moveEventToFuture(event: Event) {
+                        viewModel.moveEventToFuture(event)
+                    }
 
-            override fun moveEventToPast(event: Event) {
-                viewModel.moveEventToPast(event)
-            }
+                    override fun moveEventToPast(event: Event) {
+                        viewModel.moveEventToPast(event)
+                    }
 
-            override fun repeatEvent(event: Event) {
-                viewModel.repeatEvent(event)
-            }
+                    override fun repeatEvent(event: Event) {
+                        viewModel.repeatEvent(event)
+                    }
 
-            override fun saveCloudImageLocallyFrom(event: Event, context: Context) {
-                viewModel.saveCloudImageLocallyFrom(event, context)
-            }
-        })
+                    override fun saveCloudImageLocallyFrom(event: Event, context: Context) {
+                        viewModel.saveCloudImageLocallyFrom(event, context)
+                    }
+                })
         recyclerView.adapter = adapter
     }
 
     private fun scheduleRVAnimation() {
+        recyclerView.layoutAnimation =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_bottom_top)
         recyclerView.scheduleLayoutAnimation()
-        recyclerView.invalidate()
     }
 
     private fun vibration() {
@@ -161,7 +166,8 @@ class FutureEventsFragment : Fragment() {
 
     private fun displayEventOptions(event: Event) {
         context?.let { ctx ->
-            ctx.selector(getString(R.string.fragment_main_dialog_title), eventContextOptions) { _, i ->
+            ctx.selector(getString(R.string.fragment_main_dialog_title),
+                    eventContextOptions) { _, i ->
                 when (i) {
                     0 -> ctx.startActivity<EditActivity>("eventId" to event.id)
                     1 -> {
