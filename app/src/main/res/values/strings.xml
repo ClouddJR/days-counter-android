@@ -317,7 +317,7 @@
 
     <plurals name="weeks_number">
         <item quantity="zero">weeks</item>
-        <item quantity="one">weeks</item>
+        <item quantity="one">week</item>
         <item quantity="two">weeks</item>
         <item quantity="few">weeks</item>
         <item quantity="many">weeks</item>

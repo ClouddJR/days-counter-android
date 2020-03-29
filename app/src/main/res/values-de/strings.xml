@@ -20,8 +20,8 @@
     <string name="main_activity_sync_first_time">Ereignisse sind nun synchronisiert mit: </string>
     <string name="main_activity_sync_same_email">Ereignisse sind bereits synchronisiert mit: </string>
     <string name="main_activity_sync_no_connection">Überprüfe deine Internetverbindung</string>
-    <string name="menu_activity_change_view">Cambio Vista</string>
-    <string name="menu_activity_calculator">der Rechner</string>
+    <string name="menu_activity_change_view">Ansicht ändern</string>
+    <string name="menu_activity_calculator">Rechner</string>
 
     <string name="detail_activity_about_section">Über</string>
     <string name="detail_activity_repetition_section">Wiederholung</string>
@@ -150,7 +150,7 @@
 
     <!--settings-->
 
-    <string name="settings_menu_action">die Einstellungen</string>
+    <string name="settings_menu_action">Einstellungen</string>
 
     <string name="main_section_title">Main</string>
 
@@ -268,12 +268,12 @@
     </plurals>
 
     <plurals name="months_number" tools:ignore="UnusedQuantity">
-        <item quantity="zero">Montate</item>
-        <item quantity="one">Montat</item>
-        <item quantity="two">Montat</item>
-        <item quantity="few">Montat</item>
-        <item quantity="many">Montat</item>
-        <item quantity="other">Montat</item>
+        <item quantity="zero">Monat</item>
+        <item quantity="one">Monate</item>
+        <item quantity="two">Monate</item>
+        <item quantity="few">Monate</item>
+        <item quantity="many">Monate</item>
+        <item quantity="other">Monate</item>
     </plurals>
 
     <plurals name="weeks_number" tools:ignore="UnusedQuantity">
