@@ -3,6 +3,7 @@ package com.arkadiusz.dayscounter.ui.events
 import PreferenceUtils.defaultPrefs
 import PreferenceUtils.get
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -24,12 +25,9 @@ import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.future_fragment.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
-import java.util.*
-import kotlin.concurrent.schedule
 
 /**
  * Created by arkadiusz on 24.03.18
@@ -85,26 +83,10 @@ class PastEventsFragment : Fragment() {
     }
 
     private fun observeState() {
-        viewModel.isPremiumUser.observe(this, Observer { isPremium ->
-            setUpRefreshLayout(isPremium ?: false)
-        })
-
         viewModel.isCompactViewMode.observe(this, Observer {
             setUpRecyclerViewData(it)
             scheduleRVAnimation()
         })
-    }
-
-    private fun setUpRefreshLayout(isPremium: Boolean) {
-        refreshLayout.isNestedScrollingEnabled = true
-        refreshLayout.isEnabled = isPremium
-        refreshLayout.setOnRefreshListener {
-            viewModel.fetchData(context)
-            Timer(false).schedule(200) {
-                scheduleRVAnimation()
-                refreshLayout?.isRefreshing = false
-            }
-        }
     }
 
     private fun initRecyclerView(view: View) {
@@ -155,7 +137,7 @@ class PastEventsFragment : Fragment() {
     }
 
     private fun vibration() {
-        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val vibrator = context?.getSystemService(VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(25, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {

@@ -25,12 +25,9 @@ import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.future_fragment.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
-import java.util.*
-import kotlin.concurrent.schedule
 
 /**
  * Created by arkadiusz on 23.03.18
@@ -86,26 +83,10 @@ class FutureEventsFragment : Fragment() {
     }
 
     private fun observeState() {
-        viewModel.isPremiumUser.observe(this, Observer { isPremium ->
-            setUpRefreshLayout(isPremium ?: false)
-        })
-
         viewModel.isCompactViewMode.observe(this, Observer {
             setUpRecyclerViewData(it)
             scheduleRVAnimation()
         })
-    }
-
-    private fun setUpRefreshLayout(isPremium: Boolean) {
-        refreshLayout.isNestedScrollingEnabled = true
-        refreshLayout.isEnabled = isPremium
-        refreshLayout.setOnRefreshListener {
-            viewModel.fetchData(context)
-            Timer(false).schedule(200) {
-                scheduleRVAnimation()
-                refreshLayout?.isRefreshing = false
-            }
-        }
     }
 
     private fun initRecyclerView(view: View) {
