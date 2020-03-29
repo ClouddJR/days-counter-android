@@ -6,12 +6,11 @@ import PreferenceUtils.set
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.viewpager.widget.ViewPager
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -136,19 +135,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPager() {
-        viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-
-        //checking the default fragment from settings
-        if (prefs["default_fragment"] ?: "" == getString(R.string.main_activity_left_tab)) {
-            viewPagerAdapter.addFragment(PastEventsFragment(), getString(R.string.main_activity_left_tab))
-            viewPagerAdapter.addFragment(FutureEventsFragment(), getString(R.string.main_activity_right_tab))
-        } else {
-            viewPagerAdapter.addFragment(FutureEventsFragment(), getString(R.string.main_activity_right_tab))
-            viewPagerAdapter.addFragment(PastEventsFragment(), getString(R.string.main_activity_left_tab))
-        }
-
+        viewPagerAdapter = ViewPagerAdapter(this, supportFragmentManager,
+                prefs["default_fragment"] ?: "")
         viewPager.adapter = viewPagerAdapter
-        viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
                 fab.show()
             }
@@ -158,11 +148,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpFABClickListener() {
         fab.setOnClickListener {
-            val eventType = if (viewPagerAdapter.getItem(viewPager.currentItem) is PastEventsFragment) {
-                "past"
-            } else {
-                "future"
-            }
+            val eventType =
+                    if (viewPagerAdapter.getItem(viewPager.currentItem) is PastEventsFragment) {
+                        "past"
+                    } else {
+                        "future"
+                    }
             startActivity<AddActivity>("Event Type" to eventType)
         }
     }

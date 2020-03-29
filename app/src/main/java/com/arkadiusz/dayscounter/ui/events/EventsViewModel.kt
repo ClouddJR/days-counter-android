@@ -13,14 +13,12 @@ import com.arkadiusz.dayscounter.utils.RemindersUtils
 import io.realm.RealmResults
 
 class EventsViewModel(
-        private val databaseRepository: DatabaseRepository = DatabaseRepository(),
-        private val userRepository: UserRepository = UserRepository()
+        private val databaseRepository: DatabaseRepository = DatabaseRepository()
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var eventsPastList: RealmResults<Event>
     private lateinit var eventsFutureList: RealmResults<Event>
 
-    var isPremiumUser = MutableLiveData<Boolean>()
     var isCompactViewMode = MutableLiveData<Boolean>()
 
     override fun onCleared() {
@@ -38,8 +36,6 @@ class EventsViewModel(
 
             sortEventsList(sortType)
         }
-
-        isPremiumUser.value = userRepository.isLoggedIn()
         registerSharedPreferencesListener(context)
     }
 
