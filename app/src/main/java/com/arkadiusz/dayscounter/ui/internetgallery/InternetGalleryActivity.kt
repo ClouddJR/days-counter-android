@@ -113,6 +113,7 @@ class InternetGalleryActivity : AppCompatActivity() {
     private fun startCropImageActivity(imageUri: Uri) {
         CropImage.activity(imageUri)
                 .setAspectRatio(18, 9)
+                .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
                 .setFixAspectRatio(true)
                 .start(this)
     }

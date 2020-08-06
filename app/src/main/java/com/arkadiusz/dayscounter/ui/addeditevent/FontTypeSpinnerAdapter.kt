@@ -14,14 +14,14 @@ import com.arkadiusz.dayscounter.utils.FontUtils
 class FontTypeSpinnerAdapter(context: Context, resource: Int, list: List<String>) : ArrayAdapter<String>(context, resource, list) {
 
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val textView = super.getView(position, convertView, parent) as TextView
         val typeFace = FontUtils.getFontFor(textView.text.toString(), context)
         textView.typeface = typeFace
         return textView
     }
 
-    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val textView = super.getDropDownView(position, convertView, parent) as TextView
         val typeFace = FontUtils.getFontFor(textView.text.toString(), context)
         textView.typeface = typeFace

@@ -242,26 +242,32 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun displayColorPicker() {
-        ColorPickerDialogBuilder
+        val picker = ColorPickerDialogBuilder
                 .with(this)
                 .setTitle("Choose color")
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(10)
                 .setPositiveButton("ok", { _, selectedColor, _ -> changeWidgetsColors(selectedColor) })
                 .setNegativeButton("cancel", { _, _ -> })
-                .build()
+
+        if (selectedColor != -1) picker.initialColor(selectedColor)
+
+        picker.build()
                 .show()
     }
 
     private fun displayColorPickerForEventBackground() {
-        ColorPickerDialogBuilder
+        val picker = ColorPickerDialogBuilder
                 .with(this)
                 .setTitle("Choose color")
                 .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
                 .density(10)
                 .setPositiveButton("ok", { _, selectedColor, _ -> changeEventColor(selectedColor) })
                 .setNegativeButton("cancel", { _, _ -> })
-                .build()
+
+        if (imageColor != -0) picker.initialColor(imageColor)
+
+        picker.build()
                 .show()
     }
 
@@ -311,9 +317,9 @@ class EditActivity : AppCompatActivity() {
 
     private val showDatePicker = View.OnClickListener {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val year = if (chosenYear == 0) calendar.get(Calendar.YEAR) else chosenYear
+        val month = if (chosenYear == 0) calendar.get(Calendar.MONTH) else chosenMonth
+        val day = if (chosenYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenDay
 
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
             this.chosenYear = chosenYear
@@ -328,13 +334,13 @@ class EditActivity : AppCompatActivity() {
 
     private val showReminderDatePicker = View.OnClickListener {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val year = if (chosenReminderYear == 0) calendar.get(Calendar.YEAR) else chosenReminderYear
+        val month = if (chosenReminderYear == 0) calendar.get(Calendar.MONTH) else chosenReminderMonth
+        val day = if (chosenReminderYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenReminderDay
 
         wasTimePickerAlreadyDisplayed = false
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
-            reminderDate = DateUtils.formatDate(chosenYear, chosenMonth, chosenDay)
+            reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
             chosenReminderYear = chosenYear
             chosenReminderMonth = chosenMonth
             chosenReminderDay = chosenDay
@@ -346,15 +352,15 @@ class EditActivity : AppCompatActivity() {
 
     private fun displayTimePickerDialog() {
         val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
+        val hour = if (chosenReminderHour == 0) calendar.get(Calendar.HOUR_OF_DAY) else chosenReminderHour
+        val minute = if (chosenReminderHour == 0) calendar.get(Calendar.MINUTE) else chosenReminderMinute
 
         wasTimePickerAlreadyDisplayed = true
         TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, chosenHour, chosenMinute ->
             if (view.isShown) {
                 this.chosenReminderHour = chosenHour
                 this.chosenReminderMinute = chosenMinute
-                val time = DateUtils.formatTime(chosenHour, chosenMinute)
+                val time = formatTime(chosenHour, chosenMinute)
                 reminderDate = formatDateAccordingToSettings(reminderDate,
                         defaultPrefs(this)["dateFormat"] ?: "")
                 reminderDate += " $time"
@@ -536,6 +542,7 @@ class EditActivity : AppCompatActivity() {
     private fun startCropImageActivity(imageUri: Uri) {
         CropImage.activity(imageUri)
                 .setAspectRatio(18, 9)
+                .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
                 .setFixAspectRatio(true)
                 .start(this)
     }
