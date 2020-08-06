@@ -6,15 +6,15 @@ apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "com.arkadiusz.dayscounter"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 47
-        versionName "2.4.3"
+        targetSdkVersion 29
+        versionCode 49
+        versionName "2.5.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,6 +45,9 @@ android {
 repositories {
     maven {
         url 'https://maven.google.com'
+    }
+    maven {
+        url 'https://jitpack.io'
     }
     mavenCentral()
 }
@@ -87,7 +90,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //image cropper
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
+    implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.2'
 
     //color picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
