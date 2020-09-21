@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //image cropper
-    implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.2'
+    implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.3'
 
     //color picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
