@@ -32,15 +32,19 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: DetailActivityViewModel
 
-    private var passedEventId: String = ""
     private lateinit var passedEvent: Event
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+
         initViewModel()
-        getPassedEventAndFinishIfNull()
+        val wasSuccessfullyFetched = fetchPassedEvent()
+        if (!wasSuccessfullyFetched) {
+            displayToastAndFinishActivity()
+            return
+        }
         setStatusBarColor()
         setUpToolbar()
         cancelNotification()
@@ -57,17 +61,17 @@ class DetailActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_edit -> {
-                startActivity<EditActivity>("eventId" to passedEventId)
+                startActivity<EditActivity>("eventId" to passedEvent.id)
                 finish()
             }
 
             R.id.action_delete -> {
                 alert(getString(R.string.fragment_delete_dialog_question)) {
                     positiveButton(android.R.string.yes) {
-                        viewModel.deleteEvent(passedEventId)
+                        viewModel.deleteEvent(passedEvent.id)
                         finish()
                     }
                     negativeButton(android.R.string.no) {}
@@ -82,15 +86,12 @@ class DetailActivity : AppCompatActivity() {
         viewModel = getViewModel(this)
     }
 
-    private fun getPassedEventAndFinishIfNull() {
-        passedEventId = intent.getStringExtra("event_id")
-        val event = viewModel.getEventById(passedEventId)
-        if (event == null) {
-            displayToastAndFinishActivity()
-            return
-        } else {
+    private fun fetchPassedEvent(): Boolean {
+        val event = viewModel.getEventById(intent.getStringExtra("event_id")!!)
+        if (event != null) {
             passedEvent = event
         }
+        return event != null
     }
 
     private fun displayToastAndFinishActivity() {
@@ -113,7 +114,7 @@ class DetailActivity : AppCompatActivity() {
         val isComingFromNotification = intent.getStringExtra("notificationClick")
 
         if (isComingFromNotification != null && isComingFromNotification == "clicked") {
-            notificationManager.cancel(passedEventId.hashCode())
+            notificationManager.cancel(passedEvent.id.hashCode())
         }
     }
 
@@ -185,10 +186,12 @@ class DetailActivity : AppCompatActivity() {
 
     private fun fillReminderSection() {
         if (passedEvent.reminderYear != 0) {
-            val reminderDate = "${formatDateAccordingToSettings(formatDate(passedEvent.reminderYear,
-                    passedEvent.reminderMonth,
-                    passedEvent.reminderDay),
-                    defaultPrefs(this)["dateFormat"] ?: "")} " +
+            val reminderDate = "${
+                formatDateAccordingToSettings(formatDate(passedEvent.reminderYear,
+                        passedEvent.reminderMonth,
+                        passedEvent.reminderDay),
+                        defaultPrefs(this)["dateFormat"] ?: "")
+            } " +
                     formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)
 
             reminderSectionText.text = reminderDate
