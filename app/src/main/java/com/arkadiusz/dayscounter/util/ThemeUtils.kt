@@ -1,7 +1,7 @@
-package com.arkadiusz.dayscounter.utils
+package com.arkadiusz.dayscounter.util
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.get
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.content.Context
 import com.arkadiusz.dayscounter.R
 

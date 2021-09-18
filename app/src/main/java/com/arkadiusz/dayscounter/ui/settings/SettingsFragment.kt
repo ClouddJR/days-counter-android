@@ -13,16 +13,15 @@ import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
-import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
-import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
-import com.arkadiusz.dayscounter.utils.StorageUtils
-import com.arkadiusz.dayscounter.utils.StorageUtils.isCorrectFileChosenForImport
+import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
+import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
+import com.arkadiusz.dayscounter.util.StorageUtils
+import com.arkadiusz.dayscounter.util.StorageUtils.isCorrectFileChosenForImport
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import java.io.File
-
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -34,8 +33,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val REQUEST_FILE_CHOOSING = 3
 
     private val PERMISSIONS_STORAGE = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE)
-
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -53,21 +52,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setUpRatePreference() {
         val ratePreference = findPreference<Preference>("rate")
-        ratePreference.setOnPreferenceClickListener {
+        ratePreference?.setOnPreferenceClickListener {
             val appPackageName = context?.packageName // package name of the app
             try {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
             } catch (exception: android.content.ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
             }
             true
-
         }
     }
 
     private fun setUpPremiumPreference() {
         val premiumPreference = findPreference<Preference>("premium")
-        premiumPreference.setOnPreferenceClickListener {
+        premiumPreference?.setOnPreferenceClickListener {
             context?.startActivity<PremiumActivity>()
             true
         }
@@ -75,13 +83,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setUpAboutPreferences() {
         val policyPreference = findPreference<Preference>("privacy_policy")
-        policyPreference.setOnPreferenceClickListener {
+        policyPreference?.setOnPreferenceClickListener {
             context?.browse("https://sites.google.com/view/dcprivacypolicy")
             true
         }
 
         val contactPreference = findPreference<Preference>("contact")
-        contactPreference.setOnPreferenceClickListener {
+        contactPreference?.setOnPreferenceClickListener {
             context?.email("arekchmura@gmail.com", "Days Counter app")
             true
         }
@@ -89,7 +97,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setUpBackupPreferences() {
         val exportPreference = findPreference<Preference>("backup_export")
-        exportPreference.setOnPreferenceClickListener {
+        exportPreference?.setOnPreferenceClickListener {
             activity?.let { activity ->
                 checkStoragePermissions(activity, true)
             }
@@ -97,7 +105,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         val importPreference = findPreference<Preference>("backup_import")
-        importPreference.setOnPreferenceClickListener {
+        importPreference?.setOnPreferenceClickListener {
             activity?.let { activity ->
                 checkStoragePermissions(activity, false)
             }
@@ -109,13 +117,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val themesPreference = findPreference<Preference>("theme")
 
         if (!isPremiumUser(context)) {
-            themesPreference.setOnPreferenceClickListener {
+            themesPreference?.setOnPreferenceClickListener {
                 displayPremiumInfoDialog(context)
                 true
             }
 
         } else {
-            themesPreference.setOnPreferenceChangeListener { _, _ ->
+            themesPreference?.setOnPreferenceChangeListener { _, _ ->
                 activity?.recreate()
                 true
             }
@@ -124,13 +132,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 
     private fun checkStoragePermissions(activity: Activity, exporting: Boolean) {
-        val permission = ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val permission = ActivityCompat.checkSelfPermission(
+            activity,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
-                    PERMISSIONS_STORAGE,
-                    if (exporting) REQUEST_EXPORT_DATA else REQUEST_IMPORT_DATA
+                PERMISSIONS_STORAGE,
+                if (exporting) REQUEST_EXPORT_DATA else REQUEST_IMPORT_DATA
             )
         } else {
             if (exporting) {
@@ -141,8 +151,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         when (requestCode) {
             REQUEST_IMPORT_DATA -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
@@ -180,7 +192,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun launchImportIntent() {
         val intent = Intent()
 
-        val backupPath = StorageUtils.getBackupPath(context!!)
+        val backupPath = StorageUtils.getBackupPath(requireContext())
 
         if (File(backupPath).exists()) {
             val uri = Uri.parse(backupPath)

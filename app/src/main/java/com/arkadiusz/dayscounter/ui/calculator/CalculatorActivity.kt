@@ -1,14 +1,12 @@
 package com.arkadiusz.dayscounter.ui.calculator
 
-import PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -16,18 +14,18 @@ import androidx.lifecycle.Observer
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.DateComponents
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
-import com.arkadiusz.dayscounter.utils.DateUtils.generateCounterText
-import com.arkadiusz.dayscounter.utils.PurchasesUtils
-import com.arkadiusz.dayscounter.utils.ThemeUtils
+import com.arkadiusz.dayscounter.util.DateUtils.generateCounterText
+import com.arkadiusz.dayscounter.util.PurchasesUtils
+import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.formats.UnifiedNativeAd
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.activity_calculator.view.*
 import kotlinx.android.synthetic.main.ad_layout.*
 import kotlinx.android.synthetic.main.event_compact_counter_stack.view.*
-import java.lang.IllegalStateException
 import java.util.*
 
 class CalculatorActivity : AppCompatActivity() {
@@ -52,15 +50,17 @@ class CalculatorActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_calculate -> {
-                viewModel.calculate(CalculatorComponentsHolder(
+                viewModel.calculate(
+                    CalculatorComponentsHolder(
                         daysCheckbox.isChecked,
                         monthsCheckbox.isChecked,
                         weeksCheckbox.isChecked,
                         yearsCheckbox.isChecked
-                ))
+                    )
+                )
             }
         }
 
@@ -82,11 +82,13 @@ class CalculatorActivity : AppCompatActivity() {
             showAndFillRelevantSections(components)
         })
 
-        viewModel.additionalFormatsCalculatedComponents.observe(this, Observer { additionalFormats ->
-            removePreviousAdditionalFormats()
-            addAdditionalFormats(additionalFormats)
-            scrollToBottom()
-        })
+        viewModel.additionalFormatsCalculatedComponents.observe(
+            this,
+            Observer { additionalFormats ->
+                removePreviousAdditionalFormats()
+                addAdditionalFormats(additionalFormats)
+                scrollToBottom()
+            })
 
         viewModel.showStartDatePicker.observe(this, Observer { previouslyChosenComponents ->
             showDatePicker(startDateEditText, previouslyChosenComponents)
@@ -128,37 +130,37 @@ class CalculatorActivity : AppCompatActivity() {
         if (yearsCheckbox.isChecked) {
             resultCardView.counterStackView.yearsSection.visibility = View.VISIBLE
             resultCardView.counterStackView.yearsCaptionTextView.text = resources.getQuantityText(
-                    R.plurals.years_number, components.years
+                R.plurals.years_number, components.years
             )
             resultCardView.counterStackView.yearsNumberTextView
-                    .text = components.years.toString()
+                .text = components.years.toString()
         }
 
         if (monthsCheckbox.isChecked) {
             resultCardView.counterStackView.monthsSection.visibility = View.VISIBLE
             resultCardView.counterStackView.monthsCaptionTextView.text = resources.getQuantityText(
-                    R.plurals.months_number, components.months
+                R.plurals.months_number, components.months
             )
             resultCardView.counterStackView.monthsNumberTextView
-                    .text = components.months.toString()
+                .text = components.months.toString()
         }
 
         if (weeksCheckbox.isChecked) {
             resultCardView.counterStackView.weeksSection.visibility = View.VISIBLE
             resultCardView.counterStackView.weeksCaptionTextView.text = resources.getQuantityText(
-                    R.plurals.weeks_number, components.weeks
+                R.plurals.weeks_number, components.weeks
             )
             resultCardView.counterStackView.weeksNumberTextView
-                    .text = components.weeks.toString()
+                .text = components.weeks.toString()
         }
 
         if (daysCheckbox.isChecked) {
             resultCardView.counterStackView.daysSection.visibility = View.VISIBLE
             resultCardView.counterStackView.daysCaptionTextView.text = resources.getQuantityText(
-                    R.plurals.days_number, components.days
+                R.plurals.days_number, components.days
             )
             resultCardView.counterStackView.daysNumberTextView
-                    .text = components.days.toString()
+                .text = components.days.toString()
         }
     }
 
@@ -166,38 +168,49 @@ class CalculatorActivity : AppCompatActivity() {
         resultLinearLayout.removeViews(3, resultLinearLayout.childCount - 3)
     }
 
-    private fun addAdditionalFormats(additionalFormats: List<Pair<CalculatorComponentsHolder,
-            DateComponents>>) {
+    private fun addAdditionalFormats(
+        additionalFormats: List<Pair<CalculatorComponentsHolder,
+                DateComponents>>
+    ) {
         additionalFormats.forEach { pair ->
             val componentsHolder = pair.first
             val calculatedComponents = pair.second
-            val counterText = createCounterTextForAdditionalFormat(componentsHolder,
-                    calculatedComponents)
+            val counterText = createCounterTextForAdditionalFormat(
+                componentsHolder,
+                calculatedComponents
+            )
             val textView = createAdditionalFormatTextView(counterText)
             resultLinearLayout.addView(textView)
         }
     }
 
-    private fun createCounterTextForAdditionalFormat(componentsHolder: CalculatorComponentsHolder,
-                                                     calculatedComponents: DateComponents): String {
+    private fun createCounterTextForAdditionalFormat(
+        componentsHolder: CalculatorComponentsHolder,
+        calculatedComponents: DateComponents
+    ): String {
         return if (!componentsHolder.onlyWorkDays) {
-            generateCounterText(calculatedComponents.years,
-                    calculatedComponents.months, calculatedComponents.weeks,
-                    calculatedComponents.days, componentsHolder.areYearsIncluded,
-                    componentsHolder.areMonthsIncluded, componentsHolder.areWeeksIncluded,
-                    componentsHolder.areDaysIncluded, this)
+            generateCounterText(
+                calculatedComponents.years,
+                calculatedComponents.months, calculatedComponents.weeks,
+                calculatedComponents.days, componentsHolder.areYearsIncluded,
+                componentsHolder.areMonthsIncluded, componentsHolder.areWeeksIncluded,
+                componentsHolder.areDaysIncluded, this
+            )
         } else {
             "${calculatedComponents.days} " +
                     resources.getQuantityString(
-                            R.plurals.workdays_number, calculatedComponents.days)
+                        R.plurals.workdays_number, calculatedComponents.days
+                    )
         }
     }
 
     private fun createAdditionalFormatTextView(counterText: String): TextView {
         val textView = TextView(this)
         val params = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-        params.marginStart = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                8f, resources.displayMetrics).toInt()
+        params.marginStart = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            8f, resources.displayMetrics
+        ).toInt()
         textView.layoutParams = params
         textView.text = counterText
         return textView
@@ -213,14 +226,16 @@ class CalculatorActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         val year = if (components.years == 0) calendar.get(Calendar.YEAR) else components.years
         val month = if (components.years == 0) calendar.get(Calendar.MONTH) else components.months
-        val day = if (components.years == 0) calendar.get(Calendar.DAY_OF_MONTH) else components.days
+        val day =
+            if (components.years == 0) calendar.get(Calendar.DAY_OF_MONTH) else components.days
 
         DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear,
                                                                     chosenMonth, chosenDay ->
             val chosenDateComponents = DateComponents(
-                    years = chosenYear,
-                    months = chosenMonth,
-                    days = chosenDay)
+                years = chosenYear,
+                months = chosenMonth,
+                days = chosenDay
+            )
 
             if (editText == startDateEditText) {
                 viewModel.dateForStartDateChosen(chosenDateComponents)
@@ -247,23 +262,23 @@ class CalculatorActivity : AppCompatActivity() {
         if (!PurchasesUtils.isPremiumUser(this)) {
             try {
                 val builder = AdLoader.Builder(this, "ca-app-pub-4098342918729972/9751345592")
-                adLoader = builder.forUnifiedNativeAd { unifiedNativeAd ->
+                adLoader = builder.forNativeAd { nativeAd ->
                     //ad loaded successfully
                     if (!adLoader.isLoading) {
                         if (adCardView != null) {
                             adCardView.visibility = View.VISIBLE
-                            populateNativeAdView(unifiedNativeAd)
+                            populateNativeAdView(nativeAd)
                         }
                     }
                 }.withAdListener(
-                        object : AdListener() {
-                            override fun onAdFailedToLoad(errorCode: Int) {
-                                //ad failed to load, so hide ad section
-                                if (adCardView != null) {
-                                    adCardView.visibility = View.GONE
-                                }
+                    object : AdListener() {
+                        override fun onAdFailedToLoad(error: LoadAdError) {
+                            //ad failed to load, so hide ad section
+                            if (adCardView != null) {
+                                adCardView.visibility = View.GONE
                             }
-                        }).build()
+                        }
+                    }).build()
 
                 adLoader.loadAd(AdRequest.Builder().build())
             } catch (e: IllegalStateException) {
@@ -272,7 +287,7 @@ class CalculatorActivity : AppCompatActivity() {
         }
     }
 
-    private fun populateNativeAdView(nativeAd: UnifiedNativeAd) {
+    private fun populateNativeAdView(nativeAd: NativeAd) {
         // These assets are guaranteed to be in every UnifiedNativeAd
         (adView.headlineView as TextView).text = nativeAd.headline
         (adView.bodyView as TextView).text = nativeAd.body

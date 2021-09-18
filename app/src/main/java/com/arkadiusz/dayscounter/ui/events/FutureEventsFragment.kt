@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.get
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.content.SharedPreferences
@@ -29,10 +29,6 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
 
-/**
- * Created by arkadiusz on 23.03.18
- */
-
 class FutureEventsFragment : Fragment() {
 
     private lateinit var viewModel: EventsViewModel
@@ -50,8 +46,10 @@ class FutureEventsFragment : Fragment() {
         setUpContextOptions()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.future_fragment, container, false)
         observeState()
         initRecyclerView(view)
@@ -78,8 +76,10 @@ class FutureEventsFragment : Fragment() {
     }
 
     private fun setUpContextOptions() {
-        eventContextOptions = listOf(getString(R.string.fragment_main_dialog_option_edit),
-                getString(R.string.fragment_main_dialog_option_delete))
+        eventContextOptions = listOf(
+            getString(R.string.fragment_main_dialog_option_edit),
+            getString(R.string.fragment_main_dialog_option_delete)
+        )
     }
 
     private fun observeState() {
@@ -94,45 +94,45 @@ class FutureEventsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object :
-                RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
-                    override fun onItemClick(view: View?, position: Int) {
-                        val id = eventsList[position]!!.id
-                        context?.startActivity<DetailActivity>("event_id" to id)
-                    }
+            RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+                    val id = eventsList[position]!!.id
+                    context?.startActivity<DetailActivity>("event_id" to id)
+                }
 
-                    override fun onItemLongClick(view: View?, position: Int) {
-                        vibration()
-                        displayEventOptions(eventsList[position]!!)
-                    }
+                override fun onItemLongClick(view: View?, position: Int) {
+                    vibration()
+                    displayEventOptions(eventsList[position]!!)
+                }
 
-                }) {})
+            }) {})
     }
 
     private fun setUpRecyclerViewData(isCompactView: Boolean) {
         val adapter = EventsAdapter(context!!, isCompactView, eventsList,
-                object : EventsAdapter.Delegate {
-                    override fun moveEventToFuture(event: Event) {
-                        viewModel.moveEventToFuture(event)
-                    }
+            object : EventsAdapter.Delegate {
+                override fun moveEventToFuture(event: Event) {
+                    viewModel.moveEventToFuture(event)
+                }
 
-                    override fun moveEventToPast(event: Event) {
-                        viewModel.moveEventToPast(event)
-                    }
+                override fun moveEventToPast(event: Event) {
+                    viewModel.moveEventToPast(event)
+                }
 
-                    override fun repeatEvent(event: Event) {
-                        viewModel.repeatEvent(event)
-                    }
+                override fun repeatEvent(event: Event) {
+                    viewModel.repeatEvent(event)
+                }
 
-                    override fun saveCloudImageLocallyFrom(event: Event, context: Context) {
-                        viewModel.saveCloudImageLocallyFrom(event, context)
-                    }
-                })
+                override fun saveCloudImageLocallyFrom(event: Event, context: Context) {
+                    viewModel.saveCloudImageLocallyFrom(event, context)
+                }
+            })
         recyclerView.adapter = adapter
     }
 
     private fun scheduleRVAnimation() {
         recyclerView.layoutAnimation =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_bottom_top)
+            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_bottom_top)
         recyclerView.scheduleLayoutAnimation()
     }
 
@@ -147,8 +147,10 @@ class FutureEventsFragment : Fragment() {
 
     private fun displayEventOptions(event: Event) {
         context?.let { ctx ->
-            ctx.selector(getString(R.string.fragment_main_dialog_title),
-                    eventContextOptions) { _, i ->
+            ctx.selector(
+                getString(R.string.fragment_main_dialog_title),
+                eventContextOptions
+            ) { _, i ->
                 when (i) {
                     0 -> ctx.startActivity<EditActivity>("eventId" to event.id)
                     1 -> {

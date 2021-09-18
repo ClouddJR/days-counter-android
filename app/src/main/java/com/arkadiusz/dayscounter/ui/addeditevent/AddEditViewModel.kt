@@ -5,7 +5,7 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 
 class AddEditViewModel(
-        private val databaseRepository: DatabaseRepository = DatabaseRepository()
+    private val databaseRepository: DatabaseRepository = DatabaseRepository()
 ) : ViewModel() {
 
     override fun onCleared() {

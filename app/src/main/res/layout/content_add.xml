@@ -1,165 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="false">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/cardConstraint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.32" />
+            android:id="@+id/cardConstraint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.32" />
 
     <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?themePrimary"
-        app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?themePrimary"
+            app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/eventImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/a57"
-        android:tint="#3C000000"
-        app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/eventImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/a57"
+            android:tint="#3C000000"
+            app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/eventCalculateText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/eventLine"
-        app:layout_constraintEnd_toEndOf="@+id/eventImage"
-        app:layout_constraintStart_toStartOf="@+id/eventImage" />
+            android:id="@+id/eventCalculateText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/eventLine"
+            app:layout_constraintEnd_toEndOf="@+id/eventImage"
+            app:layout_constraintStart_toStartOf="@+id/eventImage" />
 
     <View
-        android:id="@+id/eventLine"
-        android:layout_width="120dp"
-        android:layout_height="1.5dp"
-        android:background="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/eventImage"
-        app:layout_constraintEnd_toEndOf="@+id/eventImage"
-        app:layout_constraintStart_toStartOf="@+id/eventImage"
-        app:layout_constraintTop_toTopOf="@+id/eventImage" />
+            android:id="@+id/eventLine"
+            android:layout_width="120dp"
+            android:layout_height="1.5dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImage"
+            app:layout_constraintEnd_toEndOf="@+id/eventImage"
+            app:layout_constraintStart_toStartOf="@+id/eventImage"
+            app:layout_constraintTop_toTopOf="@+id/eventImage" />
 
     <TextView
-        android:id="@+id/eventTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="16dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="3"
-        android:text="@string/add_activity_preview_title"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/eventImage"
-        app:layout_constraintStart_toStartOf="@id/eventImage"
-        app:layout_constraintTop_toBottomOf="@id/eventLine" />
+            android:id="@+id/eventTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="3"
+            android:text="@string/add_activity_preview_title"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/eventImage"
+            app:layout_constraintStart_toStartOf="@id/eventImage"
+            app:layout_constraintTop_toBottomOf="@id/eventLine" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/add_activity_preview"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="@id/eventImage"
-        app:layout_constraintTop_toBottomOf="@id/eventImage" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/add_activity_preview"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="@id/eventImage"
+            app:layout_constraintTop_toBottomOf="@id/eventImage" />
 
     <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardConstraint">
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardConstraint">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="24dp">
-
-            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="?themeCardBackground">
+                android:orientation="vertical"
+                android:paddingBottom="24dp">
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                         <com.arkadiusz.dayscounter.utils.ClearableEditText
-                            android:id="@+id/titleEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/add_activity_name_form"
-                            android:text="@string/add_activity_preview_title" />
+                                android:id="@+id/titleEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/add_activity_name_form"
+                                android:text="@string/add_activity_preview_title" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/dateEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:hint="@string/add_activity_date_form"
-                            android:inputType="date" />
+                                android:id="@+id/dateEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusable="false"
+                                android:hint="@string/add_activity_date_form"
+                                android:inputType="date" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                         <com.arkadiusz.dayscounter.utils.ClearableEditText
-                            android:id="@+id/descriptionEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/add_activity_describe_form"
-                            android:maxLines="5"
-                            android:scrollbars="vertical" />
+                                android:id="@+id/descriptionEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/add_activity_describe_form"
+                                android:maxLines="5"
+                                android:scrollbars="vertical" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,60 +166,60 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="?themeCardBackground">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/add_reminder"
-                        android:textColor="?themePrimaryFontColor" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_reminder"
+                            android:textColor="?themePrimaryFontColor" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
 
                         <EditText
-                            android:id="@+id/reminderDateEditText"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.65"
-                            android:focusable="false"
-                            android:hint="@string/add_reminder_editText_hint"
-                            android:inputType="date" />
+                                android:id="@+id/reminderDateEditText"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.65"
+                                android:focusable="false"
+                                android:hint="@string/add_reminder_editText_hint"
+                                android:inputType="date" />
 
                         <Button
-                            android:id="@+id/clearReminderDateButton"
-                            style="?android:attr/buttonBarButtonStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.25"
-                            android:text="@string/add_activity_clear_date"
-                            android:textSize="12sp" />
+                                android:id="@+id/clearReminderDateButton"
+                                style="?android:attr/buttonBarButtonStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:text="@string/add_activity_clear_date"
+                                android:textSize="12sp" />
 
                     </LinearLayout>
 
                     <com.arkadiusz.dayscounter.utils.ClearableEditText
-                        android:id="@+id/reminderTextEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="0.75"
-                        android:hint="@string/add_reminder_editText_notification" />
+                            android:id="@+id/reminderTextEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_weight="0.75"
+                            android:hint="@string/add_reminder_editText_notification" />
 
                 </LinearLayout>
 
@@ -228,99 +227,99 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="?themeCardBackground">
-
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="?themeCardBackground">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.3"
-                        android:text="@string/add_repeat"
-                        android:textColor="?themePrimaryFontColor" />
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.3"
+                            android:text="@string/add_repeat"
+                            android:textColor="?themePrimaryFontColor" />
 
                     <Spinner
-                        android:id="@+id/repeatSpinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.7"
-                        android:popupBackground="?themeCardBackground" />
+                            android:id="@+id/repeatSpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.7"
+                            android:popupBackground="?themeCardBackground" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="?themeCardBackground">
-
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="?themeCardBackground">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_weight="0.3"
-                        android:text="@string/add_activity_format_text"
-                        android:textColor="?themePrimaryFontColor" />
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center"
+                            android:layout_weight="0.3"
+                            android:text="@string/add_activity_format_text"
+                            android:textColor="?themePrimaryFontColor" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="0.7"
-                        android:orientation="vertical">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="0.7"
+                            android:orientation="vertical">
 
                         <CheckBox
-                            android:id="@+id/yearsCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_years"
-                            android:textColor="?themeSecondaryFontColor" />
+                                android:id="@+id/yearsCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/date_utils_multiple_years"
+                                android:textColor="?themeSecondaryFontColor" />
 
                         <CheckBox
-                            android:id="@+id/monthsCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_months"
-                            android:textColor="?themeSecondaryFontColor" />
+                                android:id="@+id/monthsCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/date_utils_multiple_months"
+                                android:textColor="?themeSecondaryFontColor" />
 
                         <CheckBox
-                            android:id="@+id/weeksCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_weeks"
-                            android:textColor="?themeSecondaryFontColor" />
+                                android:id="@+id/weeksCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/date_utils_multiple_weeks"
+                                android:textColor="?themeSecondaryFontColor" />
 
                         <CheckBox
-                            android:id="@+id/daysCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_days"
-                            android:textColor="?themeSecondaryFontColor" />
+                                android:id="@+id/daysCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/date_utils_multiple_days"
+                                android:textColor="?themeSecondaryFontColor" />
 
                     </LinearLayout>
 
@@ -329,153 +328,153 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="?themeCardBackground">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:layout_weight="0.4"
-                            android:text="@string/add_activity_line_divider"
-                            android:textColor="?themePrimaryFontColor" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:layout_weight="0.4"
+                                android:text="@string/add_activity_line_divider"
+                                android:textColor="?themePrimaryFontColor" />
 
                         <CheckBox
-                            android:id="@+id/showDividerCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_weight="0.6"
-                            android:gravity="start" />
+                                android:id="@+id/showDividerCheckbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_weight="0.6"
+                                android:gravity="start" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:layout_weight="0.4"
-                            android:text="@string/add_activity_counter_font_size"
-                            android:textColor="?themePrimaryFontColor" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:layout_weight="0.4"
+                                android:text="@string/add_activity_counter_font_size"
+                                android:textColor="?themePrimaryFontColor" />
 
                         <Spinner
-                            android:id="@+id/counterFontSizeSpinner"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="0.6"
-                            android:popupBackground="?themeCardBackground" />
+                                android:id="@+id/counterFontSizeSpinner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="0.6"
+                                android:popupBackground="?themeCardBackground" />
 
                     </LinearLayout>
 
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:layout_weight="0.4"
-                            android:text="@string/add_activity_title_font_size"
-                            android:textColor="?themePrimaryFontColor" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:layout_weight="0.4"
+                                android:text="@string/add_activity_title_font_size"
+                                android:textColor="?themePrimaryFontColor" />
 
                         <Spinner
-                            android:id="@+id/titleFontSizeSpinner"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="0.6"
-                            android:popupBackground="?themeCardBackground" />
+                                android:id="@+id/titleFontSizeSpinner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="0.6"
+                                android:popupBackground="?themeCardBackground" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:layout_weight="0.4"
-                            android:text="@string/add_activity_font_type"
-                            android:textColor="?themePrimaryFontColor" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:layout_weight="0.4"
+                                android:text="@string/add_activity_font_type"
+                                android:textColor="?themePrimaryFontColor" />
 
                         <Spinner
-                            android:id="@+id/fontTypeSpinner"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="0.6"
-                            android:popupBackground="?themeCardBackground" />
+                                android:id="@+id/fontTypeSpinner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="0.6"
+                                android:popupBackground="?themeCardBackground" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:layout_weight="0.4"
-                            android:text="@string/add_activity_font_color"
-                            android:textColor="?themePrimaryFontColor" />
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center"
+                                android:layout_weight="0.4"
+                                android:text="@string/add_activity_font_color"
+                                android:textColor="?themePrimaryFontColor" />
 
                         <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.6">
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.6">
 
                             <FrameLayout
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="start"
-                                android:layout_marginStart="16dp"
-                                android:background="@android:color/darker_gray"
-                                android:padding="1dp">
-
-                                <ImageView
-                                    android:id="@+id/colorImageView"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:layout_gravity="center"
-                                    android:background="#ffffff" />
+                                    android:layout_gravity="start"
+                                    android:layout_marginStart="16dp"
+                                    android:background="@android:color/darker_gray"
+                                    android:padding="1dp">
+
+                                <ImageView
+                                        android:id="@+id/colorImageView"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_gravity="center"
+                                        android:background="#ffffff" />
 
                             </FrameLayout>
                         </FrameLayout>
@@ -485,53 +484,53 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:backgroundTint="?themeCardBackground">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:layout_weight="0.4"
-                        android:text="@string/add_activity_picture_dim"
-                        android:textColor="?themePrimaryFontColor" />
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center"
+                            android:layout_weight="0.4"
+                            android:text="@string/add_activity_picture_dim"
+                            android:textColor="?themePrimaryFontColor" />
 
                     <SeekBar
-                        android:id="@+id/pictureDimSeekBar"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:max="17"
-                        android:progress="4" />
+                            android:id="@+id/pictureDimSeekBar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:max="17"
+                            android:progress="4" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/addButton"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginEnd="55dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/add_activity_add_button"
-                android:textColor="#ffffff" />
+                    android:id="@+id/addButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="55dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_background"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/add_activity_add_button"
+                    android:textColor="#ffffff" />
 
 
         </LinearLayout>
@@ -539,17 +538,17 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/imageChooserButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_action_picture"
-        app:backgroundTint="?themeLightAccent"
-        app:layout_constraintBottom_toTopOf="@id/scrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/scrollView" />
+            android:id="@+id/imageChooserButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_action_picture"
+            app:backgroundTint="?themeLightAccent"
+            app:layout_constraintBottom_toTopOf="@id/scrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/scrollView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,8 @@
 package com.arkadiusz.dayscounter.ui.main
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.get
-import PreferenceUtils.set
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
+import com.arkadiusz.dayscounter.util.PreferenceUtils.set
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -19,23 +19,21 @@ import com.arkadiusz.dayscounter.data.repository.UserRepository
 import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.calculator.CalculatorActivity
-import com.arkadiusz.dayscounter.ui.events.FutureEventsFragment
 import com.arkadiusz.dayscounter.ui.events.PastEventsFragment
 import com.arkadiusz.dayscounter.ui.login.LoginActivity
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
 import com.arkadiusz.dayscounter.ui.settings.SettingsActivity
 import com.arkadiusz.dayscounter.util.purchaseutils.IabHelper
-import com.arkadiusz.dayscounter.utils.PurchasesUtils
-import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
-import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
-import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
+import com.arkadiusz.dayscounter.util.PurchasesUtils
+import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
+import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
+import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,9 +74,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.action_syncing -> {
                 if (isPremiumUser(this)) {
                     if (!userRepository.isLoggedIn()) {
@@ -135,8 +132,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPager() {
-        viewPagerAdapter = ViewPagerAdapter(this, supportFragmentManager,
-                prefs["default_fragment"] ?: "")
+        viewPagerAdapter = ViewPagerAdapter(
+            this, supportFragmentManager,
+            prefs["default_fragment"] ?: ""
+        )
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
@@ -149,11 +148,11 @@ class MainActivity : AppCompatActivity() {
     private fun setUpFABClickListener() {
         fab.setOnClickListener {
             val eventType =
-                    if (viewPagerAdapter.getItem(viewPager.currentItem) is PastEventsFragment) {
-                        "past"
-                    } else {
-                        "future"
-                    }
+                if (viewPagerAdapter.getItem(viewPager.currentItem) is PastEventsFragment) {
+                    "past"
+                } else {
+                    "future"
+                }
             startActivity<AddActivity>("Event Type" to eventType)
         }
     }
@@ -177,12 +176,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpWorkerManager() {
         val widgetUpdateRequest = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(3, TimeUnit.HOURS)
-                .build()
+            .build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-                WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
-                ExistingPeriodicWorkPolicy.REPLACE,
-                widgetUpdateRequest)
+            WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            widgetUpdateRequest
+        )
     }
 
     private fun highlightCalculatorFeature() {
@@ -190,11 +190,11 @@ class MainActivity : AppCompatActivity() {
         if (!wasShown) {
             calculatorIcon?.let { icon ->
                 TapTargetView.showFor(this, TapTarget.forView(
-                                icon,
-                                getString(R.string.new_feature_title),
-                                getString(R.string.new_feature_calculator)
-                        )
-                        .targetRadius(50), object : TapTargetView.Listener() {
+                    icon,
+                    getString(R.string.new_feature_title),
+                    getString(R.string.new_feature_calculator)
+                )
+                    .targetRadius(50), object : TapTargetView.Listener() {
                     override fun onTargetLongClick(view: TapTargetView?) {
                         super.onTargetLongClick(view)
                         setCalculatorFeatureAsSeen()
@@ -210,7 +210,10 @@ class MainActivity : AppCompatActivity() {
                         setCalculatorFeatureAsSeen()
                     }
 
-                    override fun onTargetDismissed(view: TapTargetView?, userInitiated: Boolean) {
+                    override fun onTargetDismissed(
+                        view: TapTargetView?,
+                        userInitiated: Boolean
+                    ) {
                         super.onTargetDismissed(view, userInitiated)
                         setCalculatorFeatureAsSeen()
                     }

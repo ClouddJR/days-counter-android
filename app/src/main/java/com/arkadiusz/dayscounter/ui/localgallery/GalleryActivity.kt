@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.ui.localgallery
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.get
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,14 +9,10 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
-import com.arkadiusz.dayscounter.utils.ThemeUtils
+import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_gallery.*
 import org.jetbrains.anko.startActivity
-
-/**
- * Created by arkadiusz on 11.03.18
- */
 
 class GalleryActivity : AppCompatActivity() {
 
@@ -39,7 +35,7 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     private fun receiveActivityType() {
-        activityType = intent.getStringExtra("activity")
+        activityType = intent.getStringExtra("activity")!!
     }
 
     private fun setUpImagesList() {
@@ -52,17 +48,25 @@ class GalleryActivity : AppCompatActivity() {
     private fun setUpRecyclerView() {
         val galleryAdapter = GalleryAdapter(imagesList, this)
         galleryRV.setHasFixedSize(true)
-        galleryRV.layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(2, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
+        galleryRV.layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
+            2,
+            androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
+        )
         galleryRV.adapter = galleryAdapter
-        galleryRV.addOnItemTouchListener(RecyclerItemClickListener(this, galleryRV, object : RecyclerItemClickListener.OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-                sendImageToAddActivity(position)
-            }
+        galleryRV.addOnItemTouchListener(
+            RecyclerItemClickListener(
+                this,
+                galleryRV,
+                object : RecyclerItemClickListener.OnItemClickListener {
+                    override fun onItemClick(view: View?, position: Int) {
+                        sendImageToAddActivity(position)
+                    }
 
-            override fun onItemLongClick(view: View?, position: Int) {
-                //not used
-            }
-        }))
+                    override fun onItemLongClick(view: View?, position: Int) {
+                        //not used
+                    }
+                })
+        )
     }
 
     private fun sendImageToAddActivity(position: Int) {

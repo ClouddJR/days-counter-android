@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.ui.premium
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.set
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.set
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -10,8 +10,8 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.util.purchaseutils.IabHelper
 import com.arkadiusz.dayscounter.util.purchaseutils.IabResult
 import com.arkadiusz.dayscounter.util.purchaseutils.Purchase
-import com.arkadiusz.dayscounter.utils.PurchasesUtils
-import com.arkadiusz.dayscounter.utils.ThemeUtils
+import com.arkadiusz.dayscounter.util.PurchasesUtils
+import com.arkadiusz.dayscounter.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_premium.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
@@ -75,11 +75,12 @@ class PremiumActivity : AppCompatActivity(), IabHelper.OnIabPurchaseFinishedList
     private fun setUpButtons() {
         buyButton.setOnClickListener {
             if (isHelperSetup) {
-
                 if (!isPremiumAlreadyBought) {
                     try {
-                        helper.launchPurchaseFlow(this, "1", 10001,
-                                this, "")
+                        helper.launchPurchaseFlow(
+                            this, "1", 10001,
+                            this, ""
+                        )
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -97,8 +98,10 @@ class PremiumActivity : AppCompatActivity(), IabHelper.OnIabPurchaseFinishedList
             if (isHelperSetup) {
                 if (!isPremiumBigAlreadyBought) {
                     try {
-                        helper.launchPurchaseFlow(this, "2", 10001,
-                                this, "")
+                        helper.launchPurchaseFlow(
+                            this, "2", 10001,
+                            this, ""
+                        )
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -133,15 +136,15 @@ class PremiumActivity : AppCompatActivity(), IabHelper.OnIabPurchaseFinishedList
 
     private fun displayKonfetti() {
         viewKonfetti.build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(Size(12))
-                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-                .streamFor(200, 3000L)
+            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE)
+            .setDirection(0.0, 359.0)
+            .setSpeed(1f, 5f)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(2000L)
+            .addShapes(Shape.RECT, Shape.CIRCLE)
+            .addSizes(Size(12))
+            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+            .streamFor(200, 3000L)
         longToast(getString(R.string.premium_thank_you_dialog))
     }
 }
