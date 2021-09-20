@@ -207,9 +207,6 @@
 
     <string name="features_pro_big">Alle für die Pro-Version aufgeführten Funktionen sowie zusätzliche Unterstützung für App-Entwickler</string>
 
-    <string name="premium_already_own_dialog_title">Information</string>
-    <string name="premium_already_own_dialog_message">Sie hatten das schon gekauft</string>
-
     <!--Login-->
 
     <string name="login_activity_title">LoginActivity</string>
@@ -242,8 +239,8 @@
     <string name="internet_gallery_search_hint">Suche</string>
 
     <string name="author_link">Autor: </string>
-    <string name="detail_activity_toast_event_deleted">" Ereignis existiert nicht"</string>
-    <string name="premium_thank_you_dialog">"Vielen Dank für den Kauf einer Premium-Version! "</string>
+    <string name="detail_activity_toast_event_deleted">Ereignis existiert nicht</string>
+    <string name="premium_thank_you">🎉 Vielen Dank für den Kauf einer Premium-Version! 🎉</string>
 
     <!--Date Calculator-->
 

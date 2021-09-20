@@ -1,7 +1,5 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.content.SharedPreferences
@@ -14,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
@@ -23,6 +20,8 @@ import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -83,7 +82,7 @@ class PastEventsFragment : Fragment() {
     }
 
     private fun observeState() {
-        viewModel.isCompactViewMode.observe(viewLifecycleOwner, Observer {
+        viewModel.isCompactViewMode.observe(viewLifecycleOwner, {
             setUpRecyclerViewData(it)
             scheduleRVAnimation()
         })
