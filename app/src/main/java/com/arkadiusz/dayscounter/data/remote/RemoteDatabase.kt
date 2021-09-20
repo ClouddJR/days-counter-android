@@ -8,14 +8,10 @@ import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Observable
 import java.io.File
 
-/**
- * Created by Arkadiusz on 14.03.2018
- */
-
 class RemoteDatabase(
-        private val userRepository: UserRepository = UserRepository(),
-        private val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance(),
-        private val storage: FirebaseStorage = FirebaseStorage.getInstance()
+    private val userRepository: UserRepository = UserRepository(),
+    private val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance(),
+    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 ) {
 
     fun getNewId(): String {
@@ -30,25 +26,25 @@ class RemoteDatabase(
     fun getEvents(): Observable<List<Event>> {
         return Observable.create { emitter ->
             firestoreDatabase
-                    .collection(userRepository.getUserId())
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val tempList = mutableListOf<Event>()
-                        querySnapshot?.forEach {
-                            tempList.add(it.toObject(Event::class.java))
-                        }
+                .collection(userRepository.getUserId())
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val tempList = mutableListOf<Event>()
+                    querySnapshot?.forEach {
+                        tempList.add(it.toObject(Event::class.java))
+                    }
 
-                        emitter.onNext(tempList)
-                    }
-                    .addOnFailureListener { exception ->
-                        emitter.onError(exception)
-                    }
+                    emitter.onNext(tempList)
+                }
+                .addOnFailureListener { exception ->
+                    emitter.onError(exception)
+                }
         }
     }
 
     fun addOrUpdateEvent(event: Event) {
         val document = firestoreDatabase.collection(userRepository.getUserId())
-                .document(event.id)
+            .document(event.id)
 
         val eventToBeAdded = HashMap<String, Any>()
         eventToBeAdded["id"] = event.id
@@ -72,17 +68,14 @@ class RemoteDatabase(
         eventToBeAdded["fontColor"] = event.fontColor
         eventToBeAdded["pictureDim"] = event.pictureDim
 
-
-
         document.set(eventToBeAdded)
-
     }
 
     fun deleteEvent(event: Event?) {
         event?.let {
             firestoreDatabase.collection(userRepository.getUserId())
-                    .document(event.id)
-                    .delete()
+                .document(event.id)
+                .delete()
         }
     }
 

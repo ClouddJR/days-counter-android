@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.get
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.utils.DateUtils
-import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
-import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
-import com.arkadiusz.dayscounter.utils.DateUtils.generateTodayCalendar
-import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
-import com.arkadiusz.dayscounter.utils.FontUtils.getFontFor
+import com.arkadiusz.dayscounter.util.DateUtils
+import com.arkadiusz.dayscounter.util.DateUtils.calculateDate
+import com.arkadiusz.dayscounter.util.DateUtils.generateCalendar
+import com.arkadiusz.dayscounter.util.DateUtils.generateTodayCalendar
+import com.arkadiusz.dayscounter.util.DateUtils.getElementsFromDate
+import com.arkadiusz.dayscounter.util.FontUtils.getFontFor
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -34,15 +34,11 @@ import org.jetbrains.anko.textColor
 import java.io.File
 import java.util.*
 
-/**
- * Created by arkadiusz on 17.03.18
- */
-
 class EventsAdapter(
-        var context: Context,
-        var isCompactView: Boolean,
-        private var eventsList: OrderedRealmCollection<Event>,
-        private var delegate: Delegate
+    var context: Context,
+    var isCompactView: Boolean,
+    private var eventsList: OrderedRealmCollection<Event>,
+    private var delegate: Delegate
 ) : RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
 
     interface Delegate {
@@ -89,24 +85,26 @@ class EventsAdapter(
         }
 
         private fun displayCounterText(event: Event) {
-            val counterText = calculateDate(event.date,
-                    event.formatYearsSelected,
-                    event.formatMonthsSelected,
-                    event.formatWeeksSelected,
-                    event.formatDaysSelected, context)
+            val counterText = calculateDate(
+                event.date,
+                event.formatYearsSelected,
+                event.formatMonthsSelected,
+                event.formatWeeksSelected,
+                event.formatDaysSelected, context
+            )
             view.eventCalculateText.text = counterText
         }
 
         private fun displayCompactCounterText(event: Event) {
             val dateElements = getElementsFromDate(event.date)
             val calculatedComponents = calculateDate(
-                    dateElements.first,
-                    dateElements.second,
-                    dateElements.third,
-                    event.formatYearsSelected,
-                    event.formatMonthsSelected,
-                    event.formatWeeksSelected,
-                    event.formatDaysSelected
+                dateElements.first,
+                dateElements.second,
+                dateElements.third,
+                event.formatYearsSelected,
+                event.formatMonthsSelected,
+                event.formatWeeksSelected,
+                event.formatDaysSelected
             )
 
             view.counterStackView.yearsSection.visibility = View.GONE
@@ -115,55 +113,66 @@ class EventsAdapter(
             view.counterStackView.daysSection.visibility = View.GONE
 
             if (calculatedComponents.years == 0 && calculatedComponents.months == 0 &&
-                    calculatedComponents.weeks == 0 && calculatedComponents.days == 0) {
+                calculatedComponents.weeks == 0 && calculatedComponents.days == 0
+            ) {
                 view.counterStackView.daysSection.visibility = View.VISIBLE
                 view.counterStackView.daysCaptionTextView.visibility = View.GONE
                 view.counterStackView.daysNumberTextView.text = context
-                        .getString(R.string.date_utils_today)
+                    .getString(R.string.date_utils_today)
             } else {
                 if (event.formatYearsSelected) {
                     view.counterStackView.yearsSection.visibility = View.VISIBLE
                     view.counterStackView.yearsCaptionTextView.text = context
-                            .resources.getQuantityText(R.plurals.years_number,
-                            calculatedComponents.years)
+                        .resources.getQuantityText(
+                            R.plurals.years_number,
+                            calculatedComponents.years
+                        )
                     view.counterStackView.yearsNumberTextView.text =
-                            calculatedComponents.years.toString()
+                        calculatedComponents.years.toString()
                 }
 
                 if (event.formatMonthsSelected) {
                     view.counterStackView.monthsSection.visibility = View.VISIBLE
                     view.counterStackView.monthsCaptionTextView.text = context
-                            .resources.getQuantityText(R.plurals.months_number,
-                            calculatedComponents.months)
+                        .resources.getQuantityText(
+                            R.plurals.months_number,
+                            calculatedComponents.months
+                        )
                     view.counterStackView.monthsNumberTextView.text =
-                            calculatedComponents.months.toString()
+                        calculatedComponents.months.toString()
                 }
 
                 if (event.formatWeeksSelected) {
                     view.counterStackView.weeksSection.visibility = View.VISIBLE
                     view.counterStackView.weeksCaptionTextView.text = context
-                            .resources.getQuantityText(R.plurals.weeks_number,
-                            calculatedComponents.weeks)
+                        .resources.getQuantityText(
+                            R.plurals.weeks_number,
+                            calculatedComponents.weeks
+                        )
                     view.counterStackView.weeksNumberTextView.text =
-                            calculatedComponents.weeks.toString()
+                        calculatedComponents.weeks.toString()
                 }
 
                 if (event.formatDaysSelected) {
                     view.counterStackView.daysSection.visibility = View.VISIBLE
                     view.counterStackView.daysCaptionTextView.visibility = View.VISIBLE
                     view.counterStackView.daysCaptionTextView.text = context
-                            .resources.getQuantityText(R.plurals.days_number,
-                            calculatedComponents.days)
+                        .resources.getQuantityText(
+                            R.plurals.days_number,
+                            calculatedComponents.days
+                        )
                     view.counterStackView.daysNumberTextView.text =
-                            calculatedComponents.days.toString()
+                        calculatedComponents.days.toString()
                 }
             }
 
         }
 
         private fun displayDate(event: Event) {
-            val formattedDate = DateUtils.formatDateAccordingToSettings(event.date, defaultPrefs(context)["dateFormat"]
-                    ?: "")
+            val formattedDate = DateUtils.formatDateAccordingToSettings(
+                event.date, defaultPrefs(context)["dateFormat"]
+                    ?: ""
+            )
             view.eventDateTextView.text = formattedDate
         }
 
@@ -175,7 +184,12 @@ class EventsAdapter(
             val circularProgressDrawable = CircularProgressDrawable(context)
             circularProgressDrawable.strokeWidth = 5f
             circularProgressDrawable.centerRadius = 30f
-            circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(context, R.color.colorAccent))
+            circularProgressDrawable.setColorSchemeColors(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorAccent
+                )
+            )
             circularProgressDrawable.start()
 
             when {
@@ -187,20 +201,22 @@ class EventsAdapter(
                     when {
                         File(event.image).exists() ->
                             Glide.with(context)
-                                    .load(event.image)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .into(imageView)
+                                .load(event.image)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true)
+                                .into(imageView)
                         event.imageCloudPath.isNotEmpty() -> {
                             Glide.with(context)
-                                    .load(FirebaseStorage.getInstance().getReference(event.imageCloudPath))
-                                    .placeholder(circularProgressDrawable)
-                                    .into(imageView)
+                                .load(
+                                    FirebaseStorage.getInstance().getReference(event.imageCloudPath)
+                                )
+                                .placeholder(circularProgressDrawable)
+                                .into(imageView)
                             delegate.saveCloudImageLocallyFrom(event, context)
                         }
                         else ->
                             Glide.with(context).load(android.R.color.darker_gray)
-                                    .into(imageView)
+                                .into(imageView)
                     }
                 }
                 else -> Glide.with(context).load(event.imageID).into(imageView)
@@ -217,7 +233,10 @@ class EventsAdapter(
 
         private fun changeFonts(event: Event) {
             view.eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, event.titleFontSize.toFloat())
-            view.eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, event.counterFontSize.toFloat())
+            view.eventCalculateText.setTextSize(
+                TypedValue.COMPLEX_UNIT_DIP,
+                event.counterFontSize.toFloat()
+            )
             view.eventTitle.typeface = getFontFor(event.fontType, context)
             view.eventCalculateText.typeface = getFontFor(event.fontType, context)
             view.eventTitle.textColor = event.fontColor

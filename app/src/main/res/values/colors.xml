@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#34495e</color>
-  <color name="colorPrimaryDark">#2c3e50</color>
-  <color name="colorAccent">#f2845b</color>
+    <color name="colorPrimary">#34495e</color>
+    <color name="colorPrimaryDark">#2c3e50</color>
+    <color name="colorAccent">#f2845b</color>
 
-  <color name="primaryText">#212121</color>
-  <color name="secondaryText">#757575</color>
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#757575</color>
 
-  <color name="black">#000000</color>
-  <color name="white">#FFFFFF</color>
-  <color name="white_secondary">#CDCDCD</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_secondary">#CDCDCD</color>
 
-  <color name="light_background">#f7f7f7</color>
-  <color name="dark_background">#303030</color>
-  <color name="dark_background_card">#3c3c3c</color>
+    <color name="light_background">#f7f7f7</color>
+    <color name="dark_background">#303030</color>
+    <color name="dark_background_card">#3c3c3c</color>
 
 
-  <color name="bluePrimary">#2196f3</color>
-  <color name="bluePrimaryDark">#0069c0</color>
-  <color name="blueAccent">#2196f3</color>
-  <color name="blueLightAccent">#6ec6ff</color>
+    <color name="bluePrimary">#2196f3</color>
+    <color name="bluePrimaryDark">#0069c0</color>
+    <color name="blueAccent">#2196f3</color>
+    <color name="blueLightAccent">#6ec6ff</color>
 
-  <color name="redPrimary">#f44336</color>
-  <color name="redPrimaryDark">#ba000d</color>
-  <color name="redAccent">#f44336</color>
-  <color name="redLightAccent">#ff7961</color>
+    <color name="redPrimary">#f44336</color>
+    <color name="redPrimaryDark">#ba000d</color>
+    <color name="redAccent">#f44336</color>
+    <color name="redLightAccent">#ff7961</color>
 
-  <color name="greenPrimary">#66bb6a</color>
-  <color name="greenPrimaryDark">#338a3e</color>
-  <color name="greenAccent">#66bb6a</color>
-  <color name="greenLightAccent">#98ee99</color>
+    <color name="greenPrimary">#66bb6a</color>
+    <color name="greenPrimaryDark">#338a3e</color>
+    <color name="greenAccent">#66bb6a</color>
+    <color name="greenLightAccent">#98ee99</color>
 
-  <color name="darkGreenPrimary">#212121</color>
-  <color name="darkGreenPrimaryDark">#000000</color>
-  <color name="darkGreenAccent">#66bb6a</color>
-  <color name="darkGreenLightAccent">#66bb6a</color>
+    <color name="darkGreenPrimary">#212121</color>
+    <color name="darkGreenPrimaryDark">#000000</color>
+    <color name="darkGreenAccent">#66bb6a</color>
+    <color name="darkGreenLightAccent">#66bb6a</color>
 
-  <color name="darkPurplePrimary">#212121</color>
-  <color name="darkPurplePrimaryDark">#000000</color>
-  <color name="darkPurpleAccent">#ab47bc</color>
-  <color name="darkPurpleLightAccent">#ab47bc</color>
+    <color name="darkPurplePrimary">#212121</color>
+    <color name="darkPurplePrimaryDark">#000000</color>
+    <color name="darkPurpleAccent">#ab47bc</color>
+    <color name="darkPurpleLightAccent">#ab47bc</color>
 
-  <color name="darkBluePrimary">#212121</color>
-  <color name="darkBluePrimaryDark">#000000</color>
-  <color name="darkBlueAccent">#2196f3</color>
-  <color name="darkBlueLightAccent">#2196f3</color>
+    <color name="darkBluePrimary">#212121</color>
+    <color name="darkBluePrimaryDark">#000000</color>
+    <color name="darkBlueAccent">#2196f3</color>
+    <color name="darkBlueLightAccent">#2196f3</color>
 
-  <color name="darkRedPrimary">#212121</color>
-  <color name="darkRedPrimaryDark">#000000</color>
-  <color name="darkRedAccent">#f44336</color>
-  <color name="darkRedLightAccent">#f44336</color>
-
+    <color name="darkRedPrimary">#212121</color>
+    <color name="darkRedPrimaryDark">#000000</color>
+    <color name="darkRedAccent">#f44336</color>
+    <color name="darkRedLightAccent">#f44336</color>
 </resources>

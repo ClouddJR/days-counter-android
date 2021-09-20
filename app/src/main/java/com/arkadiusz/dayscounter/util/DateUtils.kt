@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.utils
+package com.arkadiusz.dayscounter.util
 
 import android.content.Context
 import com.arkadiusz.dayscounter.R
@@ -6,13 +6,7 @@ import com.arkadiusz.dayscounter.data.model.DateComponents
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by arkadiusz on 02.03.18
- */
-
 object DateUtils {
-
-
     fun formatDate(year: Int, month: Int, day: Int): String {
         if (year < 1 || month < 0 || day < 0) throw IllegalArgumentException()
 
@@ -60,17 +54,21 @@ object DateUtils {
         return "$year$month${day}_$hour$minute"
     }
 
-    fun calculateDate(passedDate: String, areYearsIncluded: Boolean,
-                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
-                      areDaysIncluded: Boolean, context: Context): String {
+    fun calculateDate(
+        passedDate: String, areYearsIncluded: Boolean,
+        areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
+        areDaysIncluded: Boolean, context: Context
+    ): String {
 
         val triple = getElementsFromDate(passedDate)
         val year = triple.first
         val month = triple.second
         val day = triple.third
 
-        return calculateDate(year, month, day, areYearsIncluded, areMonthsIncluded,
-                areWeeksIncluded, areDaysIncluded, context)
+        return calculateDate(
+            year, month, day, areYearsIncluded, areMonthsIncluded,
+            areWeeksIncluded, areDaysIncluded, context
+        )
 
     }
 
@@ -92,8 +90,10 @@ object DateUtils {
         return Triple(year, month, day)
     }
 
-    fun formatDateAccordingToSettings(originalDate: String, datePreference: String,
-                                      locale: Locale = Locale.getDefault()): String {
+    fun formatDateAccordingToSettings(
+        originalDate: String, datePreference: String,
+        locale: Locale = Locale.getDefault()
+    ): String {
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(originalDate)
 
         val formatter = when (datePreference) {
@@ -109,10 +109,12 @@ object DateUtils {
     }
 
 
-    fun calculateDate(dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
-                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
-                      areDaysIncluded: Boolean, context: Context,
-                      today: Calendar = generateTodayCalendar()): String {
+    fun calculateDate(
+        dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
+        areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
+        areDaysIncluded: Boolean, context: Context,
+        today: Calendar = generateTodayCalendar()
+    ): String {
 
         var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
         var todayCalendar = today
@@ -176,15 +178,19 @@ object DateUtils {
             }
         }
 
-        return generateCounterText(yearsNumber, monthsNumber, weeksNumber, daysNumber,
-                areYearsIncluded, areMonthsIncluded, areWeeksIncluded, areDaysIncluded,
-                context)
+        return generateCounterText(
+            yearsNumber, monthsNumber, weeksNumber, daysNumber,
+            areYearsIncluded, areMonthsIncluded, areWeeksIncluded, areDaysIncluded,
+            context
+        )
     }
 
-    fun calculateDate(dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
-                      areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
-                      areDaysIncluded: Boolean,
-                      today: Calendar = generateTodayCalendar()): DateComponents {
+    fun calculateDate(
+        dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
+        areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
+        areDaysIncluded: Boolean,
+        today: Calendar = generateTodayCalendar()
+    ): DateComponents {
 
         var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
         var todayCalendar = today
@@ -249,18 +255,20 @@ object DateUtils {
         }
 
         return DateComponents(
-                yearsNumber,
-                monthsNumber,
-                weeksNumber,
-                daysNumber
+            yearsNumber,
+            monthsNumber,
+            weeksNumber,
+            daysNumber
         )
     }
 
-    fun generateCounterText(yearsNumber: Int, monthsNumber: Int, weeksNumber: Int,
-                            daysNumber: Int,
-                            areYearsIncluded: Boolean, areMonthsIncluded: Boolean,
-                            areWeeksIncluded: Boolean, areDaysIncluded: Boolean,
-                            context: Context): String {
+    fun generateCounterText(
+        yearsNumber: Int, monthsNumber: Int, weeksNumber: Int,
+        daysNumber: Int,
+        areYearsIncluded: Boolean, areMonthsIncluded: Boolean,
+        areWeeksIncluded: Boolean, areDaysIncluded: Boolean,
+        context: Context
+    ): String {
         if (yearsNumber == 0 && monthsNumber == 0 && weeksNumber == 0 && daysNumber == 0) {
             return context.getString(R.string.date_utils_today)
         }
@@ -281,8 +289,10 @@ object DateUtils {
         return counterText.trim()
     }
 
-    fun calculateWorkdays(dateYear: Int, dateMonth: Int, dateDay: Int,
-                          today: Calendar = generateTodayCalendar()): Int {
+    fun calculateWorkdays(
+        dateYear: Int, dateMonth: Int, dateDay: Int,
+        today: Calendar = generateTodayCalendar()
+    ): Int {
 
         var eventCalendar = generateCalendar(dateYear, dateMonth, dateDay)
         var todayCalendar = today
@@ -325,6 +335,4 @@ object DateUtils {
                 this.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
                 this.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH))
     }
-
-
 }

@@ -5,7 +5,7 @@ import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
 
 class DetailActivityViewModel(
-        private val databaseRepository: DatabaseRepository = DatabaseRepository()
+    private val databaseRepository: DatabaseRepository = DatabaseRepository()
 ) : ViewModel() {
 
     override fun onCleared() {

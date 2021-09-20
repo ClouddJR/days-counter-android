@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.utils
+package com.arkadiusz.dayscounter.util
 
 import android.app.*
 import android.content.Context
@@ -10,10 +10,6 @@ import androidx.core.app.NotificationCompat
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import org.jetbrains.anko.notificationManager
-
-/**
- * Created by arkadiusz on 28.03.18
- */
 
 object NotificationUtils {
 
@@ -35,12 +31,17 @@ object NotificationUtils {
         notificationManager?.createNotificationChannel(channel)
     }
 
-    fun createNotification(context: Context?, eventTitle: String, eventDescription: String, eventId: String) {
+    fun createNotification(
+        context: Context?,
+        eventTitle: String,
+        eventDescription: String,
+        eventId: String
+    ) {
         val mBuilder = NotificationCompat.Builder(context!!, channelID)
-                .setSmallIcon(R.drawable.n_icon)
-                .setContentTitle(eventTitle)
-                .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setContentText(eventDescription)
+            .setSmallIcon(R.drawable.n_icon)
+            .setContentTitle(eventTitle)
+            .setDefaults(Notification.DEFAULT_VIBRATE)
+            .setContentText(eventDescription)
         val pendingIntent = buildPendingIntent(context, eventId)
         mBuilder.setContentIntent(pendingIntent)
         val notificationManager = context.notificationManager

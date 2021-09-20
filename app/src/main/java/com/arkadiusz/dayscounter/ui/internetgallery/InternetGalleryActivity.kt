@@ -18,14 +18,13 @@ import com.arkadiusz.dayscounter.data.model.Status
 import com.arkadiusz.dayscounter.data.model.unsplash.Image
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
-import com.arkadiusz.dayscounter.utils.StorageUtils.saveFile
-import com.arkadiusz.dayscounter.utils.ThemeUtils
+import com.arkadiusz.dayscounter.util.StorageUtils.saveFile
+import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_internet_gallery.*
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.startActivity
 import java.io.File
-
 
 class InternetGalleryActivity : AppCompatActivity() {
 
@@ -40,7 +39,7 @@ class InternetGalleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_internet_gallery)
         actionBar?.setDisplayHomeAsUpEnabled(true)
-        activityType = intent.getStringExtra("activity")
+        activityType = intent.getStringExtra("activity")!!
         setUpSearchView()
         setUpViewModel()
     }
@@ -101,8 +100,10 @@ class InternetGalleryActivity : AppCompatActivity() {
 
         lateinit var dialog: AlertDialog
         viewModel.getDialogStart().observe(this, Observer {
-            dialog = indeterminateProgressDialog(message = getString(R.string.dialog_wait_prompt),
-                    title = getString(R.string.dialog_downloading))
+            dialog = indeterminateProgressDialog(
+                message = getString(R.string.dialog_wait_prompt),
+                title = getString(R.string.dialog_downloading)
+            )
         })
 
         viewModel.getDialogEnd().observe(this, Observer {
@@ -112,10 +113,10 @@ class InternetGalleryActivity : AppCompatActivity() {
 
     private fun startCropImageActivity(imageUri: Uri) {
         CropImage.activity(imageUri)
-                .setAspectRatio(18, 9)
-                .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
-                .setFixAspectRatio(true)
-                .start(this)
+            .setAspectRatio(18, 9)
+            .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
+            .setFixAspectRatio(true)
+            .start(this)
     }
 
     private fun returnToActivity(fileName: String?) {
@@ -130,8 +131,10 @@ class InternetGalleryActivity : AppCompatActivity() {
 
         val adapter = InternetGalleryAdapter(object : InternetGalleryAdapter.ImageClickListener {
             override fun onImageClick(image: Image) {
-                progressDialog = indeterminateProgressDialog(message = getString(R.string.dialog_wait_prompt),
-                        title = getString(R.string.dialog_saving))
+                progressDialog = indeterminateProgressDialog(
+                    message = getString(R.string.dialog_wait_prompt),
+                    title = getString(R.string.dialog_saving)
+                )
                 viewModel.saveImage(image, cacheDir)
             }
         })

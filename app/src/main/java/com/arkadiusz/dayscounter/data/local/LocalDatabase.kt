@@ -2,7 +2,7 @@ package com.arkadiusz.dayscounter.data.local
 
 import android.content.Context
 import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.utils.StorageUtils.toFile
+import com.arkadiusz.dayscounter.util.StorageUtils.toFile
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
@@ -13,9 +13,9 @@ class LocalDatabase {
 
     private var realm: Realm
     private val config: RealmConfiguration = RealmConfiguration.Builder()
-            .schemaVersion(4)
-            .migration(Migration())
-            .build()
+        .schemaVersion(4)
+        .migration(Migration())
+        .build()
 
     init {
         realm = Realm.getInstance(config)
@@ -46,54 +46,62 @@ class LocalDatabase {
     }
 
     fun getEventById(id: String): Event? {
-        return realm.where(Event::class.java).equalTo("id", id).findFirst()
+        return realm.getEventById(id)
     }
 
     fun getEventCopyById(eventId: String): Event {
-        return realm.copyFromRealm(realm.where(Event::class.java).equalTo("id", eventId).findFirst()!!)
+        return realm.copyFromRealm(
+            realm.getEventById(eventId)!!
+        )
     }
 
     fun getEventByWidgetId(widgetId: Int): Event? {
         return realm.where(Event::class.java).equalTo("widgetID", widgetId).findFirst()
     }
 
-    fun setWidgetIdForEvent(event: Event, widgetId: Int) {
-        realm.executeTransaction {
-            event.widgetID = widgetId
+    fun setWidgetIdForEvent(eventId: String, widgetId: Int) {
+        realm.executeTransactionAsync {
+            it.getEventById(eventId)?.apply {
+                widgetID = widgetId
+            }
         }
     }
 
-    fun setWidgetTransparencyFor(event: Event, isTransparent: Boolean) {
-        realm.executeTransaction {
-            event.hasTransparentWidget = isTransparent
+    fun setWidgetTransparencyFor(eventId: String, isTransparent: Boolean) {
+        realm.executeTransactionAsync {
+            it.getEventById(eventId)?.apply {
+                hasTransparentWidget = isTransparent
+            }
         }
     }
 
-    fun setLocalImagePath(eventToBeSet: Event, file: File, onFinished: () -> Unit) {
-        val id = eventToBeSet.id
+    fun setLocalImagePath(event: Event, file: File, onFinished: () -> Unit) {
+        val id = event.id
         realm.executeTransactionAsync(Realm.Transaction {
-            val event = it.where(Event::class.java).equalTo("id", id).findFirst()
-            event?.image = file.path
+            it.getEventById(id)?.apply {
+                image = file.path
+            }
         }, Realm.Transaction.OnSuccess {
             onFinished()
         })
     }
 
     fun disableAlarmForEvent(eventId: String) {
-        realm.executeTransaction {
-            val event = getEventById(eventId)
-            event?.hasAlarm = false
-            event?.reminderYear = 0
-            event?.reminderMonth = 0
-            event?.reminderDay = 0
-            event?.reminderHour = 0
-            event?.reminderMinute = 0
-            event?.notificationText = ""
+        realm.executeTransactionAsync {
+            it.getEventById(eventId)?.apply {
+                hasAlarm = false
+                reminderYear = 0
+                reminderMonth = 0
+                reminderDay = 0
+                reminderHour = 0
+                reminderMinute = 0
+                notificationText = ""
+            }
         }
     }
 
     fun addOrUpdateEvent(event: Event) {
-        realm.executeTransaction {
+        realm.executeTransactionAsync {
             it.copyToRealmOrUpdate(event)
         }
     }
@@ -101,15 +109,16 @@ class LocalDatabase {
     fun deleteEvent(event: Event) {
         val id = event.id
         realm.executeTransactionAsync {
-            it.where(Event::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
+            it.getEventById(id)?.deleteFromRealm()
         }
     }
 
     fun moveEventToPast(eventToBeMoved: Event, onFinished: (() -> Unit)? = null) {
         val id = eventToBeMoved.id
         realm.executeTransactionAsync(Realm.Transaction {
-            val event = it.where(Event::class.java).equalTo("id", id).findFirst()
-            event?.type = "past"
+            it.getEventById(id)?.apply {
+                type = "past"
+            }
         }, Realm.Transaction.OnSuccess {
             onFinished?.let { it() }
         })
@@ -118,19 +127,23 @@ class LocalDatabase {
     fun moveEventToFuture(eventToBeMoved: Event, onFinished: (() -> Unit)? = null) {
         val id = eventToBeMoved.id
         realm.executeTransactionAsync(Realm.Transaction {
-            val event = it.where(Event::class.java).equalTo("id", id).findFirst()
-            event?.type = "future"
+            it.getEventById(id)?.apply {
+                type = "future"
+            }
         }, Realm.Transaction.OnSuccess {
             onFinished?.let { it() }
         })
     }
 
-    fun repeatEvent(eventToBeRepeated: Event, dateAfterRepetition: String,
-                    onFinished: (() -> Unit)? = null) {
+    fun repeatEvent(
+        eventToBeRepeated: Event, dateAfterRepetition: String,
+        onFinished: (() -> Unit)? = null
+    ) {
         val id = eventToBeRepeated.id
         realm.executeTransactionAsync(Realm.Transaction {
-            val event = it.where(Event::class.java).equalTo("id", id).findFirst()
-            event?.date = dateAfterRepetition
+            it.getEventById(id)?.apply {
+                date = dateAfterRepetition
+            }
         }, Realm.Transaction.OnSuccess {
             onFinished?.let { it() }
         })
@@ -149,7 +162,7 @@ class LocalDatabase {
 
     fun updateLocalEventBasedOn(cloudEvent: Event) {
         realm.executeTransactionAsync {
-            val existingEvent = it.where(Event::class.java).equalTo("id", cloudEvent.id).findFirst()
+            val existingEvent = it.getEventById(cloudEvent.id)
 
             if (existingEvent != null) {
                 if (!existingEvent.isTheSameAs(cloudEvent)) {
@@ -168,4 +181,7 @@ class LocalDatabase {
     fun isClosed(): Boolean {
         return realm.isClosed
     }
+
+    private fun Realm.getEventById(eventId: String) =
+        where(Event::class.java).equalTo("id", eventId).findFirst()
 }

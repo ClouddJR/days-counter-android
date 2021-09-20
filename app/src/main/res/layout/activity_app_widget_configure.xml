@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/activity_app_widget_configure"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:paddingTop="@dimen/activity_vertical_margin"
-  android:paddingBottom="@dimen/activity_vertical_margin"
-  android:paddingLeft="@dimen/activity_horizontal_margin"
-  android:paddingRight="@dimen/activity_horizontal_margin"
-  android:orientation="vertical"
-  tools:context="com.arkadiusz.dayscounter.ui.widget.WidgetConfigureActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_app_widget_configure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        tools:context="com.arkadiusz.dayscounter.ui.widget.WidgetConfigureActivity">
 
-  <Switch
-    android:id="@+id/transparentSwitch"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:text="@string/widget_configuration_switch"
-    android:textColor="?themePrimaryFontColor"
-    android:textSize="20sp"/>
+    <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/transparentSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/widget_configuration_switch"
+            android:textColor="?themePrimaryFontColor"
+            android:textSize="20sp" />
 
-  <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="26dp"
-    android:gravity="center"
-    android:text="@string/widget_configuration_title"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:gravity="center"
+            android:text="@string/widget_configuration_title" />
 
-  <ListView
-    android:id="@+id/eventListView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    <ListView
+            android:id="@+id/eventListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
 </LinearLayout>

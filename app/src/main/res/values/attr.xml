@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <attr format="reference" name="themePrimary"/>
-  <attr format="reference" name="themePrimaryDark"/>
-  <attr format="reference" name="themeAccent"/>
-  <attr format="reference" name="themeLightAccent"/>
-  <attr format="reference" name="themeMainBackground"/>
-  <attr format="reference" name="themeCardBackground"/>
-  <attr format="reference" name="themePrimaryFontColor"/>
-  <attr format="reference" name="themeSecondaryFontColor"/>
+    <attr format="reference" name="themePrimary" />
+    <attr format="reference" name="themePrimaryDark" />
+    <attr format="reference" name="themeAccent" />
+    <attr format="reference" name="themeLightAccent" />
+    <attr format="reference" name="themeMainBackground" />
+    <attr format="reference" name="themeCardBackground" />
+    <attr format="reference" name="themePrimaryFontColor" />
+    <attr format="reference" name="themeSecondaryFontColor" />
 </resources>
