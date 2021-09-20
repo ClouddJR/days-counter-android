@@ -5,7 +5,12 @@ import android.os.Parcelable
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
+/**
+ * Created by arkadiusz on 04.03.18
+ */
+
 open class Event() : RealmObject(), Parcelable {
+
     @PrimaryKey
     var id: String = ""
     var name: String = ""
@@ -59,11 +64,13 @@ open class Event() : RealmObject(), Parcelable {
     }
 
     companion object {
+
         @JvmField
         val CREATOR: Parcelable.Creator<Event> = object : Parcelable.Creator<Event> {
             override fun createFromParcel(source: Parcel): Event = Event(source)
             override fun newArray(size: Int): Array<Event?> = arrayOfNulls(size)
         }
+
     }
 
     fun isTheSameAs(other: Event): Boolean {
@@ -110,4 +117,6 @@ open class Event() : RealmObject(), Parcelable {
         this.fontColor = event.fontColor
         this.pictureDim = event.pictureDim
     }
+
+
 }

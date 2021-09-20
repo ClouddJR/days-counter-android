@@ -29,8 +29,8 @@ class WidgetUpdateWorkerTest {
         executor = Executors.newSingleThreadExecutor()
 
         worker = TestWorkerBuilder<WidgetUpdateWorker>(
-            context = context,
-            executor = executor
+                context = context,
+                executor = executor
         ).build()
     }
 
@@ -45,8 +45,7 @@ class WidgetUpdateWorkerTest {
         //should return correct array of updated widgets
         if (result is ListenableWorker.Result.Success) {
             assertArrayEquals(result.outputData.getIntArray("widgetIds"), eventsList
-                .map { it.widgetID }.toIntArray()
-            )
+                    .map { it.widgetID }.toIntArray())
         } else {
             fail()
         }

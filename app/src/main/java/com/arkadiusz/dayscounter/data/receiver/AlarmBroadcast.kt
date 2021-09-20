@@ -4,7 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
-import com.arkadiusz.dayscounter.util.NotificationUtils
+import com.arkadiusz.dayscounter.utils.NotificationUtils
+
+/**
+ * Created by arkadiusz on 28.03.18
+ */
 
 class AlarmBroadcast : BroadcastReceiver() {
 

@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.util
+package com.arkadiusz.dayscounter.utils
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -8,6 +8,10 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.receiver.AlarmBroadcast
 import org.jetbrains.anko.alarmManager
 import java.util.*
+
+/**
+ * Created by arkadiusz on 04.03.18
+ */
 
 object RemindersUtils {
 
@@ -26,18 +30,13 @@ object RemindersUtils {
         alarmManager.cancel(alarmIntent)
     }
 
+
     private fun generateCalendar(event: Event): Calendar {
-        return Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            clear()
-            set(
-                event.reminderYear,
-                event.reminderMonth,
-                event.reminderDay,
-                event.reminderHour,
-                event.reminderMinute
-            )
-        }
+        val c = Calendar.getInstance()
+        c.timeInMillis = System.currentTimeMillis()
+        c.clear()
+        c.set(event.reminderYear, event.reminderMonth, event.reminderDay, event.reminderHour, event.reminderMinute)
+        return c
     }
 
     private fun buildPendingIntent(event: Event, context: Context): PendingIntent {
@@ -47,11 +46,6 @@ object RemindersUtils {
         intentSend.putExtra("eventId", event.id)
         intentSend.putExtra("eventDate", event.date)
 
-        return PendingIntent.getBroadcast(
-            context,
-            event.id.hashCode(),
-            intentSend,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        return PendingIntent.getBroadcast(context, event.id.hashCode(), intentSend, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 }

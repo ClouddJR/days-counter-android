@@ -1,21 +1,22 @@
 package com.arkadiusz.dayscounter.ui.calculator
 
 import android.content.SharedPreferences
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
+import PreferenceUtils.get
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.model.DateComponents
-import com.arkadiusz.dayscounter.util.DateUtils
-import com.arkadiusz.dayscounter.util.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
 import java.util.*
 
 class CalculatorViewModel(
-    private val sharedPreferences: SharedPreferences
+        private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     val calculatedComponents = MutableLiveData<DateComponents>()
     val additionalFormatsCalculatedComponents =
-        MutableLiveData<List<Pair<CalculatorComponentsHolder, DateComponents>>>()
+            MutableLiveData<List<Pair<CalculatorComponentsHolder, DateComponents>>>()
 
     val showStartDatePicker = MutableLiveData<DateComponents>()
     val showEndDatePicker = MutableLiveData<DateComponents>()
@@ -38,9 +39,9 @@ class CalculatorViewModel(
 
     fun startDateEditTextClicked() {
         showStartDatePicker.value = DateComponents(
-            years = chosenStartYear,
-            months = chosenStartMonth,
-            days = chosenStartDay
+                years = chosenStartYear,
+                months = chosenStartMonth,
+                days = chosenStartDay
         )
     }
 
@@ -50,18 +51,16 @@ class CalculatorViewModel(
         chosenStartDay = dateComponents.days
 
         val dateString = formatDate(chosenStartYear, chosenStartMonth, chosenStartDay)
-        chosenStartDate.value = DateUtils.formatDateAccordingToSettings(
-            dateString,
-            sharedPreferences["dateFormat"] ?: ""
-        )
+        chosenStartDate.value = DateUtils.formatDateAccordingToSettings(dateString,
+                sharedPreferences["dateFormat"] ?: "")
         isStartDateSelected = true
     }
 
     fun endDateEditTextClicked() {
         showEndDatePicker.value = DateComponents(
-            years = chosenEndYear,
-            months = chosenEndMonth,
-            days = chosenEndDay
+                years = chosenEndYear,
+                months = chosenEndMonth,
+                days = chosenEndDay
         )
     }
 
@@ -71,10 +70,8 @@ class CalculatorViewModel(
         chosenEndDay = dateComponents.days
 
         val dateString = formatDate(chosenEndYear, chosenEndMonth, chosenEndDay)
-        chosenEndDate.value = DateUtils.formatDateAccordingToSettings(
-            dateString,
-            sharedPreferences["dateFormat"] ?: ""
-        )
+        chosenEndDate.value = DateUtils.formatDateAccordingToSettings(dateString,
+                sharedPreferences["dateFormat"] ?: "")
         isEndDateSelected = true
     }
 
@@ -89,20 +86,19 @@ class CalculatorViewModel(
 
     private fun calculateWithUserSpecifiedComponents(componentsHolder: CalculatorComponentsHolder) {
         val startDateCalendar = DateUtils.generateCalendar(
-            chosenStartYear,
-            chosenStartMonth + 1,
-            chosenStartDay
-        )
+                chosenStartYear,
+                chosenStartMonth + 1,
+                chosenStartDay)
 
         val components = DateUtils.calculateDate(
-            chosenEndYear,
-            chosenEndMonth + 1,
-            chosenEndDay,
-            componentsHolder.areYearsIncluded,
-            componentsHolder.areMonthsIncluded,
-            componentsHolder.areWeeksIncluded,
-            componentsHolder.areDaysIncluded,
-            startDateCalendar
+                chosenEndYear,
+                chosenEndMonth + 1,
+                chosenEndDay,
+                componentsHolder.areYearsIncluded,
+                componentsHolder.areMonthsIncluded,
+                componentsHolder.areWeeksIncluded,
+                componentsHolder.areDaysIncluded,
+                startDateCalendar
         )
 
         calculatedComponents.value = components
@@ -121,8 +117,7 @@ class CalculatorViewModel(
     }
 
     private fun generatePossibleCombinationsWith(
-        excludedComponentsHolder: CalculatorComponentsHolder
-    ): MutableList<IntArray> {
+            excludedComponentsHolder: CalculatorComponentsHolder): MutableList<IntArray> {
         val combinations = mutableListOf<IntArray>()
         for (i in 0..1) {
             for (j in 0..1) {
@@ -132,9 +127,9 @@ class CalculatorViewModel(
                         if ((i or j or k or l) == 0) continue
                         //also continue when the combination was performed in the first step
                         if (excludedComponentsHolder.areYearsIncluded == (i == 1) &&
-                            excludedComponentsHolder.areMonthsIncluded == (j == 1) &&
-                            excludedComponentsHolder.areWeeksIncluded == (k == 1) &&
-                            excludedComponentsHolder.areDaysIncluded == (l == 1)
+                                excludedComponentsHolder.areMonthsIncluded == (j == 1) &&
+                                excludedComponentsHolder.areWeeksIncluded == (k == 1) &&
+                                excludedComponentsHolder.areDaysIncluded == (l == 1)
                         ) continue
                         combinations.add(intArrayOf(i, j, k, l))
                     }
@@ -144,34 +139,31 @@ class CalculatorViewModel(
         return combinations
     }
 
-    private fun addFormatForEachCombination(
-        combinations: MutableList<IntArray>,
-        additionalFormatsList:
-        MutableList<Pair<CalculatorComponentsHolder,
-                DateComponents>>
-    ) {
+    private fun addFormatForEachCombination(combinations: MutableList<IntArray>,
+                                            additionalFormatsList:
+                                            MutableList<Pair<CalculatorComponentsHolder,
+                                                    DateComponents>>) {
         for (combination in combinations) {
             val startDateCalendar = DateUtils.generateCalendar(
-                chosenStartYear,
-                chosenStartMonth + 1,
-                chosenStartDay
-            )
+                    chosenStartYear,
+                    chosenStartMonth + 1,
+                    chosenStartDay)
 
             val componentsHolder = CalculatorComponentsHolder(
-                areYearsIncluded = combination[0] == 1,
-                areMonthsIncluded = combination[1] == 1,
-                areWeeksIncluded = combination[2] == 1,
-                areDaysIncluded = combination[3] == 1
+                    areYearsIncluded = combination[0] == 1,
+                    areMonthsIncluded = combination[1] == 1,
+                    areWeeksIncluded = combination[2] == 1,
+                    areDaysIncluded = combination[3] == 1
             )
             val calculatedComponents = DateUtils.calculateDate(
-                chosenEndYear,
-                chosenEndMonth + 1,
-                chosenEndDay,
-                componentsHolder.areYearsIncluded,
-                componentsHolder.areMonthsIncluded,
-                componentsHolder.areWeeksIncluded,
-                componentsHolder.areDaysIncluded,
-                startDateCalendar
+                    chosenEndYear,
+                    chosenEndMonth + 1,
+                    chosenEndDay,
+                    componentsHolder.areYearsIncluded,
+                    componentsHolder.areMonthsIncluded,
+                    componentsHolder.areWeeksIncluded,
+                    componentsHolder.areDaysIncluded,
+                    startDateCalendar
             )
 
             if (includedFormatPartIsZero(componentsHolder, calculatedComponents)) continue
@@ -180,10 +172,8 @@ class CalculatorViewModel(
         }
     }
 
-    private fun includedFormatPartIsZero(
-        componentsHolder: CalculatorComponentsHolder,
-        calculatedComponents: DateComponents
-    ): Boolean {
+    private fun includedFormatPartIsZero(componentsHolder: CalculatorComponentsHolder,
+                                         calculatedComponents: DateComponents): Boolean {
         return componentsHolder.areYearsIncluded && calculatedComponents.years == 0 ||
                 componentsHolder.areMonthsIncluded && calculatedComponents.months == 0 ||
                 componentsHolder.areWeeksIncluded && calculatedComponents.weeks == 0 ||
@@ -196,21 +186,18 @@ class CalculatorViewModel(
                 startDateCalendar.get(Calendar.DAY_OF_MONTH) == chosenEndDay
     }
 
-    private fun addWorkdaysFormat(
-        additionalFormatsList:
-        MutableList<Pair<CalculatorComponentsHolder, DateComponents>>
-    ) {
+    private fun addWorkdaysFormat(additionalFormatsList:
+                                  MutableList<Pair<CalculatorComponentsHolder, DateComponents>>) {
         val startDateCalendar = DateUtils.generateCalendar(
-            chosenStartYear,
-            chosenStartMonth + 1,
-            chosenStartDay
-        )
+                chosenStartYear,
+                chosenStartMonth + 1,
+                chosenStartDay)
 
         val workdaysNumber = DateUtils.calculateWorkdays(
-            chosenEndYear,
-            chosenEndMonth + 1,
-            chosenEndDay,
-            startDateCalendar
+                chosenEndYear,
+                chosenEndMonth + 1,
+                chosenEndDay,
+                startDateCalendar
         )
 
         val componentsHolder = CalculatorComponentsHolder(onlyWorkDays = true)
@@ -219,10 +206,10 @@ class CalculatorViewModel(
 }
 
 data class CalculatorComponentsHolder(
-    var areDaysIncluded: Boolean = false,
-    var areMonthsIncluded: Boolean = false,
-    var areWeeksIncluded: Boolean = false,
-    var areYearsIncluded: Boolean = false,
+        var areDaysIncluded: Boolean = false,
+        var areMonthsIncluded: Boolean = false,
+        var areWeeksIncluded: Boolean = false,
+        var areYearsIncluded: Boolean = false,
 
-    var onlyWorkDays: Boolean = false
+        var onlyWorkDays: Boolean = false
 )

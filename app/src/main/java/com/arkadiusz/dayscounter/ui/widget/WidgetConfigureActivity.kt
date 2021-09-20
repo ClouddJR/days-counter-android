@@ -10,8 +10,12 @@ import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
-import com.arkadiusz.dayscounter.util.ThemeUtils
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
+
+/**
+ * Created by arkadiusz on 23.03.18
+ */
 
 class WidgetConfigureActivity : AppCompatActivity() {
 
@@ -37,10 +41,8 @@ class WidgetConfigureActivity : AppCompatActivity() {
     private fun getAppWidgetIdFromBundle() {
         val extras = intent.extras
         extras?.let {
-            appWidgetId = extras.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
-            )
+            appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID)
         }
     }
 
@@ -49,16 +51,19 @@ class WidgetConfigureActivity : AppCompatActivity() {
         val adapter = WidgetConfigureAdapter(this, eventsList)
         eventListView.adapter = adapter
         eventListView.setOnItemClickListener { _, _, position, _ ->
-            eventsList[position]?.id?.let { eventId ->
-                viewModel.setWidgetIdForEvent(eventId, appWidgetId)
-                setWidgetTransparencyIfSet(eventId)
-                setUpWidgetUpdating()
+            eventsList[position]?.id?.let {
+                val chosenEvent = viewModel.getEventById(it)
+                chosenEvent?.let {
+                    viewModel.setWidgetIdForEvent(chosenEvent, appWidgetId)
+                    setWidgetTransparencyIfSet(chosenEvent)
+                    setUpWidgetUpdating()
+                }
             }
         }
     }
 
-    private fun setWidgetTransparencyIfSet(eventId: String) {
-        viewModel.setWidgetTransparencyFor(eventId, transparentSwitch.isChecked)
+    private fun setWidgetTransparencyIfSet(event: Event) {
+        viewModel.setWidgetTransparencyFor(event, transparentSwitch.isChecked)
     }
 
     private fun setUpWidgetUpdating() {
@@ -66,10 +71,8 @@ class WidgetConfigureActivity : AppCompatActivity() {
         val views = RemoteViews(baseContext.packageName, R.layout.appwidget)
         appWidgetManager.updateAppWidget(appWidgetId, views)
 
-        val intent = Intent(
-            AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
-            applicationContext, AppWidgetProvider::class.java
-        )
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
+                applicationContext, AppWidgetProvider::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(appWidgetId))
         sendBroadcast(intent)
 

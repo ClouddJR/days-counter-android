@@ -10,7 +10,7 @@ import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 
 class WidgetUpdateWorker(private val appContext: Context, workerParams: WorkerParameters) :
-    Worker(appContext, workerParams) {
+        Worker(appContext, workerParams) {
 
     companion object {
         const val PERIODIC_WORK_WIDGET_UPDATE = "widget_update"
@@ -22,10 +22,8 @@ class WidgetUpdateWorker(private val appContext: Context, workerParams: WorkerPa
         val eventsWithWidget = databaseRepository.getEventsWithWidgets()
         val widgetIds = eventsWithWidget.map { it.widgetID }.toIntArray()
 
-        val intent = Intent(
-            AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, appContext,
-            AppWidgetProvider::class.java
-        )
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, appContext,
+                AppWidgetProvider::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds)
         appContext.sendBroadcast(intent)
 

@@ -1,4 +1,4 @@
-package com.arkadiusz.dayscounter.util
+package com.arkadiusz.dayscounter.utils
 
 class MessageWrapper<T>(private val value: T) {
 

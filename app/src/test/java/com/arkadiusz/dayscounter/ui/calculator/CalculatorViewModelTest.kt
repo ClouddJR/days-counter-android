@@ -3,8 +3,9 @@ package com.arkadiusz.dayscounter.ui.calculator
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.arkadiusz.dayscounter.data.model.DateComponents
-import com.arkadiusz.dayscounter.util.DateUtils.formatDate
-import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
+import com.arkadiusz.dayscounter.utils.DateUtils
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
 import junit.framework.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -65,26 +66,22 @@ class CalculatorViewModelTest {
     @Test
     fun `should update live data object when calculation is invoked`() {
         //given components representing dates different by 4 days
-        calculatorViewModel.dateForStartDateChosen(
-            DateComponents(
+        calculatorViewModel.dateForStartDateChosen(DateComponents(
                 years = 2020,
                 months = 0,
                 days = 1
-            )
-        )
-        calculatorViewModel.dateForEndDateChosen(
-            DateComponents(
+        ))
+        calculatorViewModel.dateForEndDateChosen(DateComponents(
                 years = 2020,
                 months = 0,
                 days = 5
-            )
-        )
+        ))
         val calculatorComponentsHolder = CalculatorComponentsHolder(
-            areDaysIncluded = true,
-            areMonthsIncluded = false,
-            areWeeksIncluded = false,
-            areYearsIncluded = false,
-            onlyWorkDays = false
+                areDaysIncluded = true,
+                areMonthsIncluded = false,
+                areWeeksIncluded = false,
+                areYearsIncluded = false,
+                onlyWorkDays = false
         )
 
         //when calculating the resulting components
@@ -98,26 +95,22 @@ class CalculatorViewModelTest {
     @Test
     fun `should add correct additional formats after calculating the main result`() {
         //given components representing dates different by 20 days (and 14 workdays)
-        calculatorViewModel.dateForStartDateChosen(
-            DateComponents(
+        calculatorViewModel.dateForStartDateChosen(DateComponents(
                 years = 2020,
                 months = 2,
                 days = 6
-            )
-        )
-        calculatorViewModel.dateForEndDateChosen(
-            DateComponents(
+        ))
+        calculatorViewModel.dateForEndDateChosen(DateComponents(
                 years = 2020,
                 months = 2,
                 days = 26
-            )
-        )
+        ))
         val calculatorComponentsHolder = CalculatorComponentsHolder(
-            areDaysIncluded = true,
-            areMonthsIncluded = false,
-            areWeeksIncluded = false,
-            areYearsIncluded = false,
-            onlyWorkDays = false
+                areDaysIncluded = true,
+                areMonthsIncluded = false,
+                areWeeksIncluded = false,
+                areYearsIncluded = false,
+                onlyWorkDays = false
         )
 
         //when calculating the resulting components
@@ -125,33 +118,28 @@ class CalculatorViewModelTest {
 
         //it should update the corresponding additional formats live data object
         val additionalFormats = mutableListOf(
-            Pair(
-                CalculatorComponentsHolder(areWeeksIncluded = true, areDaysIncluded = true),
-                DateComponents(0, 0, 2, 6)
-            ),
-            Pair(CalculatorComponentsHolder(onlyWorkDays = true), DateComponents(-1, -1, -1, 14))
+                Pair(CalculatorComponentsHolder(areWeeksIncluded = true, areDaysIncluded = true),
+                        DateComponents(0, 0, 2, 6)),
+                Pair(CalculatorComponentsHolder(onlyWorkDays = true), DateComponents(-1, -1, -1, 14))
         )
-        assertEquals(
-            additionalFormats,
-            calculatorViewModel.additionalFormatsCalculatedComponents.value
-        )
+        assertEquals(additionalFormats,
+                calculatorViewModel.additionalFormatsCalculatedComponents.value)
     }
 
     @Test
     fun `should update the start date components when choosing the start date`() {
         //given the date components
         val dateComponents = DateComponents(
-            years = 2020,
-            months = 0,
-            days = 1
+                years = 2020,
+                months = 0,
+                days = 1
         )
 
         //when the starting date is chosen
         calculatorViewModel.dateForStartDateChosen(dateComponents)
 
         //then the corresponding live data object and boolean variable should be the updated
-        val dateString =
-            formatDate(dateComponents.years, dateComponents.months, dateComponents.days)
+        val dateString = formatDate(dateComponents.years, dateComponents.months, dateComponents.days)
         val formattedDate = formatDateAccordingToSettings(dateString, "", Locale.US)
         assertEquals(calculatorViewModel.chosenStartDate.value, formattedDate)
     }
@@ -160,17 +148,16 @@ class CalculatorViewModelTest {
     fun `should update the end date components when choosing the end date`() {
         //given the date components
         val dateComponents = DateComponents(
-            years = 2020,
-            months = 0,
-            days = 1
+                years = 2020,
+                months = 0,
+                days = 1
         )
 
         //when the ending date is chosen
         calculatorViewModel.dateForEndDateChosen(dateComponents)
 
         //then the corresponding live data object should be the updated
-        val dateString =
-            formatDate(dateComponents.years, dateComponents.months, dateComponents.days)
+        val dateString = formatDate(dateComponents.years, dateComponents.months, dateComponents.days)
         val formattedDate = formatDateAccordingToSettings(dateString, "", Locale.US)
         assertEquals(calculatorViewModel.chosenEndDate.value, formattedDate)
     }
@@ -179,9 +166,9 @@ class CalculatorViewModelTest {
     fun `should return previous start date components when edit text was clicked again`() {
         //given the previous date components
         val dateComponents = DateComponents(
-            years = 2020,
-            months = 0,
-            days = 1
+                years = 2020,
+                months = 0,
+                days = 1
         )
 
         //when the start date was chosen and the edit text is clicked again
@@ -196,9 +183,9 @@ class CalculatorViewModelTest {
     fun `should return zeroed start date components when edit text was clicked for the first time`() {
         //given the date components
         val dateComponents = DateComponents(
-            years = 0,
-            months = 0,
-            days = 0
+                years = 0,
+                months = 0,
+                days = 0
         )
 
         //when the edit text is clicked
@@ -212,9 +199,9 @@ class CalculatorViewModelTest {
     fun `should return previous end date components when edit text was clicked again`() {
         //given the previous date components
         val dateComponents = DateComponents(
-            years = 2020,
-            months = 0,
-            days = 5
+                years = 2020,
+                months = 0,
+                days = 5
         )
 
         //when the end end date was chosen and the edit text is clicked again
@@ -229,9 +216,9 @@ class CalculatorViewModelTest {
     fun `should return zeroed end date components when edit text was clicked for the first time`() {
         //given the date components
         val dateComponents = DateComponents(
-            years = 0,
-            months = 0,
-            days = 0
+                years = 0,
+                months = 0,
+                days = 0
         )
 
         //when the edit text is clicked

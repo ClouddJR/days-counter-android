@@ -8,9 +8,9 @@ object NetworkConnectivityUtils {
     fun isNetworkEnabled(context: Context?): Boolean {
         context?.let {
             val connectivityManager = context
-                .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                    .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             return connectivityManager.activeNetworkInfo != null && connectivityManager
-                .activeNetworkInfo!!.isConnected
+                    .activeNetworkInfo.isConnected
         }
 
         return false

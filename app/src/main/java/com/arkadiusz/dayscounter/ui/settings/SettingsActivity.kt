@@ -5,8 +5,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
-import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
+import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
 import org.jetbrains.anko.startActivity
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -16,9 +17,9 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
         actionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_container, SettingsFragment())
-            .commit()
+                .beginTransaction()
+                .replace(R.id.settings_container, SettingsFragment())
+                .commit()
     }
 
     override fun onBackPressed() {
@@ -26,8 +27,8 @@ class SettingsActivity : AppCompatActivity() {
         finish()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
             android.R.id.home -> {
                 startActivity<MainActivity>()
                 finish()

@@ -1,7 +1,7 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
+import PreferenceUtils.defaultPrefs
+import PreferenceUtils.get
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
@@ -27,15 +27,14 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
-import com.arkadiusz.dayscounter.util.*
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.*
-import com.arkadiusz.dayscounter.util.DateUtils.formatDate
-import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
-import com.arkadiusz.dayscounter.util.DateUtils.formatTime
-import com.arkadiusz.dayscounter.util.DateUtils.getElementsFromDate
-import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
-import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
+import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
+import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.displayPremiumInfoDialog
+import com.arkadiusz.dayscounter.utils.PurchasesUtils.isPremiumUser
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -45,6 +44,10 @@ import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.*
 import java.io.File
 import java.util.*
+
+/**
+ * Created by arkadiusz on 31.03.18
+ */
 
 class EditActivity : AppCompatActivity() {
 
@@ -114,69 +117,40 @@ class EditActivity : AppCompatActivity() {
 
 
     private fun receivePassedEventId() {
-        passedEvent = viewModel.getPassedEventById(intent.getStringExtra("eventId")!!)
+        passedEvent = viewModel.getPassedEventById(intent.getStringExtra("eventId"))
     }
 
     private fun setUpSpinners() {
-        val fontSizeAdapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.add_activity_font_size,
-            R.layout.support_simple_spinner_dropdown_item
-        )
+        val fontSizeAdapter = ArrayAdapter.createFromResource(this, R.array.add_activity_font_size, R.layout.support_simple_spinner_dropdown_item)
         counterFontSizeSpinner.adapter = fontSizeAdapter
         titleFontSizeSpinner.adapter = fontSizeAdapter
 
-        val repetitionAdapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.add_activity_repeat,
-            R.layout.support_simple_spinner_dropdown_item
-        )
+        val repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.add_activity_repeat, R.layout.support_simple_spinner_dropdown_item)
         repeatSpinner.adapter = repetitionAdapter
 
-        val fontTypeAdapter = FontTypeSpinnerAdapter(
-            this,
-            R.layout.support_simple_spinner_dropdown_item,
-            resources.getStringArray(R.array.font_type).toList()
-        )
+        val fontTypeAdapter = FontTypeSpinnerAdapter(this, R.layout.support_simple_spinner_dropdown_item, resources.getStringArray(R.array.font_type).toList())
         fontTypeSpinner.adapter = fontTypeAdapter
 
         setSpinnersListeners()
     }
 
     private fun setSpinnersListeners() {
-        counterFontSizeSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if ((view as? TextView)?.text != null) {
-                        eventCalculateText.setTextSize(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            (view as? TextView)?.text.toString().toFloat()
-                        )
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    //nothing
+        counterFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if ((view as? TextView)?.text != null) {
+                    eventCalculateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
                 }
             }
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //nothing
+            }
+        }
+
         titleFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if ((view as? TextView)?.text != null) {
-                    eventTitle.setTextSize(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        (view as? TextView)?.text.toString().toFloat()
-                    )
+                    eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (view as? TextView)?.text.toString().toFloat())
                 }
             }
 
@@ -185,12 +159,7 @@ class EditActivity : AppCompatActivity() {
             }
         }
         fontTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if ((view as? TextView)?.text != null) {
                     val fontName = (view as? TextView)?.text.toString()
                     val typeFace = FontUtils.getFontFor(fontName, this@EditActivity)
@@ -274,32 +243,32 @@ class EditActivity : AppCompatActivity() {
 
     private fun displayColorPicker() {
         val picker = ColorPickerDialogBuilder
-            .with(this)
-            .setTitle("Choose color")
-            .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-            .density(10)
-            .setPositiveButton("ok", { _, selectedColor, _ -> changeWidgetsColors(selectedColor) })
-            .setNegativeButton("cancel", { _, _ -> })
+                .with(this)
+                .setTitle("Choose color")
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(10)
+                .setPositiveButton("ok", { _, selectedColor, _ -> changeWidgetsColors(selectedColor) })
+                .setNegativeButton("cancel", { _, _ -> })
 
         if (selectedColor != -1) picker.initialColor(selectedColor)
 
         picker.build()
-            .show()
+                .show()
     }
 
     private fun displayColorPickerForEventBackground() {
         val picker = ColorPickerDialogBuilder
-            .with(this)
-            .setTitle("Choose color")
-            .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-            .density(10)
-            .setPositiveButton("ok", { _, selectedColor, _ -> changeEventColor(selectedColor) })
-            .setNegativeButton("cancel", { _, _ -> })
+                .with(this)
+                .setTitle("Choose color")
+                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                .density(10)
+                .setPositiveButton("ok", { _, selectedColor, _ -> changeEventColor(selectedColor) })
+                .setNegativeButton("cancel", { _, _ -> })
 
         if (imageColor != -0) picker.initialColor(imageColor)
 
         picker.build()
-            .show()
+                .show()
     }
 
     private fun changeWidgetsColors(color: Int) {
@@ -341,12 +310,7 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun updateWidgetIfOnScreen(id: Int) {
-        val intent = Intent(
-            AppWidgetManager.ACTION_APPWIDGET_UPDATE,
-            null,
-            applicationContext,
-            AppWidgetProvider::class.java
-        )
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, applicationContext, AppWidgetProvider::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, intArrayOf(id))
         sendBroadcast(intent)
     }
@@ -357,93 +321,63 @@ class EditActivity : AppCompatActivity() {
         val month = if (chosenYear == 0) calendar.get(Calendar.MONTH) else chosenMonth
         val day = if (chosenYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenDay
 
-        DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
-                this.chosenYear = chosenYear
-                this.chosenMonth = chosenMonth
-                this.chosenDay = chosenDay
-                unformattedDate = formatDate(chosenYear, chosenMonth, chosenDay)
-                dateEditText.setText(
-                    formatDateAccordingToSettings(
-                        unformattedDate,
-                        defaultPrefs(this)["dateFormat"] ?: ""
-                    )
-                )
-                eventCalculateText.text = generateCounterText()
-            },
-            year,
-            month,
-            day
-        ).show()
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
+            this.chosenYear = chosenYear
+            this.chosenMonth = chosenMonth
+            this.chosenDay = chosenDay
+            unformattedDate = formatDate(chosenYear, chosenMonth, chosenDay)
+            dateEditText.setText(formatDateAccordingToSettings(unformattedDate,
+                    defaultPrefs(this)["dateFormat"] ?: ""))
+            eventCalculateText.text = generateCounterText()
+        }, year, month, day).show()
     }
 
     private val showReminderDatePicker = View.OnClickListener {
         val calendar = Calendar.getInstance()
         val year = if (chosenReminderYear == 0) calendar.get(Calendar.YEAR) else chosenReminderYear
-        val month =
-            if (chosenReminderYear == 0) calendar.get(Calendar.MONTH) else chosenReminderMonth
-        val day =
-            if (chosenReminderYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenReminderDay
+        val month = if (chosenReminderYear == 0) calendar.get(Calendar.MONTH) else chosenReminderMonth
+        val day = if (chosenReminderYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenReminderDay
 
         wasTimePickerAlreadyDisplayed = false
-        DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
-                reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
-                chosenReminderYear = chosenYear
-                chosenReminderMonth = chosenMonth
-                chosenReminderDay = chosenDay
-                if (!wasTimePickerAlreadyDisplayed) {
-                    displayTimePickerDialog()
-                }
-            },
-            year,
-            month,
-            day
-        ).show()
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear, chosenMonth, chosenDay ->
+            reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
+            chosenReminderYear = chosenYear
+            chosenReminderMonth = chosenMonth
+            chosenReminderDay = chosenDay
+            if (!wasTimePickerAlreadyDisplayed) {
+                displayTimePickerDialog()
+            }
+        }, year, month, day).show()
     }
 
     private fun displayTimePickerDialog() {
         val calendar = Calendar.getInstance()
-        val hour =
-            if (chosenReminderHour == 0) calendar.get(Calendar.HOUR_OF_DAY) else chosenReminderHour
-        val minute =
-            if (chosenReminderHour == 0) calendar.get(Calendar.MINUTE) else chosenReminderMinute
+        val hour = if (chosenReminderHour == 0) calendar.get(Calendar.HOUR_OF_DAY) else chosenReminderHour
+        val minute = if (chosenReminderHour == 0) calendar.get(Calendar.MINUTE) else chosenReminderMinute
 
         wasTimePickerAlreadyDisplayed = true
-        TimePickerDialog(
-            this,
-            TimePickerDialog.OnTimeSetListener { view, chosenHour, chosenMinute ->
-                if (view.isShown) {
-                    this.chosenReminderHour = chosenHour
-                    this.chosenReminderMinute = chosenMinute
-                    val time = formatTime(chosenHour, chosenMinute)
-                    reminderDate = formatDateAccordingToSettings(
-                        reminderDate,
-                        defaultPrefs(this)["dateFormat"] ?: ""
-                    )
-                    reminderDate += " $time"
-                    reminderDateEditText.setText(reminderDate)
-                    hasAlarm = true
-                }
+        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, chosenHour, chosenMinute ->
+            if (view.isShown) {
+                this.chosenReminderHour = chosenHour
+                this.chosenReminderMinute = chosenMinute
+                val time = formatTime(chosenHour, chosenMinute)
+                reminderDate = formatDateAccordingToSettings(reminderDate,
+                        defaultPrefs(this)["dateFormat"] ?: "")
+                reminderDate += " $time"
+                reminderDateEditText.setText(reminderDate)
+                hasAlarm = true
+            }
 
-            },
-            hour,
-            minute,
-            true
-        ).show()
+        }, hour, minute, true).show()
     }
 
     private fun generateCounterText(): String {
-        return DateUtils.calculateDate(
-            chosenYear, chosenMonth + 1, chosenDay,
-            yearsCheckbox.isChecked,
-            monthsCheckbox.isChecked,
-            weeksCheckbox.isChecked,
-            daysCheckbox.isChecked,
-            this
-        )
+        return DateUtils.calculateDate(chosenYear, chosenMonth + 1, chosenDay,
+                yearsCheckbox.isChecked,
+                monthsCheckbox.isChecked,
+                weeksCheckbox.isChecked,
+                daysCheckbox.isChecked,
+                this)
     }
 
 
@@ -478,10 +412,8 @@ class EditActivity : AppCompatActivity() {
         event.formatWeeksSelected = weeksCheckbox.isChecked
         event.formatDaysSelected = daysCheckbox.isChecked
         event.lineDividerSelected = showDividerCheckbox.isChecked
-        event.counterFontSize =
-            (counterFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
-        event.titleFontSize =
-            (titleFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
+        event.counterFontSize = (counterFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
+        event.titleFontSize = (titleFontSizeSpinner.getChildAt(0) as TextView).text.toString().toInt()
         event.fontType = (fontTypeSpinner.getChildAt(0) as TextView).text.toString()
         event.fontColor = selectedColor
         event.pictureDim = dimValue
@@ -499,34 +431,29 @@ class EditActivity : AppCompatActivity() {
     private fun setUpImageChoosing() {
         imageChooserButton.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle(getString(R.string.add_activity_dialog_title))
-                .setItems(setUpImageChooserDialogOptions()) { _, which ->
-                    when (which) {
-                        0 -> askForPermissionsAndDisplayCropActivity()
-                        1 -> startActivityForResult<GalleryActivity>(
-                            pickPhotoGallery,
-                            "activity" to "Edit"
-                        )
-                        2 -> displayColorPickerForEventBackground()
-                        3 -> {
-                            if (isPremiumUser(this)) {
-                                askForPermissionsAndDisplayInternetImageActivity()
-                            } else {
-                                displayPremiumInfoDialog(this)
+                    .setTitle(getString(R.string.add_activity_dialog_title))
+                    .setItems(setUpImageChooserDialogOptions()) { _, which ->
+                        when (which) {
+                            0 -> askForPermissionsAndDisplayCropActivity()
+                            1 -> startActivityForResult<GalleryActivity>(pickPhotoGallery, "activity" to "Edit")
+                            2 -> displayColorPickerForEventBackground()
+                            3 -> {
+                                if (isPremiumUser(this)) {
+                                    askForPermissionsAndDisplayInternetImageActivity()
+                                } else {
+                                    displayPremiumInfoDialog(this)
+                                }
                             }
                         }
-                    }
-                }.show()
+                    }.show()
         }
     }
 
     private fun setUpImageChooserDialogOptions(): Array<String> {
-        val options = mutableListOf<String>(
-            getString(R.string.add_activity_dialog_option_custom),
-            getString(R.string.add_activity_dialog_option_gallery),
-            getString(R.string.add_activity_dialog_option_color),
-            getString(R.string.add_activity_dialog_option_internet)
-        )
+        val options = mutableListOf<String>(getString(R.string.add_activity_dialog_option_custom),
+                getString(R.string.add_activity_dialog_option_gallery),
+                getString(R.string.add_activity_dialog_option_color),
+                getString(R.string.add_activity_dialog_option_internet))
         return options.toTypedArray()
     }
 
@@ -553,16 +480,8 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun askForPermissionsAndDisplayCropActivity() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                writeRequestCode
-            )
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), writeRequestCode)
         } else {
             //permission already granted, so display crop dialog
             CropImage.startPickImageActivity(this)
@@ -570,27 +489,15 @@ class EditActivity : AppCompatActivity() {
     }
 
     private fun askForPermissionsAndDisplayInternetImageActivity() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                pickPhotoInternet
-            )
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), pickPhotoInternet)
         } else {
             startActivityForResult<InternetGalleryActivity>(pickPhotoInternet, "activity" to "Edit")
         }
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == writeRequestCode && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             CropImage.startPickImageActivity(this)
@@ -618,20 +525,15 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
-    private fun isPossibleToOpenCropActivityAfterChoosingImage(
-        requestCode: Int,
-        resultCode: Int
-    ): Boolean {
+    private fun isPossibleToOpenCropActivityAfterChoosingImage(requestCode: Int, resultCode: Int): Boolean {
         return requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri: Uri) {
         if (CropImage.isReadExternalStoragePermissionsRequired(this, chosenImageUri)) {
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE
-            )
+            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE)
         } else {
             startCropImageActivity(chosenImageUri)
         }
@@ -639,10 +541,10 @@ class EditActivity : AppCompatActivity() {
 
     private fun startCropImageActivity(imageUri: Uri) {
         CropImage.activity(imageUri)
-            .setAspectRatio(18, 9)
-            .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
-            .setFixAspectRatio(true)
-            .start(this)
+                .setAspectRatio(18, 9)
+                .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
+                .setFixAspectRatio(true)
+                .start(this)
     }
 
     private fun isResultComingWithImageAfterCropping(requestCode: Int): Boolean {
@@ -672,12 +574,8 @@ class EditActivity : AppCompatActivity() {
 
     private fun fillGeneralSectionForm() {
         titleEditText.setText(passedEvent.name)
-        dateEditText.setText(
-            formatDateAccordingToSettings(
-                passedEvent.date,
-                defaultPrefs(this)["dateFormat"] ?: ""
-            )
-        )
+        dateEditText.setText(formatDateAccordingToSettings(passedEvent.date,
+                defaultPrefs(this)["dateFormat"] ?: ""))
         descriptionEditText.setText(passedEvent.description)
         val dateTriple = getElementsFromDate(passedEvent.date)
         chosenYear = dateTriple.first
@@ -694,13 +592,9 @@ class EditActivity : AppCompatActivity() {
             chosenReminderHour = passedEvent.reminderHour
             chosenReminderMinute = passedEvent.reminderMinute
             hasAlarm = true
-            val reminderDate = formatDateAccordingToSettings(
-                formatDate(
-                    passedEvent.reminderYear,
+            val reminderDate = formatDateAccordingToSettings(formatDate(passedEvent.reminderYear,
                     passedEvent.reminderMonth,
-                    passedEvent.reminderDay
-                ), defaultPrefs(this)["dateFormat"] ?: ""
-            ) + ", " +
+                    passedEvent.reminderDay), defaultPrefs(this)["dateFormat"] ?: "") + ", " +
                     formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)
 
             reminderDateEditText.setText(reminderDate)
@@ -721,18 +615,8 @@ class EditActivity : AppCompatActivity() {
 
     private fun fillFontSectionForm() {
         showDividerCheckbox.isChecked = passedEvent.lineDividerSelected
-        counterFontSizeSpinner.setSelection(
-            getSpinnerIndexFor(
-                passedEvent.counterFontSize,
-                counterFontSizeSpinner
-            )
-        )
-        titleFontSizeSpinner.setSelection(
-            getSpinnerIndexFor(
-                passedEvent.titleFontSize,
-                titleFontSizeSpinner
-            )
-        )
+        counterFontSizeSpinner.setSelection(getSpinnerIndexFor(passedEvent.counterFontSize, counterFontSizeSpinner))
+        titleFontSizeSpinner.setSelection(getSpinnerIndexFor(passedEvent.titleFontSize, titleFontSizeSpinner))
         fontTypeSpinner.setSelection(FontUtils.getFontPositionFor(passedEvent.fontType))
         colorImageView.backgroundColor = passedEvent.fontColor
         changeWidgetsColors(passedEvent.fontColor)
@@ -752,14 +636,12 @@ class EditActivity : AppCompatActivity() {
             else -> {
                 imageUri = Uri.parse(passedEvent.image)
                 when {
-                    File(passedEvent.image).exists() -> Glide.with(this).load(passedEvent.image)
-                        .into(eventImage)
+                    File(passedEvent.image).exists() -> Glide.with(this).load(passedEvent.image).into(eventImage)
                     passedEvent.imageCloudPath.isNotEmpty() -> Glide.with(this).load(
-                        FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath)
-                    )
-                        .into(eventImage)
+                            FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath))
+                            .into(eventImage)
                     else -> Glide.with(this).load(android.R.color.darker_gray)
-                        .into(eventImage)
+                            .into(eventImage)
                 }
             }
         }

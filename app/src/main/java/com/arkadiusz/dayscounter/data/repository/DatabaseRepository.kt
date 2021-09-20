@@ -6,13 +6,13 @@ import com.arkadiusz.dayscounter.data.local.LocalDatabase
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.remote.RemoteDatabase
 import com.arkadiusz.dayscounter.util.NetworkConnectivityUtils
-import com.arkadiusz.dayscounter.util.DateUtils.formatDate
-import com.arkadiusz.dayscounter.util.DateUtils.generateCalendar
-import com.arkadiusz.dayscounter.util.DateUtils.getDateForBackupFile
-import com.arkadiusz.dayscounter.util.DateUtils.getElementsFromDate
-import com.arkadiusz.dayscounter.util.StorageUtils
-import com.arkadiusz.dayscounter.util.StorageUtils.EXPORT_FILE_EXTENSION
-import com.arkadiusz.dayscounter.util.StorageUtils.EXPORT_FILE_NAME
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.generateCalendar
+import com.arkadiusz.dayscounter.utils.DateUtils.getDateForBackupFile
+import com.arkadiusz.dayscounter.utils.DateUtils.getElementsFromDate
+import com.arkadiusz.dayscounter.utils.StorageUtils
+import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_EXTENSION
+import com.arkadiusz.dayscounter.utils.StorageUtils.EXPORT_FILE_NAME
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,10 +23,14 @@ import java.io.File
 import java.util.*
 import kotlin.concurrent.schedule
 
+/**
+ * Created by Arkadiusz on 14.03.2018
+ */
+
 class DatabaseRepository(
-    private val userRepository: UserRepository = UserRepository(),
-    private val localDatabase: LocalDatabase = LocalDatabase(),
-    private val remoteDatabase: RemoteDatabase = RemoteDatabase(userRepository)
+        private val userRepository: UserRepository = UserRepository(),
+        private val localDatabase: LocalDatabase = LocalDatabase(),
+        private val remoteDatabase: RemoteDatabase = RemoteDatabase(userRepository)
 ) {
     private lateinit var remoteListenerDisposable: Disposable
 
@@ -70,12 +74,12 @@ class DatabaseRepository(
         return localDatabase.getEventByWidgetId(widgetId)
     }
 
-    fun setWidgetIdForEvent(eventId: String, widgetId: Int) {
-        localDatabase.setWidgetIdForEvent(eventId, widgetId)
+    fun setWidgetIdForEvent(event: Event, widgetId: Int) {
+        localDatabase.setWidgetIdForEvent(event, widgetId)
     }
 
-    fun setWidgetTransparencyFor(eventId: String, isTransparent: Boolean) {
-        localDatabase.setWidgetTransparencyFor(eventId, isTransparent)
+    fun setWidgetTransparencyFor(event: Event, isTransparent: Boolean) {
+        localDatabase.setWidgetTransparencyFor(event, isTransparent)
     }
 
     fun disableAlarmForEvent(eventId: String) {
@@ -120,8 +124,7 @@ class DatabaseRepository(
 
                 //previously image, now background or color
                 if ((oldEvent.image.isNotEmpty() || oldEvent.imageCloudPath.isNotEmpty()) &&
-                    (event.imageID != 0 || event.imageColor != 0)
-                ) {
+                        (event.imageID != 0 || event.imageColor != 0)) {
                     remoteDatabase.deleteImageForEvent(oldEvent)
                 }
 
@@ -132,8 +135,7 @@ class DatabaseRepository(
 
                 //previously image, now different one
                 if (oldEvent.image != event.image && oldEvent.imageCloudPath == event.imageCloudPath
-                    && oldEvent.image.isNotEmpty() && event.image != "null"
-                ) {
+                        && oldEvent.image.isNotEmpty() && event.image != "null") {
                     remoteDatabase.deleteImageForEvent(oldEvent)
                     event.imageCloudPath = getCloudImagePath(event)
                     remoteDatabase.addImageForEvent(event)
@@ -208,11 +210,9 @@ class DatabaseRepository(
             "4" -> eventCalendar.add(Calendar.YEAR, 1)
         }
 
-        val dateAfterRepetition = formatDate(
-            eventCalendar.get(Calendar.YEAR),
-            eventCalendar.get(Calendar.MONTH),
-            eventCalendar.get(Calendar.DAY_OF_MONTH)
-        )
+        val dateAfterRepetition = formatDate(eventCalendar.get(Calendar.YEAR),
+                eventCalendar.get(Calendar.MONTH),
+                eventCalendar.get(Calendar.DAY_OF_MONTH))
 
         localDatabase.repeatEvent(event, dateAfterRepetition) {
             if (userRepository.isLoggedIn()) {
@@ -226,8 +226,7 @@ class DatabaseRepository(
         val backupFolder = File(backupPath)
         backupFolder.mkdir()
 
-        val file =
-            File(backupPath, "${EXPORT_FILE_NAME}_${getDateForBackupFile()}.$EXPORT_FILE_EXTENSION")
+        val file = File(backupPath, "${EXPORT_FILE_NAME}_${getDateForBackupFile()}.$EXPORT_FILE_EXTENSION")
         file.delete()
         localDatabase.writeCopyToFile(file)
 
@@ -264,22 +263,22 @@ class DatabaseRepository(
             remoteListenerDisposable.dispose()
         }
         remoteListenerDisposable = remoteDatabase.getEvents()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { cloudEvents: List<Event> ->
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { cloudEvents: List<Event> ->
 
-                    deleteIfNotExist(cloudEvents)
+                            deleteIfNotExist(cloudEvents)
 
-                    cloudEvents.forEach { cloudEvent ->
-                        updateLocalEventBasedOn(cloudEvent)
-                    }
+                            cloudEvents.forEach { cloudEvent ->
+                                updateLocalEventBasedOn(cloudEvent)
+                            }
 
-                },
-                { error: Throwable ->
-                    error.printStackTrace()
-                }
-            )
+                        },
+                        { error: Throwable ->
+                            error.printStackTrace()
+                        }
+                )
     }
 
     private fun deleteIfNotExist(passedEvents: List<Event>) {
@@ -300,8 +299,7 @@ class DatabaseRepository(
 
         sourceDirectory.mkdir()
 
-        val filePath =
-            sourceDirectory.path + File.separator + Uri.parse(event.imageCloudPath).lastPathSegment
+        val filePath = sourceDirectory.path + File.separator + Uri.parse(event.imageCloudPath).lastPathSegment
         val file = File(filePath)
 
         storageReference.getFile(file).addOnSuccessListener {

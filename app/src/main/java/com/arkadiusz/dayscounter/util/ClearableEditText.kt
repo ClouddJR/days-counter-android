@@ -13,8 +13,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.arkadiusz.dayscounter.R
 
 
-class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusChangeListener,
-    TextWatcher {
+class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusChangeListener, TextWatcher {
 
     private lateinit var clearTextIcon: Drawable
 
@@ -26,11 +25,7 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init(context)
     }
 
@@ -84,10 +79,9 @@ class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusC
         clearTextIcon.setVisible(visible, false)
         val compoundDrawables = compoundDrawables
         setCompoundDrawables(
-            compoundDrawables[0],
-            compoundDrawables[1],
-            if (visible) clearTextIcon else null,
-            compoundDrawables[3]
-        )
+                compoundDrawables[0],
+                compoundDrawables[1],
+                if (visible) clearTextIcon else null,
+                compoundDrawables[3])
     }
 }

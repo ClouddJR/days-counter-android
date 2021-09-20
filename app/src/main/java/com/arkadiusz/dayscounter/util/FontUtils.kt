@@ -1,11 +1,16 @@
-package com.arkadiusz.dayscounter.util
+package com.arkadiusz.dayscounter.utils
 
 import android.content.Context
 import android.graphics.Typeface
 import androidx.core.content.res.ResourcesCompat
 import com.arkadiusz.dayscounter.R
 
+/**
+ * Created by arkadiusz on 09.03.18
+ */
+
 object FontUtils {
+
     fun getFontFor(name: String, context: Context): Typeface? {
         return when (name) {
             "Allerta" -> ResourcesCompat.getFont(context, R.font.allerta)

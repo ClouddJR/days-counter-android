@@ -1,130 +1,141 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        package="com.arkadiusz.dayscounter">
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.arkadiusz.dayscounter">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.VIBRATE"/>
+  <uses-permission android:name="com.android.vending.BILLING"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <application
-            android:allowBackup="false"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:label="@string/app_name"
-            android:name=".DaysCounterApp"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
+  <application
+    android:allowBackup="false"
+    android:icon="@mipmap/ic_launcher"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:label="@string/app_name"
+    android:name=".DaysCounterApp"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme"
+    tools:ignore="GoogleAppIndexingWarning">
 
-        <meta-data
-                android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="ca-app-pub-4098342918729972~7968062049" />
+    <meta-data
+      android:name="com.google.android.gms.ads.APPLICATION_ID"
+      android:value="ca-app-pub-4098342918729972~7968062049"/>
 
-        <uses-library
-                android:name="org.apache.http.legacy"
-                android:required="false" />
+    <uses-library
+      android:name="org.apache.http.legacy"
+      android:required="false"/>
 
-        <activity
-                android:label="@string/app_name"
-                android:launchMode="singleTop"
-                android:name=".ui.main.MainActivity"
-                android:theme="@style/AppTheme.Launcher">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+    <activity
+      android:label="@string/app_name"
+      android:launchMode="singleTop"
+      android:name=".ui.main.MainActivity"
+      android:theme="@style/AppTheme.Launcher">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
 
-        <activity
-                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-                android:theme="@style/Base.Theme.AppCompat" />
+    <activity
+      android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+      android:theme="@style/Base.Theme.AppCompat"/>
 
-        <activity
-                android:label="@string/settings_menu_action"
-                android:name=".ui.settings.SettingsActivity"
-                android:parentActivityName=".ui.main.MainActivity" />
+    <activity
+      android:label="@string/settings_menu_action"
+      android:name=".ui.settings.SettingsActivity"
+      android:parentActivityName=".ui.main.MainActivity"/>
 
-        <activity
-                android:label="@string/title_activity_add"
-                android:launchMode="singleTask"
-                android:name=".ui.addeditevent.AddActivity"
-                android:parentActivityName=".ui.main.MainActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustResize|stateHidden" />
+    <activity
+      android:label="@string/title_activity_add"
+      android:launchMode="singleTask"
+      android:name=".ui.addeditevent.AddActivity"
+      android:parentActivityName=".ui.main.MainActivity"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustResize|stateHidden">
+    </activity>
 
-        <activity
-                android:label="@string/title_activity_edit"
-                android:launchMode="singleTask"
-                android:name=".ui.addeditevent.EditActivity"
-                android:parentActivityName=".ui.main.MainActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustResize|stateHidden" />
+    <activity
+      android:label="@string/title_activity_edit"
+      android:launchMode="singleTask"
+      android:name=".ui.addeditevent.EditActivity"
+      android:parentActivityName=".ui.main.MainActivity"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustResize|stateHidden">
+    </activity>
 
-        <activity
-                android:name=".ui.eventdetails.DetailActivity"
-                android:parentActivityName=".ui.main.MainActivity"
-                android:screenOrientation="portrait" />
+    <activity
+      android:name=".ui.eventdetails.DetailActivity"
+      android:parentActivityName=".ui.main.MainActivity"
+      android:screenOrientation="portrait">
+    </activity>
 
-        <activity
-                android:name=".ui.internetgallery.InternetGalleryActivity"
-                android:parentActivityName=".ui.addeditevent.AddActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustNothing" />
+    <activity
+      android:name=".ui.internetgallery.InternetGalleryActivity"
+      android:parentActivityName=".ui.addeditevent.AddActivity"
+      android:screenOrientation="portrait"
+      android:windowSoftInputMode="adjustNothing">
+    </activity>
 
-        <activity android:name=".ui.localgallery.GalleryActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.OPEN_DOCUMENT" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-        </activity>
+    <activity
+      android:name=".ui.localgallery.GalleryActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.OPEN_DOCUMENT"/>
+        <category android:name="android.intent.category.OPENABLE"/>
+        <data android:mimeType="image/*"/>
+      </intent-filter>
+    </activity>
 
-        <activity android:name=".ui.widget.WidgetConfigureActivity">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
+    <activity
+      android:name=".ui.widget.WidgetConfigureActivity">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+      </intent-filter>
+    </activity>
 
-        <activity
-                android:name=".ui.premium.PremiumActivity"
-                android:parentActivityName=".ui.main.MainActivity"
-                android:screenOrientation="portrait" />
+    <activity
+      android:name=".ui.premium.PremiumActivity"
+      android:parentActivityName=".ui.main.MainActivity"
+      android:screenOrientation="portrait">
+    </activity>
 
-        <activity
-                android:name=".ui.login.LoginActivity"
-                android:screenOrientation="portrait" />
+    <activity
+      android:name=".ui.login.LoginActivity"
+      android:screenOrientation="portrait">
+    </activity>
 
-        <activity
-                android:label="@string/date_calculator_activity_title"
-                android:name=".ui.calculator.CalculatorActivity"
-                android:parentActivityName=".ui.main.MainActivity"
-                android:screenOrientation="portrait" />
+    <activity
+        android:label="@string/date_calculator_activity_title"
+        android:name=".ui.calculator.CalculatorActivity"
+        android:parentActivityName=".ui.main.MainActivity"
+        android:screenOrientation="portrait">
+    </activity>
 
-        <receiver android:name=".Provider.AppWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                    android:name="android.appwidget.provider"
-                    android:resource="@xml/appwidget_info" />
-        </receiver>
+    <receiver android:name=".Provider.AppWidgetProvider">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/appwidget_info"/>
+    </receiver>
 
-        <receiver
-                android:enabled="true"
-                android:name=".data.receiver.AlarmBroadcast">
-            <intent-filter>
-                <action android:name="NOTIFICATION_SERVICE" />
-            </intent-filter>
-        </receiver>
+    <receiver
+      android:enabled="true"
+      android:name=".data.receiver.AlarmBroadcast">
+      <intent-filter>
+        <action android:name="NOTIFICATION_SERVICE"/>
+      </intent-filter>
+    </receiver>
 
-        <receiver
-                android:enabled="true"
-                android:name=".data.receiver.AlarmBootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-    </application>
+    <receiver
+      android:enabled="true"
+      android:name=".data.receiver.AlarmBootReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+      </intent-filter>
+    </receiver>
+  </application>
+
 </manifest>

@@ -1,5 +1,7 @@
 package com.arkadiusz.dayscounter.ui.eventdetails
 
+import PreferenceUtils.defaultPrefs
+import PreferenceUtils.get
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,13 +14,11 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
-import com.arkadiusz.dayscounter.util.DateUtils.calculateDate
-import com.arkadiusz.dayscounter.util.DateUtils.formatDate
-import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
-import com.arkadiusz.dayscounter.util.DateUtils.formatTime
-import com.arkadiusz.dayscounter.util.ThemeUtils
+import com.arkadiusz.dayscounter.utils.DateUtils.calculateDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDate
+import com.arkadiusz.dayscounter.utils.DateUtils.formatDateAccordingToSettings
+import com.arkadiusz.dayscounter.utils.DateUtils.formatTime
+import com.arkadiusz.dayscounter.utils.ThemeUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdRequest
@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.*
 import java.io.File
+
 
 class DetailActivity : AppCompatActivity() {
 
@@ -121,12 +122,7 @@ class DetailActivity : AppCompatActivity() {
         val circularProgressDrawable = CircularProgressDrawable(this)
         circularProgressDrawable.strokeWidth = 5f
         circularProgressDrawable.centerRadius = 30f
-        circularProgressDrawable.setColorSchemeColors(
-            ContextCompat.getColor(
-                this,
-                R.color.colorAccent
-            )
-        )
+        circularProgressDrawable.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent))
         circularProgressDrawable.start()
 
         when {
@@ -138,18 +134,15 @@ class DetailActivity : AppCompatActivity() {
                 when {
                     File(passedEvent.image).exists() ->
                         Glide.with(this)
-                            .load(passedEvent.image)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .into(eventImage)
+                                .load(passedEvent.image)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true)
+                                .into(eventImage)
                     passedEvent.imageCloudPath.isNotEmpty() -> {
                         Glide.with(this)
-                            .load(
-                                FirebaseStorage.getInstance()
-                                    .getReference(passedEvent.imageCloudPath)
-                            )
-                            .placeholder(circularProgressDrawable)
-                            .into(eventImage)
+                                .load(FirebaseStorage.getInstance().getReference(passedEvent.imageCloudPath))
+                                .placeholder(circularProgressDrawable)
+                                .into(eventImage)
                     }
                     else -> {
 
@@ -161,22 +154,18 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun fillMainSection() {
-        val counterText = calculateDate(
-            passedEvent.date,
-            passedEvent.formatYearsSelected,
-            passedEvent.formatMonthsSelected,
-            passedEvent.formatWeeksSelected,
-            passedEvent.formatDaysSelected, this
-        )
+        val counterText = calculateDate(passedEvent.date,
+                passedEvent.formatYearsSelected,
+                passedEvent.formatMonthsSelected,
+                passedEvent.formatWeeksSelected,
+                passedEvent.formatDaysSelected, this)
         eventCalculateText.text = counterText
         eventTitle.text = passedEvent.name
     }
 
     private fun fillAboutSection() {
-        dateText.text = formatDateAccordingToSettings(
-            passedEvent.date,
-            defaultPrefs(this)["dateFormat"] ?: ""
-        )
+        dateText.text = formatDateAccordingToSettings(passedEvent.date,
+                defaultPrefs(this)["dateFormat"] ?: "")
         if (passedEvent.description.isNotEmpty()) {
             descriptionText.text = passedEvent.description
         } else {
@@ -198,14 +187,10 @@ class DetailActivity : AppCompatActivity() {
     private fun fillReminderSection() {
         if (passedEvent.reminderYear != 0) {
             val reminderDate = "${
-                formatDateAccordingToSettings(
-                    formatDate(
-                        passedEvent.reminderYear,
+                formatDateAccordingToSettings(formatDate(passedEvent.reminderYear,
                         passedEvent.reminderMonth,
-                        passedEvent.reminderDay
-                    ),
-                    defaultPrefs(this)["dateFormat"] ?: ""
-                )
+                        passedEvent.reminderDay),
+                        defaultPrefs(this)["dateFormat"] ?: "")
             } " +
                     formatTime(passedEvent.reminderHour, passedEvent.reminderMinute)
 

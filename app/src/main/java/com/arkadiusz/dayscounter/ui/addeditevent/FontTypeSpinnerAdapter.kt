@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.arkadiusz.dayscounter.util.FontUtils
+import com.arkadiusz.dayscounter.utils.FontUtils
 
-class FontTypeSpinnerAdapter(context: Context, resource: Int, list: List<String>) :
-    ArrayAdapter<String>(context, resource, list) {
+/**
+ * Created by arkadiusz on 09.03.18
+ */
+
+class FontTypeSpinnerAdapter(context: Context, resource: Int, list: List<String>) : ArrayAdapter<String>(context, resource, list) {
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

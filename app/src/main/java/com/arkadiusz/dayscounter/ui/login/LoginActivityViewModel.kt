@@ -6,9 +6,9 @@ import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.repository.UserRepository
 
 class LoginActivityViewModel(
-    private var userRepository: UserRepository = UserRepository(),
-    private var databaseRepository: DatabaseRepository = DatabaseRepository()
-) : ViewModel(), UserRepository.OnEmailResetListener, UserRepository.OnLoggedListener {
+        private var userRepository: UserRepository = UserRepository(),
+        private var databaseRepository: DatabaseRepository = DatabaseRepository()
+) : ViewModel(), UserRepository.OnEmailResetListener,  UserRepository.OnLoggedListener {
 
     val loginResult = MutableLiveData<Boolean>()
     val emailResetResult = MutableLiveData<Boolean>()

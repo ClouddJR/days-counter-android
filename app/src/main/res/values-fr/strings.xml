@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources  xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Compteur de Jours</string>
     <string name="title_activity_add">Ajouter un événement</string>
     <string name="title_activity_edit">Modifier un événement</string>
@@ -207,6 +207,9 @@
 
     <string name="features_pro_big">Comprend toutes les fonctionnalités de la version pro et une assistance supplémentaire pour les développeurs d\'applications</string>
 
+    <string name="premium_already_own_dialog_title">Informations</string>
+    <string name="premium_already_own_dialog_message">Vous aviez déjà acheté ceci</string>
+
     <!--Login-->
 
     <string name="login_activity_title">LoginActivity</string>
@@ -240,7 +243,7 @@
 
     <string name="author_link">Auteur:</string>
     <string name="detail_activity_toast_event_deleted">L\'événement n\'existe pas</string>
-    <string name="premium_thank_you">🎉 Merci d\'avoir acheté la version premium! 🎉</string>
+    <string name="premium_thank_you_dialog">Merci d\'avoir acheté la version premium!</string>
 
     <!--Date Calculator-->
 

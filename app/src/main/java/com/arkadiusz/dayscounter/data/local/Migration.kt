@@ -4,6 +4,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.DynamicRealm
 import io.realm.RealmMigration
 
+/**
+ * Created by Arkadiusz on 31.05.2017
+ */
+
 class Migration : RealmMigration {
 
     val firebase = FirebaseFirestore.getInstance()
@@ -17,6 +21,7 @@ class Migration : RealmMigration {
     }
 
     override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
+
         if (oldVersion == 0L) {
             migrateFromFirstVersion(realm)
         }
@@ -99,16 +104,16 @@ class Migration : RealmMigration {
         val eventSchema = schema.get("Event")!!
 
         eventSchema
-            .removePrimaryKey()
-            .removeField("id")
-            .addField("id", String::class.java)
-            .addField("imageCloudPath", String::class.java)
-            .transform {
-                val newId = firebase.collection("getId").document().id
-                it.set("id", newId)
-                it.set("imageCloudPath", "")
-            }
-            .addPrimaryKey("id")
+                .removePrimaryKey()
+                .removeField("id")
+                .addField("id", String::class.java)
+                .addField("imageCloudPath", String::class.java)
+                .transform {
+                    val newId = firebase.collection("getId").document().id
+                    it.set("id", newId)
+                    it.set("imageCloudPath", "")
+                }
+                .addPrimaryKey("id")
     }
 
 }

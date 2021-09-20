@@ -19,29 +19,25 @@ interface UnsplashService {
 
         fun getService(): UnsplashService {
             val gson = GsonBuilder()
-                .setLenient()
-                .create()
+                    .setLenient()
+                    .create()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
+                    .baseUrl(baseURL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build()
 
             return retrofit.create(UnsplashService::class.java)
         }
     }
 
     @GET("search/photos")
-    fun getPhotosForQuery(
-        @Query("query") queryString: String,
-        @Query("page") pageNumber: String = "1",
-        @Query("client_id") clientId: String = Companion.clientId,
-        @Query("per_page") imagesPerPage: String = "30"
-    ): Call<ImagesResponse>
+    fun getPhotosForQuery(@Query("query") queryString: String,
+                          @Query("page") pageNumber: String = "1",
+                          @Query("client_id") clientId: String = Companion.clientId,
+                          @Query("per_page") imagesPerPage: String = "30"): Call<ImagesResponse>
 
     @GET("photos/{image}/download")
-    fun triggerImageDownload(
-        @Path("image") imageId: String,
-        @Query("client_id") clientId: String = Companion.clientId
-    ): Call<ResponseBody>
+    fun triggerImageDownload(@Path("image") imageId: String,
+                             @Query("client_id") clientId: String = Companion.clientId): Call<ResponseBody>
 }

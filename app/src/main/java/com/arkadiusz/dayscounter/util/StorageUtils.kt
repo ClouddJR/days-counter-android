@@ -1,9 +1,13 @@
-package com.arkadiusz.dayscounter.util
+package com.arkadiusz.dayscounter.utils
 
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import java.io.*
+
+/**
+ * Created by arkadiusz on 28.03.18
+ */
 
 object StorageUtils {
 
@@ -36,6 +40,7 @@ object StorageUtils {
             bos?.close()
             return Uri.parse(destinationFilename)
         }
+
     }
 
     fun getBackupPath(context: Context): String {
