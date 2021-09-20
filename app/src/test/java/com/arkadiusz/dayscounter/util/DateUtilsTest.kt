@@ -3,7 +3,6 @@ package com.arkadiusz.dayscounter.util
 import android.content.Context
 import android.content.res.Resources
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.utils.DateUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.ArgumentMatchers.any
@@ -97,7 +96,10 @@ class DateUtilsTest {
         `when`(calendar.get(Calendar.HOUR_OF_DAY)).thenReturn(hour)
         `when`(calendar.get(Calendar.MINUTE)).thenReturn(minute)
 
-        assertEquals("$year${month + 1}${day}_$hour$minute", DateUtils.getDateForBackupFile(calendar))
+        assertEquals(
+            "$year${month + 1}${day}_$hour$minute",
+            DateUtils.getDateForBackupFile(calendar)
+        )
     }
 
     @Test
@@ -151,8 +153,12 @@ class DateUtilsTest {
         val originalDate = "2020-01-15"
 
         val datePreference = "31-10-1980"
-        assertEquals("15-01-2020", DateUtils.formatDateAccordingToSettings(originalDate,
-                datePreference, Locale.US))
+        assertEquals(
+            "15-01-2020", DateUtils.formatDateAccordingToSettings(
+                originalDate,
+                datePreference, Locale.US
+            )
+        )
     }
 
     @Test
@@ -160,8 +166,12 @@ class DateUtilsTest {
         val originalDate = "2020-01-15"
 
         val datePreference = "10-31-1980"
-        assertEquals("01-15-2020", DateUtils.formatDateAccordingToSettings(originalDate,
-                datePreference, Locale.US))
+        assertEquals(
+            "01-15-2020", DateUtils.formatDateAccordingToSettings(
+                originalDate,
+                datePreference, Locale.US
+            )
+        )
     }
 
     @Test
@@ -169,8 +179,12 @@ class DateUtilsTest {
         val originalDate = "2020-01-15"
 
         val datePreference = "1980-10-31"
-        assertEquals("2020-01-15", DateUtils.formatDateAccordingToSettings(originalDate,
-                datePreference, Locale.US))
+        assertEquals(
+            "2020-01-15", DateUtils.formatDateAccordingToSettings(
+                originalDate,
+                datePreference, Locale.US
+            )
+        )
     }
 
     @Test
@@ -178,8 +192,12 @@ class DateUtilsTest {
         val originalDate = "2020-01-15"
 
         val datePreference = "31 October 1980"
-        assertEquals("15 January 2020", DateUtils.formatDateAccordingToSettings(originalDate,
-                datePreference, Locale.US))
+        assertEquals(
+            "15 January 2020", DateUtils.formatDateAccordingToSettings(
+                originalDate,
+                datePreference, Locale.US
+            )
+        )
     }
 
     @Test
@@ -187,8 +205,12 @@ class DateUtilsTest {
         val originalDate = "2020-01-15"
 
         val datePreference = "October 31, 1980"
-        assertEquals("January 15, 2020", DateUtils.formatDateAccordingToSettings(originalDate,
-                datePreference, Locale.US))
+        assertEquals(
+            "January 15, 2020", DateUtils.formatDateAccordingToSettings(
+                originalDate,
+                datePreference, Locale.US
+            )
+        )
     }
 
     @Test
@@ -202,12 +224,16 @@ class DateUtilsTest {
         val month = 6
         val day = 10
 
-        assertEquals(0, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            0, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = true,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                today = todayCalendar).years)
+                today = todayCalendar
+            ).years
+        )
     }
 
     @Test
@@ -221,12 +247,16 @@ class DateUtilsTest {
         val month = 6
         val day = 10
 
-        assertEquals(4, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            4, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = true,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                today = todayCalendar).years)
+                today = todayCalendar
+            ).years
+        )
     }
 
     @Test
@@ -240,12 +270,16 @@ class DateUtilsTest {
         val month = 6
         val day = 10
 
-        assertEquals(0, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            0, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = false,
                 areMonthsIncluded = true,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                today = todayCalendar).months)
+                today = todayCalendar
+            ).months
+        )
     }
 
     @Test
@@ -259,12 +293,16 @@ class DateUtilsTest {
         val month = 2
         val day = 10
 
-        assertEquals(7, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            7, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = false,
                 areMonthsIncluded = true,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                today = todayCalendar).months)
+                today = todayCalendar
+            ).months
+        )
     }
 
     @Test
@@ -278,12 +316,16 @@ class DateUtilsTest {
         val month = 7
         val day = 14
 
-        assertEquals(0, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            0, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = true,
                 areDaysIncluded = false,
-                today = todayCalendar).weeks)
+                today = todayCalendar
+            ).weeks
+        )
     }
 
     @Test
@@ -297,12 +339,16 @@ class DateUtilsTest {
         val month = 8
         val day = 14
 
-        assertEquals(4, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            4, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = true,
                 areDaysIncluded = false,
-                today = todayCalendar).weeks)
+                today = todayCalendar
+            ).weeks
+        )
     }
 
     @Test
@@ -316,12 +362,16 @@ class DateUtilsTest {
         val month = 7
         val day = 11
 
-        assertEquals(0, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            0, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                today = todayCalendar).days)
+                today = todayCalendar
+            ).days
+        )
     }
 
     @Test
@@ -335,12 +385,16 @@ class DateUtilsTest {
         val month = 8
         val day = 14
 
-        assertEquals(34, DateUtils.calculateDate(year, month, day,
+        assertEquals(
+            34, DateUtils.calculateDate(
+                year, month, day,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                today = todayCalendar).days)
+                today = todayCalendar
+            ).days
+        )
     }
 
     @Test
@@ -354,12 +408,14 @@ class DateUtilsTest {
         val month = 9
         val day = 21
 
-        val calculatedComponents = DateUtils.calculateDate(year, month, day,
-                areYearsIncluded = true,
-                areMonthsIncluded = true,
-                areWeeksIncluded = true,
-                areDaysIncluded = true,
-                today = todayCalendar)
+        val calculatedComponents = DateUtils.calculateDate(
+            year, month, day,
+            areYearsIncluded = true,
+            areMonthsIncluded = true,
+            areWeeksIncluded = true,
+            areDaysIncluded = true,
+            today = todayCalendar
+        )
 
         assertEquals(3, calculatedComponents.years)
         assertEquals(2, calculatedComponents.months)
@@ -374,25 +430,38 @@ class DateUtilsTest {
         `when`(context.resources).thenReturn(resources)
 
 
-        `when`(context.resources.getQuantityString(eq(R.plurals.years_number), any(Int::class.java)))
-                .thenReturn("years")
+        `when`(
+            context.resources.getQuantityString(
+                eq(R.plurals.years_number),
+                any(Int::class.java)
+            )
+        )
+            .thenReturn("years")
         `when`(context.resources.getQuantityString(R.plurals.years_number, 1)).thenReturn("year")
 
         var yearsNumber = 2
-        assertEquals("2 years", DateUtils.generateCounterText(yearsNumber, 0, 0, 0,
+        assertEquals(
+            "2 years", DateUtils.generateCounterText(
+                yearsNumber, 0, 0, 0,
                 areYearsIncluded = true,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context))
+                context = context
+            )
+        )
 
         yearsNumber = 1
-        assertEquals("1 year", DateUtils.generateCounterText(yearsNumber, 0, 0, 0,
+        assertEquals(
+            "1 year", DateUtils.generateCounterText(
+                yearsNumber, 0, 0, 0,
                 areYearsIncluded = true,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context))
+                context = context
+            )
+        )
     }
 
     @Test
@@ -402,25 +471,38 @@ class DateUtilsTest {
         `when`(context.resources).thenReturn(resources)
 
 
-        `when`(context.resources.getQuantityString(eq(R.plurals.months_number), any(Int::class.java)))
-                .thenReturn("months")
+        `when`(
+            context.resources.getQuantityString(
+                eq(R.plurals.months_number),
+                any(Int::class.java)
+            )
+        )
+            .thenReturn("months")
         `when`(context.resources.getQuantityString(R.plurals.months_number, 1)).thenReturn("month")
 
         var monthsNumber = 2
-        assertEquals("2 months", DateUtils.generateCounterText(0, monthsNumber, 0, 0,
+        assertEquals(
+            "2 months", DateUtils.generateCounterText(
+                0, monthsNumber, 0, 0,
                 areYearsIncluded = false,
                 areMonthsIncluded = true,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context))
+                context = context
+            )
+        )
 
         monthsNumber = 1
-        assertEquals("1 month", DateUtils.generateCounterText(0, monthsNumber, 0, 0,
+        assertEquals(
+            "1 month", DateUtils.generateCounterText(
+                0, monthsNumber, 0, 0,
                 areYearsIncluded = false,
                 areMonthsIncluded = true,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context))
+                context = context
+            )
+        )
     }
 
 
@@ -431,25 +513,38 @@ class DateUtilsTest {
         `when`(context.resources).thenReturn(resources)
 
 
-        `when`(context.resources.getQuantityString(eq(R.plurals.weeks_number), any(Int::class.java)))
-                .thenReturn("weeks")
+        `when`(
+            context.resources.getQuantityString(
+                eq(R.plurals.weeks_number),
+                any(Int::class.java)
+            )
+        )
+            .thenReturn("weeks")
         `when`(context.resources.getQuantityString(R.plurals.weeks_number, 1)).thenReturn("week")
 
         var weeksNumber = 2
-        assertEquals("2 weeks", DateUtils.generateCounterText(0, 0, weeksNumber, 0,
+        assertEquals(
+            "2 weeks", DateUtils.generateCounterText(
+                0, 0, weeksNumber, 0,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = true,
                 areDaysIncluded = false,
-                context = context))
+                context = context
+            )
+        )
 
         weeksNumber = 1
-        assertEquals("1 week", DateUtils.generateCounterText(0, 0, weeksNumber, 0,
+        assertEquals(
+            "1 week", DateUtils.generateCounterText(
+                0, 0, weeksNumber, 0,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = true,
                 areDaysIncluded = false,
-                context = context))
+                context = context
+            )
+        )
     }
 
     @Test
@@ -460,36 +555,48 @@ class DateUtilsTest {
 
 
         `when`(context.resources.getQuantityString(eq(R.plurals.days_number), any(Int::class.java)))
-                .thenReturn("days")
+            .thenReturn("days")
         `when`(context.resources.getQuantityString(R.plurals.days_number, 1)).thenReturn("day")
 
         var daysNumber = 2
-        assertEquals("2 days", DateUtils.generateCounterText(0, 0, 0, daysNumber,
+        assertEquals(
+            "2 days", DateUtils.generateCounterText(
+                0, 0, 0, daysNumber,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                context = context))
+                context = context
+            )
+        )
 
         daysNumber = 1
-        assertEquals("1 day", DateUtils.generateCounterText(0, 0, 0, daysNumber,
+        assertEquals(
+            "1 day", DateUtils.generateCounterText(
+                0, 0, 0, daysNumber,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                context = context))
+                context = context
+            )
+        )
     }
 
     @Test
     fun `should return today word when dates are the same`() {
         val context = mock(Context::class.java)
         `when`(context.getString(R.string.date_utils_today)).thenReturn("Today!")
-        assertEquals("Today!", DateUtils.generateCounterText(0, 0, 0, 0,
+        assertEquals(
+            "Today!", DateUtils.generateCounterText(
+                0, 0, 0, 0,
                 areYearsIncluded = false,
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                context = context))
+                context = context
+            )
+        )
     }
 
     @Test

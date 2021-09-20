@@ -1,147 +1,81 @@
 package com.arkadiusz.dayscounter.ui.premium
 
-import PreferenceUtils.defaultPrefs
-import PreferenceUtils.set
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.util.purchaseutils.IabHelper
-import com.arkadiusz.dayscounter.util.purchaseutils.IabResult
-import com.arkadiusz.dayscounter.util.purchaseutils.Purchase
-import com.arkadiusz.dayscounter.utils.PurchasesUtils
-import com.arkadiusz.dayscounter.utils.ThemeUtils
+import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_premium.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.longToast
 
-class PremiumActivity : AppCompatActivity(), IabHelper.OnIabPurchaseFinishedListener {
+class PremiumActivity : AppCompatActivity() {
 
-    private lateinit var helper: IabHelper
-    private var isHelperSetup = false
-    private var isPremiumAlreadyBought = false
-    private var isPremiumBigAlreadyBought = false
+    private lateinit var viewModel: PremiumActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_premium)
-        setUpHelper()
+        initViewModel()
         setUpButtons()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (!::helper.isInitialized) return
-        if (!helper.handleActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data)
+    private fun initViewModel() {
+        viewModel = getViewModel(this) {
+            PremiumActivityViewModel(
+                (application as DaysCounterApp).billingRepository
+            )
         }
-    }
 
-    private fun setUpHelper() {
-        PurchasesUtils.sharedPreferences = defaultPrefs(this)
-        helper = IabHelper(this, PurchasesUtils.base64EncodedPublicKey)
-        helper.startSetup { result ->
-            if (result.isSuccess) {
-                isHelperSetup = true
-                try {
+        viewModel.canBuyPremium().observe(this) { canBuy ->
+            buyButton.isEnabled = canBuy
+        }
 
-                    //checking if a user have already bought any of the premium accounts
-                    helper.queryInventoryAsync { res, inv ->
-                        if (res?.isFailure != false) {
-                            //nothing
-                        } else {
-                            val purchasePro = inv?.getPurchase("1")
+        viewModel.canBuyPremiumBig().observe(this) { canBuy ->
+            buyButtonBig.isEnabled = canBuy
+        }
 
-                            if (purchasePro != null) {
-                                isPremiumAlreadyBought = true
-                            }
-                            val purchaseProBig = inv?.getPurchase("2")
+        viewModel.premiumPrice().observe(this) { price ->
+            buyButton.text = price
+        }
 
-                            if (purchaseProBig != null) {
-                                isPremiumBigAlreadyBought = true
-                            }
-                        }
-                    }
-                } catch (e: IabHelper.IabAsyncInProgressException) {
-                    e.printStackTrace()
-                }
-            }
+        viewModel.premiumBigPrice().observe(this) { price ->
+            buyButtonBig.text = price
+        }
+
+        viewModel.newPurchases().observe(this) {
+            displayKonfetti()
+        }
+
+        viewModel.isAnyPremiumBought().observe(this) { isBought ->
+            premiumBoughtTextView.visibility = if (isBought) View.VISIBLE else View.GONE
         }
     }
 
     private fun setUpButtons() {
         buyButton.setOnClickListener {
-            if (isHelperSetup) {
-
-                if (!isPremiumAlreadyBought) {
-                    try {
-                        helper.launchPurchaseFlow(this, "1", 10001,
-                                this, "")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                } else {
-                    alert(getString(R.string.premium_already_own_dialog_message)) {
-                        title = getString(R.string.premium_already_own_dialog_title)
-                        positiveButton("OK") {}
-                    }.show()
-                }
-            }
-
+            viewModel.buyPremium(this)
         }
 
         buyButtonBig.setOnClickListener {
-            if (isHelperSetup) {
-                if (!isPremiumBigAlreadyBought) {
-                    try {
-                        helper.launchPurchaseFlow(this, "2", 10001,
-                                this, "")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                } else {
-                    alert(getString(R.string.premium_already_own_dialog_message)) {
-                        title = getString(R.string.premium_already_own_dialog_title)
-                        positiveButton("OK") {}
-                    }.show()
-                }
-            }
-
-        }
-    }
-
-    override fun onIabPurchaseFinished(result: IabResult?, purchase: Purchase?) {
-        result?.let {
-            when {
-                result.isFailure -> {
-                    //nothing
-                }
-                purchase?.sku == "1" -> {
-                    PurchasesUtils.sharedPreferences["ads"] = true
-                    displayKonfetti()
-                }
-                purchase?.sku == "2" -> {
-                    PurchasesUtils.sharedPreferences["ads"] = true
-                    displayKonfetti()
-                }
-            }
+            viewModel.buyPremiumBig(this)
         }
     }
 
     private fun displayKonfetti() {
         viewKonfetti.build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(2000L)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(Size(12))
-                .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
-                .streamFor(200, 3000L)
-        longToast(getString(R.string.premium_thank_you_dialog))
+            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE)
+            .setDirection(0.0, 359.0)
+            .setSpeed(1f, 5f)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(2000L)
+            .addShapes(Shape.RECT, Shape.CIRCLE)
+            .addSizes(Size(12))
+            .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
+            .streamFor(200, 3000L)
     }
 }

@@ -1,82 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-  xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <PreferenceCategory
-    app:key="main_category"
-    app:title="@string/main_section_title">
+    <PreferenceCategory
+            app:key="main_category"
+            app:title="@string/main_section_title">
 
-    <ListPreference
-      app:defaultValue="31-10-1980"
-      app:entries="@array/date_formats"
-      app:entryValues="@array/date_formats"
-      app:key="dateFormat"
-      app:title="@string/date_format_title"
-      app:useSimpleSummaryProvider="true"/>
+        <ListPreference
+                app:defaultValue="31-10-1980"
+                app:entries="@array/date_formats"
+                app:entryValues="@array/date_formats"
+                app:key="dateFormat"
+                app:title="@string/date_format_title"
+                app:useSimpleSummaryProvider="true" />
 
-    <ListPreference
-      app:defaultValue="@string/sorting_key_date_order"
-      app:entries="@array/sorting_types"
-      app:entryValues="@array/sorting_types_keys"
-      app:key="sort_type"
-      app:title="@string/sorting_order_title"
-      app:useSimpleSummaryProvider="true"/>
+        <ListPreference
+                app:defaultValue="@string/sorting_key_date_order"
+                app:entries="@array/sorting_types"
+                app:entryValues="@array/sorting_types_keys"
+                app:key="sort_type"
+                app:title="@string/sorting_order_title"
+                app:useSimpleSummaryProvider="true" />
 
-    <ListPreference
-      app:defaultValue="@string/main_activity_right_tab"
-      app:entries="@array/fragment_names"
-      app:entryValues="@array/fragment_names"
-      app:key="default_fragment"
-      app:title="@string/default_section_title"
-      app:useSimpleSummaryProvider="true"/>
+        <ListPreference
+                app:defaultValue="@string/main_activity_right_tab"
+                app:entries="@array/fragment_names"
+                app:entryValues="@array/fragment_names"
+                app:key="default_fragment"
+                app:title="@string/default_section_title"
+                app:useSimpleSummaryProvider="true" />
 
-    <com.arkadiusz.dayscounter.util.MyListPreference
-      app:defaultValue="1"
-      app:entries="@array/themes"
-      app:entryValues="@array/themes_keys"
-      app:key="theme"
-      app:title="@string/app_theme_title"
-      app:useSimpleSummaryProvider="true"/>
+        <com.arkadiusz.dayscounter.util.MyListPreference
+                app:defaultValue="1"
+                app:entries="@array/themes"
+                app:entryValues="@array/themes_keys"
+                app:key="theme"
+                app:title="@string/app_theme_title"
+                app:useSimpleSummaryProvider="true" />
 
-    <Preference
-      app:key="premium"
-      app:title="@string/premium_features_title"/>
+        <Preference
+                app:key="premium"
+                app:title="@string/premium_features_title" />
 
-    <Preference
-      app:key="rate"
-      app:title="@string/rate_app_title"/>
+        <Preference
+                app:key="rate"
+                app:title="@string/rate_app_title" />
 
-  </PreferenceCategory>
+    </PreferenceCategory>
 
-  <PreferenceCategory
-    app:key="backup_category"
-    app:title="@string/backup_section_title">
+    <PreferenceCategory
+            app:key="backup_category"
+            app:title="@string/backup_section_title">
 
-    <Preference
-      app:key="backup_import"
-      app:summary="@string/backup_import_summary"
-      app:title="@string/backup_import_title"/>
+        <Preference
+                app:key="backup_import"
+                app:summary="@string/backup_import_summary"
+                app:title="@string/backup_import_title" />
 
-    <Preference
-      app:key="backup_export"
-      app:summary="@string/backup_export_summary"
-      app:title="@string/backup_export_title"/>
+        <Preference
+                app:key="backup_export"
+                app:summary="@string/backup_export_summary"
+                app:title="@string/backup_export_title" />
 
-  </PreferenceCategory>
+    </PreferenceCategory>
 
 
-  <PreferenceCategory
-    app:key="about_category"
-    app:title="@string/about_section_title">
+    <PreferenceCategory
+            app:key="about_category"
+            app:title="@string/about_section_title">
 
-    <Preference
-      app:key="privacy_policy"
-      app:title="Privacy Policy"/>
+        <Preference
+                app:key="privacy_policy"
+                app:title="Privacy Policy" />
 
-    <Preference
-      app:key="contact"
-      app:title="@string/action_contact"/>
+        <Preference
+                app:key="contact"
+                app:title="@string/action_contact" />
 
-  </PreferenceCategory>
-
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

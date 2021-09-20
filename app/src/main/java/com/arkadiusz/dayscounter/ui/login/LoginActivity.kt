@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
-import com.arkadiusz.dayscounter.utils.ThemeUtils.getThemeFromPreferences
+import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -20,14 +20,15 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.*
 import java.util.*
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginActivityViewModel
 
     private val RC_SIGN_IN = 123
     private val providers = arrayListOf(
-            AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build())
+        AuthUI.IdpConfig.GoogleBuilder().build(),
+        AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build()
+    )
     private val googleProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +95,10 @@ class LoginActivity : AppCompatActivity(){
     private fun initLogInButtons() {
         loginButton.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            viewModel.signInWithLoginAndPassword(emailEditText.text.toString(), passwordEditText.text.toString())
+            viewModel.signInWithLoginAndPassword(
+                emailEditText.text.toString(),
+                passwordEditText.text.toString()
+            )
         }
 
         signInWithGoogleButton.setOnClickListener {
@@ -113,10 +117,10 @@ class LoginActivity : AppCompatActivity(){
 
     private fun buildAuthUi(type: ArrayList<AuthUI.IdpConfig>): Intent {
         return AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(type)
-                .setTheme(getThemeFromPreferences(false, this))
-                .build()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(type)
+            .setTheme(getThemeFromPreferences(false, this))
+            .build()
     }
 
     private fun displayResetPasswordDialog() {
@@ -149,6 +153,7 @@ class LoginActivity : AppCompatActivity(){
     }
 
     private fun initGoogleLoginButtonText() {
-        (signInWithGoogleButton.getChildAt(0) as TextView).text = getString(R.string.login_activity_google)
+        (signInWithGoogleButton.getChildAt(0) as TextView).text =
+            getString(R.string.login_activity_google)
     }
 }

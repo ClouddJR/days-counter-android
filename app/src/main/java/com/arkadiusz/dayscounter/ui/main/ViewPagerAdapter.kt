@@ -1,16 +1,16 @@
 package com.arkadiusz.dayscounter.ui.main
 
 import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.events.FutureEventsFragment
 import com.arkadiusz.dayscounter.ui.events.PastEventsFragment
 
-class ViewPagerAdapter(private val context: Context, manager: FragmentManager,
-                       private val defaultFragment: String)
-    : FragmentPagerAdapter(manager) {
+class ViewPagerAdapter(
+    private val context: Context, manager: FragmentManager,
+    private val defaultFragment: String
+) : FragmentPagerAdapter(manager) {
 
     override fun getItem(position: Int) = when (position) {
         0 -> if (defaultFragment == context.getString(R.string.main_activity_left_tab))

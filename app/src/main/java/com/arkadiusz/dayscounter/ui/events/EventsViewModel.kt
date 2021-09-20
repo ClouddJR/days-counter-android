@@ -1,6 +1,6 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import PreferenceUtils
+import com.arkadiusz.dayscounter.util.PreferenceUtils
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
@@ -8,12 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
-import com.arkadiusz.dayscounter.data.repository.UserRepository
-import com.arkadiusz.dayscounter.utils.RemindersUtils
+import com.arkadiusz.dayscounter.util.RemindersUtils
 import io.realm.RealmResults
 
 class EventsViewModel(
-        private val databaseRepository: DatabaseRepository = DatabaseRepository()
+    private val databaseRepository: DatabaseRepository = DatabaseRepository()
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var eventsPastList: RealmResults<Event>
@@ -49,10 +48,6 @@ class EventsViewModel(
         if (key == "is_compact_view") {
             isCompactViewMode.value = sharedPreferences?.getBoolean(key, false)
         }
-    }
-
-    fun fetchData(context: Context?) {
-        databaseRepository.syncToCloud(context)
     }
 
     private fun sortEventsList(sortType: String) {

@@ -1,278 +1,291 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <nl.dionsegijn.konfetti.KonfettiView
-            android:id="@+id/viewKonfetti"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/viewKonfetti"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/premiumCard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:cardBackgroundColor="?themeCardBackground"
-            app:cardCornerRadius="6dp"
-            app:layout_constraintEnd_toStartOf="@id/cardGuideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                android:id="@+id/premiumCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="?themeCardBackground"
+                app:cardCornerRadius="6dp"
+                app:layout_constraintEnd_toStartOf="@id/cardGuideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/headlinePro"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="?themeLightAccent"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/premium_headline"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@id/headlineGuideLine"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        android:id="@+id/headlinePro"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="?themeLightAccent"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/premium_headline"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/headlineGuideLine"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/headlineGuideLine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.25" />
+                        android:id="@+id/headlineGuideLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.25" />
 
                 <TextView
-                    android:id="@+id/featureOneTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:drawableStart="@drawable/bullet"
-                    android:drawablePadding="6dp"
-                    android:gravity="start"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:text="@string/feature_one"
-                    android:textColor="?themePrimaryFontColor"
-                    app:layout_constraintTop_toBottomOf="@id/headlinePro" />
+                        android:id="@+id/featureOneTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="@string/feature_one"
+                        android:textColor="?themePrimaryFontColor"
+                        app:layout_constraintTop_toBottomOf="@id/headlinePro"
+                        app:drawableStartCompat="@drawable/bullet" />
 
                 <TextView
-                    android:id="@+id/featureTwoTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:drawableStart="@drawable/bullet"
-                    android:drawablePadding="6dp"
-                    android:gravity="start"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:text="@string/feature_two"
-                    android:textColor="?themePrimaryFontColor"
-                    app:layout_constraintTop_toBottomOf="@id/featureOneTV" />
+                        android:id="@+id/featureTwoTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="@string/feature_two"
+                        android:textColor="?themePrimaryFontColor"
+                        app:layout_constraintTop_toBottomOf="@id/featureOneTV"
+                        app:drawableStartCompat="@drawable/bullet" />
 
 
                 <TextView
-                    android:id="@+id/featureThreeTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:drawableStart="@drawable/bullet"
-                    android:drawablePadding="6dp"
-                    android:gravity="start"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:text="@string/feature_three"
-                    android:textColor="?themePrimaryFontColor"
-                    app:layout_constraintTop_toBottomOf="@id/featureTwoTV" />
+                        android:id="@+id/featureThreeTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="@string/feature_three"
+                        android:textColor="?themePrimaryFontColor"
+                        app:layout_constraintTop_toBottomOf="@id/featureTwoTV"
+                        app:drawableStartCompat="@drawable/bullet" />
 
                 <TextView
-                    android:id="@+id/featureFourTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:drawableStart="@drawable/bullet"
-                    android:drawablePadding="6dp"
-                    android:gravity="start"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:text="@string/feature_four"
-                    android:textColor="?themePrimaryFontColor"
-                    app:layout_constraintTop_toBottomOf="@id/featureThreeTV" />
+                        android:id="@+id/featureFourTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:drawablePadding="6dp"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="@string/feature_four"
+                        android:textColor="?themePrimaryFontColor"
+                        app:layout_constraintTop_toBottomOf="@id/featureThreeTV"
+                        app:drawableStartCompat="@drawable/bullet" />
 
 
                 <Button
-                    android:id="@+id/buyButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="24dp"
-                    android:background="@drawable/button_background"
-                    android:backgroundTint="?themeLightAccent"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:text="@string/buy_button"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/featureFourTV" />
+                        android:id="@+id/buyButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="24dp"
+                        android:background="@drawable/button_background"
+                        android:backgroundTint="?themeLightAccent"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:text="@string/buy_button"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/featureFourTV" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/cardGuideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+                android:id="@+id/cardGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/bigPremiumCard"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:cardBackgroundColor="?themeCardBackground"
-            app:cardCornerRadius="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/premiumCard"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cardGuideline"
-            app:layout_constraintTop_toTopOf="@+id/premiumCard">
+                android:id="@+id/bigPremiumCard"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="?themeCardBackground"
+                app:cardCornerRadius="6dp"
+                app:layout_constraintBottom_toBottomOf="@+id/premiumCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cardGuideline"
+                app:layout_constraintTop_toTopOf="@+id/premiumCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/headlineBigPro"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="?themeLightAccent"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="@string/premium_big_headline"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@id/headlineBigGuideLine"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        android:id="@+id/headlineBigPro"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="?themeLightAccent"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/premium_big_headline"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/headlineBigGuideLine"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/headlineBigGuideLine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.25" />
+                        android:id="@+id/headlineBigGuideLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.25" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:drawableStart="@drawable/bullet"
-                    android:drawablePadding="6dp"
-                    android:gravity="start"
-                    android:text="@string/features_pro_big"
-                    android:textColor="?themePrimaryFontColor"
-                    app:layout_constraintBottom_toTopOf="@id/buyButtonBig"
-                    app:layout_constraintTop_toBottomOf="@id/headlineBigPro" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:drawableStart="@drawable/bullet"
+                        android:drawablePadding="6dp"
+                        android:gravity="start"
+                        android:text="@string/features_pro_big"
+                        android:textColor="?themePrimaryFontColor"
+                        app:layout_constraintBottom_toTopOf="@id/buyButtonBig"
+                        app:layout_constraintTop_toBottomOf="@id/headlineBigPro" />
 
                 <Button
-                    android:id="@+id/buyButtonBig"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="24dp"
-                    android:background="@drawable/button_background"
-                    android:backgroundTint="?themeLightAccent"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:text="@string/buy_button"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                        android:id="@+id/buyButtonBig"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="24dp"
+                        android:background="@drawable/button_background"
+                        android:backgroundTint="?themeLightAccent"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:text="@string/buy_button"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/faqHeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
-            android:text="FAQ"
-            android:textColor="?themePrimaryFontColor"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/premiumCard" />
+                android:id="@+id/premiumBoughtTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/premium_thank_you"
+                android:textColor="?themePrimaryFontColor"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/premiumCard" />
 
         <TextView
-            android:id="@+id/q1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/question_one"
-            android:textColor="?themePrimaryFontColor"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/faqHeadline" />
+                android:id="@+id/faqHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="48dp"
+                android:text="FAQ"
+                android:textColor="?themePrimaryFontColor"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/premiumBoughtTextView" />
 
         <TextView
-            android:id="@+id/a1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/question_one_answer"
-            android:textColor="?themeSecondaryFontColor"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/q1" />
+                android:id="@+id/q1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/question_one"
+                android:textColor="?themePrimaryFontColor"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/faqHeadline" />
 
         <TextView
-            android:id="@+id/q2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/question_two"
-            android:textColor="?themePrimaryFontColor"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/a1" />
+                android:id="@+id/a1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/question_one_answer"
+                android:textColor="?themeSecondaryFontColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/q1" />
 
         <TextView
-            android:id="@+id/a2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/question_two_answer"
-            android:textColor="?themeSecondaryFontColor"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/q2" />
+                android:id="@+id/q2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/question_two"
+                android:textColor="?themePrimaryFontColor"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/a1" />
 
+        <TextView
+                android:id="@+id/a2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/question_two_answer"
+                android:textColor="?themeSecondaryFontColor"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/q2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
