@@ -50,10 +50,6 @@ class EventsViewModel(
         }
     }
 
-    fun fetchData(context: Context?) {
-        databaseRepository.syncToCloud(context)
-    }
-
     private fun sortEventsList(sortType: String) {
         when (sortType) {
             "date_desc" -> {

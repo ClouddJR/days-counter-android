@@ -191,9 +191,6 @@
     <string name="premium_dialog_content">Ta funkcja jest tylko dla użytkowników premium. Kliknij aby dowiedzieć się więcej.</string>
     <string name="premium_dialog_more_button">OK</string>
 
-    <string name="premium_already_own_dialog_title">Informacja</string>
-    <string name="premium_already_own_dialog_message">Już zakupiłeś tę usługę</string>
-
     <string name="premium_headline">Wersja premium</string>
     <string name="premium_big_headline">Dodatkowe wsparcie</string>
     <string name="buy_button">Kup teraz</string>
@@ -243,7 +240,7 @@
 
     <string name="author_link">Autor: </string>
     <string name="detail_activity_toast_event_deleted">Wydarzenie nie istnieje</string>
-    <string name="premium_thank_you_dialog">Dziękuję za zakup wersji premium!</string>
+    <string name="premium_thank_you">🎉 Dziękuję za zakup wersji premium! 🎉</string>
 
     <!--Date Calculator-->
 

@@ -1,7 +1,5 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.content.SharedPreferences
@@ -14,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
@@ -23,6 +20,8 @@ import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
@@ -60,11 +59,11 @@ class FutureEventsFragment : Fragment() {
     }
 
     private fun initSharedPreferences() {
-        sharedPreferences = defaultPrefs(context!!)
+        sharedPreferences = defaultPrefs(requireContext())
     }
 
     private fun initViewModel() {
-        viewModel = getViewModel(activity!!)
+        viewModel = getViewModel(requireActivity())
 
         val sortType = sharedPreferences["sort_type"] ?: "date_order"
 
@@ -83,7 +82,7 @@ class FutureEventsFragment : Fragment() {
     }
 
     private fun observeState() {
-        viewModel.isCompactViewMode.observe(this, Observer {
+        viewModel.isCompactViewMode.observe(viewLifecycleOwner, {
             setUpRecyclerViewData(it)
             scheduleRVAnimation()
         })
@@ -94,7 +93,7 @@ class FutureEventsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object :
-            RecyclerItemClickListener(context!!, recyclerView, object : OnItemClickListener {
+            RecyclerItemClickListener(requireContext(), recyclerView, object : OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
                     val id = eventsList[position]!!.id
                     context?.startActivity<DetailActivity>("event_id" to id)
@@ -109,7 +108,7 @@ class FutureEventsFragment : Fragment() {
     }
 
     private fun setUpRecyclerViewData(isCompactView: Boolean) {
-        val adapter = EventsAdapter(context!!, isCompactView, eventsList,
+        val adapter = EventsAdapter(requireContext(), isCompactView, eventsList,
             object : EventsAdapter.Delegate {
                 override fun moveEventToFuture(event: Event) {
                     viewModel.moveEventToFuture(event)
@@ -156,7 +155,7 @@ class FutureEventsFragment : Fragment() {
                     1 -> {
                         ctx.alert(getString(R.string.fragment_delete_dialog_question)) {
                             positiveButton(android.R.string.yes) {
-                                viewModel.deleteEventAndRelatedReminder(context!!, event)
+                                viewModel.deleteEventAndRelatedReminder(requireContext(), event)
                             }
                             negativeButton(android.R.string.no) {}
                         }.show()

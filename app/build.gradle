@@ -117,6 +117,9 @@ dependencies {
     //showcase view
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
 
+    //billing library
+    implementation "com.android.billingclient:billing-ktx:4.0.0"
+
     //testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'

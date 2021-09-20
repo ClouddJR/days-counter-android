@@ -247,9 +247,6 @@
 
     <string name="features_pro_big">Includes all features listed for the pro version plus additional support for app developer</string>
 
-    <string name="premium_already_own_dialog_title">Information</string>
-    <string name="premium_already_own_dialog_message">You had already bought this</string>
-
     <!--Login-->
 
     <string name="login_activity_title">LoginActivity</string>
@@ -282,7 +279,7 @@
 
     <string name="author_link">Author: </string>
     <string name="detail_activity_toast_event_deleted">Event does not exist</string>
-    <string name="premium_thank_you_dialog">Thank you for buying premium version!</string>
+    <string name="premium_thank_you">🎉 Thank you for buying premium version! 🎉</string>
 
     <!--Date Calculator-->
 
