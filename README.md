@@ -13,15 +13,15 @@ In order to run this app on your machine you need to create a google-services.js
 
 * **Kotlin**
 * **Android Architecture Components**
-* **Paging library**
-* **Unsplash API**
 * **RxJava**
-* **Picasso**
-* **Glide**
 * **Realm**
 * **Firestore**
 * **Firebase Storage**
+* **Picasso**
+* **Glide**
+* **Paging library**
 * **Material design**
+* **Unsplash API**
 
 ## Google Play link
 
