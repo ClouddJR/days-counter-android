@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 30
@@ -87,6 +86,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:20.3.0'
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
+    //crashlytics
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.1'
+
     //image cropper
     implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.3'
 
@@ -130,5 +133,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
-
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
