@@ -2,7 +2,7 @@
 
 This app allows you to track a number of days to/from a specific event with a fully customizable counter (font color, size, type, background color/image etc). There is an option to put every event counter on the home screen as a widget. Local storage is managed by Realm and cloud backup is done using Firestore.
 
-In order to run this app on your machine you need to create a google-services.json under /app folder with a API KEY from Firebase
+In order to run this app on your machine you need to create a google-services.json file under /app folder with an API KEY from Firebase.
 
 
 ## Screenshots
