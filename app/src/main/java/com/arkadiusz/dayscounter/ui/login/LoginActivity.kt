@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes

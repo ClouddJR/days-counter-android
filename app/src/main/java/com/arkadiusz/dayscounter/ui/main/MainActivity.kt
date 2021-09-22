@@ -18,7 +18,7 @@ import com.arkadiusz.dayscounter.ui.events.PastEventsFragment
 import com.arkadiusz.dayscounter.ui.login.LoginActivity
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
 import com.arkadiusz.dayscounter.ui.settings.SettingsActivity
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.PreferenceUtils.set

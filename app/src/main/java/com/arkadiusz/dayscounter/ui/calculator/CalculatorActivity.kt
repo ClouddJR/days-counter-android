@@ -1,6 +1,5 @@
 package com.arkadiusz.dayscounter.ui.calculator
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.TypedValue
@@ -10,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.DateComponents
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
 import com.arkadiusz.dayscounter.util.DateUtils.generateCounterText
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PurchasesUtils
 import com.arkadiusz.dayscounter.util.ThemeUtils
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -77,38 +76,38 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun observeViewModelUpdates() {
-        viewModel.calculatedComponents.observe(this, Observer { components ->
+        viewModel.calculatedComponents.observe(this, { components ->
             showResultCardAndHideCounterSections()
             showAndFillRelevantSections(components)
         })
 
         viewModel.additionalFormatsCalculatedComponents.observe(
             this,
-            Observer { additionalFormats ->
+            { additionalFormats ->
                 removePreviousAdditionalFormats()
                 addAdditionalFormats(additionalFormats)
                 scrollToBottom()
             })
 
-        viewModel.showStartDatePicker.observe(this, Observer { previouslyChosenComponents ->
+        viewModel.showStartDatePicker.observe(this, { previouslyChosenComponents ->
             showDatePicker(startDateEditText, previouslyChosenComponents)
         })
 
-        viewModel.showEndDatePicker.observe(this, Observer { previouslyChosenComponents ->
+        viewModel.showEndDatePicker.observe(this, { previouslyChosenComponents ->
             showDatePicker(endDateEditText, previouslyChosenComponents)
         })
 
-        viewModel.chosenStartDate.observe(this, Observer { date ->
+        viewModel.chosenStartDate.observe(this, { date ->
             startDateEditText.setText(date)
             startDateEditText.error = null
         })
 
-        viewModel.chosenEndDate.observe(this, Observer { date ->
+        viewModel.chosenEndDate.observe(this, { date ->
             endDateEditText.setText(date)
             endDateEditText.error = null
         })
 
-        viewModel.formNotValid.observe(this, Observer {
+        viewModel.formNotValid.observe(this, {
             if (startDateEditText.text?.isEmpty() == true) {
                 startDateEditText.error = "This field is required"
             }
@@ -229,8 +228,7 @@ class CalculatorActivity : AppCompatActivity() {
         val day =
             if (components.years == 0) calendar.get(Calendar.DAY_OF_MONTH) else components.days
 
-        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, chosenYear,
-                                                                    chosenMonth, chosenDay ->
+        DatePickerDialog(this, { _, chosenYear, chosenMonth, chosenDay ->
             val chosenDateComponents = DateComponents(
                 years = chosenYear,
                 months = chosenMonth,

@@ -14,7 +14,7 @@ import retrofit2.http.Query
 interface UnsplashService {
 
     companion object {
-        const val baseURL = "https://api.unsplash.com/"
+        private const val baseURL = "https://api.unsplash.com/"
         const val clientId = "dcdad029abf714214d392c5833737585362417d225d78b517c9f393db3309a49"
 
         fun getService(): UnsplashService {

@@ -28,7 +28,7 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
 import com.arkadiusz.dayscounter.util.*
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.utils.*
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
 import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings

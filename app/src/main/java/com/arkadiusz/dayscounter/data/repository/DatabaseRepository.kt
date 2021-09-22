@@ -5,7 +5,6 @@ import android.net.Uri
 import com.arkadiusz.dayscounter.data.local.LocalDatabase
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.remote.RemoteDatabase
-import com.arkadiusz.dayscounter.util.NetworkConnectivityUtils
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
 import com.arkadiusz.dayscounter.util.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.util.DateUtils.getDateForBackupFile
@@ -18,7 +17,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
-import io.realm.Sort
 import java.io.File
 import java.util.*
 import kotlin.concurrent.schedule
@@ -52,14 +50,6 @@ class DatabaseRepository(
 
     fun getEventsWithAlarms(): RealmResults<Event> {
         return localDatabase.getEventsWithAlarms()
-    }
-
-    fun sortEventsDateDesc(data: RealmResults<Event>): RealmResults<Event> {
-        return data.sort("date", Sort.DESCENDING)
-    }
-
-    fun sortEventsDateAsc(data: RealmResults<Event>): RealmResults<Event> {
-        return data.sort("date", Sort.ASCENDING)
     }
 
     fun getEventById(id: String): Event? {
@@ -253,8 +243,8 @@ class DatabaseRepository(
         }
     }
 
-    fun syncToCloud(context: Context?) {
-        if (userRepository.isLoggedIn() && NetworkConnectivityUtils.isNetworkEnabled(context)) {
+    fun syncToCloud() {
+        if (userRepository.isLoggedIn()) {
             fetchCloudEvents()
         }
     }

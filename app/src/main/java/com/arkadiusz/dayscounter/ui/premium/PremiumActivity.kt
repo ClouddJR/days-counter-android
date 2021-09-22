@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_premium.*
 import nl.dionsegijn.konfetti.models.Shape

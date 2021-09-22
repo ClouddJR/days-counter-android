@@ -83,7 +83,6 @@ class InternetGalleryActivityViewModel : ViewModel() {
             })
     }
 
-
     private fun downloadImage(
         urlString: String,
         fileName: String,

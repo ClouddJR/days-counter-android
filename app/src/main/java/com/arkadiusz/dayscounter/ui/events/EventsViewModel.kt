@@ -1,66 +1,32 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Environment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.RemindersUtils
 import io.realm.RealmResults
+import io.realm.Sort
 
 class EventsViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository()
+    private val databaseRepository: DatabaseRepository = DatabaseRepository(),
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private lateinit var eventsPastList: RealmResults<Event>
-    private lateinit var eventsFutureList: RealmResults<Event>
+    private var _isCompactViewMode = MutableLiveData<Boolean>()
+    val isCompactViewMode: LiveData<Boolean> = _isCompactViewMode
 
-    var isCompactViewMode = MutableLiveData<Boolean>()
+    private val eventsPastList = databaseRepository.getPastEvents().sortedByPastDate()
+    private val eventsFutureList = databaseRepository.getFutureEvents().sortedByFutureDate()
 
-    override fun onCleared() {
-        super.onCleared()
-        databaseRepository.closeDatabase()
-    }
-
-    fun init(sortType: String, context: Context?) {
-        if (!::eventsFutureList.isInitialized && !::eventsPastList.isInitialized) {
-
-            databaseRepository.syncToCloud(context)
-
-            eventsPastList = databaseRepository.getPastEvents()
-            eventsFutureList = databaseRepository.getFutureEvents()
-
-            sortEventsList(sortType)
-        }
-        registerSharedPreferencesListener(context)
-    }
-
-    private fun registerSharedPreferencesListener(context: Context?) {
-        context?.let {
-            PreferenceUtils.defaultPrefs(it).registerOnSharedPreferenceChangeListener(this)
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == "is_compact_view") {
-            isCompactViewMode.value = sharedPreferences?.getBoolean(key, false)
-        }
-    }
-
-    private fun sortEventsList(sortType: String) {
-        when (sortType) {
-            "date_desc" -> {
-                eventsPastList = databaseRepository.sortEventsDateAsc(eventsPastList)
-                eventsFutureList = databaseRepository.sortEventsDateDesc(eventsFutureList)
-            }
-            "date_asc" -> {
-                eventsPastList = databaseRepository.sortEventsDateDesc(eventsPastList)
-                eventsFutureList = databaseRepository.sortEventsDateAsc(eventsFutureList)
-            }
-        }
+    init {
+        databaseRepository.syncToCloud()
+        registerSharedPreferencesListener()
     }
 
     fun deleteEventAndRelatedReminder(context: Context, event: Event) {
@@ -68,17 +34,11 @@ class EventsViewModel(
         databaseRepository.deleteEvent(event.id)
     }
 
-    fun moveEventToFuture(event: Event) {
-        databaseRepository.moveEventToFuture(event)
-    }
+    fun moveEventToFuture(event: Event) = databaseRepository.moveEventToFuture(event)
 
-    fun moveEventToPast(event: Event) {
-        databaseRepository.moveEventToPast(event)
-    }
+    fun moveEventToPast(event: Event) = databaseRepository.moveEventToPast(event)
 
-    fun repeatEvent(event: Event) {
-        databaseRepository.repeatEvent(event)
-    }
+    fun repeatEvent(event: Event) = databaseRepository.repeatEvent(event)
 
     fun saveCloudImageLocallyFrom(event: Event, context: Context) {
         val sourceDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -86,5 +46,37 @@ class EventsViewModel(
     }
 
     fun getPastEvents(): RealmResults<Event> = eventsPastList
+
     fun getFutureEvents(): RealmResults<Event> = eventsFutureList
+
+    override fun onCleared() {
+        super.onCleared()
+        databaseRepository.closeDatabase()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == "is_compact_view") {
+            _isCompactViewMode.value = sharedPreferences?.getBoolean(key, false)
+        }
+    }
+
+    private fun registerSharedPreferencesListener() {
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    private fun RealmResults<Event>.sortedByPastDate(): RealmResults<Event> {
+        return when (sharedPreferences["sort_type"] ?: "date_order") {
+            "date_desc" -> sort("date", Sort.ASCENDING)
+            "date_asc" -> sort("date", Sort.DESCENDING)
+            else -> this
+        }
+    }
+
+    private fun RealmResults<Event>.sortedByFutureDate(): RealmResults<Event> {
+        return when (sharedPreferences["sort_type"] ?: "date_order") {
+            "date_desc" -> sort("date", Sort.DESCENDING)
+            "date_asc" -> sort("date", Sort.ASCENDING)
+            else -> this
+        }
+    }
 }

@@ -8,8 +8,7 @@ import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.model.Event
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
 

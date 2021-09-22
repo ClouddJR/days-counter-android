@@ -54,9 +54,7 @@ class GalleryActivity : AppCompatActivity() {
         )
         galleryRV.adapter = galleryAdapter
         galleryRV.addOnItemTouchListener(
-            RecyclerItemClickListener(
-                this,
-                galleryRV,
+            RecyclerItemClickListener(this, galleryRV,
                 object : RecyclerItemClickListener.OnItemClickListener {
                     override fun onItemClick(view: View?, position: Int) {
                         sendImageToAddActivity(position)

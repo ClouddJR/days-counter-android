@@ -41,7 +41,7 @@ class UserRepository {
     }
 
     fun sendPasswordResetEmail(email: String) {
-        if (!email.isEmpty()) {
+        if (email.isNotEmpty()) {
             firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
                 emailResetListener.onEmailReset(it.isSuccessful)
             }

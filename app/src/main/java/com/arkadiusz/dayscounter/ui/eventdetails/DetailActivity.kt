@@ -11,7 +11,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
-import com.arkadiusz.dayscounter.util.ExtensionUtils.getViewModel
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.DateUtils.calculateDate

@@ -35,18 +35,11 @@ import java.io.File
 import java.util.*
 
 class EventsAdapter(
-    var context: Context,
-    var isCompactView: Boolean,
-    private var eventsList: OrderedRealmCollection<Event>,
-    private var delegate: Delegate
+    private val context: Context,
+    private val isCompactView: Boolean,
+    private val viewModel: EventsViewModel,
+    private val eventsList: OrderedRealmCollection<Event>,
 ) : RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
-
-    interface Delegate {
-        fun moveEventToFuture(event: Event)
-        fun moveEventToPast(event: Event)
-        fun repeatEvent(event: Event)
-        fun saveCloudImageLocallyFrom(event: Event, context: Context)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(getLayoutId(), parent, false)
@@ -62,7 +55,6 @@ class EventsAdapter(
     }
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-
         fun bind(event: Event) {
             if (isCompactView) {
                 displayTitle(event, view.eventTitleTextView)
@@ -208,7 +200,7 @@ class EventsAdapter(
                                 )
                                 .placeholder(circularProgressDrawable)
                                 .into(imageView)
-                            delegate.saveCloudImageLocallyFrom(event, context)
+                            viewModel.saveCloudImageLocallyFrom(event, context)
                         }
                         else ->
                             Glide.with(context).load(android.R.color.darker_gray)
@@ -249,15 +241,15 @@ class EventsAdapter(
                 "future" -> {
                     if (eventDateIsFromThePast(event)) {
                         if (eventIsNotRepeated(event)) {
-                            delegate.moveEventToPast(event)
+                            viewModel.moveEventToPast(event)
                         } else {
-                            delegate.repeatEvent(event)
+                            viewModel.repeatEvent(event)
                         }
                     }
                 }
                 "past" -> {
                     if (eventDateIsFromTheFuture(event)) {
-                        delegate.moveEventToFuture(event)
+                        viewModel.moveEventToFuture(event)
                     }
                 }
             }
