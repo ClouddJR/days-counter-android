@@ -8,6 +8,7 @@
     <color name="secondaryText">#757575</color>
 
     <color name="black">#000000</color>
+    <color name="half_translucent">#66000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_secondary">#CDCDCD</color>
 
