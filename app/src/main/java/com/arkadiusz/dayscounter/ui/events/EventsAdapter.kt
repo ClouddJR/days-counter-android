@@ -61,10 +61,6 @@ class EventsAdapter(
         holder.bind(eventsList[position])
     }
 
-    override fun getItemCount(): Int {
-        return eventsList.size
-    }
-
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(event: Event) {
