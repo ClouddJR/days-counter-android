@@ -5,7 +5,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.arkadiusz.dayscounter.data.model.DateComponents
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
 import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
-import junit.framework.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

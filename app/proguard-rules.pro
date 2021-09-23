@@ -44,10 +44,10 @@
   # Top-level functions that can only be used by Kotlin.
   -dontwarn retrofit2.-KotlinExtensions
 
-  #Proguard complaining about displayEventOptions in Fragments
+  # Proguard complaining about displayEventOptions in Fragments
   -dontwarn com.arkadiusz.dayscounter.ui.events.**
 
-  #Glide
+  # Glide
   -keep public class * implements com.bumptech.glide.module.GlideModule
   -keep public class * extends com.bumptech.glide.module.AppGlideModule
   -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
@@ -55,7 +55,7 @@
     public *;
   }
 
-  #Crashlytics
+  # Crashlytics
   -keepattributes *Annotation*
   -keepattributes SourceFile,LineNumberTable
   -keep public class * extends java.lang.Exception
