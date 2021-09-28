@@ -237,6 +237,7 @@
     <string name="dialog_saving">Zapisywanie</string>
     <string name="no_results">Brak wyników</string>
     <string name="internet_gallery_search_hint">Szukaj</string>
+    <string name="internet_gallery_no_connection">Sprawdź połączenie z internetem</string>
 
     <string name="author_link">Autor: </string>
     <string name="detail_activity_toast_event_deleted">Wydarzenie nie istnieje</string>

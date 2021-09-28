@@ -237,6 +237,7 @@
     <string name="dialog_saving">Ahorro</string>
     <string name="no_results">No hay resultados</string>
     <string name="internet_gallery_search_hint">Buscar</string>
+    <string name="internet_gallery_no_connection">Verifica tu conexión a internet</string>
 
     <string name="author_link">Autor: </string>
     <string name="detail_activity_toast_event_deleted">El evento no existe</string>

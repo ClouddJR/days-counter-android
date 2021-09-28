@@ -9,19 +9,22 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.paging.PagedList
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.model.Status
 import com.arkadiusz.dayscounter.data.model.unsplash.Image
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.util.StorageUtils.saveFile
 import com.arkadiusz.dayscounter.util.ThemeUtils
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_internet_gallery.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.startActivity
 import java.io.File
@@ -30,7 +33,7 @@ class InternetGalleryActivity : AppCompatActivity() {
 
     private lateinit var viewModel: InternetGalleryActivityViewModel
 
-    private lateinit var activityType: String
+    private lateinit var adapter: InternetGalleryAdapter
 
     private lateinit var progressDialog: AlertDialog
 
@@ -38,10 +41,11 @@ class InternetGalleryActivity : AppCompatActivity() {
         setTheme(ThemeUtils.getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_internet_gallery)
+
         actionBar?.setDisplayHomeAsUpEnabled(true)
-        activityType = intent.getStringExtra("activity")!!
-        setUpSearchView()
-        setUpViewModel()
+        setupViewModel()
+        setupAdapter()
+        setupSearchView()
     }
 
     override fun onDestroy() {
@@ -49,12 +53,64 @@ class InternetGalleryActivity : AppCompatActivity() {
         cacheDir.deleteRecursively()
     }
 
+    private fun setupViewModel() {
+        viewModel = getViewModel(this)
 
-    private fun setUpViewModel() {
-        viewModel = ViewModelProviders.of(this).get(InternetGalleryActivityViewModel::class.java)
+        viewModel.savedImage.observe(this, {
+            it.get()?.let { fileName ->
+                progressDialog.cancel()
+                startCropImageActivity(Uri.fromFile(File(cacheDir.absolutePath + "/$fileName.png")))
+            }
+        })
     }
 
-    private fun setUpSearchView() {
+    private fun startCropImageActivity(imageUri: Uri) {
+        CropImage.activity(imageUri)
+            .setAspectRatio(18, 9)
+            .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
+            .setFixAspectRatio(true)
+            .start(this)
+    }
+
+    private fun setupAdapter() {
+        adapter = InternetGalleryAdapter(object : InternetGalleryAdapter.ImageClickListener {
+            override fun onImageClick(image: Image) {
+                progressDialog = indeterminateProgressDialog(
+                    message = getString(R.string.dialog_wait_prompt),
+                    title = getString(R.string.dialog_saving)
+                )
+                viewModel.saveImage(image, cacheDir)
+            }
+        })
+
+        imagesRV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        imagesRV.adapter = adapter
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                .collect { loadState ->
+                    updateUIBasedOnState(loadState)
+                }
+        }
+    }
+
+    private fun updateUIBasedOnState(loadState: CombinedLoadStates) {
+        val isEmptyList = loadState.source.refresh is LoadState.NotLoading
+                && loadState.append.endOfPaginationReached
+                && adapter.itemCount == 0
+        val errorWhileFetching = loadState.source.refresh is LoadState.Error
+        val isLoading = loadState.source.refresh is LoadState.Loading
+
+        message.isVisible = isEmptyList.or(errorWhileFetching)
+        message.text = getString(
+            if (isEmptyList) R.string.no_results else R.string.internet_gallery_no_connection
+        )
+
+        imagesRV.isVisible = !isLoading && !errorWhileFetching
+        progressBar.isVisible = isLoading
+    }
+
+    private fun setupSearchView() {
         searchQuery.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 getPhotosAndObserveResult()
@@ -70,81 +126,12 @@ class InternetGalleryActivity : AppCompatActivity() {
     }
 
     private fun getPhotosAndObserveResult() {
-        viewModel.getPhotos(searchQuery.query.toString())
-
-        viewModel.imagesDownloaded.observe(this, Observer {
-            setUpRecyclerView(it)
-        })
-
-        viewModel.imageSaved.observe(this, Observer {
-            it.get()?.let { fileName ->
-                progressDialog.cancel()
-                startCropImageActivity(Uri.fromFile(File(cacheDir.absolutePath + "/$fileName.png")))
+        viewModel.getPhotos(searchQuery.query.toString()).observe(this, { images ->
+            lifecycleScope.launch {
+                adapter.submitData(images)
             }
         })
-
-        viewModel.getNetworkState().observe(this, Observer {
-
-            when (it.status) {
-                Status.NOT_EMPTY -> {
-                    noResultsTV.visibility = View.GONE
-                    imagesRV.visibility = View.VISIBLE
-                }
-
-                Status.EMPTY -> {
-                    noResultsTV.visibility = View.VISIBLE
-                    imagesRV.visibility = View.GONE
-                }
-            }
-        })
-
-        lateinit var dialog: AlertDialog
-        viewModel.getDialogStart().observe(this, Observer {
-            dialog = indeterminateProgressDialog(
-                message = getString(R.string.dialog_wait_prompt),
-                title = getString(R.string.dialog_downloading)
-            )
-        })
-
-        viewModel.getDialogEnd().observe(this, Observer {
-            dialog.cancel()
-        })
     }
-
-    private fun startCropImageActivity(imageUri: Uri) {
-        CropImage.activity(imageUri)
-            .setAspectRatio(18, 9)
-            .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
-            .setFixAspectRatio(true)
-            .start(this)
-    }
-
-    private fun returnToActivity(fileName: String?) {
-        when (activityType) {
-            "Add" -> startActivity<AddActivity>("internetImageUri" to fileName)
-            "Edit" -> startActivity<EditActivity>("internetImageUri" to fileName)
-        }
-        finish()
-    }
-
-    private fun setUpRecyclerView(imagesList: PagedList<Image>) {
-
-        val adapter = InternetGalleryAdapter(object : InternetGalleryAdapter.ImageClickListener {
-            override fun onImageClick(image: Image) {
-                progressDialog = indeterminateProgressDialog(
-                    message = getString(R.string.dialog_wait_prompt),
-                    title = getString(R.string.dialog_saving)
-                )
-                viewModel.saveImage(image, cacheDir)
-            }
-        })
-
-        adapter.submitList(imagesList)
-
-        imagesRV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        imagesRV.adapter = adapter
-    }
-
 
     fun hideKeyboard(activity: Activity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -165,10 +152,17 @@ class InternetGalleryActivity : AppCompatActivity() {
                 returnToActivity(imageUri.toString())
             }
         }
-
     }
 
     private fun isResultComingWithImageAfterCropping(requestCode: Int): Boolean {
         return requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+    }
+
+    private fun returnToActivity(fileName: String?) {
+        when (intent.getStringExtra("activity")!!) {
+            "Add" -> startActivity<AddActivity>("internetImageUri" to fileName)
+            "Edit" -> startActivity<EditActivity>("internetImageUri" to fileName)
+        }
+        finish()
     }
 }

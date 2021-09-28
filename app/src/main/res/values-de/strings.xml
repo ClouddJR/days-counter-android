@@ -237,6 +237,7 @@
     <string name="dialog_saving">Speichern</string>
     <string name="no_results">Keine Ergebnisse</string>
     <string name="internet_gallery_search_hint">Suche</string>
+    <string name="internet_gallery_no_connection">Überprüfe deine Internetverbindung</string>
 
     <string name="author_link">Autor: </string>
     <string name="detail_activity_toast_event_deleted">Ereignis existiert nicht</string>

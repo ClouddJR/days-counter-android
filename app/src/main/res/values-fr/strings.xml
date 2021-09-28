@@ -237,6 +237,7 @@
     <string name="dialog_saving">Sauvegarde</string>
     <string name="no_results">Aucun résultat</string>
     <string name="internet_gallery_search_hint">Recherchez</string>
+    <string name="internet_gallery_no_connection">Vérifiez votre connexion internet</string>
 
     <string name="author_link">Auteur:</string>
     <string name="detail_activity_toast_event_deleted">L\'événement n\'existe pas</string>
