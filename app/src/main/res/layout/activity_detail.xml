@@ -1,375 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsingToolbar"
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+            <ImageView
+                android:id="@+id/eventImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?themePrimaryDark"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false">
+                android:scaleType="centerCrop"
+                android:src="@drawable/a22"
+                app:layout_collapseMode="parallax" />
 
-            <ImageView
-                    android:id="@+id/eventImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/a22"
-                    app:layout_collapseMode="parallax" />
-
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:paddingBottom="45dp"
-            app:behavior_overlapTop="32dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:paddingBottom="45dp"
+        app:behavior_overlapTop="32dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-                android:id="@+id/background"
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mainCard"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                    android:id="@+id/mainCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:backgroundTint="?themeCardBackground"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="4dp"
-                    app:layout_anchor="@id/appBarLayout"
-                    app:layout_anchorGravity="bottom">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_anchor="@id/appBarLayout"
+                app:layout_anchorGravity="bottom">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp">
 
                     <TextView
-                            android:id="@+id/eventCalculateText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:textColor="?themePrimaryFontColor"
-                            android:textSize="24sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                        android:id="@+id/eventCalculateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                            android:id="@+id/eventTitle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:gravity="center"
-                            android:textColor="?themeSecondaryFontColor"
-                            android:textSize="21sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/eventCalculateText" />
+                        android:id="@+id/eventTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:gravity="center"
+                        android:textSize="21sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/eventCalculateText" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="34dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="?themeCardBackground"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="4dp">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="34dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="15dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp">
 
                     <TextView
-                            android:id="@+id/aboutText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="12dp"
-                            android:text="@string/detail_activity_about_section"
-                            android:textColor="?themeAccent"
-                            android:textSize="16sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                        android:id="@+id/aboutText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:text="@string/detail_activity_about_section"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                            android:id="@+id/dateIcon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
-                            android:src="@drawable/ic_date_range"
-                            android:tint="?themePrimaryFontColor"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/aboutText" />
+                        android:id="@+id/dateIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_date_range"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/aboutText" />
 
                     <TextView
-                            android:id="@+id/dateTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="@string/detail_activity_date_header"
-                            android:textColor="?themePrimaryFontColor"
-                            android:textSize="17sp"
-                            app:layout_constraintStart_toEndOf="@id/dateIcon"
-                            app:layout_constraintTop_toTopOf="@id/dateIcon" />
+                        android:id="@+id/dateTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/detail_activity_date_header"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toEndOf="@id/dateIcon"
+                        app:layout_constraintTop_toTopOf="@id/dateIcon" />
 
                     <TextView
-                            android:id="@+id/dateText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:textColor="?themeSecondaryFontColor"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toEndOf="@id/dateIcon"
-                            app:layout_constraintTop_toBottomOf="@id/dateTitle" />
+                        android:id="@+id/dateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toEndOf="@id/dateIcon"
+                        app:layout_constraintTop_toBottomOf="@id/dateTitle" />
 
                     <ImageView
-                            android:id="@+id/descriptionIcon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="42dp"
-                            android:src="@drawable/ic_description"
-                            android:tint="?themePrimaryFontColor"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/dateIcon" />
+                        android:id="@+id/descriptionIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="42dp"
+                        android:src="@drawable/ic_description"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dateIcon" />
 
                     <TextView
-                            android:id="@+id/descriptionTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="@string/detail_activity_description_header"
-                            android:textColor="?themePrimaryFontColor"
-                            android:textSize="17sp"
-                            app:layout_constraintStart_toEndOf="@id/descriptionIcon"
-                            app:layout_constraintTop_toTopOf="@id/descriptionIcon" />
+                        android:id="@+id/descriptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/detail_activity_description_header"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toEndOf="@id/descriptionIcon"
+                        app:layout_constraintTop_toTopOf="@id/descriptionIcon" />
 
                     <TextView
-                            android:id="@+id/descriptionText"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginEnd="10dp"
-                            android:textColor="?themeSecondaryFontColor"
-                            android:textSize="15sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/descriptionIcon"
-                            app:layout_constraintTop_toBottomOf="@id/descriptionIcon" />
+                        android:id="@+id/descriptionText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/descriptionIcon"
+                        app:layout_constraintTop_toBottomOf="@id/descriptionIcon" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="?themeCardBackground"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="4dp">
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="15dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp">
 
                     <TextView
-                            android:id="@+id/repeatText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="12dp"
-                            android:text="@string/detail_activity_repetition_section"
-                            android:textColor="?themeAccent"
-                            android:textSize="16sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                        android:id="@+id/repeatText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:text="@string/detail_activity_repetition_section"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                            android:id="@+id/repeatIcon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
-                            android:src="@drawable/ic_action_playback_repeat"
-                            android:tint="?themePrimaryFontColor"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/repeatText" />
+                        android:id="@+id/repeatIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_action_playback_repeat"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/repeatText" />
 
                     <TextView
-                            android:id="@+id/repeatTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="@string/detail_activity_repetition_header"
-                            android:textColor="?themePrimaryFontColor"
-                            android:textSize="17sp"
-                            app:layout_constraintStart_toEndOf="@id/repeatIcon"
-                            app:layout_constraintTop_toTopOf="@id/repeatIcon" />
+                        android:id="@+id/repeatTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/detail_activity_repetition_header"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toEndOf="@id/repeatIcon"
+                        app:layout_constraintTop_toTopOf="@id/repeatIcon" />
 
                     <TextView
-                            android:id="@+id/repeatSectionText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:textColor="?themeSecondaryFontColor"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toEndOf="@id/repeatIcon"
-                            app:layout_constraintTop_toBottomOf="@id/repeatTitle" />
+                        android:id="@+id/repeatSectionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toEndOf="@id/repeatIcon"
+                        app:layout_constraintTop_toBottomOf="@id/repeatTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="?themeCardBackground"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="4dp">
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="15dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp">
 
                     <TextView
-                            android:id="@+id/reminderText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="12dp"
-                            android:text="@string/detail_activity_reminder_section"
-                            android:textColor="?themeAccent"
-                            android:textSize="16sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                        android:id="@+id/reminderText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:text="@string/detail_activity_reminder_section"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                            android:id="@+id/reminderIcon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="24dp"
-                            android:src="@drawable/ic_action_bell"
-                            android:tint="?themePrimaryFontColor"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/reminderText" />
+                        android:id="@+id/reminderIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_action_bell"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/reminderText" />
 
                     <TextView
-                            android:id="@+id/reminderTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="@string/detail_activity_reminder_date_header"
-                            android:textColor="?themePrimaryFontColor"
-                            android:textSize="17sp"
-                            app:layout_constraintStart_toEndOf="@id/reminderIcon"
-                            app:layout_constraintTop_toTopOf="@id/reminderIcon" />
+                        android:id="@+id/reminderTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/detail_activity_reminder_date_header"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toEndOf="@id/reminderIcon"
+                        app:layout_constraintTop_toTopOf="@id/reminderIcon" />
 
                     <TextView
-                            android:id="@+id/reminderSectionText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:textColor="?themeSecondaryFontColor"
-                            android:textSize="15sp"
-                            app:layout_constraintStart_toEndOf="@id/reminderIcon"
-                            app:layout_constraintTop_toBottomOf="@id/reminderTitle" />
+                        android:id="@+id/reminderSectionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toEndOf="@id/reminderIcon"
+                        app:layout_constraintTop_toBottomOf="@id/reminderTitle" />
 
                     <ImageView
-                            android:id="@+id/reminderDescriptionIcon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="42dp"
-                            android:src="@drawable/ic_description"
-                            android:tint="?themePrimaryFontColor"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/reminderIcon" />
+                        android:id="@+id/reminderDescriptionIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="42dp"
+                        android:src="@drawable/ic_description"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/reminderIcon" />
 
                     <TextView
-                            android:id="@+id/reminderDescriptionTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:text="@string/detail_activity_reminder_text_header"
-                            android:textColor="?themePrimaryFontColor"
-                            android:textSize="17sp"
-                            app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
-                            app:layout_constraintTop_toTopOf="@id/reminderDescriptionIcon" />
+                        android:id="@+id/reminderDescriptionTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/detail_activity_reminder_text_header"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
+                        app:layout_constraintTop_toTopOf="@id/reminderDescriptionIcon" />
 
                     <TextView
-                            android:id="@+id/reminderDescriptionText"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="10dp"
-                            android:textColor="?themeSecondaryFontColor"
-                            android:textSize="15sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
-                            app:layout_constraintTop_toBottomOf="@id/reminderDescriptionIcon" />
+                        android:id="@+id/reminderDescriptionText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
+                        app:layout_constraintTop_toBottomOf="@id/reminderDescriptionIcon" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            app:adSize="BANNER"
-            app:adUnitId="@string/banner_ad_unit_id_detail" />
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        app:adSize="BANNER"
+        app:adUnitId="@string/banner_ad_unit_id_detail" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

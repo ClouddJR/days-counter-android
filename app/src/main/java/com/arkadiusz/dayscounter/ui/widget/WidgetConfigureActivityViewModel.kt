@@ -25,5 +25,4 @@ class WidgetConfigureActivityViewModel(
     fun setWidgetTransparencyFor(eventId: String, isTransparent: Boolean) {
         databaseRepository.setWidgetTransparencyFor(eventId, isTransparent)
     }
-
 }

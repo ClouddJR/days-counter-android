@@ -1,123 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/yearsSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <LinearLayout
-            android:id="@+id/yearsSection"
+        <TextView
+            android:id="@+id/yearsNumberTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:textSize="34sp" />
 
         <TextView
-                android:id="@+id/yearsNumberTextView"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="?themeAccent"
-                android:textSize="34sp" />
+            android:id="@+id/yearsCaptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/date_utils_multiple_years"
+            android:textSize="14sp" />
 
-        <TextView
-                android:id="@+id/yearsCaptionTextView"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="14sp"
-                android:text="@string/date_utils_multiple_years"
-                android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/monthsSection"
+        android:id="@+id/monthsSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/monthsNumberTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:textSize="34sp" />
 
         <TextView
-                android:id="@+id/monthsNumberTextView"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="?themeAccent"
-                android:textSize="34sp" />
+            android:id="@+id/monthsCaptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/date_utils_multiple_months"
+            android:textSize="14sp" />
 
-        <TextView
-                android:id="@+id/monthsCaptionTextView"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/date_utils_multiple_months"
-                android:textSize="14sp"
-                android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/weeksSection"
+        android:id="@+id/weeksSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/weeksNumberTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:textSize="34sp" />
 
         <TextView
-                android:id="@+id/weeksNumberTextView"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="?themeAccent"
-                android:textSize="34sp" />
+            android:id="@+id/weeksCaptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/date_utils_multiple_weeks"
+            android:textSize="14sp" />
 
-        <TextView
-                android:id="@+id/weeksCaptionTextView"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/date_utils_multiple_weeks"
-                android:textSize="14sp"
-                android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/daysSection"
+        android:id="@+id/daysSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/daysNumberTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:textSize="34sp" />
 
         <TextView
-                android:id="@+id/daysNumberTextView"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="?themeAccent"
-                android:textSize="34sp" />
+            android:id="@+id/daysCaptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/date_utils_multiple_days"
+            android:textSize="14sp" />
 
-        <TextView
-                android:id="@+id/daysCaptionTextView"
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/date_utils_multiple_days"
-                android:textSize="14sp"
-                android:textColor="?themeSecondaryFontColor" />
     </LinearLayout>
 
 </LinearLayout>
