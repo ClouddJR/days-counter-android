@@ -15,6 +15,7 @@ class LocalDatabase {
     private val config: RealmConfiguration = RealmConfiguration.Builder()
         .schemaVersion(4)
         .migration(Migration())
+        .allowWritesOnUiThread(true)
         .build()
 
     init {
@@ -60,7 +61,7 @@ class LocalDatabase {
     }
 
     fun setWidgetIdForEvent(eventId: String, widgetId: Int) {
-        realm.executeTransactionAsync {
+        realm.executeTransaction {
             it.getEventById(eventId)?.apply {
                 widgetID = widgetId
             }
@@ -68,7 +69,7 @@ class LocalDatabase {
     }
 
     fun setWidgetTransparencyFor(eventId: String, isTransparent: Boolean) {
-        realm.executeTransactionAsync {
+        realm.executeTransaction {
             it.getEventById(eventId)?.apply {
                 hasTransparentWidget = isTransparent
             }
