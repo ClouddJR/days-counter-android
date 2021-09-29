@@ -1,37 +1,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.arkadiusz.dayscounter.ui.main.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.arkadiusz.dayscounter.ui.main.MainActivity">
 
     <item
-            android:id="@+id/action_remove_ads"
-            android:orderInCategory="140"
-            android:title="@string/main_activity_ads"
-            app:showAsAction="never" />
+        android:id="@+id/action_remove_ads"
+        android:orderInCategory="140"
+        android:title="@string/main_activity_ads"
+        app:showAsAction="never" />
 
     <item
-            android:id="@+id/action_syncing"
-            android:icon="@drawable/ic_cloud_upload"
-            android:orderInCategory="150"
-            android:title="@string/menu_activity_sync"
-            app:showAsAction="always" />
+        android:id="@+id/action_syncing"
+        android:icon="@drawable/ic_cloud_upload_24"
+        android:orderInCategory="150"
+        android:title="@string/menu_activity_sync"
+        app:showAsAction="always" />
 
     <item
-            android:id="@+id/action_calculator"
-            android:icon="@drawable/ic_action_calculator"
-            android:orderInCategory="160"
-            android:title="@string/menu_activity_calculator"
-            app:showAsAction="ifRoom" />
+        android:id="@+id/action_calculator"
+        android:icon="@drawable/ic_calculate_24"
+        android:orderInCategory="160"
+        android:title="@string/menu_activity_calculator"
+        app:showAsAction="ifRoom" />
 
     <item
-            android:id="@+id/action_change_view"
-            android:orderInCategory="170"
-            android:title="@string/menu_activity_change_view"
-            app:showAsAction="never" />
+        android:id="@+id/action_change_view"
+        android:orderInCategory="170"
+        android:title="@string/menu_activity_change_view"
+        app:showAsAction="never" />
 
     <item
-            android:id="@+id/action_settings"
-            android:orderInCategory="180"
-            android:title="@string/settings_menu_action"
-            app:showAsAction="never" />
+        android:id="@+id/action_settings"
+        android:orderInCategory="180"
+        android:title="@string/settings_menu_action"
+        app:showAsAction="never" />
 </menu>
