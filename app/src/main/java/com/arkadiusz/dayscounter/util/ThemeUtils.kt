@@ -10,7 +10,11 @@ object ThemeUtils {
     fun getThemeFromPreferences(isActionBarEnabled: Boolean, context: Context): Int {
         val prefs = defaultPrefs(context)
         val theme = prefs["theme"] ?: "1"
-        return R.style.AppTheme
+        return if (isActionBarEnabled) {
+            R.style.AppTheme
+        } else {
+            R.style.AppTheme_NoActionBar
+        }
 //        return if (!isActionBarEnabled) {
 //            when (theme) {
 //                "1" -> R.style.AppTheme_NoActionBar_Light_Default

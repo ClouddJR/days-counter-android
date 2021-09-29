@@ -30,8 +30,14 @@ class GalleryActivity : AppCompatActivity() {
         displayAd()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
     private fun setUpActionBar() {
         supportActionBar?.title = getString(R.string.gallery_activity_title)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun receiveActivityType() {

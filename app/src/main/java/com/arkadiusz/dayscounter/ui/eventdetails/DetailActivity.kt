@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
@@ -36,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
         setContentView(R.layout.activity_detail)
 
         initViewModel()
