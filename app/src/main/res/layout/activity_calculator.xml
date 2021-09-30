@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -36,8 +37,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginBottom="6dp"
                         android:text="@string/date_calculator_activity_dates"
-                        android:textSize="19sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="?attr/textAppearanceHeadline6" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/startDateLayout"
@@ -57,7 +57,8 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/endDateLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/endDateEditText"
@@ -100,8 +101,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginBottom="16dp"
                         android:text="@string/date_calculator_activity_counter_format"
-                        android:textSize="19sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="?attr/textAppearanceHeadline6" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/yearsCheckbox"
@@ -143,7 +143,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counterFormatCardView"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintVertical_bias="0.0"
+                tools:visibility="visible">
 
                 <include
                     layout="@layout/ad_layout"
@@ -163,7 +164,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/adCardView">
+                app:layout_constraintTop_toBottomOf="@id/adCardView"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/resultLinearLayout"
@@ -178,8 +180,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginBottom="16dp"
                         android:text="@string/date_calculator_activity_result"
-                        android:textSize="19sp"
-                        android:textStyle="bold" />
+                        android:textAppearance="?attr/textAppearanceHeadline6" />
 
                     <include
                         android:id="@+id/counterStackView"
@@ -194,8 +195,8 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="6dp"
-                        android:text="@string/date_calculator_additional_formats"
-                        android:textSize="15sp" />
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:text="@string/date_calculator_additional_formats" />
 
                 </LinearLayout>
 

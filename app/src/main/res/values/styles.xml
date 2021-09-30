@@ -10,6 +10,7 @@
         <item name="android:windowLightStatusBar">true</item>
 
         <item name="actionBarTheme">@style/ThemeOverlay.App.ActionBar</item>
+        <item name="checkboxStyle">@style/Widget.App.Checkbox</item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent
@@ -30,6 +31,11 @@
     <style name="ThemeOverlay.App.ActionBar" parent="">
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+    <style name="Widget.App.Checkbox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
     </style>
 
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
