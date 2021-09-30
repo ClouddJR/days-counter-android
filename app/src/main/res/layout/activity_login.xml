@@ -2,33 +2,18 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:fontFamily="cursive"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@android:color/white"
-            android:textSize="35sp" />
+        android:orientation="vertical"
+        android:padding="36dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginRight="35dp"
-            android:textColorHint="@android:color/white">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
@@ -37,96 +22,76 @@
                 android:hint="@string/login_activity_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:nextFocusDown="@id/passwordEditText"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:nextFocusDown="@id/passwordEditText" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
-            android:textColorHint="@android:color/white">
+            android:layout_marginTop="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
                 android:hint="@string/login_activity_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:nextFocusDown="@id/loginButton"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:nextFocusDown="@id/loginButton" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="35dp"
-            android:background="@drawable/button_login_bg"
-            android:text="@string/login_activity_login_button"
-            android:textColor="@android:color/white" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/login_activity_login_button" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
             android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
             android:gravity="center"
-            android:text="@string/login_activity_create_q_account"
-            android:textColor="@android:color/white" />
+            android:text="@string/login_activity_create_q_account" />
 
         <Button
             android:id="@+id/createAccountButton"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
             android:gravity="center"
-            android:text="@string/login_activity_create_account"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="@string/login_activity_create_account" />
 
         <Button
             android:id="@+id/forgotPasswordButton"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
             android:gravity="center"
-            android:text="@string/login_activity_password_reset"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="@string/login_activity_password_reset" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
             android:gravity="center"
-            android:text="@string/login_activity_or"
-            android:textColor="@android:color/white" />
+            android:text="@string/login_activity_or" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/signInWithGoogleButton"

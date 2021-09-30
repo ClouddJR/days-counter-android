@@ -214,13 +214,13 @@
     <string name="login_activity_email">Adres email</string>
     <string name="login_activity_password">Hasło</string>
     <string name="login_activity_login_button">Login</string>
-    <string name="login_activity_create_account"><u>Załóż konto</u></string>
+    <string name="login_activity_create_account">Załóż konto</string>
     <string name="login_activity_create_q_account">Nie posiadasz konta?</string>
     <string name="login_activity_or">albo</string>
     <string name="login_activity_google">Zaloguj się z Google</string>
     <string name="login_activity_wrong_credentials">Sprawdź swój email i hasło</string>
     <string name="login_activity_connection_problem">Sprawdź swoje połączenie internetowe</string>
-    <string name="login_activity_password_reset"><u>Zapomniałeś hasła?</u></string>
+    <string name="login_activity_password_reset">Zapomniałeś hasła?</string>
     <string name="login_activity_password_reset_dialog"><u>Zresetuj hasło</u></string>
     <string name="login_activity_password_reset_toast_success">Email z instrukcją został wysłany</string>
     <string name="login_activity_password_reset_toast_fail">Ten email nie istnieje w bazie</string>

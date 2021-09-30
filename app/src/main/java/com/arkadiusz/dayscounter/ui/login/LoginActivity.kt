@@ -7,12 +7,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -32,9 +30,10 @@ class LoginActivity : AppCompatActivity() {
     private val googleProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(getThemeFromPreferences(false, this))
+        setTheme(getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        setupActionBar()
         initViewModel()
         listenToLoginEvents()
         initLogInButtons()
@@ -44,6 +43,12 @@ class LoginActivity : AppCompatActivity() {
     override fun onBackPressed() {
         startActivity<MainActivity>()
         finish()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        startActivity<MainActivity>()
+        finish()
+        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -57,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 finish()
                 viewModel.addLocalEventsToCloud()
             } else {
-                if (response?.errorCode == ErrorCodes.NO_NETWORK) {
+                if (response?.error?.errorCode == ErrorCodes.NO_NETWORK) {
                     longToast(getString(R.string.login_activity_connection_problem))
                 }
             }
@@ -66,13 +71,18 @@ class LoginActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
     }
 
+    private fun setupActionBar() {
+        supportActionBar?.title = getString(R.string.login_activity_login_button)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     private fun initViewModel() {
         viewModel = getViewModel(this)
         viewModel.init()
     }
 
     private fun listenToLoginEvents() {
-        viewModel.loginResult.observe(this, Observer { wasSuccessful ->
+        viewModel.loginResult.observe(this, { wasSuccessful ->
             if (wasSuccessful) {
                 viewModel.addLocalEventsToCloud()
                 startActivity<MainActivity>()
@@ -83,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.emailResetResult.observe(this, Observer { wasSuccessful ->
+        viewModel.emailResetResult.observe(this, { wasSuccessful ->
             val toastText = when (wasSuccessful) {
                 true -> getString(R.string.login_activity_password_reset_toast_success)
                 else -> getString(R.string.login_activity_password_reset_toast_fail)
@@ -139,7 +149,6 @@ class LoginActivity : AppCompatActivity() {
 
                     textView {
                         textSize = 20f
-                        textColor = ContextCompat.getColor(this@LoginActivity, R.color.black)
                         text = getString(R.string.login_activity_password_reset_dialog)
                     }.lparams {
                         bottomMargin = 32
