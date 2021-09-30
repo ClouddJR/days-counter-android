@@ -13,6 +13,7 @@
 
     <string name="main_activity_left_tab">Minione</string>
     <string name="main_activity_right_tab">Nadchodzące</string>
+    <string name="main_activity_fab_text">Utwórz</string>
     <string name="main_activity_ads">Premium</string>
     <string name="main_activity_privacy_policy">Privacy policy</string>
     <string name="menu_activity_sync">Synchronizacja z chmurą</string>

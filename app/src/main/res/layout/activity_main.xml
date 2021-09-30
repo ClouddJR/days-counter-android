@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:text="@string/add_activity_add_button"
+        android:text="@string/main_activity_fab_text"
         app:icon="@drawable/ic_action_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

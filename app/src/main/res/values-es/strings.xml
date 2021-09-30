@@ -13,6 +13,7 @@
 
     <string name="main_activity_left_tab">Anteriores</string>
     <string name="main_activity_right_tab">Próximos</string>
+    <string name="main_activity_fab_text">Crear</string>
     <string name="main_activity_ads">Premium</string>
     <string name="main_activity_privacy_policy">Privacy policy</string>
     <string name="menu_activity_sync">Sincronizar</string>
