@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginEnd="8dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,11 +21,12 @@
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textSize="15sp"
+            android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintBottom_toTopOf="@id/eventDateTextView"
             app:layout_constraintEnd_toStartOf="@id/counterStackView"
             app:layout_constraintStart_toEndOf="@id/imageCardView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Holidays" />
 
         <TextView
             android:id="@+id/eventDateTextView"
@@ -32,9 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="October 1, 2019"
+            android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBottom_toBottomOf="@id/imageCardView"
-            app:layout_constraintStart_toEndOf="@id/imageCardView" />
+            app:layout_constraintStart_toEndOf="@id/imageCardView"
+            tools:text="October 1, 2019" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/imageCardView"

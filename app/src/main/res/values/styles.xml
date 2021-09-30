@@ -10,6 +10,11 @@
         <item name="android:windowLightStatusBar">true</item>
 
         <item name="actionBarTheme">@style/ThemeOverlay.App.ActionBar</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.App.LargeComponent</item>
     </style>
 
     <style name="Widget.App.MainToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
@@ -25,6 +30,18 @@
     <style name="ThemeOverlay.App.ActionBar" parent="">
         <item name="colorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">4dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
