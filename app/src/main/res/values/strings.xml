@@ -246,7 +246,7 @@
     <string name="question_two">Will it still work if I change the device?</string>
     <string name="question_two_answer">Yes, this payment is tied to your Google account, so every device that is logged in to the same account will have access to all premium features.</string>
 
-    <string name="features_pro_big">Includes all features listed for the pro version plus additional support for app developer</string>
+    <string name="features_pro_big">Includes all features listed for the pro version plus additional support for the developer</string>
 
     <!--Login-->
 
