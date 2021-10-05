@@ -46,7 +46,7 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun setUpImagesList() {
         imagesList = IntArray(58)
-        for (i in 0 until imagesList.size) {
+        for (i in imagesList.indices) {
             imagesList[i] = resources.getIdentifier("a" + (i + 1), "drawable", packageName)
         }
     }
@@ -82,8 +82,7 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     private fun displayAd() {
-        val prefs = defaultPrefs(this)
-        val areAdsRemoved: Boolean? = prefs["ads", false]
+        val areAdsRemoved: Boolean? = defaultPrefs(this)["ads", false]
         if (areAdsRemoved != true) {
             adView.loadAd(AdRequest.Builder().build())
         } else {
