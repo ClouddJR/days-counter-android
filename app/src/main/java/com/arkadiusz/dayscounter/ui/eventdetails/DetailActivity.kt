@@ -1,5 +1,6 @@
 package com.arkadiusz.dayscounter.ui.eventdetails
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +24,8 @@ import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdRequest
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.color.MaterialColors
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.*
@@ -106,6 +109,23 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = ""
+
+        fun isCollapsed(verticalOffset: Int): Boolean {
+            return collapsingToolbar.height + verticalOffset <
+                    collapsingToolbar.scrimVisibleHeightTrigger
+        }
+
+        appBarLayout.addOnOffsetChangedListener(
+            AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+                if (isCollapsed(verticalOffset)) {
+                    val iconColor = MaterialColors.getColor(toolbar, R.attr.colorOnSurface)
+                    toolbar.setNavigationIconTint(iconColor)
+                    toolbar.overflowIcon?.setTint(iconColor)
+                } else {
+                    toolbar.setNavigationIconTint(Color.WHITE)
+                    toolbar.overflowIcon?.setTint(Color.WHITE)
+                }
+            })
     }
 
     private fun cancelNotification() {

@@ -20,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorSurface"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="?attr/colorSurface"
             app:titleEnabled="false">
 
             <ImageView
@@ -77,10 +79,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:textSize="24sp"
+                        android:textAppearance="?attr/textAppearanceHeadline5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="81 days" />
 
                     <TextView
                         android:id="@+id/eventTitle"
@@ -88,10 +91,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:gravity="center"
-                        android:textSize="21sp"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/eventCalculateText" />
+                        app:layout_constraintTop_toBottomOf="@id/eventCalculateText"
+                        tools:text="Event title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -116,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:text="@string/detail_activity_about_section"
-                        android:textSize="16sp"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_date_header"
-                        android:textSize="17sp"
+                        android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintStart_toEndOf="@id/dateIcon"
                         app:layout_constraintTop_toTopOf="@id/dateIcon" />
 
@@ -165,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_description_header"
-                        android:textSize="17sp"
+                        android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintStart_toEndOf="@id/descriptionIcon"
                         app:layout_constraintTop_toTopOf="@id/descriptionIcon" />
 
@@ -204,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:text="@string/detail_activity_repetition_section"
-                        android:textSize="16sp"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -224,7 +228,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_repetition_header"
-                        android:textSize="17sp"
+                        android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintStart_toEndOf="@id/repeatIcon"
                         app:layout_constraintTop_toTopOf="@id/repeatIcon" />
 
@@ -260,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:text="@string/detail_activity_reminder_section"
-                        android:textSize="16sp"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -280,7 +284,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_reminder_date_header"
-                        android:textSize="17sp"
+                        android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintStart_toEndOf="@id/reminderIcon"
                         app:layout_constraintTop_toTopOf="@id/reminderIcon" />
 
@@ -309,7 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_reminder_text_header"
-                        android:textSize="17sp"
+                        android:textAppearance="?attr/textAppearanceBody1"
                         app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
                         app:layout_constraintTop_toTopOf="@id/reminderDescriptionIcon" />
 
