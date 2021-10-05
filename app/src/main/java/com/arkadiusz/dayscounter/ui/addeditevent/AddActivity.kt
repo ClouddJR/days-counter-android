@@ -36,7 +36,7 @@ import com.arkadiusz.dayscounter.util.FontUtils
 import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.RemindersUtils
-import com.arkadiusz.dayscounter.util.StorageUtils.saveFile
+import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
@@ -670,7 +670,7 @@ class AddActivity : AppCompatActivity() {
             imageColor = 0
             imageID = 0
             imageUri = CropImage.getActivityResult(data).uri as Uri
-            imageUri = saveFile(this, imageUri as Uri)
+            imageUri = saveImage(this, imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
         }
     }

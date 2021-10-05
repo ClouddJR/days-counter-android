@@ -36,6 +36,7 @@ import com.arkadiusz.dayscounter.util.DateUtils.formatTime
 import com.arkadiusz.dayscounter.util.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
+import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -654,7 +655,7 @@ class EditActivity : AppCompatActivity() {
             imageColor = 0
             imageID = 0
             imageUri = CropImage.getActivityResult(data).uri as Uri
-            imageUri = StorageUtils.saveFile(this, imageUri as Uri)
+            imageUri = saveImage(this, imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
         }
     }

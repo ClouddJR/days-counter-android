@@ -18,7 +18,7 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.unsplash.Image
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
-import com.arkadiusz.dayscounter.util.StorageUtils.saveFile
+import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.theartofdev.edmodo.cropper.CropImage
@@ -148,7 +148,7 @@ class InternetGalleryActivity : AppCompatActivity() {
         if (isResultComingWithImageAfterCropping(requestCode)) {
             data?.let {
                 var imageUri = CropImage.getActivityResult(data).uri as Uri
-                imageUri = saveFile(this, imageUri)
+                imageUri = saveImage(this, imageUri)
                 returnToActivity(imageUri.toString())
             }
         }

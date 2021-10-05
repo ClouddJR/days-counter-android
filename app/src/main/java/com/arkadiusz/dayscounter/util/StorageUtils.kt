@@ -10,32 +10,21 @@ object StorageUtils {
     const val EXPORT_FILE_NAME = "dayscounter"
     const val EXPORT_FILE_EXTENSION = "realm"
 
-    fun saveFile(context: Context, sourceUri: Uri): Uri {
+    fun saveImage(context: Context, sourceUri: Uri): Uri {
         val folder = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
         folder!!.mkdir()
 
-        val sourceFilename = sourceUri.path
-        val destinationFilename = folder.path + File.separatorChar + sourceUri.lastPathSegment
+        val source = sourceUri.path
+        val destination = "${folder.path}${File.separatorChar}${sourceUri.lastPathSegment}"
 
-        var bis: BufferedInputStream? = null
-        var bos: BufferedOutputStream? = null
-
-        try {
-            bis = BufferedInputStream(FileInputStream(sourceFilename))
-            bos = BufferedOutputStream(FileOutputStream(destinationFilename, false))
-            val buf = ByteArray(1024)
-            bis.read(buf)
-            do {
-                bos.write(buf)
-            } while (bis.read(buf) != -1)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            bis?.close()
-            bos?.close()
-            return Uri.parse(destinationFilename)
+        FileInputStream(source).use { inputStream ->
+            FileOutputStream(destination).use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
         }
+
+        return Uri.parse(destination)
     }
 
     fun getBackupPath(context: Context): String {
