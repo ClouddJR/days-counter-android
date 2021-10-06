@@ -1,7 +1,5 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
@@ -12,14 +10,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
@@ -28,15 +24,17 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
 import com.arkadiusz.dayscounter.util.*
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
-import com.arkadiusz.dayscounter.utils.*
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
 import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
 import com.arkadiusz.dayscounter.util.DateUtils.formatTime
 import com.arkadiusz.dayscounter.util.DateUtils.getElementsFromDate
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
+import com.arkadiusz.dayscounter.utils.*
 import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -607,11 +605,7 @@ class EditActivity : AppCompatActivity() {
 
         if (isPossibleToOpenCropActivityAfterChoosingImage(requestCode, resultCode)) {
             val chosenImageUri = CropImage.getPickImageResultUri(this, imageData)
-            if (Build.VERSION.SDK_INT >= 23) {
-                checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri)
-            } else {
-                startCropImageActivity(chosenImageUri)
-            }
+            checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri)
         }
 
         if (isResultComingWithImageAfterCropping(requestCode)) {
@@ -626,7 +620,6 @@ class EditActivity : AppCompatActivity() {
         return requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri: Uri) {
         if (CropImage.isReadExternalStoragePermissionsRequired(this, chosenImageUri)) {
             requestPermissions(

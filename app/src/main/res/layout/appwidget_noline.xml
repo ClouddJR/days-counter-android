@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="6dp">
 
     <ImageView
         android:id="@+id/eventImage"
@@ -27,7 +27,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerInParent="true"
-        android:src="@color/white"
         android:visibility="invisible" />
 
     <ImageView
@@ -37,7 +36,6 @@
         android:layout_alignTop="@id/eventLine"
         android:layout_centerHorizontal="true"
         android:text="@string/add_activity_preview_title"
-        android:textColor="@android:color/white"
         android:textSize="18sp" />
 
 </RelativeLayout>
