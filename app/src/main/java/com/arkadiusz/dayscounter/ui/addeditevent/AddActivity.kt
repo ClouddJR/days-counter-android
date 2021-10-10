@@ -1,6 +1,5 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -131,9 +130,8 @@ class AddActivity : BaseAddActivity() {
             startCropImageActivity(imageData!!.data!!)
         }
 
-        if (isPossibleToOpenCropActivityAfterChoosingImage(requestCode, resultCode)) {
-            val chosenImageUri = CropImage.getPickImageResultUri(this, imageData)
-            checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri)
+        if (userSuccessfullyPickedAnImage(requestCode, resultCode)) {
+            startCropImageActivity(CropImage.getPickImageResultUri(this, imageData))
         }
 
         if (isResultComingWithImageAfterCropping(requestCode)) {
@@ -145,23 +143,8 @@ class AddActivity : BaseAddActivity() {
         return requestCode == pickPhotoInternet && resultCode == Activity.RESULT_OK
     }
 
-    private fun isPossibleToOpenCropActivityAfterChoosingImage(
-        requestCode: Int,
-        resultCode: Int
-    ): Boolean {
-        return requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK
-    }
-
-    private fun checkForReadingExternalStoragePermissionsAndStartCropActivity(chosenImageUri: Uri) {
-        if (CropImage.isReadExternalStoragePermissionsRequired(this, chosenImageUri)) {
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE
-            )
-        } else {
-            startCropImageActivity(chosenImageUri)
-        }
-    }
+    private fun userSuccessfullyPickedAnImage(requestCode: Int, resultCode: Int) =
+        requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK
 
     private fun startCropImageActivity(imageUri: Uri) {
         CropImage.activity(imageUri)

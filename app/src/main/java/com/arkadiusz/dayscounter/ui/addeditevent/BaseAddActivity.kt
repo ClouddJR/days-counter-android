@@ -53,7 +53,7 @@ abstract class BaseAddActivity : AppCompatActivity() {
             }
         }
 
-    private val requestPermissionForCropActivity =
+    private val requestPermissionForPickingImage =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 CropImage.startPickImageActivity(this)
@@ -441,7 +441,7 @@ abstract class BaseAddActivity : AppCompatActivity() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            requestPermissionForCropActivity.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            requestPermissionForPickingImage.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
             CropImage.startPickImageActivity(this)
         }
