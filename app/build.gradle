@@ -63,6 +63,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.work:work-runtime-ktx:2.6.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "androidx.activity:activity-ktx:1.3.1"
+    implementation "androidx.fragment:fragment-ktx:1.3.6"
 
     // Anko
     implementation "org.jetbrains.anko:anko:0.10.4"
