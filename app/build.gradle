@@ -90,7 +90,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:19.0.1'
 
     // Image Cropper
-    implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.3'
+    implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.3' // TODO: Remove after refactor
+    implementation 'com.github.CanHub:Android-Image-Cropper:3.3.5'
 
     // Color Picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'

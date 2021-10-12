@@ -1,8 +1,5 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import com.arkadiusz.dayscounter.data.model.Event
@@ -12,11 +9,9 @@ import com.arkadiusz.dayscounter.util.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.PreferenceUtils.set
-import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.content_add.*
 import java.util.*
 
@@ -121,40 +116,5 @@ class AddActivity : BaseAddActivity() {
         event.fontColor = selectedColor
         event.pictureDim = dimValue
         return event
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, imageData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, imageData)
-
-        if (isComingFromInternetActivity(requestCode, resultCode)) {
-            startCropImageActivity(imageData!!.data!!)
-        }
-
-        if (userSuccessfullyPickedAnImage(requestCode, resultCode)) {
-            startCropImageActivity(CropImage.getPickImageResultUri(this, imageData))
-        }
-
-        if (isResultComingWithImageAfterCropping(requestCode)) {
-            displayImageHere(imageData)
-        }
-    }
-
-    private fun isComingFromInternetActivity(requestCode: Int, resultCode: Int): Boolean {
-        return requestCode == pickPhotoInternet && resultCode == Activity.RESULT_OK
-    }
-
-    private fun userSuccessfullyPickedAnImage(requestCode: Int, resultCode: Int) =
-        requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK
-
-    private fun startCropImageActivity(imageUri: Uri) {
-        CropImage.activity(imageUri)
-            .setAspectRatio(18, 9)
-            .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
-            .setFixAspectRatio(true)
-            .start(this)
-    }
-
-    private fun isResultComingWithImageAfterCropping(requestCode: Int): Boolean {
-        return requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
     }
 }

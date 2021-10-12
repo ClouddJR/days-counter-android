@@ -46,6 +46,9 @@
   # Proguard complaining about displayEventOptions in Fragments
   -dontwarn com.arkadiusz.dayscounter.ui.events.**
 
+  # Android-Image-Cropper
+  -keep class androidx.appcompat.widget.** { *; }
+
   # Glide
   -keep public class * implements com.bumptech.glide.module.GlideModule
   -keep public class * extends com.bumptech.glide.module.AppGlideModule

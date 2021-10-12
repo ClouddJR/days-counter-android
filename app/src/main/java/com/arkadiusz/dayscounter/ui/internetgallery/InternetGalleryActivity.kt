@@ -2,7 +2,6 @@ package com.arkadiusz.dayscounter.ui.internetgallery
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -21,7 +20,8 @@ import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
-import com.theartofdev.edmodo.cropper.CropImage
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import kotlinx.android.synthetic.main.activity_internet_gallery.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,6 +30,13 @@ import org.jetbrains.anko.startActivity
 import java.io.File
 
 class InternetGalleryActivity : AppCompatActivity() {
+
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            val imageUri = saveImage(this, result.uriContent as Uri)
+            returnToActivity(imageUri.toString())
+        }
+    }
 
     private lateinit var viewModel: InternetGalleryActivityViewModel
 
@@ -59,17 +66,14 @@ class InternetGalleryActivity : AppCompatActivity() {
         viewModel.savedImage.observe(this, {
             it.get()?.let { fileName ->
                 progressDialog.cancel()
-                startCropImageActivity(Uri.fromFile(File(cacheDir.absolutePath + "/$fileName.png")))
+                cropImage.launch(
+                    options(Uri.fromFile(File(cacheDir.absolutePath + "/$fileName.png"))) {
+                        setAspectRatio(18, 9)
+                        setFixAspectRatio(true)
+                    }
+                )
             }
         })
-    }
-
-    private fun startCropImageActivity(imageUri: Uri) {
-        CropImage.activity(imageUri)
-            .setAspectRatio(18, 9)
-            .setTheme(ThemeUtils.getThemeFromPreferences(true, this))
-            .setFixAspectRatio(true)
-            .start(this)
     }
 
     private fun setupAdapter() {
@@ -140,22 +144,6 @@ class InternetGalleryActivity : AppCompatActivity() {
             view = View(activity)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (isResultComingWithImageAfterCropping(requestCode)) {
-            data?.let {
-                var imageUri = CropImage.getActivityResult(data).uri as Uri
-                imageUri = saveImage(this, imageUri)
-                returnToActivity(imageUri.toString())
-            }
-        }
-    }
-
-    private fun isResultComingWithImageAfterCropping(requestCode: Int): Boolean {
-        return requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
     }
 
     private fun returnToActivity(fileName: String?) {

@@ -31,9 +31,10 @@ import com.arkadiusz.dayscounter.util.DateUtils.formatTime
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.bumptech.glide.Glide
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.options
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.*
 import java.io.File
@@ -42,6 +43,12 @@ import java.util.*
 abstract class BaseAddActivity : AppCompatActivity() {
 
     protected val viewModel: AddEditViewModel by viewModels()
+
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            displayImageHere(result.uriContent)
+        }
+    }
 
     private val requestPermissionForInternetActivity =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -56,7 +63,12 @@ abstract class BaseAddActivity : AppCompatActivity() {
     private val requestPermissionForPickingImage =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                CropImage.startPickImageActivity(this)
+                cropImage.launch(
+                    options {
+                        setAspectRatio(18, 9)
+                        setFixAspectRatio(true)
+                    }
+                )
             }
         }
 
@@ -443,7 +455,12 @@ abstract class BaseAddActivity : AppCompatActivity() {
         ) {
             requestPermissionForPickingImage.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
-            CropImage.startPickImageActivity(this)
+            cropImage.launch(
+                options {
+                    setAspectRatio(18, 9)
+                    setFixAspectRatio(true)
+                }
+            )
         }
     }
 
@@ -482,11 +499,11 @@ abstract class BaseAddActivity : AppCompatActivity() {
         }
     }
 
-    protected fun displayImageHere(data: Intent?) {
-        data?.let {
+    private fun displayImageHere(uri: Uri?) {
+        uri?.let {
             imageColor = 0
             imageID = 0
-            imageUri = CropImage.getActivityResult(data).uri as Uri
+            imageUri = uri
             imageUri = StorageUtils.saveImage(this, imageUri as Uri)
             Glide.with(this).load(File(imageUri?.path)).into(eventImage)
         }
