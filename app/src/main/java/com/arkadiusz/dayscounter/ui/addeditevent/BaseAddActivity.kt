@@ -63,13 +63,23 @@ abstract class BaseAddActivity : AppCompatActivity() {
             }
         }
 
+    private val internetGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val internetImageUri = result.data?.getStringExtra("internetImageUri") ?: ""
+                if (internetImageUri.isNotEmpty()) {
+                    imageUri = Uri.parse(internetImageUri)
+                    imageColor = 0
+                    imageID = 0
+                    Glide.with(this).load(File(imageUri?.path)).into(eventImage)
+                }
+            }
+        }
+
     private val requestPermissionForInternetActivity =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                startActivityForResult<InternetGalleryActivity>(
-                    pickPhotoInternet,
-                    "activity" to "Add"
-                )
+                internetGallery.launch(Intent(this, InternetGalleryActivity::class.java))
             }
         }
 
@@ -90,8 +100,6 @@ abstract class BaseAddActivity : AppCompatActivity() {
     protected var hasAlarm = false
     protected var selectedColor = -1
     protected var dimValue = 4
-
-    protected val pickPhotoInternet = 2
 
     protected var imageUri: Uri? = null
     protected var imageID = 2131230778
@@ -121,19 +129,6 @@ abstract class BaseAddActivity : AppCompatActivity() {
         setUpFontPicker()
         setUpOnClickListeners()
         setUpImageChoosing()
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-
-        // Intent from InternetGalleryActivity
-        val internetImageUri = intent?.getStringExtra("internetImageUri") ?: ""
-        if (internetImageUri.isNotEmpty()) {
-            imageUri = Uri.parse(internetImageUri)
-            imageColor = 0
-            imageID = 0
-            Glide.with(this).load(File(imageUri?.path)).into(eventImage)
-        }
     }
 
     override fun onBackPressed() {
@@ -496,7 +491,7 @@ abstract class BaseAddActivity : AppCompatActivity() {
         ) {
             requestPermissionForInternetActivity.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
-            startActivityForResult<InternetGalleryActivity>(pickPhotoInternet, "activity" to "Add")
+            internetGallery.launch(Intent(this, InternetGalleryActivity::class.java))
         }
     }
 

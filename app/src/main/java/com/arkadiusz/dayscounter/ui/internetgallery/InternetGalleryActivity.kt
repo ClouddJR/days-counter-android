@@ -2,6 +2,7 @@ package com.arkadiusz.dayscounter.ui.internetgallery
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,8 +16,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.unsplash.Image
-import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
-import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
@@ -26,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_internet_gallery.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.indeterminateProgressDialog
-import org.jetbrains.anko.startActivity
 import java.io.File
 
 class InternetGalleryActivity : AppCompatActivity() {
@@ -147,10 +145,9 @@ class InternetGalleryActivity : AppCompatActivity() {
     }
 
     private fun returnToActivity(fileName: String?) {
-        when (intent.getStringExtra("activity")!!) {
-            "Add" -> startActivity<AddActivity>("internetImageUri" to fileName)
-            "Edit" -> startActivity<EditActivity>("internetImageUri" to fileName)
-        }
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra("internetImageUri", fileName)
+        })
         finish()
     }
 }
