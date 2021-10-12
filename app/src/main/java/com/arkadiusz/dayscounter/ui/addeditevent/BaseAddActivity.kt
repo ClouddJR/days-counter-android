@@ -1,6 +1,7 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -50,6 +51,18 @@ abstract class BaseAddActivity : AppCompatActivity() {
         }
     }
 
+    private val localGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                imageID = result.data?.getIntExtra("imageID", 0) ?: 0
+                if (imageID != 0) {
+                    imageColor = 0
+                    imageUri = null
+                    Glide.with(this).load(imageID).into(eventImage)
+                }
+            }
+        }
+
     private val requestPermissionForInternetActivity =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
@@ -78,7 +91,6 @@ abstract class BaseAddActivity : AppCompatActivity() {
     protected var selectedColor = -1
     protected var dimValue = 4
 
-    protected val pickPhotoGallery = 1
     protected val pickPhotoInternet = 2
 
     protected var imageUri: Uri? = null
@@ -113,14 +125,6 @@ abstract class BaseAddActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
-        // Intent from GalleryActivity
-        imageID = intent?.getIntExtra("imageID", 0) ?: 0
-        if (imageID != 0) {
-            imageColor = 0
-            imageUri = null
-            Glide.with(this).load(imageID).into(eventImage)
-        }
 
         // Intent from InternetGalleryActivity
         val internetImageUri = intent?.getStringExtra("internetImageUri") ?: ""
@@ -420,10 +424,7 @@ abstract class BaseAddActivity : AppCompatActivity() {
                 .setItems(setUpImageChooserDialogOptions()) { _, which ->
                     when (which) {
                         0 -> askForPermissionAndDisplayCropActivity()
-                        1 -> startActivityForResult<GalleryActivity>(
-                            pickPhotoGallery,
-                            "activity" to "Add"
-                        )
+                        1 -> localGallery.launch(Intent(this, GalleryActivity::class.java))
                         2 -> displayColorPickerForEventBackground()
                         3 -> {
                             if (PurchasesUtils.isPremiumUser(this)) {
