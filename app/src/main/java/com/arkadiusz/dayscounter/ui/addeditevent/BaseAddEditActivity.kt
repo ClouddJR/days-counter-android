@@ -41,7 +41,7 @@ import org.jetbrains.anko.*
 import java.io.File
 import java.util.*
 
-abstract class BaseAddActivity : AppCompatActivity() {
+abstract class BaseAddEditActivity : AppCompatActivity() {
 
     protected val viewModel: AddEditViewModel by viewModels()
 
@@ -220,7 +220,7 @@ abstract class BaseAddActivity : AppCompatActivity() {
             ) {
                 (view as? TextView)?.text?.let { text ->
                     val fontName = text.toString()
-                    val typeFace = FontUtils.getFontFor(fontName, this@BaseAddActivity)
+                    val typeFace = FontUtils.getFontFor(fontName, this@BaseAddEditActivity)
                     eventTitle.typeface = typeFace
                     eventCalculateText.typeface = typeFace
                 }

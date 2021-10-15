@@ -15,7 +15,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import kotlinx.android.synthetic.main.content_add.*
 import java.util.*
 
-class AddActivity : BaseAddActivity() {
+class AddActivity : BaseAddEditActivity() {
 
     private var interstitialAd: InterstitialAd? = null
 
