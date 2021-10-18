@@ -9,9 +9,6 @@ data class EventUIData(
     val image: EventImage,
     val reminderComponents: ReminderComponents,
     val notificationText: String,
-    val imageCloudPath: String,
-    val widgetId: Int,
-    val hasTransparentWidget: Boolean
 )
 
 data class UISelection(
@@ -29,10 +26,10 @@ data class UISelection(
 )
 
 sealed class EventImage
-class ColorBackground(color: Int): EventImage()
-class LocalGalleryImage(resourceId: Int): EventImage()
-class LocalFile(path: String): EventImage()
-class CloudFile(path: String): EventImage()
+class ColorBackground(val color: Int): EventImage()
+class LocalGalleryImage(val resourceId: Int): EventImage()
+class LocalFile(val path: String): EventImage()
+class CloudFile(val localPath: String, val cloudPath: String): EventImage()
 
 data class ReminderComponents(
     val year: Int,
