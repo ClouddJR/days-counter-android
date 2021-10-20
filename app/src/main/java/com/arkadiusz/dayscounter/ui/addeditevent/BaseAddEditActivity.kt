@@ -7,38 +7,28 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.TypedValue
-import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.CompoundButton
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
 import com.arkadiusz.dayscounter.util.*
-import com.arkadiusz.dayscounter.util.DateUtils.calculateDate
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
-import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
-import com.arkadiusz.dayscounter.util.DateUtils.formatTime
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
-import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import kotlinx.android.synthetic.main.content_add.*
-import org.jetbrains.anko.*
-import java.io.File
+import org.jetbrains.anko.alert
 import java.util.*
 
 abstract class BaseAddEditActivity : AppCompatActivity() {
@@ -47,31 +37,25 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            displayImageHere(result.uriContent)
+            result.uriContent?.let { uri ->
+                viewModel.updateImageToLocalFile(StorageUtils.saveImage(this, uri).path!!)
+            }
         }
     }
 
     private val localGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                imageID = result.data?.getIntExtra("imageID", 0) ?: 0
-                if (imageID != 0) {
-                    imageColor = 0
-                    imageUri = null
-                    Glide.with(this).load(imageID).into(eventImage)
-                }
+                viewModel.updateImageToLocalGalleryItem(result.data?.getIntExtra("imageID", 0) ?: 0)
             }
         }
 
     private val internetGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val internetImageUri = result.data?.getStringExtra("internetImageUri") ?: ""
-                if (internetImageUri.isNotEmpty()) {
-                    imageUri = Uri.parse(internetImageUri)
-                    imageColor = 0
-                    imageID = 0
-                    Glide.with(this).load(File(imageUri?.path)).into(eventImage)
+                val imageUriString = result.data?.getStringExtra("internetImageUri") ?: ""
+                if (imageUriString.isNotEmpty()) {
+                    viewModel.updateImageToLocalFile(Uri.parse(imageUriString).path!!)
                 }
             }
         }
@@ -95,28 +79,7 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
             }
         }
 
-    protected var date = ""
-
-    protected var hasAlarm = false
-    protected var selectedColor = -1
-    protected var dimValue = 4
-
-    protected var imageUri: Uri? = null
-    protected var imageID = 2131230778
-    protected var imageColor = 0
-
-    protected var chosenYear = 0
-    protected var chosenMonth = 0
-    protected var chosenDay = 0
-
-    protected var reminderDate = ""
-    protected var chosenReminderYear = 0
-    protected var chosenReminderMonth = 0
-    protected var chosenReminderDay = 0
-    protected var chosenReminderHour = 0
-    protected var chosenReminderMinute = 0
-
-    protected var wasTimePickerAlreadyDisplayed = false
+    private var wasTimePickerAlreadyDisplayed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
@@ -126,7 +89,7 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         setUpCheckboxes()
         setUpEditTexts()
         setUpSeekBar()
-        setUpFontPicker()
+        setUpFontColorPicker()
         setUpOnClickListeners()
         setUpImageChoosing()
     }
@@ -152,137 +115,72 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         )
         counterFontSizeSpinner.adapter = fontSizeAdapter
         titleFontSizeSpinner.adapter = fontSizeAdapter
-        counterFontSizeSpinner.setSelection(6)
-        titleFontSizeSpinner.setSelection(5)
 
         repeatSpinner.adapter = ArrayAdapter.createFromResource(
             this,
             R.array.add_activity_repeat,
             R.layout.support_simple_spinner_dropdown_item
         )
-        repeatSpinner.setSelection(0)
 
         fontTypeSpinner.adapter = FontTypeSpinnerAdapter(
             this,
             R.layout.support_simple_spinner_dropdown_item,
             resources.getStringArray(R.array.font_type).toList()
         )
-        fontTypeSpinner.setSelection(8)
 
-        setSpinnersListeners()
+        setUpSpinnerListeners()
     }
 
-    private fun setSpinnersListeners() {
-        counterFontSizeSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    (view as? TextView)?.text?.let { text ->
-                        eventCalculateText.setTextSize(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            text.toString().toFloat()
-                        )
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // nop
-                }
-            }
-
-        titleFontSizeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                (view as? TextView)?.text?.let { text ->
-                    eventTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, text.toString().toFloat())
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // nop
+    private fun setUpSpinnerListeners() {
+        counterFontSizeSpinner.doOnSelected { view ->
+            (view as? TextView)?.text?.let { text ->
+                viewModel.updateCounterFontSize(text.toString().toInt())
             }
         }
 
-        fontTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                (view as? TextView)?.text?.let { text ->
-                    val fontName = text.toString()
-                    val typeFace = FontUtils.getFontFor(fontName, this@BaseAddEditActivity)
-                    eventTitle.typeface = typeFace
-                    eventCalculateText.typeface = typeFace
-                }
+        titleFontSizeSpinner.doOnSelected { view ->
+            (view as? TextView)?.text?.let { text ->
+                viewModel.updateTitleFontSize(text.toString().toInt())
             }
+        }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // nop
+        fontTypeSpinner.doOnSelected { view ->
+            (view as? TextView)?.text?.let { text ->
+                viewModel.updateFontType(text.toString())
             }
         }
     }
 
     private fun setUpCheckboxes() {
-        showDividerCheckbox.isChecked = true
         showDividerCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            eventLine.isVisible = isChecked
+            viewModel.updateLineDividerSelection(isChecked)
         }
-        daysCheckbox.isChecked = true
 
-        yearsCheckbox.setOnCheckedChangeListener(checkBoxListener)
-        monthsCheckbox.setOnCheckedChangeListener(checkBoxListener)
-        weeksCheckbox.setOnCheckedChangeListener(checkBoxListener)
-        daysCheckbox.setOnCheckedChangeListener(checkBoxListener)
+        yearsCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
+        monthsCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
+        weeksCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
+        daysCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
     }
 
-    private val checkBoxListener = CompoundButton.OnCheckedChangeListener { _, _ ->
-        if (noCheckboxIsSelected()) {
-            toast(getString(R.string.add_activity_toast_checkbox))
-            daysCheckbox.isChecked = true
-        }
-        eventCalculateText.text = generateCounterText()
-    }
-
-    private fun noCheckboxIsSelected(): Boolean {
-        return !yearsCheckbox.isChecked
-                && !monthsCheckbox.isChecked
-                && !weeksCheckbox.isChecked
-                && !daysCheckbox.isChecked
+    private val formatCheckboxListener = CompoundButton.OnCheckedChangeListener { _, _ ->
+        viewModel.updateFormatSelection(
+            yearsSelected = yearsCheckbox.isSelected,
+            monthsSelected = monthsCheckbox.isSelected,
+            weeksSelected = weeksCheckbox.isSelected,
+            daysSelected = daysCheckbox.isSelected
+        )
     }
 
     private fun setUpEditTexts() {
-        titleEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(e: Editable?) {
-                e?.let {
-                    eventTitle.text = it.toString()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // nop
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // nop
-            }
-        })
+        titleEditText.doAfterTextChanged { editable ->
+            viewModel.updateName(editable?.toString() ?: "")
+        }
     }
 
     private fun setUpSeekBar() {
         pictureDimSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                eventImage.setColorFilter(Color.argb(255 / 17 * progress, 0, 0, 0))
-                dimValue = progress
+                viewModel.updateDimValue(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -295,119 +193,81 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         })
     }
 
-    private fun setUpFontPicker() {
+    private fun setUpFontColorPicker() {
         colorImageView.setOnClickListener {
-            displayColorPicker()
+            displayFontColorPicker()
         }
     }
 
-    private fun displayColorPicker() {
-        val picker = ColorPickerDialogBuilder
+    private fun displayFontColorPicker() {
+        ColorPickerDialogBuilder
             .with(this)
             .setTitle("Choose color")
             .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
             .density(10)
-            .setPositiveButton("ok") { _, selectedColor, _ -> changeWidgetsColors(selectedColor) }
+            .setPositiveButton("ok") { _, color, _ -> viewModel.updateFontColor(color) }
             .setNegativeButton("cancel") { _, _ -> }
-
-        if (selectedColor != -1) picker.initialColor(selectedColor)
-
-        picker.build()
+            .also { if (viewModel.getSelectedFontColor() != -1) it.initialColor(viewModel.getSelectedFontColor()) }
+            .build()
             .show()
-    }
-
-    private fun changeWidgetsColors(color: Int) {
-        selectedColor = color
-        eventTitle.textColor = color
-        eventCalculateText.textColor = color
-        colorImageView.backgroundColor = color
-        eventLine.backgroundColor = color
     }
 
     private fun setUpOnClickListeners() {
         dateEditText.setOnClickListener { showDatePicker() }
         reminderDateEditText.setOnClickListener { showReminderDatePicker() }
-        clearReminderDateButton.setOnClickListener {
-            reminderDateEditText.setText("")
-            chosenReminderYear = 0
-            chosenReminderMonth = 0
-            chosenReminderDay = 0
-            chosenReminderHour = 0
-            chosenReminderMinute = 0
-            hasAlarm = false
-        }
-        addButton.setOnClickListener {
-            handleSaveClick()
-        }
+        clearReminderDateButton.setOnClickListener { viewModel.clearReminder() }
+        addButton.setOnClickListener { handleSaveClick() }
     }
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
+        val (currentYear, currentMonth, currentDay) =
+            DateUtils.getElementsFromDate(viewModel.getCurrentDate())
 
         DatePickerDialog(
             this, { _, chosenYear, chosenMonth, chosenDay ->
-                this.chosenYear = chosenYear
-                this.chosenMonth = chosenMonth
-                this.chosenDay = chosenDay
-
-                date = formatDate(chosenYear, chosenMonth, chosenDay)
-
-                dateEditText.setText(
-                    formatDateAccordingToSettings(
-                        date,
-                        defaultPrefs(this)["dateFormat"] ?: ""
-                    )
-                )
-
-                eventCalculateText.text = generateCounterText()
+                viewModel.updateDate(formatDate(chosenYear, chosenMonth, chosenDay))
             },
-            if (chosenYear == 0) calendar.get(Calendar.YEAR) else chosenYear,
-            if (chosenYear == 0) calendar.get(Calendar.MONTH) else chosenMonth,
-            if (chosenYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenDay
+            if (currentYear == 0) calendar.get(Calendar.YEAR) else currentYear,
+            if (currentYear == 0) calendar.get(Calendar.MONTH) else currentMonth,
+            if (currentYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else currentDay
         ).show()
     }
 
     private fun showReminderDatePicker() {
         val calendar = Calendar.getInstance()
+        val components = viewModel.getCurrentReminderComponents()
 
         wasTimePickerAlreadyDisplayed = false
+
         DatePickerDialog(
             this, { _, chosenYear, chosenMonth, chosenDay ->
-                reminderDate = formatDate(chosenYear, chosenMonth, chosenDay)
-                chosenReminderYear = chosenYear
-                chosenReminderMonth = chosenMonth
-                chosenReminderDay = chosenDay
+                viewModel.updateReminderDateComponents(chosenYear, chosenMonth, chosenDay)
 
                 if (!wasTimePickerAlreadyDisplayed) {
                     displayTimePickerDialog()
                 }
             },
-            if (chosenReminderYear == 0) calendar.get(Calendar.YEAR) else chosenReminderYear,
-            if (chosenReminderYear == 0) calendar.get(Calendar.MONTH) else chosenReminderMonth,
-            if (chosenReminderYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else chosenReminderDay
+            if (components.year == 0) calendar.get(Calendar.YEAR) else components.year,
+            if (components.year == 0) calendar.get(Calendar.MONTH) else components.month,
+            if (components.year == 0) calendar.get(Calendar.DAY_OF_MONTH) else components.day
         ).show()
     }
 
     private fun displayTimePickerDialog() {
         val calendar = Calendar.getInstance()
+        val components = viewModel.getCurrentReminderComponents()
 
         wasTimePickerAlreadyDisplayed = true
+
         TimePickerDialog(
             this, { view, chosenHour, chosenMinute ->
                 if (view.isShown) {
-                    this.chosenReminderHour = chosenHour
-                    this.chosenReminderMinute = chosenMinute
-                    reminderDate = formatDateAccordingToSettings(
-                        reminderDate,
-                        defaultPrefs(this)["dateFormat"] ?: ""
-                    )
-                    reminderDate += " ${formatTime(chosenHour, chosenMinute)}"
-                    reminderDateEditText.setText(reminderDate)
-                    hasAlarm = true
+                    viewModel.updateReminderTimeComponents(chosenHour, chosenMinute)
                 }
             },
-            if (chosenReminderHour == 0) calendar.get(Calendar.HOUR_OF_DAY) else chosenReminderHour,
-            if (chosenReminderHour == 0) calendar.get(Calendar.MINUTE) else chosenReminderMinute,
+            if (components.hour == 0) calendar.get(Calendar.HOUR_OF_DAY) else components.hour,
+            if (components.hour == 0) calendar.get(Calendar.MINUTE) else components.minute,
             true
         ).show()
     }
@@ -416,7 +276,7 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         imageChooserButton.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.add_activity_dialog_title))
-                .setItems(setUpImageChooserDialogOptions()) { _, which ->
+                .setItems(getImageChooserDialogOptions()) { _, which ->
                     when (which) {
                         0 -> askForPermissionAndDisplayCropActivity()
                         1 -> localGallery.launch(Intent(this, GalleryActivity::class.java))
@@ -433,21 +293,16 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpImageChooserDialogOptions(): Array<String> {
-        val options = listOf(
-            getString(R.string.add_activity_dialog_option_custom),
-            getString(R.string.add_activity_dialog_option_gallery),
-            getString(R.string.add_activity_dialog_option_color),
-            getString(R.string.add_activity_dialog_option_internet)
-        )
-        return options.toTypedArray()
-    }
+    private fun getImageChooserDialogOptions() = listOf(
+        getString(R.string.add_activity_dialog_option_custom),
+        getString(R.string.add_activity_dialog_option_gallery),
+        getString(R.string.add_activity_dialog_option_color),
+        getString(R.string.add_activity_dialog_option_internet)
+    ).toTypedArray()
 
     private fun askForPermissionAndDisplayCropActivity() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissionForPickingImage.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
@@ -461,33 +316,25 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
     }
 
     private fun displayColorPickerForEventBackground() {
-        val picker = ColorPickerDialogBuilder
+        ColorPickerDialogBuilder
             .with(this)
             .setTitle("Choose color")
             .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
             .density(10)
-            .setPositiveButton("ok") { _, selectedColor, _ -> changeEventColor(selectedColor) }
+            .setPositiveButton("ok") { _, color, _ -> viewModel.updateImageToBackgroundColor(color) }
             .setNegativeButton("cancel") { _, _ -> }
-
-        if (imageColor != -0) picker.initialColor(imageColor)
-
-        picker.build()
+            .also {
+                if (viewModel.getCurrentImage() is ColorBackground) {
+                    it.initialColor((viewModel.getCurrentImage() as ColorBackground).color)
+                }
+            }
+            .build()
             .show()
     }
 
-    private fun changeEventColor(color: Int) {
-        imageID = 0
-        imageUri = null
-        imageColor = color
-        eventImage.setImageDrawable(null)
-        eventImage.backgroundColor = color
-    }
-
     private fun askForPermissionAndDisplayInternetImageActivity() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissionForInternetActivity.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         } else {
@@ -495,32 +342,7 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayImageHere(uri: Uri?) {
-        uri?.let {
-            imageColor = 0
-            imageID = 0
-            imageUri = uri
-            imageUri = StorageUtils.saveImage(this, imageUri as Uri)
-            Glide.with(this).load(File(imageUri?.path)).into(eventImage)
-        }
-    }
-
-    protected fun generateCounterText(): String {
-        return calculateDate(
-            chosenYear, chosenMonth + 1, chosenDay,
-            yearsCheckbox.isChecked,
-            monthsCheckbox.isChecked,
-            weeksCheckbox.isChecked,
-            daysCheckbox.isChecked,
-            this
-        )
-    }
-
     protected fun addReminder(eventToBeAdded: Event) {
-        if (isReminderSet()) {
-            RemindersUtils.addNewReminder(this, eventToBeAdded)
-        }
+        RemindersUtils.addNewReminder(this, eventToBeAdded)
     }
-
-    private fun isReminderSet(): Boolean = chosenReminderYear != 0 && chosenReminderDay != 0
 }

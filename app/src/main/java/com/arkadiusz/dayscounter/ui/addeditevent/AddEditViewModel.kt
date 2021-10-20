@@ -18,6 +18,9 @@ class AddEditViewModel(
 
     private val uiLiveData = MutableLiveData<EventUIData>()
 
+    private val currentUiData
+        get() = uiLiveData.value!!
+
     val nameLiveData: LiveData<String> = uiLiveData.map { it.name }
     val dateLiveData: LiveData<String> = uiLiveData.map { it.date }
     val descriptionLiveData: LiveData<String> = uiLiveData.map { it.description }
@@ -43,6 +46,111 @@ class AddEditViewModel(
     fun saveEvent() = databaseRepository.addEvent(prepareEvent())
 
     fun editEvent() = databaseRepository.editEvent(prepareEvent())
+
+    fun updateName(name: String) {
+        uiLiveData.value = currentUiData.copy(name = name)
+    }
+
+    fun updateCounterFontSize(size: Int) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(counterFontSize = size)
+        )
+    }
+
+    fun updateTitleFontSize(size: Int) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(titleFontSize = size)
+        )
+    }
+
+    fun updateFontType(type: String) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(fontType = type)
+        )
+    }
+
+    fun updateLineDividerSelection(selected: Boolean) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(lineDividerSelected = selected)
+        )
+    }
+
+    fun updateFormatSelection(
+        yearsSelected: Boolean,
+        monthsSelected: Boolean,
+        weeksSelected: Boolean,
+        daysSelected: Boolean
+    ) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(
+                formatYearsSelected = yearsSelected,
+                formatMonthsSelected = monthsSelected,
+                formatWeeksSelected = weeksSelected,
+                formatDaysSelected = daysSelected
+            )
+        )
+    }
+
+    fun updateDimValue(value: Int) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(dimValue = value)
+        )
+    }
+
+    fun getSelectedFontColor() = currentUiData.selection.fontColor
+
+    fun updateFontColor(color: Int) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(fontColor = color)
+        )
+    }
+
+    fun clearReminder() {
+        uiLiveData.value = currentUiData.copy(
+            reminderComponents = ReminderComponents(0, 0, 0, 0, 0)
+        )
+    }
+
+    fun getCurrentDate() = currentUiData.date
+
+    fun updateDate(date: String) {
+        uiLiveData.value = currentUiData.copy(date = date)
+    }
+
+    fun getCurrentReminderComponents() = currentUiData.reminderComponents
+
+    fun updateReminderDateComponents(year: Int, month: Int, day: Int) {
+        uiLiveData.value = currentUiData.copy(
+            reminderComponents = currentUiData.reminderComponents.copy(
+                year = year,
+                month = month,
+                day = day
+            )
+        )
+    }
+
+    fun updateReminderTimeComponents(hour: Int, minute: Int) {
+        uiLiveData.value = currentUiData.copy(
+            reminderComponents = currentUiData.reminderComponents.copy(
+                hour = hour,
+                minute = minute,
+            )
+        )
+    }
+
+    fun getCurrentImage(): EventImage = currentUiData.image
+
+    fun updateImageToBackgroundColor(color: Int) {
+        uiLiveData.value = currentUiData.copy(image = ColorBackground(color))
+    }
+
+    fun updateImageToLocalFile(path: String) {
+        uiLiveData.value = currentUiData.copy(image = LocalFile(path))
+    }
+
+    fun updateImageToLocalGalleryItem(imageId: Int) {
+        uiLiveData.value = currentUiData.copy(image = LocalGalleryImage(imageId))
+    }
 
     private fun initUIData(previousEvent: Event?, type: String) {
         uiLiveData.value = EventUIData(
