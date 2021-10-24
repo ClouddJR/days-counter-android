@@ -7,15 +7,15 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.CompoundButton
-import android.widget.SeekBar
-import android.widget.TextView
+import android.util.TypedValue
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
@@ -23,17 +23,25 @@ import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
 import com.arkadiusz.dayscounter.util.*
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
+import com.arkadiusz.dayscounter.util.DateUtils.formatDateAccordingToSettings
+import com.arkadiusz.dayscounter.util.DateUtils.formatTime
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
+import com.bumptech.glide.Glide
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.textColor
+import java.io.File
 import java.util.*
 
 abstract class BaseAddEditActivity : AppCompatActivity() {
 
-    protected val viewModel: AddEditViewModel by viewModels()
+    protected val viewModel: AddEditViewModel by viewModels { AddEditViewModel.Factory(resources) }
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
@@ -92,6 +100,7 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         setUpFontColorPicker()
         setUpOnClickListeners()
         setUpImageChoosing()
+        observeData()
     }
 
     override fun onBackPressed() {
@@ -132,19 +141,23 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
     }
 
     private fun setUpSpinnerListeners() {
-        counterFontSizeSpinner.doOnSelected { view ->
+        repeatSpinner.doOnSelected { _, position ->
+            viewModel.updateRepetitionSelection(position)
+        }
+
+        counterFontSizeSpinner.doOnSelected { view, _ ->
             (view as? TextView)?.text?.let { text ->
                 viewModel.updateCounterFontSize(text.toString().toInt())
             }
         }
 
-        titleFontSizeSpinner.doOnSelected { view ->
+        titleFontSizeSpinner.doOnSelected { view, _ ->
             (view as? TextView)?.text?.let { text ->
                 viewModel.updateTitleFontSize(text.toString().toInt())
             }
         }
 
-        fontTypeSpinner.doOnSelected { view ->
+        fontTypeSpinner.doOnSelected { view, _ ->
             (view as? TextView)?.text?.let { text ->
                 viewModel.updateFontType(text.toString())
             }
@@ -156,24 +169,34 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
             viewModel.updateLineDividerSelection(isChecked)
         }
 
-        yearsCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
-        monthsCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
-        weeksCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
-        daysCheckbox.setOnCheckedChangeListener(formatCheckboxListener)
-    }
+        yearsCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateFormatYearsSelection(isChecked)
+        }
 
-    private val formatCheckboxListener = CompoundButton.OnCheckedChangeListener { _, _ ->
-        viewModel.updateFormatSelection(
-            yearsSelected = yearsCheckbox.isSelected,
-            monthsSelected = monthsCheckbox.isSelected,
-            weeksSelected = weeksCheckbox.isSelected,
-            daysSelected = daysCheckbox.isSelected
-        )
+        monthsCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateFormatMonthsSelection(isChecked)
+        }
+
+        weeksCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateFormatWeeksSelection(isChecked)
+        }
+
+        daysCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateFormatDaysSelection(isChecked)
+        }
     }
 
     private fun setUpEditTexts() {
         titleEditText.doAfterTextChanged { editable ->
             viewModel.updateName(editable?.toString() ?: "")
+        }
+
+        descriptionEditText.doAfterTextChanged { editable ->
+            viewModel.updateDescription(editable?.toString() ?: "")
+        }
+
+        reminderTextEditText.doAfterTextChanged { editable ->
+            viewModel.updateNotificationText(editable?.toString() ?: "")
         }
     }
 
@@ -220,7 +243,6 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
     }
 
     private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
         val (currentYear, currentMonth, currentDay) =
             DateUtils.getElementsFromDate(viewModel.getCurrentDate())
 
@@ -228,9 +250,9 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
             this, { _, chosenYear, chosenMonth, chosenDay ->
                 viewModel.updateDate(formatDate(chosenYear, chosenMonth, chosenDay))
             },
-            if (currentYear == 0) calendar.get(Calendar.YEAR) else currentYear,
-            if (currentYear == 0) calendar.get(Calendar.MONTH) else currentMonth,
-            if (currentYear == 0) calendar.get(Calendar.DAY_OF_MONTH) else currentDay
+            currentYear,
+            currentMonth - 1,
+            currentDay
         ).show()
     }
 
@@ -342,7 +364,132 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
         }
     }
 
+    private fun observeData() {
+        observe(viewModel.nameLiveData) { name ->
+            if (name != titleEditText.text.toString()) {
+                titleEditText.setText(name)
+            }
+        }
+
+        observe(viewModel.nameLiveData) { name ->
+            eventTitle.text = name
+        }
+
+        observe(viewModel.dateLiveData) { date ->
+            dateEditText.setText(
+                formatDateAccordingToSettings(
+                    date, PreferenceUtils.defaultPrefs(this)["dateFormat"] ?: ""
+                )
+            )
+        }
+
+        observe(viewModel.counterTextLiveData) { counterText ->
+            eventCalculateText.text = counterText
+        }
+
+        observe(viewModel.descriptionLiveData) { description ->
+            if (description != descriptionEditText.text.toString()) {
+                descriptionEditText.setText(description)
+            }
+        }
+
+        observe(viewModel.selectionLiveData) { selection ->
+            updateSelectionStates(selection)
+            updateFont(selection)
+            updateImageDim(selection)
+        }
+
+        observe(viewModel.imageLiveData) { image ->
+            when (image) {
+                is ColorBackground -> {
+                    eventImage.setImageDrawable(null)
+                    eventImage.backgroundColor = image.color
+                }
+                is LocalGalleryImage -> {
+                    Glide.with(this).load(image.resourceId).into(eventImage)
+                }
+                is LocalFile -> {
+                    Glide.with(this).load(File(image.path)).into(eventImage)
+                }
+                is CloudFile -> {
+                    Glide.with(this)
+                        .load(FirebaseStorage.getInstance().getReference(image.cloudPath))
+                        .into(eventImage)
+                }
+            }
+        }
+
+        observe(viewModel.reminderComponents) { components ->
+            val text = if (viewModel.isReminderSet()) {
+                val datePart = formatDateAccordingToSettings(
+                    formatDate(components.year, components.month, components.day),
+                    PreferenceUtils.defaultPrefs(this)["dateFormat"] ?: ""
+                )
+                val timePart = formatTime(components.hour, components.minute)
+
+                "$datePart $timePart"
+            } else {
+                ""
+            }
+
+            reminderDateEditText.setText(text)
+        }
+
+        observe(viewModel.notificationTextLiveData) { notificationText ->
+            if (notificationText != reminderTextEditText.text.toString()) {
+                reminderTextEditText.setText(notificationText)
+            }
+        }
+    }
+
+    private fun updateSelectionStates(selection: UISelection) {
+        repeatSpinner.setSelection(selection.repetitionSelection)
+
+        yearsCheckbox.isChecked = selection.formatYearsSelected
+        monthsCheckbox.isChecked = selection.formatMonthsSelected
+        weeksCheckbox.isChecked = selection.formatWeeksSelected
+        daysCheckbox.isChecked = selection.formatDaysSelected
+
+        showDividerCheckbox.isChecked = selection.lineDividerSelected
+        eventLine.isVisible = selection.lineDividerSelected
+
+        counterFontSizeSpinner.setSelection(counterFontSizeSpinner.indexOfFirst { item ->
+            item.toString() == selection.counterFontSize.toString()
+        })
+        titleFontSizeSpinner.setSelection(titleFontSizeSpinner.indexOfFirst { item ->
+            item.toString() == selection.titleFontSize.toString()
+        })
+        fontTypeSpinner.setSelection(FontUtils.getFontPositionFor(selection.fontType))
+    }
+
+    private fun updateFont(selection: UISelection) {
+        eventTitle.textColor = selection.fontColor
+        eventCalculateText.textColor = selection.fontColor
+        colorImageView.backgroundColor = selection.fontColor
+        eventLine.backgroundColor = selection.fontColor
+
+        eventCalculateText.setTextSize(
+            TypedValue.COMPLEX_UNIT_DIP,
+            selection.counterFontSize.toFloat()
+        )
+        eventTitle.setTextSize(
+            TypedValue.COMPLEX_UNIT_DIP,
+            selection.titleFontSize.toFloat()
+        )
+
+        val typeFace = FontUtils.getFontFor(selection.fontType, this)
+        eventTitle.typeface = typeFace
+        eventCalculateText.typeface = typeFace
+    }
+
+    private fun updateImageDim(selection: UISelection) {
+        pictureDimSeekBar.progress = selection.dimValue
+        eventImage.setColorFilter(Color.argb(255 / 17 * selection.dimValue, 0, 0, 0))
+    }
+
     protected fun addReminder(eventToBeAdded: Event) {
-        RemindersUtils.addNewReminder(this, eventToBeAdded)
+        if (viewModel.isReminderSet()) {
+            RemindersUtils.addNewReminder(this, eventToBeAdded)
+        }
     }
 }

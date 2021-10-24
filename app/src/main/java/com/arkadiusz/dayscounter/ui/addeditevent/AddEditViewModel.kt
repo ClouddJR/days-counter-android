@@ -1,9 +1,8 @@
 package com.arkadiusz.dayscounter.ui.addeditevent
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import android.content.res.Resources
+import androidx.lifecycle.*
+import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.util.DateUtils
@@ -11,7 +10,8 @@ import java.io.File
 import java.util.*
 
 class AddEditViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository()
+    private val databaseRepository: DatabaseRepository = DatabaseRepository(),
+    private val resources: Resources
 ) : ViewModel() {
 
     private var previousEvent: Event? = null
@@ -21,13 +21,38 @@ class AddEditViewModel(
     private val currentUiData
         get() = uiLiveData.value!!
 
-    val nameLiveData: LiveData<String> = uiLiveData.map { it.name }
-    val dateLiveData: LiveData<String> = uiLiveData.map { it.date }
-    val descriptionLiveData: LiveData<String> = uiLiveData.map { it.description }
-    val selectionLiveData: LiveData<UISelection> = uiLiveData.map { it.selection }
-    val imageLiveData: LiveData<EventImage> = uiLiveData.map { it.image }
-    val reminderComponents: LiveData<ReminderComponents> = uiLiveData.map { it.reminderComponents }
-    val notificationTextLiveData: LiveData<String> = uiLiveData.map { it.notificationText }
+    val nameLiveData: LiveData<String> =
+        uiLiveData.map { it.name }.distinctUntilChanged()
+
+    val dateLiveData: LiveData<String> =
+        uiLiveData.map { it.date }.distinctUntilChanged()
+
+    val counterTextLiveData: LiveData<String> =
+        uiLiveData.map {
+            DateUtils.calculateDate(
+                currentUiData.date,
+                currentUiData.selection.formatYearsSelected,
+                currentUiData.selection.formatMonthsSelected,
+                currentUiData.selection.formatWeeksSelected,
+                currentUiData.selection.formatDaysSelected,
+                resources
+            )
+        }.distinctUntilChanged()
+
+    val descriptionLiveData: LiveData<String> =
+        uiLiveData.map { it.description }.distinctUntilChanged()
+
+    val selectionLiveData: LiveData<UISelection> =
+        uiLiveData.map { it.selection }.distinctUntilChanged()
+
+    val imageLiveData: LiveData<EventImage> =
+        uiLiveData.map { it.image }.distinctUntilChanged()
+
+    val reminderComponents: LiveData<ReminderComponents> =
+        uiLiveData.map { it.reminderComponents }.distinctUntilChanged()
+
+    val notificationTextLiveData: LiveData<String> =
+        uiLiveData.map { it.notificationText }.distinctUntilChanged()
 
     override fun onCleared() {
         super.onCleared()
@@ -51,6 +76,52 @@ class AddEditViewModel(
         uiLiveData.value = currentUiData.copy(name = name)
     }
 
+    fun getCurrentDate() = currentUiData.date
+
+    fun updateDate(date: String) {
+        uiLiveData.value = currentUiData.copy(date = date)
+    }
+
+    fun updateDescription(description: String) {
+        uiLiveData.value = currentUiData.copy(description = description)
+    }
+
+    fun updateRepetitionSelection(selection: Int) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(repetitionSelection = selection)
+        )
+    }
+
+    fun updateFormatYearsSelection(selected: Boolean) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(formatYearsSelected = selected)
+        )
+    }
+
+    fun updateFormatMonthsSelection(selected: Boolean) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(formatMonthsSelected = selected)
+        )
+    }
+
+    fun updateFormatWeeksSelection(selected: Boolean) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(formatWeeksSelected = selected)
+        )
+    }
+
+    fun updateFormatDaysSelection(selected: Boolean) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(formatDaysSelected = selected)
+        )
+    }
+
+    fun updateLineDividerSelection(selected: Boolean) {
+        uiLiveData.value = currentUiData.copy(
+            selection = currentUiData.selection.copy(lineDividerSelected = selected)
+        )
+    }
+
     fun updateCounterFontSize(size: Int) {
         uiLiveData.value = currentUiData.copy(
             selection = currentUiData.selection.copy(counterFontSize = size)
@@ -69,25 +140,11 @@ class AddEditViewModel(
         )
     }
 
-    fun updateLineDividerSelection(selected: Boolean) {
-        uiLiveData.value = currentUiData.copy(
-            selection = currentUiData.selection.copy(lineDividerSelected = selected)
-        )
-    }
+    fun getSelectedFontColor() = currentUiData.selection.fontColor
 
-    fun updateFormatSelection(
-        yearsSelected: Boolean,
-        monthsSelected: Boolean,
-        weeksSelected: Boolean,
-        daysSelected: Boolean
-    ) {
+    fun updateFontColor(color: Int) {
         uiLiveData.value = currentUiData.copy(
-            selection = currentUiData.selection.copy(
-                formatYearsSelected = yearsSelected,
-                formatMonthsSelected = monthsSelected,
-                formatWeeksSelected = weeksSelected,
-                formatDaysSelected = daysSelected
-            )
+            selection = currentUiData.selection.copy(fontColor = color)
         )
     }
 
@@ -97,12 +154,18 @@ class AddEditViewModel(
         )
     }
 
-    fun getSelectedFontColor() = currentUiData.selection.fontColor
+    fun getCurrentImage(): EventImage = currentUiData.image
 
-    fun updateFontColor(color: Int) {
-        uiLiveData.value = currentUiData.copy(
-            selection = currentUiData.selection.copy(fontColor = color)
-        )
+    fun updateImageToBackgroundColor(color: Int) {
+        uiLiveData.value = currentUiData.copy(image = ColorBackground(color))
+    }
+
+    fun updateImageToLocalFile(path: String) {
+        uiLiveData.value = currentUiData.copy(image = LocalFile(path))
+    }
+
+    fun updateImageToLocalGalleryItem(imageId: Int) {
+        uiLiveData.value = currentUiData.copy(image = LocalGalleryImage(imageId))
     }
 
     fun clearReminder() {
@@ -111,13 +174,9 @@ class AddEditViewModel(
         )
     }
 
-    fun getCurrentDate() = currentUiData.date
-
-    fun updateDate(date: String) {
-        uiLiveData.value = currentUiData.copy(date = date)
-    }
-
     fun getCurrentReminderComponents() = currentUiData.reminderComponents
+
+    fun isReminderSet() = getCurrentReminderComponents().year != 0
 
     fun updateReminderDateComponents(year: Int, month: Int, day: Int) {
         uiLiveData.value = currentUiData.copy(
@@ -138,23 +197,13 @@ class AddEditViewModel(
         )
     }
 
-    fun getCurrentImage(): EventImage = currentUiData.image
-
-    fun updateImageToBackgroundColor(color: Int) {
-        uiLiveData.value = currentUiData.copy(image = ColorBackground(color))
-    }
-
-    fun updateImageToLocalFile(path: String) {
-        uiLiveData.value = currentUiData.copy(image = LocalFile(path))
-    }
-
-    fun updateImageToLocalGalleryItem(imageId: Int) {
-        uiLiveData.value = currentUiData.copy(image = LocalGalleryImage(imageId))
+    fun updateNotificationText(notificationText: String) {
+        uiLiveData.value = currentUiData.copy(notificationText = notificationText)
     }
 
     private fun initUIData(previousEvent: Event?, type: String) {
         uiLiveData.value = EventUIData(
-            name = previousEvent?.name ?: "",
+            name = previousEvent?.name ?: resources.getString(R.string.add_activity_preview_title),
             date = previousEvent?.date ?: currentDate(),
             description = previousEvent?.description ?: "",
             type = type,
@@ -186,7 +235,11 @@ class AddEditViewModel(
 
     private fun currentDate(): String {
         return with(Calendar.getInstance()) {
-            DateUtils.formatDate(get(Calendar.YEAR), Calendar.MONTH, Calendar.DAY_OF_MONTH)
+            DateUtils.formatDate(
+                get(Calendar.YEAR),
+                get(Calendar.MONTH),
+                get(Calendar.DAY_OF_MONTH)
+            )
         }
     }
 
@@ -278,5 +331,12 @@ class AddEditViewModel(
         const val DEFAULT_FONT_COLOR = -1
         const val DEFAULT_PICTURE_DIM = 4
         const val DEFAULT_IMAGE_ID = 2131230778
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory(private val resources: Resources) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return AddEditViewModel(resources = resources) as T
+        }
     }
 }
