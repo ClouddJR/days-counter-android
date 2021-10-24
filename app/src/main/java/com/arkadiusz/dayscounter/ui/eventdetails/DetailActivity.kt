@@ -185,7 +185,8 @@ class DetailActivity : AppCompatActivity() {
             passedEvent!!.formatYearsSelected,
             passedEvent!!.formatMonthsSelected,
             passedEvent!!.formatWeeksSelected,
-            passedEvent!!.formatDaysSelected, this
+            passedEvent!!.formatDaysSelected,
+            resources
         )
         eventCalculateText.text = counterText
         eventTitle.text = passedEvent!!.name

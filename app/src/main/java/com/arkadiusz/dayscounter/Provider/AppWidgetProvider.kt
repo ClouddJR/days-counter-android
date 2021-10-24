@@ -60,7 +60,8 @@ class AppWidgetProvider : AppWidgetProvider() {
             event.formatYearsSelected,
             event.formatMonthsSelected,
             event.formatWeeksSelected,
-            event.formatDaysSelected, context
+            event.formatDaysSelected,
+            context.resources
         )
     }
 

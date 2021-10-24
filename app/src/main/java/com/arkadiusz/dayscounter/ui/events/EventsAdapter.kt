@@ -78,7 +78,8 @@ class EventsAdapter(
                 event.formatYearsSelected,
                 event.formatMonthsSelected,
                 event.formatWeeksSelected,
-                event.formatDaysSelected, context
+                event.formatDaysSelected,
+                context.resources
             )
             view.eventCalculateText.text = counterText
         }

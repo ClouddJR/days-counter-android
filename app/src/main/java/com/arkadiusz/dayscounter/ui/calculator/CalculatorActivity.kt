@@ -193,7 +193,7 @@ class CalculatorActivity : AppCompatActivity() {
                 calculatedComponents.months, calculatedComponents.weeks,
                 calculatedComponents.days, componentsHolder.areYearsIncluded,
                 componentsHolder.areMonthsIncluded, componentsHolder.areWeeksIncluded,
-                componentsHolder.areDaysIncluded, this
+                componentsHolder.areDaysIncluded, resources
             )
         } else {
             "${calculatedComponents.days} " +
