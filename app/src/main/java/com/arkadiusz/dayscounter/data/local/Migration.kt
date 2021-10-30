@@ -17,16 +17,11 @@ class Migration : RealmMigration {
     }
 
     override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
-        if (oldVersion == 0L) {
-            migrateFromFirstVersion(realm)
-        }
-
-        if (oldVersion == 2L) {
-            migrateFromThirdVersion(realm)
-        }
-
-        if (oldVersion == 3L) {
-            migrateFromFourthVersion(realm)
+        when (oldVersion) {
+            0L -> migrateFromFirstVersion(realm)
+            2L -> migrateFromThirdVersion(realm)
+            3L -> migrateFromFourthVersion(realm)
+            4L -> migrateFromFifthVersion(realm)
         }
     }
 
@@ -109,6 +104,11 @@ class Migration : RealmMigration {
                 it.set("imageCloudPath", "")
             }
             .addPrimaryKey("id")
+    }
+
+    private fun migrateFromFifthVersion(realm: DynamicRealm) {
+        realm.schema.get("Event")!!
+            .removeField("hasAlarm")
     }
 
 }

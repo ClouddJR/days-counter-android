@@ -13,7 +13,7 @@ class LocalDatabase {
 
     private var realm: Realm
     private val config: RealmConfiguration = RealmConfiguration.Builder()
-        .schemaVersion(4)
+        .schemaVersion(5)
         .migration(Migration())
         .allowWritesOnUiThread(true)
         .build()
@@ -43,7 +43,7 @@ class LocalDatabase {
     }
 
     fun getEventsWithAlarms(): RealmResults<Event> {
-        return realm.where(Event::class.java).equalTo("hasAlarm", true).findAll()
+        return realm.where(Event::class.java).notEqualTo("reminderYear", 0L).findAll()
     }
 
     fun getEventById(id: String): Event? {
@@ -90,7 +90,6 @@ class LocalDatabase {
     fun disableAlarmForEvent(eventId: String) {
         realm.executeTransactionAsync {
             it.getEventById(eventId)?.apply {
-                hasAlarm = false
                 reminderYear = 0
                 reminderMonth = 0
                 reminderDay = 0

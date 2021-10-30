@@ -18,7 +18,6 @@ open class Event() : RealmObject(), Parcelable {
     var type: String = ""
     var repeat: String = ""
     var widgetID: Int = 0
-    var hasAlarm: Boolean = false
     var hasTransparentWidget: Boolean = false
     var reminderYear: Int = 0
     var reminderMonth: Int = 0
@@ -42,21 +41,6 @@ open class Event() : RealmObject(), Parcelable {
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
-
-    override fun toString(): String {
-        return "Event(id='$id', name='$name', date='$date', description='$description', " +
-                "image='$image', imageCloudPath='$imageCloudPath', imageID=$imageID, " +
-                "imageColor=$imageColor, type='$type', repeat='$repeat', widgetID=$widgetID, " +
-                "hasAlarm=$hasAlarm, hasTransparentWidget=$hasTransparentWidget, " +
-                "reminderYear=$reminderYear, reminderMonth=$reminderMonth, " +
-                "reminderDay=$reminderDay, reminderHour=$reminderHour, " +
-                "reminderMinute=$reminderMinute, notificationText='$notificationText', " +
-                "formatYearsSelected=$formatYearsSelected, formatMonthsSelected=$formatMonthsSelected, " +
-                "formatWeeksSelected=$formatWeeksSelected, formatDaysSelected=$formatDaysSelected, " +
-                "lineDividerSelected=$lineDividerSelected, counterFontSize=$counterFontSize, " +
-                "titleFontSize=$titleFontSize, fontType='$fontType', fontColor=$fontColor, " +
-                "pictureDim=$pictureDim)"
-    }
 
     companion object {
         @JvmField
