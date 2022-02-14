@@ -335,7 +335,7 @@ class AddEditViewModel(
 
     @Suppress("UNCHECKED_CAST")
     class Factory(private val resources: Resources) : ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return AddEditViewModel(resources = resources) as T
         }
     }

@@ -34,6 +34,6 @@ class WidgetConfigureAdapter(
     }
 
     private class ViewHolder {
-        internal var evenTitle: TextView? = null
+        var evenTitle: TextView? = null
     }
 }

@@ -27,7 +27,6 @@ class InternetGalleryAdapter(val listener: ImageClickListener) :
     override fun getItemViewType(position: Int) = position
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun bind(position: Int) {
             getItem(position)?.let { image ->
                 Glide.with(itemView.context)

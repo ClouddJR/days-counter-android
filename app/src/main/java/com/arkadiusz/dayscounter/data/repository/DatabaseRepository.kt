@@ -259,13 +259,11 @@ class DatabaseRepository(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { cloudEvents: List<Event> ->
-
                     deleteIfNotExist(cloudEvents)
 
                     cloudEvents.forEach { cloudEvent ->
                         updateLocalEventBasedOn(cloudEvent)
                     }
-
                 },
                 { error: Throwable ->
                     error.printStackTrace()
@@ -310,5 +308,4 @@ class DatabaseRepository(
             remoteListenerDisposable.dispose()
         }
     }
-
 }

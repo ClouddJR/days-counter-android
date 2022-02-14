@@ -110,5 +110,4 @@ class Migration : RealmMigration {
         realm.schema.get("Event")!!
             .removeField("hasAlarm")
     }
-
 }

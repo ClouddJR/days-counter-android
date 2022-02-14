@@ -5,12 +5,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 30
-
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.arkadiusz.dayscounter"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 53
         versionName "2.5.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,20 +51,20 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // AppCompat and Design
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
     // Architecture Components
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.work:work-runtime-ktx:2.6.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    implementation "androidx.core:core-ktx:1.6.0"
-    implementation "androidx.activity:activity-ktx:1.3.1"
-    implementation "androidx.fragment:fragment-ktx:1.3.6"
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "androidx.activity:activity-ktx:1.4.0"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
 
     // Anko
     implementation "org.jetbrains.anko:anko:0.10.4"
@@ -73,24 +72,23 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:0.10.5"
 
     // Firebase and Ads
-    implementation 'com.google.firebase:firebase-core:19.0.1'
-    implementation 'com.google.firebase:firebase-firestore:23.0.3'
+    implementation 'com.google.firebase:firebase-core:20.0.2'
+    implementation 'com.google.firebase:firebase-firestore:24.0.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.firebaseui:firebase-ui-storage:4.1.0'
-    implementation 'com.google.firebase:firebase-ads:20.4.0'
+    implementation 'com.google.firebase:firebase-ads:20.5.0'
 
     // Google Play Services
-    implementation 'com.google.android.gms:play-services-ads:20.4.0'
-    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-ads:20.5.0'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     // Crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.1'
-    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.1'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.7'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
 
     // Image Cropper
-    implementation 'com.github.ClouddJR:Android-Image-Cropper:2.8.3' // TODO: Remove after refactor
     implementation 'com.github.CanHub:Android-Image-Cropper:3.3.5'
 
     // Color Picker
@@ -113,7 +111,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
 
     // Paging
-    implementation "androidx.paging:paging-runtime-ktx:3.0.1"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
 
     // Konfetti
     implementation 'nl.dionsegijn:konfetti:1.1.2'
@@ -123,12 +121,12 @@ dependencies {
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:2.27.0'
+    testImplementation 'org.mockito:mockito-core:3.9.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.work:work-testing:2.6.0"
+    androidTestImplementation "androidx.work:work-testing:2.7.1"
 }
 
 apply plugin: 'com.google.gms.google-services'

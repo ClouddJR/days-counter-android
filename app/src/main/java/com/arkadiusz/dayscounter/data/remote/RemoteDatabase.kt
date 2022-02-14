@@ -22,7 +22,6 @@ class RemoteDatabase(
         }
     }
 
-
     fun getEvents(): Observable<List<Event>> {
         return Observable.create { emitter ->
             firestoreDatabase

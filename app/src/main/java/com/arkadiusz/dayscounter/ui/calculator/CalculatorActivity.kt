@@ -44,7 +44,7 @@ class CalculatorActivity : AppCompatActivity() {
         displayAd()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_calculator, menu)
         return true
     }
