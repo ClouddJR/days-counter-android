@@ -1,11 +1,9 @@
 package com.arkadiusz.dayscounter.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class Event() : RealmObject(), Parcelable {
+open class Event : RealmObject() {
     @PrimaryKey
     var id: String = ""
     var name: String = ""
@@ -35,20 +33,6 @@ open class Event() : RealmObject(), Parcelable {
     var fontType: String = ""
     var fontColor: Int = 0
     var pictureDim: Int = 0
-
-    constructor(source: Parcel) : this()
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<Event> = object : Parcelable.Creator<Event> {
-            override fun createFromParcel(source: Parcel): Event = Event(source)
-            override fun newArray(size: Int): Array<Event?> = arrayOfNulls(size)
-        }
-    }
 
     fun isTheSameAs(other: Event): Boolean {
         return this.id == other.id &&
