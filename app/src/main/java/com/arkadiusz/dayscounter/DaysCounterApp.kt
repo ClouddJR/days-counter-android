@@ -12,11 +12,13 @@ import com.arkadiusz.dayscounter.util.PurchasesUtils
 import com.arkadiusz.dayscounter.util.billing.BillingDataSource
 import com.arkadiusz.dayscounter.util.billing.BillingRepository
 import com.google.android.gms.ads.MobileAds
+import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import java.util.concurrent.TimeUnit
 
+@HiltAndroidApp
 class DaysCounterApp : Application() {
 
     lateinit var billingRepository: BillingRepository
