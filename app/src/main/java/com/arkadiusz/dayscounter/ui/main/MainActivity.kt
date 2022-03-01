@@ -6,29 +6,24 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.calculator.CalculatorActivity
 import com.arkadiusz.dayscounter.ui.events.PastEventsFragment
 import com.arkadiusz.dayscounter.ui.login.LoginActivity
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
 import com.arkadiusz.dayscounter.ui.settings.SettingsActivity
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.PreferenceUtils.set
 import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
+import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         setUpToolbar()
         setUpViewPager()
         setUpFABClickListener()
-        setUpWorkerManager()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -155,16 +149,5 @@ class MainActivity : AppCompatActivity() {
                 }
             startActivity<AddActivity>("Event Type" to eventType)
         }
-    }
-
-    private fun setUpWorkerManager() {
-        val widgetUpdateRequest = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(3, TimeUnit.HOURS)
-            .build()
-
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            widgetUpdateRequest
-        )
     }
 }

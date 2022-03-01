@@ -2,6 +2,10 @@ package com.arkadiusz.dayscounter
 
 import android.app.Application
 import android.os.Build
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.util.NotificationUtils
 import com.arkadiusz.dayscounter.util.PreferenceUtils
 import com.arkadiusz.dayscounter.util.PurchasesUtils
@@ -11,6 +15,7 @@ import com.google.android.gms.ads.MobileAds
 import io.realm.Realm
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import java.util.concurrent.TimeUnit
 
 class DaysCounterApp : Application() {
 
@@ -22,6 +27,7 @@ class DaysCounterApp : Application() {
         initializeRealm()
         initializeAds()
         createNotificationChannelForReminders()
+        enqueueWorkerUpdatingWidgets()
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -52,5 +58,13 @@ class DaysCounterApp : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationUtils.createNotificationChannel(applicationContext)
         }
+    }
+
+    private fun enqueueWorkerUpdatingWidgets() {
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
+            ExistingPeriodicWorkPolicy.KEEP,
+            PeriodicWorkRequestBuilder<WidgetUpdateWorker>(3, TimeUnit.HOURS).build()
+        )
     }
 }
