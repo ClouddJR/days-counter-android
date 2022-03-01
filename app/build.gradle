@@ -61,7 +61,7 @@ dependencies {
     // Architecture Components
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.work:work-runtime-ktx:2.7.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.core:core-ktx:1.7.0"
     implementation "androidx.activity:activity-ktx:1.4.0"
     implementation "androidx.fragment:fragment-ktx:1.4.1"
@@ -72,21 +72,21 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:0.10.5"
 
     // Firebase and Ads
-    implementation 'com.google.firebase:firebase-core:20.0.2'
+    implementation 'com.google.firebase:firebase-core:20.1.0'
     implementation 'com.google.firebase:firebase-firestore:24.0.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.firebaseui:firebase-ui-storage:4.1.0'
-    implementation 'com.google.firebase:firebase-ads:20.5.0'
+    implementation 'com.google.firebase:firebase-ads:20.6.0'
 
     // Google Play Services
-    implementation 'com.google.android.gms:play-services-ads:20.5.0'
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
     // Crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.7'
-    implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.8'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
 
     // Image Cropper
     implementation 'com.github.CanHub:Android-Image-Cropper:3.3.5'
@@ -95,8 +95,8 @@ dependencies {
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
 
     // Images
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Realm Adapter
     implementation 'io.realm:android-adapters:2.0.0'
@@ -108,7 +108,7 @@ dependencies {
 
     // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.18'
 
     // Paging
     implementation "androidx.paging:paging-runtime-ktx:3.1.0"
@@ -117,7 +117,7 @@ dependencies {
     implementation 'nl.dionsegijn:konfetti:1.1.2'
 
     // Billing library
-    implementation "com.android.billingclient:billing-ktx:4.0.0"
+    implementation "com.android.billingclient:billing-ktx:4.1.0"
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
