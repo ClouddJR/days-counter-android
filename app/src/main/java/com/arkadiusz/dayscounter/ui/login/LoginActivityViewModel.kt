@@ -2,39 +2,34 @@ package com.arkadiusz.dayscounter.ui.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginActivityViewModel @Inject constructor(
     private var userRepository: UserRepository,
-    private var databaseRepository: DatabaseRepository
-) : ViewModel(), UserRepository.OnEmailResetListener, UserRepository.OnLoggedListener {
+    private var databaseRepository: DatabaseRepository,
+) : ViewModel() {
 
     val loginResult = MutableLiveData<Boolean>()
     val emailResetResult = MutableLiveData<Boolean>()
 
-    init {
-        userRepository.addOnEmailResetListener(this)
-        userRepository.addOnLoggedListener(this)
-    }
-
-    override fun onLoggedResult(wasSuccessful: Boolean) {
-        loginResult.value = wasSuccessful
-    }
-
-    override fun onEmailReset(wasSuccessful: Boolean) {
-        emailResetResult.value = wasSuccessful
-    }
-
     fun signInWithLoginAndPassword(email: String, password: String) {
-        userRepository.signInWithLoginAndPassword(email, password)
+        viewModelScope.launch {
+            val wasSuccessful = userRepository.signInWithLoginAndPassword(email, password)
+            loginResult.value = wasSuccessful
+        }
     }
 
     fun sendPasswordResetEmail(email: String) {
-        userRepository.sendPasswordResetEmail(email)
+        viewModelScope.launch {
+            val wasSuccessful = userRepository.sendPasswordResetEmail(email)
+            emailResetResult.value = wasSuccessful
+        }
     }
 
     fun addLocalEventsToCloud() {
