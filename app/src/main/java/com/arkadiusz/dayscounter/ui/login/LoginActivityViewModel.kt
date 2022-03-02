@@ -1,5 +1,6 @@
 package com.arkadiusz.dayscounter.ui.login
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,20 +16,23 @@ class LoginActivityViewModel @Inject constructor(
     private var databaseRepository: DatabaseRepository,
 ) : ViewModel() {
 
-    val loginResult = MutableLiveData<Boolean>()
-    val emailResetResult = MutableLiveData<Boolean>()
+    private val _loginResult = MutableLiveData<Boolean>()
+    val loginResult: LiveData<Boolean> = _loginResult
+
+    private val _emailResetResult = MutableLiveData<Boolean>()
+    val emailResetResult: LiveData<Boolean> = _emailResetResult
 
     fun signInWithLoginAndPassword(email: String, password: String) {
         viewModelScope.launch {
             val wasSuccessful = userRepository.signInWithLoginAndPassword(email, password)
-            loginResult.value = wasSuccessful
+            _loginResult.value = wasSuccessful
         }
     }
 
     fun sendPasswordResetEmail(email: String) {
         viewModelScope.launch {
             val wasSuccessful = userRepository.sendPasswordResetEmail(email)
-            emailResetResult.value = wasSuccessful
+            _emailResetResult.value = wasSuccessful
         }
     }
 
