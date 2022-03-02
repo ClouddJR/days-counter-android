@@ -13,23 +13,35 @@ import com.arkadiusz.dayscounter.ui.main.MainActivity
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.*
-import java.util.*
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private val viewModel: LoginActivityViewModel by viewModels()
 
-    private val RC_SIGN_IN = 123
-    private val providers = arrayListOf(
+    private val allProviders = listOf(
         AuthUI.IdpConfig.GoogleBuilder().build(),
         AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build()
     )
-    private val googleProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
+    private val googleProvider = listOf(AuthUI.IdpConfig.GoogleBuilder().build())
+
+    private val signInLauncher =
+        registerForActivityResult(FirebaseAuthUIActivityResultContract()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                startActivity<MainActivity>()
+                finish()
+                viewModel.addLocalEventsToCloud()
+            } else {
+                if (result.idpResponse?.error?.errorCode == ErrorCodes.NO_NETWORK) {
+                    longToast(getString(R.string.login_activity_connection_problem))
+                }
+            }
+            progressBar.visibility = View.GONE
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(getThemeFromPreferences(true, this))
@@ -50,26 +62,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity<MainActivity>()
         finish()
         return true
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-            // Successfully signed in
-            if (resultCode == Activity.RESULT_OK) {
-                startActivity<MainActivity>()
-                finish()
-                viewModel.addLocalEventsToCloud()
-            } else {
-                if (response?.error?.errorCode == ErrorCodes.NO_NETWORK) {
-                    longToast(getString(R.string.login_activity_connection_problem))
-                }
-            }
-        }
-
-        progressBar.visibility = View.GONE
     }
 
     private fun setupActionBar() {
@@ -109,11 +101,11 @@ class LoginActivity : AppCompatActivity() {
 
         signInWithGoogleButton.setOnClickListener {
             progressBar.visibility = View.VISIBLE
-            startActivityForResult(buildAuthUi(googleProvider), RC_SIGN_IN)
+            signInLauncher.launch(buildAuthUi(googleProvider))
         }
 
         createAccountButton.setOnClickListener {
-            startActivityForResult(buildAuthUi(providers), RC_SIGN_IN)
+            signInLauncher.launch(buildAuthUi(allProviders))
         }
 
         forgotPasswordButton.setOnClickListener {
@@ -121,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildAuthUi(type: ArrayList<AuthUI.IdpConfig>): Intent {
+    private fun buildAuthUi(type: List<AuthUI.IdpConfig>): Intent {
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(type)
