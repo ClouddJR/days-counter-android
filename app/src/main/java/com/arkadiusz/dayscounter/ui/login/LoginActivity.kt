@@ -6,21 +6,23 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.*
 import java.util.*
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: LoginActivityViewModel
+    private val viewModel: LoginActivityViewModel by viewModels()
 
     private val RC_SIGN_IN = 123
     private val providers = arrayListOf(
@@ -34,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setupActionBar()
-        initViewModel()
         listenToLoginEvents()
         initLogInButtons()
         initGoogleLoginButtonText()
@@ -76,13 +77,8 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun initViewModel() {
-        viewModel = getViewModel(this)
-        viewModel.init()
-    }
-
     private fun listenToLoginEvents() {
-        viewModel.loginResult.observe(this, { wasSuccessful ->
+        viewModel.loginResult.observe(this) { wasSuccessful ->
             if (wasSuccessful) {
                 viewModel.addLocalEventsToCloud()
                 startActivity<MainActivity>()
@@ -91,15 +87,15 @@ class LoginActivity : AppCompatActivity() {
                 longToast(getString(R.string.login_activity_wrong_credentials))
                 progressBar.visibility = View.GONE
             }
-        })
+        }
 
-        viewModel.emailResetResult.observe(this, { wasSuccessful ->
+        viewModel.emailResetResult.observe(this) { wasSuccessful ->
             val toastText = when (wasSuccessful) {
                 true -> getString(R.string.login_activity_password_reset_toast_success)
                 else -> getString(R.string.login_activity_password_reset_toast_fail)
             }
             longToast(toastText)
-        })
+        }
     }
 
     private fun initLogInButtons() {

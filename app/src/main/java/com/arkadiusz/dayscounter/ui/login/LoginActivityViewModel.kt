@@ -4,18 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginActivityViewModel(
-    private var userRepository: UserRepository = UserRepository(),
-    private var databaseRepository: DatabaseRepository = DatabaseRepository()
+@HiltViewModel
+class LoginActivityViewModel @Inject constructor(
+    private var userRepository: UserRepository,
+    private var databaseRepository: DatabaseRepository
 ) : ViewModel(), UserRepository.OnEmailResetListener, UserRepository.OnLoggedListener {
 
     val loginResult = MutableLiveData<Boolean>()
     val emailResetResult = MutableLiveData<Boolean>()
 
-    override fun onCleared() {
-        super.onCleared()
-        databaseRepository.closeDatabase()
+    init {
+        userRepository.addOnEmailResetListener(this)
+        userRepository.addOnLoggedListener(this)
     }
 
     override fun onLoggedResult(wasSuccessful: Boolean) {
@@ -24,11 +27,6 @@ class LoginActivityViewModel(
 
     override fun onEmailReset(wasSuccessful: Boolean) {
         emailResetResult.value = wasSuccessful
-    }
-
-    fun init() {
-        userRepository.addOnEmailResetListener(this)
-        userRepository.addOnLoggedListener(this)
     }
 
     fun signInWithLoginAndPassword(email: String, password: String) {
@@ -41,5 +39,10 @@ class LoginActivityViewModel(
 
     fun addLocalEventsToCloud() {
         databaseRepository.addLocalEventsToCloud()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        databaseRepository.closeDatabase()
     }
 }

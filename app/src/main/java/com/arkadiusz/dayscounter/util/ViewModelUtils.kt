@@ -7,6 +7,7 @@ import com.arkadiusz.dayscounter.ui.base.BaseViewModelFactory
 
 object ViewModelUtils {
 
+    // TODO: Delete after migration to "by viewModels()"
     inline fun <reified T : ViewModel> getViewModel(
         owner: ViewModelStoreOwner, noinline creator: (() -> T)? = null
     ): T {

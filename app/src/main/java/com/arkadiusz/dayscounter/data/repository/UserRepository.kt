@@ -1,8 +1,9 @@
 package com.arkadiusz.dayscounter.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class UserRepository {
+class UserRepository @Inject constructor() {
 
     private lateinit var loggedListener: OnLoggedListener
     private lateinit var emailResetListener: OnEmailResetListener
