@@ -19,8 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginActivityViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val databaseRepository: DatabaseRepository,
-    private val resources: Resources,
+    private val databaseRepository: DatabaseRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -35,9 +34,7 @@ class LoginActivityViewModel @Inject constructor(
                         _uiState.update { it.copy(isSignedIn = true) }
                     }
                     false -> _uiState.update {
-                        it.copy(userMessage = getMessage(
-                            R.string.login_activity_wrong_credentials)
-                        )
+                        it.copy(userMessageId = R.string.login_activity_wrong_credentials)
                     }
                 }
             }
@@ -49,14 +46,10 @@ class LoginActivityViewModel @Inject constructor(
             withProgress {
                 when (userRepository.sendPasswordResetEmail(email)) {
                     true -> _uiState.update {
-                        it.copy(userMessage = getMessage(
-                            R.string.login_activity_password_reset_toast_success)
-                        )
+                        it.copy(userMessageId = R.string.login_activity_password_reset_toast_success)
                     }
                     false -> _uiState.update {
-                        it.copy(userMessage = getMessage(
-                            R.string.login_activity_password_reset_toast_fail)
-                        )
+                        it.copy(userMessageId = R.string.login_activity_password_reset_toast_fail)
                     }
                 }
             }
@@ -70,14 +63,14 @@ class LoginActivityViewModel @Inject constructor(
         }
         if (result.idpResponse?.error?.errorCode == ErrorCodes.NO_NETWORK) {
             _uiState.update {
-                it.copy(userMessage = getMessage(R.string.login_activity_connection_problem))
+                it.copy(userMessageId = R.string.login_activity_connection_problem)
             }
         }
     }
 
     fun onMessageShown() {
         _uiState.update {
-            it.copy(userMessage = null)
+            it.copy(userMessageId = null)
         }
     }
 
@@ -86,8 +79,6 @@ class LoginActivityViewModel @Inject constructor(
         block()
         _uiState.update { it.copy(isInProgress = false) }
     }
-
-    private fun getMessage(resourceId: Int) = resources.getString(resourceId)
 
     override fun onCleared() {
         super.onCleared()

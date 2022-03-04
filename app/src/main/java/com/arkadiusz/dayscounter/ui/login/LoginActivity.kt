@@ -69,10 +69,10 @@ class LoginActivity : AppCompatActivity() {
                         startActivity<MainActivity>()
                         finish()
                     }
-                    state.userMessage?.let { message ->
+                    state.userMessageId?.let { messageId ->
                         showMessageJob?.cancel()
                         showMessageJob = launch {
-                            longToast(message)
+                            longToast(getString(messageId))
                             delay(3500)
                             viewModel.onMessageShown()
                         }
