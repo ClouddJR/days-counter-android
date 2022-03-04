@@ -1,44 +1,93 @@
 package com.arkadiusz.dayscounter.ui.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.app.Activity
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.repository.UserRepository
+import com.firebase.ui.auth.ErrorCodes
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginActivityViewModel @Inject constructor(
-    private var userRepository: UserRepository,
-    private var databaseRepository: DatabaseRepository,
+    private val userRepository: UserRepository,
+    private val databaseRepository: DatabaseRepository,
+    private val resources: Resources,
 ) : ViewModel() {
 
-    private val _loginResult = MutableLiveData<Boolean>()
-    val loginResult: LiveData<Boolean> = _loginResult
-
-    private val _emailResetResult = MutableLiveData<Boolean>()
-    val emailResetResult: LiveData<Boolean> = _emailResetResult
+    private val _uiState = MutableStateFlow(LoginUiState())
+    val uiState: StateFlow<LoginUiState> = _uiState
 
     fun signInWithLoginAndPassword(email: String, password: String) {
         viewModelScope.launch {
-            val wasSuccessful = userRepository.signInWithLoginAndPassword(email, password)
-            _loginResult.value = wasSuccessful
+            withProgress {
+                when (userRepository.signInWithLoginAndPassword(email, password)) {
+                    true -> {
+                        databaseRepository.addLocalEventsToCloud()
+                        _uiState.update { it.copy(isSignedIn = true) }
+                    }
+                    false -> _uiState.update {
+                        it.copy(userMessage = getMessage(
+                            R.string.login_activity_wrong_credentials)
+                        )
+                    }
+                }
+            }
         }
     }
 
-    fun sendPasswordResetEmail(email: String) {
+    fun resetPassword(email: String) {
         viewModelScope.launch {
-            val wasSuccessful = userRepository.sendPasswordResetEmail(email)
-            _emailResetResult.value = wasSuccessful
+            withProgress {
+                when (userRepository.sendPasswordResetEmail(email)) {
+                    true -> _uiState.update {
+                        it.copy(userMessage = getMessage(
+                            R.string.login_activity_password_reset_toast_success)
+                        )
+                    }
+                    false -> _uiState.update {
+                        it.copy(userMessage = getMessage(
+                            R.string.login_activity_password_reset_toast_fail)
+                        )
+                    }
+                }
+            }
         }
     }
 
-    fun addLocalEventsToCloud() {
-        databaseRepository.addLocalEventsToCloud()
+    fun onSignInFlowFinish(result: FirebaseAuthUIAuthenticationResult) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            databaseRepository.addLocalEventsToCloud()
+            _uiState.update { it.copy(isSignedIn = true) }
+        }
+        if (result.idpResponse?.error?.errorCode == ErrorCodes.NO_NETWORK) {
+            _uiState.update {
+                it.copy(userMessage = getMessage(R.string.login_activity_connection_problem))
+            }
+        }
     }
+
+    fun onMessageShown() {
+        _uiState.update {
+            it.copy(userMessage = null)
+        }
+    }
+
+    private suspend fun withProgress(block: suspend () -> Unit) {
+        _uiState.update { it.copy(isInProgress = true) }
+        block()
+        _uiState.update { it.copy(isInProgress = false) }
+    }
+
+    private fun getMessage(resourceId: Int) = resources.getString(resourceId)
 
     override fun onCleared() {
         super.onCleared()

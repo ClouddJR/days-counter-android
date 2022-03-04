@@ -93,9 +93,7 @@
             android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.login.LoginActivity" />
 
         <activity
             android:name=".ui.calculator.CalculatorActivity"
