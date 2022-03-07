@@ -1,7 +1,6 @@
 package com.arkadiusz.dayscounter.ui.login
 
 import android.app.Activity
-import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arkadiusz.dayscounter.R
