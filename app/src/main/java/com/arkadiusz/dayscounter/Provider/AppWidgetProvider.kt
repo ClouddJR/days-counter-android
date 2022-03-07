@@ -21,17 +21,21 @@ import com.arkadiusz.dayscounter.util.FontUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.AppWidgetTarget
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AppWidgetProvider : AppWidgetProvider() {
+
+    @Inject
+    lateinit var databaseRepository: DatabaseRepository
 
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
         appWidgetIds: IntArray?
     ) {
-        val databaseRepository = DatabaseRepository()
-
         appWidgetIds?.forEach { widgetId ->
             val event = databaseRepository.getEventByWidgetId(widgetId)
             event?.let {

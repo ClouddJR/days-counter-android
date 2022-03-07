@@ -5,8 +5,14 @@ import android.content.Context
 import android.content.Intent
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.util.NotificationUtils
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AlarmBroadcast : BroadcastReceiver() {
+
+    @Inject
+    lateinit var databaseRepository: DatabaseRepository
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val id = intent?.getStringExtra("eventId")
@@ -16,7 +22,6 @@ class AlarmBroadcast : BroadcastReceiver() {
 
         if (id != null && eventTitle != null && eventDate != null && eventDescription != null) {
             NotificationUtils.createNotification(context, eventTitle, eventDescription, id)
-            val databaseRepository = DatabaseRepository()
             databaseRepository.disableAlarmForEvent(id)
             databaseRepository.closeDatabase()
         }
