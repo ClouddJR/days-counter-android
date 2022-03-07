@@ -2,6 +2,8 @@ package com.arkadiusz.dayscounter
 
 import android.app.Application
 import android.os.Build
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -17,9 +19,13 @@ import io.realm.Realm
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @HiltAndroidApp
-class DaysCounterApp : Application() {
+class DaysCounterApp : Application(), Configuration.Provider {
+
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
     lateinit var billingRepository: BillingRepository
 
@@ -30,6 +36,12 @@ class DaysCounterApp : Application() {
         initializeAds()
         createNotificationChannelForReminders()
         enqueueWorkerUpdatingWidgets()
+    }
+
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
     }
 
     @OptIn(DelicateCoroutinesApi::class)

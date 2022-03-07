@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.work.ListenableWorker
 import androidx.work.testing.TestWorkerBuilder
+import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
@@ -31,7 +32,9 @@ class WidgetUpdateWorkerTest {
         worker = TestWorkerBuilder<WidgetUpdateWorker>(
             context = context,
             executor = executor
-        ).build()
+        )
+            .setWorkerFactory((context as DaysCounterApp).workerFactory)
+            .build()
     }
 
     @Test
