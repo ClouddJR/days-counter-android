@@ -10,11 +10,14 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.RemindersUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.realm.RealmResults
 import io.realm.Sort
+import javax.inject.Inject
 
-class EventsViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository(),
+@HiltViewModel
+class EventsViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     private val sharedPreferences: SharedPreferences
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 

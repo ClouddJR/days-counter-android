@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -18,15 +19,16 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.unsplash.Image
 import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.arkadiusz.dayscounter.util.ThemeUtils
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.options
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_internet_gallery.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.io.File
 
+@AndroidEntryPoint
 class InternetGalleryActivity : AppCompatActivity() {
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
@@ -36,7 +38,7 @@ class InternetGalleryActivity : AppCompatActivity() {
         }
     }
 
-    private lateinit var viewModel: InternetGalleryActivityViewModel
+    private val viewModel: InternetGalleryActivityViewModel by viewModels()
 
     private lateinit var adapter: InternetGalleryAdapter
 
@@ -59,9 +61,7 @@ class InternetGalleryActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel = getViewModel(this)
-
-        viewModel.savedImage.observe(this, {
+        viewModel.savedImage.observe(this) {
             it.get()?.let { fileName ->
                 progressDialog.cancel()
                 cropImage.launch(
@@ -71,7 +71,7 @@ class InternetGalleryActivity : AppCompatActivity() {
                     }
                 )
             }
-        })
+        }
     }
 
     private fun setupAdapter() {
@@ -128,11 +128,11 @@ class InternetGalleryActivity : AppCompatActivity() {
     }
 
     private fun getPhotosAndObserveResult() {
-        viewModel.getPhotos(searchQuery.query.toString()).observe(this, { images ->
+        viewModel.getPhotos(searchQuery.query.toString()).observe(this) { images ->
             lifecycleScope.launch {
                 adapter.submitData(images)
             }
-        })
+        }
     }
 
     fun hideKeyboard(activity: Activity) {

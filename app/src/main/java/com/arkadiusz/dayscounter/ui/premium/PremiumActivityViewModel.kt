@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.arkadiusz.dayscounter.util.PurchasesUtils
 import com.arkadiusz.dayscounter.util.billing.BillingRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
-class PremiumActivityViewModel(
-    private val billingRepository: BillingRepository
+@HiltViewModel
+class PremiumActivityViewModel @Inject constructor(
+    private val billingRepository: BillingRepository,
 ) : ViewModel() {
 
     fun isAnyPremiumBought(): LiveData<Boolean> {

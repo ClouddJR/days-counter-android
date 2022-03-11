@@ -3,18 +3,19 @@ package com.arkadiusz.dayscounter.ui.premium
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_premium.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 
+@AndroidEntryPoint
 class PremiumActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: PremiumActivityViewModel
+    private val viewModel: PremiumActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(true, this))
@@ -25,12 +26,6 @@ class PremiumActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = getViewModel(this) {
-            PremiumActivityViewModel(
-                (application as DaysCounterApp).billingRepository
-            )
-        }
-
         viewModel.canBuyPremium().observe(this) { canBuy ->
             buyButton.isEnabled = canBuy
         }

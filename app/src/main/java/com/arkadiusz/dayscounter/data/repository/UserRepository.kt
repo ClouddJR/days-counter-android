@@ -5,9 +5,9 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class UserRepository @Inject constructor() {
-
-    private val firebaseAuth = FirebaseAuth.getInstance()
+class UserRepository @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+) {
 
     fun getUserId(): String {
         return firebaseAuth.currentUser?.uid ?: ""

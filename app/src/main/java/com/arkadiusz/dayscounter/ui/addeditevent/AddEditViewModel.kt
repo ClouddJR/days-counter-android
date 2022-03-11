@@ -6,11 +6,14 @@ import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.util.DateUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
-class AddEditViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository(),
+@HiltViewModel
+class AddEditViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
     private val resources: Resources
 ) : ViewModel() {
 
@@ -331,12 +334,5 @@ class AddEditViewModel(
         const val DEFAULT_FONT_COLOR = -1
         const val DEFAULT_PICTURE_DIM = 4
         const val DEFAULT_IMAGE_ID = 2131230778
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    class Factory(private val resources: Resources) : ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AddEditViewModel(resources = resources) as T
-        }
     }
 }

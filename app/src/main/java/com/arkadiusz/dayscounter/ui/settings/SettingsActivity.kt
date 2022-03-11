@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
+import dagger.hilt.android.AndroidEntryPoint
 import org.jetbrains.anko.startActivity
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

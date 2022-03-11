@@ -32,6 +32,7 @@ import com.canhub.cropper.options
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.content_add.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.backgroundColor
@@ -39,9 +40,10 @@ import org.jetbrains.anko.textColor
 import java.io.File
 import java.util.*
 
+@AndroidEntryPoint
 abstract class BaseAddEditActivity : AppCompatActivity() {
 
-    protected val viewModel: AddEditViewModel by viewModels { AddEditViewModel.Factory(resources) }
+    protected val viewModel: AddEditViewModel by viewModels()
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {

@@ -3,10 +3,13 @@ package com.arkadiusz.dayscounter.ui.widget
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.realm.RealmResults
+import javax.inject.Inject
 
-class WidgetConfigureActivityViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository()
+@HiltViewModel
+class WidgetConfigureActivityViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
 ) : ViewModel() {
 
     override fun onCleared() {

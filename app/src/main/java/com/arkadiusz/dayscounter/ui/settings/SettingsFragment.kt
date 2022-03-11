@@ -17,15 +17,19 @@ import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.StorageUtils
 import com.arkadiusz.dayscounter.util.StorageUtils.isCorrectFileChosenForImport
+import dagger.hilt.android.AndroidEntryPoint
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private val databaseRepository = DatabaseRepository()
+    @Inject
+    lateinit var databaseRepository: DatabaseRepository
 
     private val REQUEST_EXPORT_DATA = 1
     private val REQUEST_IMPORT_DATA = 2
@@ -153,7 +157,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
+        permissions: Array<String>, grantResults: IntArray,
     ) {
         when (requestCode) {
             REQUEST_IMPORT_DATA -> {

@@ -4,9 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.DynamicRealm
 import io.realm.RealmMigration
 
-class Migration : RealmMigration {
-
-    val firebase = FirebaseFirestore.getInstance()
+class Migration(private val firestore: FirebaseFirestore) : RealmMigration {
 
     override fun hashCode(): Int {
         return 37
@@ -99,7 +97,7 @@ class Migration : RealmMigration {
             .addField("id", String::class.java)
             .addField("imageCloudPath", String::class.java)
             .transform {
-                val newId = firebase.collection("getId").document().id
+                val newId = firestore.collection("getId").document().id
                 it.set("id", newId)
                 it.set("imageCloudPath", "")
             }

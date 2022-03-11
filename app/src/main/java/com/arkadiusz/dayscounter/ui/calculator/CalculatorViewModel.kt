@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.model.DateComponents
 import com.arkadiusz.dayscounter.util.DateUtils
 import com.arkadiusz.dayscounter.util.DateUtils.formatDate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
+import javax.inject.Inject
 
-class CalculatorViewModel(
+@HiltViewModel
+class CalculatorViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 

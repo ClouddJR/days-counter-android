@@ -12,15 +12,18 @@ import com.arkadiusz.dayscounter.data.model.unsplash.Image
 import com.arkadiusz.dayscounter.data.remote.UnsplashService
 import com.arkadiusz.dayscounter.util.MessageWrapper
 import com.arkadiusz.dayscounter.util.StorageUtils.toFile
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.inject.Inject
 
-class InternetGalleryActivityViewModel(
-    private val unsplashService: UnsplashService = UnsplashService.getService()
+@HiltViewModel
+class InternetGalleryActivityViewModel @Inject constructor(
+    private val unsplashService: UnsplashService
 ) : ViewModel() {
 
     private val _savedImage = MutableLiveData<MessageWrapper<String>>()

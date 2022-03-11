@@ -4,9 +4,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.calculator.CalculatorActivity
@@ -20,14 +20,15 @@ import com.arkadiusz.dayscounter.util.PreferenceUtils.set
 import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainActivityViewModel
+    private val viewModel: MainActivityViewModel by viewModels()
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
 
@@ -37,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         setTheme(getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initViewModel()
         addBillingLifecycleObserver()
         setUpPreferences()
         setUpToolbar()
@@ -103,14 +103,6 @@ class MainActivity : AppCompatActivity() {
                 it.dismiss()
             }
         }.show()
-    }
-
-    private fun initViewModel() {
-        viewModel = getViewModel(this) {
-            MainActivityViewModel(
-                billingRepository = (application as DaysCounterApp).billingRepository
-            )
-        }
     }
 
     private fun addBillingLifecycleObserver() {

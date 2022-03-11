@@ -19,12 +19,13 @@ import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 import kotlin.concurrent.schedule
 
-class DatabaseRepository(
-    private val userRepository: UserRepository = UserRepository(),
-    private val localDatabase: LocalDatabase = LocalDatabase(),
-    private val remoteDatabase: RemoteDatabase = RemoteDatabase(userRepository)
+class DatabaseRepository @Inject constructor(
+    private val userRepository: UserRepository,
+    private val localDatabase: LocalDatabase,
+    private val remoteDatabase: RemoteDatabase,
 ) {
     private lateinit var remoteListenerDisposable: Disposable
 

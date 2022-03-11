@@ -5,16 +5,18 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RemoteViews
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.Provider.AppWidgetProvider
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_app_widget_configure.*
 
+@AndroidEntryPoint
 class WidgetConfigureActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: WidgetConfigureActivityViewModel
+    private val viewModel: WidgetConfigureActivityViewModel by viewModels()
 
     private var appWidgetId = 0
 
@@ -23,14 +25,9 @@ class WidgetConfigureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_widget_configure)
         setResult(RESULT_CANCELED)
-        initViewModel()
         getAppWidgetIdFromBundle()
         setUpListAdapter()
         setUpTransparencySwitch()
-    }
-
-    private fun initViewModel() {
-        viewModel = getViewModel(this)
     }
 
     private fun getAppWidgetIdFromBundle() {

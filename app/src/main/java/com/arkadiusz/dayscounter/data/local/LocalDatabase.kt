@@ -3,18 +3,22 @@ package com.arkadiusz.dayscounter.data.local
 import android.content.Context
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.util.StorageUtils.toFile
+import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import java.io.File
 import java.io.InputStream
+import javax.inject.Inject
 
-class LocalDatabase {
+class LocalDatabase @Inject constructor(
+    firestore: FirebaseFirestore,
+) {
 
     private var realm: Realm
     private val config: RealmConfiguration = RealmConfiguration.Builder()
         .schemaVersion(5)
-        .migration(Migration())
+        .migration(Migration(firestore))
         .allowWritesOnUiThread(true)
         .build()
 
@@ -137,7 +141,7 @@ class LocalDatabase {
 
     fun repeatEvent(
         eventToBeRepeated: Event, dateAfterRepetition: String,
-        onFinished: (() -> Unit)? = null
+        onFinished: (() -> Unit)? = null,
     ) {
         val id = eventToBeRepeated.id
         realm.executeTransactionAsync(Realm.Transaction {

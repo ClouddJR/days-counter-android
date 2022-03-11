@@ -9,15 +9,9 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.util.NotificationUtils
-import com.arkadiusz.dayscounter.util.PreferenceUtils
-import com.arkadiusz.dayscounter.util.PurchasesUtils
-import com.arkadiusz.dayscounter.util.billing.BillingDataSource
-import com.arkadiusz.dayscounter.util.billing.BillingRepository
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -27,11 +21,8 @@ class DaysCounterApp : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    lateinit var billingRepository: BillingRepository
-
     override fun onCreate() {
         super.onCreate()
-        initializeBilling()
         initializeRealm()
         initializeAds()
         createNotificationChannelForReminders()
@@ -42,22 +33,6 @@ class DaysCounterApp : Application(), Configuration.Provider {
         return Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun initializeBilling() {
-        val billingDataSource = BillingDataSource.getInstance(
-            this,
-            GlobalScope,
-            arrayOf(PurchasesUtils.PREMIUM_SKU, PurchasesUtils.PREMIUM_BIG_SKU),
-            null,
-            null
-        )
-        billingRepository = BillingRepository(
-            GlobalScope,
-            billingDataSource,
-            PreferenceUtils.defaultPrefs(this)
-        )
     }
 
     private fun initializeRealm() {

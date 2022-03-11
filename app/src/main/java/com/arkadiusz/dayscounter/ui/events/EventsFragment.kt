@@ -6,15 +6,16 @@ import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
 import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.PreferenceUtils
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
+import dagger.hilt.android.AndroidEntryPoint
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.events_fragment.*
@@ -22,9 +23,10 @@ import org.jetbrains.anko.alert
 import org.jetbrains.anko.selector
 import org.jetbrains.anko.startActivity
 
+@AndroidEntryPoint
 abstract class EventsFragment : Fragment(R.layout.events_fragment) {
 
-    protected lateinit var viewModel: EventsViewModel
+    protected val viewModel: EventsViewModel by viewModels()
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -35,7 +37,6 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSharedPreferences()
-        initViewModel()
         setUpData()
     }
 
@@ -53,21 +54,15 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
         sharedPreferences = PreferenceUtils.defaultPrefs(requireContext())
     }
 
-    private fun initViewModel() {
-        viewModel = getViewModel(requireActivity()) {
-            EventsViewModel(sharedPreferences = sharedPreferences)
-        }
-    }
-
     private fun setUpData() {
         eventsList = getData()
     }
 
     private fun observeState() {
-        viewModel.isCompactViewMode.observe(viewLifecycleOwner, {
+        viewModel.isCompactViewMode.observe(viewLifecycleOwner) {
             setUpRecyclerViewData(it)
             scheduleRVAnimation()
-        })
+        }
     }
 
     private fun initRecyclerView() {

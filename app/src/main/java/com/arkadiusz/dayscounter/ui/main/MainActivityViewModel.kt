@@ -4,10 +4,13 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.repository.UserRepository
 import com.arkadiusz.dayscounter.util.billing.BillingRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainActivityViewModel(
-    private val userRepository: UserRepository = UserRepository(),
-    private val billingRepository: BillingRepository
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+    private val billingRepository: BillingRepository,
 ) : ViewModel() {
 
     fun getBillingLifecycleObserver(): LifecycleObserver {
