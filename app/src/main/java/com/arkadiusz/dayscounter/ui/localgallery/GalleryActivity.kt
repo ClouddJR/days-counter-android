@@ -7,7 +7,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.ThemeUtils
@@ -48,20 +47,7 @@ class GalleryActivity : AppCompatActivity() {
     private fun setUpRecyclerView() {
         galleryRV.setHasFixedSize(true)
         galleryRV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        galleryRV.adapter = GalleryAdapter(images, this)
-
-        galleryRV.addOnItemTouchListener(
-            RecyclerItemClickListener(this, galleryRV,
-                object : RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View?, position: Int) {
-                        sendImageAsResult(position)
-                    }
-
-                    override fun onItemLongClick(view: View?, position: Int) {
-                        //not used
-                    }
-                })
-        )
+        galleryRV.adapter = GalleryAdapter(images) { position -> sendImageAsResult(position) }
     }
 
     private fun sendImageAsResult(position: Int) {

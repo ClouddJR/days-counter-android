@@ -1,7 +1,5 @@
 package com.arkadiusz.dayscounter.ui.events
 
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
-import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
@@ -21,6 +19,8 @@ import com.arkadiusz.dayscounter.util.DateUtils.generateCalendar
 import com.arkadiusz.dayscounter.util.DateUtils.generateTodayCalendar
 import com.arkadiusz.dayscounter.util.DateUtils.getElementsFromDate
 import com.arkadiusz.dayscounter.util.FontUtils.getFontFor
+import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
+import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
@@ -39,6 +39,8 @@ class EventsAdapter(
     private val isCompactView: Boolean,
     private val viewModel: EventsViewModel,
     private val eventsList: OrderedRealmCollection<Event>,
+    private val onClick: (Event) -> Unit,
+    private val onLongClick: (Event) -> Unit,
 ) : RealmRecyclerViewAdapter<Event, EventsAdapter.ViewHolder>(eventsList, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,6 +58,9 @@ class EventsAdapter(
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(event: Event) {
+            view.setOnClickListener { onClick(event) }
+            view.setOnLongClickListener { onLongClick(event); true }
+
             if (isCompactView) {
                 displayTitle(event, view.eventTitleTextView)
                 displayCompactCounterText(event)

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.ui.addeditevent.EditActivity
-import com.arkadiusz.dayscounter.ui.common.RecyclerItemClickListener
 import com.arkadiusz.dayscounter.ui.eventdetails.DetailActivity
 import com.arkadiusz.dayscounter.util.PreferenceUtils
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
@@ -37,7 +36,6 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSharedPreferences()
-        setUpData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,10 +52,6 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
         sharedPreferences = PreferenceUtils.defaultPrefs(requireContext())
     }
 
-    private fun setUpData() {
-        eventsList = getData()
-    }
-
     private fun observeState() {
         viewModel.isCompactViewMode.observe(viewLifecycleOwner) {
             setUpRecyclerViewData(it)
@@ -67,24 +61,13 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
 
     private fun initRecyclerView() {
         recyclerView.setHasFixedSize(true)
-        recyclerView.addOnItemTouchListener(
-            RecyclerItemClickListener(requireContext(), recyclerView,
-                object :
-                    RecyclerItemClickListener.OnItemClickListener {
-                    override fun onItemClick(view: View?, position: Int) {
-                        context?.startActivity<DetailActivity>("event_id" to eventsList[position]!!.id)
-                    }
-
-                    override fun onItemLongClick(view: View?, position: Int) {
-                        vibration()
-                        displayEventOptions(eventsList[position]!!)
-                    }
-                })
-        )
     }
 
     private fun setUpRecyclerViewData(isCompactView: Boolean) {
-        val adapter = EventsAdapter(requireContext(), isCompactView, viewModel, eventsList)
+        val adapter = EventsAdapter(requireContext(), isCompactView, viewModel, getData(),
+            onClick = { event -> context?.startActivity<DetailActivity>("event_id" to event.id) },
+            onLongClick = { event -> displayEventOptions(event) }
+        )
         recyclerView.adapter = adapter
     }
 
