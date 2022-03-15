@@ -2,7 +2,6 @@ package com.arkadiusz.dayscounter.ui.events
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
@@ -28,8 +27,6 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
     protected val viewModel: EventsViewModel by viewModels()
 
     private lateinit var sharedPreferences: SharedPreferences
-
-    private lateinit var eventsList: RealmResults<Event>
 
     abstract fun getData(): RealmResults<Event>
 
@@ -75,10 +72,6 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
         recyclerView.layoutAnimation =
             AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_bottom_top)
         recyclerView.scheduleLayoutAnimation()
-    }
-
-    private fun vibration() {
-        requireView().performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
     }
 
     private fun displayEventOptions(event: Event) {
