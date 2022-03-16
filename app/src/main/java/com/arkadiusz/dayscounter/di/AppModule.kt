@@ -19,6 +19,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -55,6 +56,7 @@ object AppModule {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
+    @Singleton
     @Provides
     fun provideBillingDataSource(@ApplicationContext context: Context): BillingDataSource {
         return BillingDataSource.getInstance(
@@ -67,6 +69,7 @@ object AppModule {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
+    @Singleton
     @Provides
     fun provideBillingRepository(
         billingDataSource: BillingDataSource,
