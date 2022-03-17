@@ -10,14 +10,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.App.MainToolbar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:background="?themePrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -42,7 +44,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="?themeAccent"
         android:text="@string/main_activity_fab_text"
-        app:icon="@drawable/ic_action_add" />
+        android:textColor="@color/white"
+        android:theme="@style/Theme.MaterialComponents"
+        app:icon="@drawable/ic_action_add"
+        app:iconTint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

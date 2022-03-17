@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/widget_configuration_switch"
+        android:textColor="?themePrimaryFontColor"
         android:textSize="20sp" />
 
     <TextView

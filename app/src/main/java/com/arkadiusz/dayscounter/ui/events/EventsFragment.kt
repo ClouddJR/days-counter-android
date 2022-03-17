@@ -102,9 +102,9 @@ abstract class EventsFragment : Fragment(R.layout.events_fragment) {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
-                    activity?.fab?.hide()
+                    activity?.fab?.shrink()
                 } else if (dy < 0) {
-                    activity?.fab?.show()
+                    activity?.fab?.extend()
                 }
             }
         })

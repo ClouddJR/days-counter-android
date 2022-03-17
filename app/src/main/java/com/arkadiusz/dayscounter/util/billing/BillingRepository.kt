@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class BillingRepository(
     defaultScope: CoroutineScope,
     private val billingDataSource: BillingDataSource,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) {
     init {
         defaultScope.launch {
@@ -26,9 +26,8 @@ class BillingRepository(
                 premiumBought || premiumBigBought
             }
                 .collect { isAnyPremiumBought ->
-                    when (isAnyPremiumBought) {
-                        true -> acknowledgePremium()
-                        false -> disablePremium()
+                    if (isAnyPremiumBought) {
+                        acknowledgePremium()
                     }
                 }
         }
@@ -60,9 +59,5 @@ class BillingRepository(
 
     private fun acknowledgePremium() {
         sharedPreferences["ads"] = true
-    }
-
-    private fun disablePremium() {
-        sharedPreferences["ads"] = false
     }
 }

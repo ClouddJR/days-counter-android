@@ -17,19 +17,22 @@
 
         <TextView
             android:id="@+id/yearsNumberTextView"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?themeAccent"
             android:textSize="34sp"
             tools:text="5" />
 
         <TextView
             android:id="@+id/yearsCaptionTextView"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_years"
+            android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -46,19 +49,22 @@
 
         <TextView
             android:id="@+id/monthsNumberTextView"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?themeAccent"
             android:textSize="34sp"
             tools:text="5" />
 
         <TextView
             android:id="@+id/monthsCaptionTextView"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_months"
+            android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -75,19 +81,22 @@
 
         <TextView
             android:id="@+id/weeksNumberTextView"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?themeAccent"
             android:textSize="34sp"
             tools:text="5" />
 
         <TextView
             android:id="@+id/weeksCaptionTextView"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_weeks"
+            android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -104,19 +113,22 @@
 
         <TextView
             android:id="@+id/daysNumberTextView"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?themeAccent"
             android:textSize="34sp"
             tools:text="5" />
 
         <TextView
             android:id="@+id/daysCaptionTextView"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/date_utils_multiple_days"
+            android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp" />
 
     </LinearLayout>

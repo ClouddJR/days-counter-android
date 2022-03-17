@@ -13,16 +13,16 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorSurface"
+            app:contentScrim="?themePrimaryDark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="?attr/colorSurface"
             app:titleEnabled="false">
 
             <ImageView
@@ -39,7 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -60,12 +61,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/mainCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:backgroundTint="?themeCardBackground"
+                android:elevation="5dp"
+                app:cardCornerRadius="4dp"
                 app:layout_anchor="@id/appBarLayout"
                 app:layout_anchorGravity="bottom">
 
@@ -79,7 +83,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="24sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -91,6 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:gravity="center"
+                        android:textColor="?themeSecondaryFontColor"
                         android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -99,15 +105,18 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="34dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="?themeCardBackground"
+                android:elevation="5dp"
+                app:cardCornerRadius="4dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -120,7 +129,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:text="@string/detail_activity_about_section"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="?themeAccent"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,7 +142,8 @@
                         android:layout_marginTop="24dp"
                         android:src="@drawable/ic_date_range"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/aboutText" />
+                        app:layout_constraintTop_toBottomOf="@id/aboutText"
+                        app:tint="?themePrimaryFontColor" />
 
                     <TextView
                         android:id="@+id/dateTitle"
@@ -140,7 +151,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_date_header"
-                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="17sp"
                         app:layout_constraintStart_toEndOf="@id/dateIcon"
                         app:layout_constraintTop_toTopOf="@id/dateIcon" />
 
@@ -149,6 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:textColor="?themeSecondaryFontColor"
                         android:textSize="15sp"
                         app:layout_constraintStart_toEndOf="@id/dateIcon"
                         app:layout_constraintTop_toBottomOf="@id/dateTitle" />
@@ -161,7 +174,8 @@
                         android:layout_marginTop="42dp"
                         android:src="@drawable/ic_description"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/dateIcon" />
+                        app:layout_constraintTop_toBottomOf="@id/dateIcon"
+                        app:tint="?themePrimaryFontColor" />
 
                     <TextView
                         android:id="@+id/descriptionTitle"
@@ -169,7 +183,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_description_header"
-                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="17sp"
                         app:layout_constraintStart_toEndOf="@id/descriptionIcon"
                         app:layout_constraintTop_toTopOf="@id/descriptionIcon" />
 
@@ -180,6 +195,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginEnd="10dp"
+                        android:textColor="?themeSecondaryFontColor"
                         android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/descriptionIcon"
@@ -187,15 +203,18 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="?themeCardBackground"
+                android:elevation="5dp"
+                app:cardCornerRadius="4dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -208,7 +227,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:text="@string/detail_activity_repetition_section"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="?themeAccent"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -220,7 +240,8 @@
                         android:layout_marginTop="24dp"
                         android:src="@drawable/ic_action_playback_repeat"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/repeatText" />
+                        app:layout_constraintTop_toBottomOf="@id/repeatText"
+                        app:tint="?themePrimaryFontColor" />
 
                     <TextView
                         android:id="@+id/repeatTitle"
@@ -228,7 +249,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_repetition_header"
-                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="17sp"
                         app:layout_constraintStart_toEndOf="@id/repeatIcon"
                         app:layout_constraintTop_toTopOf="@id/repeatIcon" />
 
@@ -237,21 +259,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:textColor="?themeSecondaryFontColor"
                         android:textSize="15sp"
                         app:layout_constraintStart_toEndOf="@id/repeatIcon"
                         app:layout_constraintTop_toBottomOf="@id/repeatTitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="?themeCardBackground"
+                android:elevation="5dp"
+                app:cardCornerRadius="4dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -264,7 +290,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:text="@string/detail_activity_reminder_section"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="?themeAccent"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -276,7 +303,8 @@
                         android:layout_marginTop="24dp"
                         android:src="@drawable/ic_action_bell"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/reminderText" />
+                        app:layout_constraintTop_toBottomOf="@id/reminderText"
+                        app:tint="?themePrimaryFontColor" />
 
                     <TextView
                         android:id="@+id/reminderTitle"
@@ -284,7 +312,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_reminder_date_header"
-                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="17sp"
                         app:layout_constraintStart_toEndOf="@id/reminderIcon"
                         app:layout_constraintTop_toTopOf="@id/reminderIcon" />
 
@@ -293,6 +322,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:textColor="?themeSecondaryFontColor"
                         android:textSize="15sp"
                         app:layout_constraintStart_toEndOf="@id/reminderIcon"
                         app:layout_constraintTop_toBottomOf="@id/reminderTitle" />
@@ -305,7 +335,8 @@
                         android:layout_marginTop="42dp"
                         android:src="@drawable/ic_description"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/reminderIcon" />
+                        app:layout_constraintTop_toBottomOf="@id/reminderIcon"
+                        app:tint="?themePrimaryFontColor" />
 
                     <TextView
                         android:id="@+id/reminderDescriptionTitle"
@@ -313,7 +344,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="@string/detail_activity_reminder_text_header"
-                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="17sp"
                         app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
                         app:layout_constraintTop_toTopOf="@id/reminderDescriptionIcon" />
 
@@ -323,6 +355,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="10dp"
+                        android:textColor="?themeSecondaryFontColor"
                         android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/reminderDescriptionIcon"
@@ -330,7 +363,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 

@@ -215,8 +215,6 @@
     <string name="login_activity_password">Hasło</string>
     <string name="login_activity_login_button">Login</string>
     <string name="login_activity_create_account">Załóż konto</string>
-    <string name="login_activity_create_q_account">Nie posiadasz konta?</string>
-    <string name="login_activity_or">albo</string>
     <string name="login_activity_google">Zaloguj się z Google</string>
     <string name="login_activity_wrong_credentials">Sprawdź swój email i hasło</string>
     <string name="login_activity_connection_problem">Sprawdź swoje połączenie internetowe</string>

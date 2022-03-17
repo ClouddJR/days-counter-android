@@ -4,4 +4,7 @@
     android:id="@+id/galleryImage"
     android:layout_width="match_parent"
     android:layout_height="150dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:scaleType="centerCrop" />

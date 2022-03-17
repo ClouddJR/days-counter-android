@@ -18,11 +18,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/premiumCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            app:cardBackgroundColor="?themeCardBackground"
+            app:cardCornerRadius="6dp"
             app:layout_constraintEnd_toStartOf="@id/cardGuideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -35,12 +37,12 @@
                     android:id="@+id/headlinePro"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@color/colorAccent"
+                    android:background="?themeLightAccent"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/premium_headline"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textColor="@color/white"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/headlineGuideLine"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +76,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="@string/feature_one" />
+                        android:text="@string/feature_one"
+                        android:textColor="?themePrimaryFontColor" />
 
                 </LinearLayout>
 
@@ -99,7 +102,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="@string/feature_two" />
+                        android:text="@string/feature_two"
+                        android:textColor="?themePrimaryFontColor" />
 
                 </LinearLayout>
 
@@ -124,7 +128,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="@string/feature_three" />
+                        android:text="@string/feature_three"
+                        android:textColor="?themePrimaryFontColor" />
 
                 </LinearLayout>
 
@@ -149,22 +154,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="@string/feature_four" />
+                        android:text="@string/feature_four"
+                        android:textColor="?themePrimaryFontColor" />
 
                 </LinearLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buyButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
                     android:text="@string/buy_button"
+                    android:theme="@style/AppButton"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/featureFour" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/cardGuideline"
@@ -173,12 +180,14 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/bigPremiumCard"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="?themeCardBackground"
+            app:cardCornerRadius="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/premiumCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cardGuideline"
@@ -192,12 +201,12 @@
                     android:id="@+id/headlineBigPro"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@color/colorAccent"
+                    android:background="?themeLightAccent"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/premium_big_headline"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textColor="@color/white"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/headlineBigGuideLine"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -231,21 +240,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:text="@string/features_pro_big" />
+                        android:text="@string/features_pro_big"
+                        android:textColor="?themePrimaryFontColor" />
 
                 </LinearLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buyButtonBig"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
                     android:text="@string/buy_button"
+                    android:theme="@style/AppButton"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/premiumBoughtTextView"
@@ -256,7 +267,8 @@
             android:layout_marginEnd="16dp"
             android:gravity="center"
             android:text="@string/premium_thank_you"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?themePrimaryFontColor"
+            android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/premiumCard"
             tools:visibility="visible" />
@@ -268,7 +280,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
             android:text="FAQ"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?themePrimaryFontColor"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/premiumBoughtTextView" />
@@ -279,7 +291,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/question_one"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?themePrimaryFontColor"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/faqHeadline" />
@@ -292,6 +305,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:text="@string/question_one_answer"
+            android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -303,7 +317,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/question_two"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?themePrimaryFontColor"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/a1" />
@@ -317,6 +332,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/question_two_answer"
+            android:textColor="?themeSecondaryFontColor"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

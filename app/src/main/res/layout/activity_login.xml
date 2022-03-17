@@ -47,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:backgroundTint="?attr/themeAccent"
             android:text="@string/login_activity_login_button" />
 
         <ProgressBar
@@ -57,47 +58,31 @@
             android:layout_marginTop="16dp"
             android:visibility="gone" />
 
-        <TextView
+        <Button
+            android:id="@+id/createAccountButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:text="@string/login_activity_create_q_account" />
-
-        <Button
-            android:id="@+id/createAccountButton"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/login_activity_create_account" />
 
         <Button
             android:id="@+id/forgotPasswordButton"
-            style="?attr/materialButtonOutlinedStyle"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/login_activity_password_reset" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="4dp"
-            android:gravity="center"
-            android:text="@string/login_activity_or" />
-
         <com.google.android.gms.common.SignInButton
             android:id="@+id/signInWithGoogleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp" />
 
     </LinearLayout>
 

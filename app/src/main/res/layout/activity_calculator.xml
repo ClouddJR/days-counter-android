@@ -14,13 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/datesCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:backgroundTint="?themeCardBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -37,7 +38,9 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginBottom="6dp"
                         android:text="@string/date_calculator_activity_dates"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/startDateLayout"
@@ -72,9 +75,9 @@
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/counterFormatCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,6 +85,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground"
                 app:layout_constraintBottom_toTopOf="@id/adCardView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,43 +105,50 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginBottom="16dp"
                         android:text="@string/date_calculator_activity_counter_format"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/yearsCheckbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/date_utils_multiple_years" />
+                        android:text="@string/date_utils_multiple_years"
+                        android:textColor="?themeSecondaryFontColor" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/monthsCheckbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/date_utils_multiple_months" />
+                        android:text="@string/date_utils_multiple_months"
+                        android:textColor="?themeSecondaryFontColor" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/weeksCheckbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/date_utils_multiple_weeks" />
+                        android:text="@string/date_utils_multiple_weeks"
+                        android:textColor="?themeSecondaryFontColor" />
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/daysCheckbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="@string/date_utils_multiple_days" />
+                        android:text="@string/date_utils_multiple_days"
+                        android:textColor="?themeSecondaryFontColor" />
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/adCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/resultCardView"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -151,15 +162,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/resultCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -180,7 +192,9 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginBottom="16dp"
                         android:text="@string/date_calculator_activity_result"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="19sp"
+                        android:textStyle="bold" />
 
                     <include
                         android:id="@+id/counterStackView"
@@ -195,12 +209,13 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="6dp"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
-                        android:text="@string/date_calculator_additional_formats" />
+                        android:text="@string/date_calculator_additional_formats"
+                        android:textColor="?themePrimaryFontColor"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

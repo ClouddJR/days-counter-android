@@ -255,8 +255,6 @@
     <string name="login_activity_password">Password</string>
     <string name="login_activity_login_button">Login</string>
     <string name="login_activity_create_account">Create an account</string>
-    <string name="login_activity_create_q_account">Don\'t have an account?</string>
-    <string name="login_activity_or">or</string>
     <string name="login_activity_google">Log in with Google</string>
     <string name="login_activity_wrong_credentials">Check your email and password</string>
     <string name="login_activity_connection_problem">Check your Internet connection</string>

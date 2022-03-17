@@ -42,7 +42,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(ThemeUtils.getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
         setContentView(R.layout.activity_detail)
 
         fetchPassedEvent()
@@ -106,23 +105,6 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = ""
-
-        fun isCollapsed(verticalOffset: Int): Boolean {
-            return collapsingToolbar.height + verticalOffset <
-                    collapsingToolbar.scrimVisibleHeightTrigger
-        }
-
-        appBarLayout.addOnOffsetChangedListener(
-            AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-                if (isCollapsed(verticalOffset)) {
-                    val iconColor = MaterialColors.getColor(toolbar, R.attr.colorOnSurface)
-                    toolbar.setNavigationIconTint(iconColor)
-                    toolbar.overflowIcon?.setTint(iconColor)
-                } else {
-                    toolbar.setNavigationIconTint(Color.WHITE)
-                    toolbar.overflowIcon?.setTint(Color.WHITE)
-                }
-            })
     }
 
     private fun cancelNotification() {

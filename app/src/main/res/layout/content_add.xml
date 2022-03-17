@@ -10,7 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.32" />
+        app:layout_constraintGuide_percent="0.33" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?themePrimary"
+        app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/eventImage"
@@ -71,9 +80,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/add_activity_preview"
         android:textColor="@color/white"
         android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@id/cardConstraint"
         app:layout_constraintStart_toStartOf="@id/eventImage"
         app:layout_constraintTop_toBottomOf="@id/eventImage" />
 
@@ -93,7 +104,7 @@
             android:orientation="vertical"
             android:paddingBottom="24dp">
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -101,7 +112,8 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -152,16 +164,17 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -172,7 +185,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/add_reminder" />
+                        android:text="@string/add_reminder"
+                        android:textColor="?themePrimaryFontColor" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -210,16 +224,17 @@
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,27 +247,30 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.3"
-                        android:text="@string/add_repeat" />
+                        android:text="@string/add_repeat"
+                        android:textColor="?themePrimaryFontColor" />
 
                     <Spinner
                         android:id="@+id/repeatSpinner"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.7" />
+                        android:layout_weight="0.7"
+                        android:popupBackground="?themeCardBackground" />
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -265,7 +283,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_weight="0.3"
-                        android:text="@string/add_activity_format_text" />
+                        android:text="@string/add_activity_format_text"
+                        android:textColor="?themePrimaryFontColor" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -278,40 +297,45 @@
                             android:id="@+id/yearsCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_years" />
+                            android:text="@string/date_utils_multiple_years"
+                            android:textColor="?themeSecondaryFontColor" />
 
                         <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/monthsCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_months" />
+                            android:text="@string/date_utils_multiple_months"
+                            android:textColor="?themeSecondaryFontColor" />
 
                         <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/weeksCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_weeks" />
+                            android:text="@string/date_utils_multiple_weeks"
+                            android:textColor="?themeSecondaryFontColor" />
 
                         <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/daysCheckbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/date_utils_multiple_days" />
+                            android:text="@string/date_utils_multiple_days"
+                            android:textColor="?themeSecondaryFontColor" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -330,7 +354,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:layout_weight="0.4"
-                            android:text="@string/add_activity_line_divider" />
+                            android:text="@string/add_activity_line_divider"
+                            android:textColor="?themePrimaryFontColor" />
 
                         <com.google.android.material.checkbox.MaterialCheckBox
                             android:id="@+id/showDividerCheckbox"
@@ -353,7 +378,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:layout_weight="0.4"
-                            android:text="@string/add_activity_counter_font_size" />
+                            android:text="@string/add_activity_counter_font_size"
+                            android:textColor="?themePrimaryFontColor" />
 
                         <Spinner
                             android:id="@+id/counterFontSizeSpinner"
@@ -361,7 +387,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="16dp"
-                            android:layout_weight="0.6" />
+                            android:layout_weight="0.6"
+                            android:popupBackground="?themeCardBackground" />
 
                     </LinearLayout>
 
@@ -376,7 +403,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:layout_weight="0.4"
-                            android:text="@string/add_activity_title_font_size" />
+                            android:text="@string/add_activity_title_font_size"
+                            android:textColor="?themePrimaryFontColor" />
 
                         <Spinner
                             android:id="@+id/titleFontSizeSpinner"
@@ -384,7 +412,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="16dp"
-                            android:layout_weight="0.6" />
+                            android:layout_weight="0.6"
+                            android:popupBackground="?themeCardBackground" />
 
                     </LinearLayout>
 
@@ -399,7 +428,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:layout_weight="0.4"
-                            android:text="@string/add_activity_font_type" />
+                            android:text="@string/add_activity_font_type"
+                            android:textColor="?themePrimaryFontColor" />
 
                         <Spinner
                             android:id="@+id/fontTypeSpinner"
@@ -407,7 +437,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="16dp"
-                            android:layout_weight="0.6" />
+                            android:layout_weight="0.6"
+                            android:popupBackground="?themeCardBackground" />
 
                     </LinearLayout>
 
@@ -421,7 +452,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center"
                             android:layout_weight="0.4"
-                            android:text="@string/add_activity_font_color" />
+                            android:text="@string/add_activity_font_color"
+                            android:textColor="?themePrimaryFontColor" />
 
                         <FrameLayout
                             android:layout_width="0dp"
@@ -451,15 +483,16 @@
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginRight="16dp"
+                android:backgroundTint="?themeCardBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -472,7 +505,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center"
                         android:layout_weight="0.4"
-                        android:text="@string/add_activity_picture_dim" />
+                        android:text="@string/add_activity_picture_dim"
+                        android:textColor="?themePrimaryFontColor" />
 
                     <SeekBar
                         android:id="@+id/pictureDimSeekBar"
@@ -483,22 +517,19 @@
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addButton"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="55dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="35dp"
-                android:layout_marginEnd="55dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/button_background"
-                android:fontFamily="sans-serif-medium"
                 android:text="@string/add_activity_add_button"
-                android:textColor="#ffffff" />
-
+                android:theme="@style/AppButton" />
 
         </LinearLayout>
 
@@ -510,9 +541,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_action_picture"
+        app:backgroundTint="?themeLightAccent"
         app:layout_constraintBottom_toTopOf="@id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/scrollView" />

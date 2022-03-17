@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="75dp"
     android:layout_marginStart="16dp"
     android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp">
+    android:layout_marginEnd="16dp"
+    android:backgroundTint="?themeCardBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,6 +20,7 @@
 
         <TextView
             android:id="@+id/eventTitleTextView"
+            style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -21,7 +28,7 @@
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?themePrimaryFontColor"
             app:layout_constraintBottom_toTopOf="@id/eventDateTextView"
             app:layout_constraintEnd_toStartOf="@id/counterStackView"
             app:layout_constraintStart_toEndOf="@id/imageCardView"
@@ -30,11 +37,12 @@
 
         <TextView
             android:id="@+id/eventDateTextView"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="?themeSecondaryFontColor"
             app:layout_constraintBottom_toBottomOf="@id/imageCardView"
             app:layout_constraintStart_toEndOf="@id/imageCardView"
             tools:text="October 1, 2019" />
@@ -43,8 +51,6 @@
             android:id="@+id/imageCardView"
             android:layout_width="75dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            app:cardCornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -69,4 +75,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>
