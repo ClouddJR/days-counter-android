@@ -183,6 +183,7 @@ class AppWidgetProvider : AppWidgetProvider() {
     ) {
         var request = Glide.with(context)
             .asBitmap()
+            .override(800, 600)
             .transform(DimTransformation(event.pictureDim))
 
         val file = File(event.image)
