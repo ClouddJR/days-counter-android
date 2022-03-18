@@ -92,7 +92,7 @@ class LocalDatabase @Inject constructor(
     }
 
     fun disableAlarmForEvent(eventId: String) {
-        realm.executeTransactionAsync {
+        realm.executeTransaction {
             it.getEventById(eventId)?.apply {
                 reminderYear = 0
                 reminderMonth = 0
@@ -105,7 +105,7 @@ class LocalDatabase @Inject constructor(
     }
 
     fun addOrUpdateEvent(event: Event) {
-        realm.executeTransactionAsync {
+        realm.executeTransaction {
             it.copyToRealmOrUpdate(event)
         }
     }
