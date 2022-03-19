@@ -1,21 +1,13 @@
 package com.arkadiusz.dayscounter.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
-class UserRepository {
-
-    private lateinit var loggedListener: OnLoggedListener
-    private lateinit var emailResetListener: OnEmailResetListener
-
-    private val firebaseAuth = FirebaseAuth.getInstance()
-
-    interface OnLoggedListener {
-        fun onLoggedResult(wasSuccessful: Boolean)
-    }
-
-    interface OnEmailResetListener {
-        fun onEmailReset(wasSuccessful: Boolean)
-    }
+class UserRepository @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+) {
 
     fun getUserId(): String {
         return firebaseAuth.currentUser?.uid ?: ""
@@ -30,35 +22,29 @@ class UserRepository {
         return firebaseAuth.currentUser?.email ?: ""
     }
 
-    fun signInWithLoginAndPassword(login: String, password: String) {
-        if (login.isNotEmpty() && password.isNotEmpty()) {
-            firebaseAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener {
-                loggedListener.onLoggedResult(it.isSuccessful)
+    suspend fun signInWithLoginAndPassword(login: String, password: String): Boolean {
+        return when {
+            login.isEmpty() || password.isEmpty() -> false
+            else -> suspendCoroutine { continuation ->
+                firebaseAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener {
+                    continuation.resume(it.isSuccessful)
+                }
             }
-        } else {
-            loggedListener.onLoggedResult(false)
         }
     }
 
-    fun sendPasswordResetEmail(email: String) {
-        if (email.isNotEmpty()) {
-            firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
-                emailResetListener.onEmailReset(it.isSuccessful)
+    suspend fun sendPasswordResetEmail(email: String): Boolean {
+        return when {
+            email.isEmpty() -> false
+            else -> suspendCoroutine { continuation ->
+                firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener {
+                    continuation.resume(it.isSuccessful)
+                }
             }
-        } else {
-            emailResetListener.onEmailReset(false)
         }
     }
 
     fun signOut() {
         firebaseAuth.signOut()
-    }
-
-    fun addOnLoggedListener(listener: OnLoggedListener) {
-        loggedListener = listener
-    }
-
-    fun addOnEmailResetListener(listener: OnEmailResetListener) {
-        emailResetListener = listener
     }
 }

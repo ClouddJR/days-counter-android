@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.arkadiusz.dayscounter.R
 
-
 class ClearableEditText : AppCompatEditText, View.OnTouchListener, View.OnFocusChangeListener,
     TextWatcher {
 

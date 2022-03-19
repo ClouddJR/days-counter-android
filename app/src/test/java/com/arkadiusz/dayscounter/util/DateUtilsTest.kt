@@ -1,6 +1,5 @@
 package com.arkadiusz.dayscounter.util
 
-import android.content.Context
 import android.content.res.Resources
 import com.arkadiusz.dayscounter.R
 import org.junit.Assert.assertEquals
@@ -426,18 +425,15 @@ class DateUtilsTest {
     @Test
     fun `should return correctly formatted years number text`() {
         val resources = mock(Resources::class.java)
-        val context = mock(Context::class.java)
-        `when`(context.resources).thenReturn(resources)
-
 
         `when`(
-            context.resources.getQuantityString(
+            resources.getQuantityString(
                 eq(R.plurals.years_number),
                 any(Int::class.java)
             )
         )
             .thenReturn("years")
-        `when`(context.resources.getQuantityString(R.plurals.years_number, 1)).thenReturn("year")
+        `when`(resources.getQuantityString(R.plurals.years_number, 1)).thenReturn("year")
 
         var yearsNumber = 2
         assertEquals(
@@ -447,7 +443,7 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context
+                resources = resources
             )
         )
 
@@ -459,7 +455,7 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context
+                resources = resources
             )
         )
     }
@@ -467,18 +463,15 @@ class DateUtilsTest {
     @Test
     fun `should return correctly formatted months number text`() {
         val resources = mock(Resources::class.java)
-        val context = mock(Context::class.java)
-        `when`(context.resources).thenReturn(resources)
-
 
         `when`(
-            context.resources.getQuantityString(
+            resources.getQuantityString(
                 eq(R.plurals.months_number),
                 any(Int::class.java)
             )
         )
             .thenReturn("months")
-        `when`(context.resources.getQuantityString(R.plurals.months_number, 1)).thenReturn("month")
+        `when`(resources.getQuantityString(R.plurals.months_number, 1)).thenReturn("month")
 
         var monthsNumber = 2
         assertEquals(
@@ -488,7 +481,7 @@ class DateUtilsTest {
                 areMonthsIncluded = true,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context
+                resources = resources
             )
         )
 
@@ -500,7 +493,7 @@ class DateUtilsTest {
                 areMonthsIncluded = true,
                 areWeeksIncluded = false,
                 areDaysIncluded = false,
-                context = context
+                resources = resources
             )
         )
     }
@@ -509,18 +502,15 @@ class DateUtilsTest {
     @Test
     fun `should return correctly formatted weeks number text`() {
         val resources = mock(Resources::class.java)
-        val context = mock(Context::class.java)
-        `when`(context.resources).thenReturn(resources)
-
 
         `when`(
-            context.resources.getQuantityString(
+            resources.getQuantityString(
                 eq(R.plurals.weeks_number),
                 any(Int::class.java)
             )
         )
             .thenReturn("weeks")
-        `when`(context.resources.getQuantityString(R.plurals.weeks_number, 1)).thenReturn("week")
+        `when`(resources.getQuantityString(R.plurals.weeks_number, 1)).thenReturn("week")
 
         var weeksNumber = 2
         assertEquals(
@@ -530,7 +520,7 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = true,
                 areDaysIncluded = false,
-                context = context
+                resources = resources
             )
         )
 
@@ -542,7 +532,7 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = true,
                 areDaysIncluded = false,
-                context = context
+                resources = resources
             )
         )
     }
@@ -550,13 +540,10 @@ class DateUtilsTest {
     @Test
     fun `should return correctly formatted days number text`() {
         val resources = mock(Resources::class.java)
-        val context = mock(Context::class.java)
-        `when`(context.resources).thenReturn(resources)
 
-
-        `when`(context.resources.getQuantityString(eq(R.plurals.days_number), any(Int::class.java)))
+        `when`(resources.getQuantityString(eq(R.plurals.days_number), any(Int::class.java)))
             .thenReturn("days")
-        `when`(context.resources.getQuantityString(R.plurals.days_number, 1)).thenReturn("day")
+        `when`(resources.getQuantityString(R.plurals.days_number, 1)).thenReturn("day")
 
         var daysNumber = 2
         assertEquals(
@@ -566,7 +553,7 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                context = context
+                resources = resources
             )
         )
 
@@ -578,15 +565,15 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                context = context
+                resources = resources
             )
         )
     }
 
     @Test
     fun `should return today word when dates are the same`() {
-        val context = mock(Context::class.java)
-        `when`(context.getString(R.string.date_utils_today)).thenReturn("Today!")
+        val resources = mock(Resources::class.java)
+        `when`(resources.getString(R.string.date_utils_today)).thenReturn("Today!")
         assertEquals(
             "Today!", DateUtils.generateCounterText(
                 0, 0, 0, 0,
@@ -594,7 +581,7 @@ class DateUtilsTest {
                 areMonthsIncluded = false,
                 areWeeksIncluded = false,
                 areDaysIncluded = true,
-                context = context
+                resources = resources
             )
         )
     }

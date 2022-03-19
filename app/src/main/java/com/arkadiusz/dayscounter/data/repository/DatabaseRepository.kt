@@ -19,12 +19,13 @@ import io.reactivex.schedulers.Schedulers
 import io.realm.RealmResults
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 import kotlin.concurrent.schedule
 
-class DatabaseRepository(
-    private val userRepository: UserRepository = UserRepository(),
-    private val localDatabase: LocalDatabase = LocalDatabase(),
-    private val remoteDatabase: RemoteDatabase = RemoteDatabase(userRepository)
+class DatabaseRepository @Inject constructor(
+    private val userRepository: UserRepository,
+    private val localDatabase: LocalDatabase,
+    private val remoteDatabase: RemoteDatabase,
 ) {
     private lateinit var remoteListenerDisposable: Disposable
 
@@ -72,7 +73,7 @@ class DatabaseRepository(
         localDatabase.disableAlarmForEvent(eventId)
     }
 
-    fun addEvent(event: Event): String {
+    fun addEvent(event: Event): Event {
         event.id = getNextId()
         setUpImagePathForEvent(event)
 
@@ -84,7 +85,7 @@ class DatabaseRepository(
             remoteDatabase.addOrUpdateEvent(event)
         }
 
-        return event.id
+        return event
     }
 
     private fun setUpImagePathForEvent(event: Event) {
@@ -95,7 +96,7 @@ class DatabaseRepository(
         }
     }
 
-    fun editEvent(event: Event) {
+    fun editEvent(event: Event): Event {
         val oldEvent = localDatabase.getEventCopyById(event.id)
 
         //set up image path in firebase
@@ -134,6 +135,7 @@ class DatabaseRepository(
         }
 
         localDatabase.addOrUpdateEvent(event)
+        return event
     }
 
     private fun getCloudImagePath(event: Event): String {
@@ -258,13 +260,11 @@ class DatabaseRepository(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { cloudEvents: List<Event> ->
-
                     deleteIfNotExist(cloudEvents)
 
                     cloudEvents.forEach { cloudEvent ->
                         updateLocalEventBasedOn(cloudEvent)
                     }
-
                 },
                 { error: Throwable ->
                     error.printStackTrace()
@@ -309,5 +309,4 @@ class DatabaseRepository(
             remoteListenerDisposable.dispose()
         }
     }
-
 }

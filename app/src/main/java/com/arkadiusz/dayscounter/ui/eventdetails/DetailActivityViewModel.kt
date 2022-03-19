@@ -3,9 +3,12 @@ package com.arkadiusz.dayscounter.ui.eventdetails
 import androidx.lifecycle.ViewModel
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.data.model.Event
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetailActivityViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository()
+@HiltViewModel
+class DetailActivityViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository
 ) : ViewModel() {
 
     override fun onCleared() {

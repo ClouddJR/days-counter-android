@@ -4,35 +4,31 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.arkadiusz.dayscounter.DaysCounterApp
 import com.arkadiusz.dayscounter.R
-import com.arkadiusz.dayscounter.data.worker.WidgetUpdateWorker
 import com.arkadiusz.dayscounter.ui.addeditevent.AddActivity
 import com.arkadiusz.dayscounter.ui.calculator.CalculatorActivity
 import com.arkadiusz.dayscounter.ui.events.PastEventsFragment
 import com.arkadiusz.dayscounter.ui.login.LoginActivity
 import com.arkadiusz.dayscounter.ui.premium.PremiumActivity
 import com.arkadiusz.dayscounter.ui.settings.SettingsActivity
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.PreferenceUtils.set
 import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
-import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainActivityViewModel
+    private val viewModel: MainActivityViewModel by viewModels()
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
 
@@ -42,16 +38,14 @@ class MainActivity : AppCompatActivity() {
         setTheme(getThemeFromPreferences(false, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initViewModel()
         addBillingLifecycleObserver()
         setUpPreferences()
         setUpToolbar()
         setUpViewPager()
         setUpFABClickListener()
-        setUpWorkerManager()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         hideRemoveButtonIfPurchased(menu)
         return true
@@ -111,14 +105,6 @@ class MainActivity : AppCompatActivity() {
         }.show()
     }
 
-    private fun initViewModel() {
-        viewModel = getViewModel(this) {
-            MainActivityViewModel(
-                billingRepository = (application as DaysCounterApp).billingRepository
-            )
-        }
-    }
-
     private fun addBillingLifecycleObserver() {
         lifecycle.addObserver(viewModel.getBillingLifecycleObserver())
     }
@@ -155,16 +141,5 @@ class MainActivity : AppCompatActivity() {
                 }
             startActivity<AddActivity>("Event Type" to eventType)
         }
-    }
-
-    private fun setUpWorkerManager() {
-        val widgetUpdateRequest = PeriodicWorkRequestBuilder<WidgetUpdateWorker>(3, TimeUnit.HOURS)
-            .build()
-
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            WidgetUpdateWorker.PERIODIC_WORK_WIDGET_UPDATE,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            widgetUpdateRequest
-        )
     }
 }

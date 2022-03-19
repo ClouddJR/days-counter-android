@@ -1,42 +1,44 @@
 package com.arkadiusz.dayscounter.ui.login
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.ui.main.MainActivity
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.arkadiusz.dayscounter.util.ThemeUtils.getThemeFromPreferences
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
-import java.util.*
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: LoginActivityViewModel
+    private val viewModel: LoginActivityViewModel by viewModels()
 
-    private val RC_SIGN_IN = 123
-    private val providers = arrayListOf(
-        AuthUI.IdpConfig.GoogleBuilder().build(),
-        AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build()
-    )
-    private val googleProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
+    private val signInLauncher =
+        registerForActivityResult(FirebaseAuthUIActivityResultContract()) { result ->
+            viewModel.onSignInFlowFinish(result)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(getThemeFromPreferences(false, this))
+        setTheme(getThemeFromPreferences(true, this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        initViewModel()
-        listenToLoginEvents()
+        setupActionBar()
+        observeState()
         initLogInButtons()
         initGoogleLoginButtonText()
     }
@@ -46,55 +48,43 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onSupportNavigateUp(): Boolean {
+        startActivity<MainActivity>()
+        finish()
+        return true
+    }
 
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-            // Successfully signed in
-            if (resultCode == Activity.RESULT_OK) {
-                startActivity<MainActivity>()
-                finish()
-                viewModel.addLocalEventsToCloud()
-            } else {
-                if (response?.errorCode == ErrorCodes.NO_NETWORK) {
-                    longToast(getString(R.string.login_activity_connection_problem))
+    private fun setupActionBar() {
+        supportActionBar?.title = getString(R.string.login_activity_login_button)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun observeState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                var showMessageJob: Job? = null
+
+                viewModel.uiState.collect { state ->
+                    if (state.isSignedIn) {
+                        startActivity<MainActivity>()
+                        finish()
+                    }
+                    state.userMessageId?.let { messageId ->
+                        showMessageJob?.cancel()
+                        showMessageJob = launch {
+                            longToast(getString(messageId))
+                            delay(3500)
+                            viewModel.onMessageShown()
+                        }
+                    }
+                    progressBar.isVisible = state.isInProgress
                 }
             }
         }
-
-        progressBar.visibility = View.GONE
-    }
-
-    private fun initViewModel() {
-        viewModel = getViewModel(this)
-        viewModel.init()
-    }
-
-    private fun listenToLoginEvents() {
-        viewModel.loginResult.observe(this, Observer { wasSuccessful ->
-            if (wasSuccessful) {
-                viewModel.addLocalEventsToCloud()
-                startActivity<MainActivity>()
-                finish()
-            } else {
-                longToast(getString(R.string.login_activity_wrong_credentials))
-                progressBar.visibility = View.GONE
-            }
-        })
-
-        viewModel.emailResetResult.observe(this, Observer { wasSuccessful ->
-            val toastText = when (wasSuccessful) {
-                true -> getString(R.string.login_activity_password_reset_toast_success)
-                else -> getString(R.string.login_activity_password_reset_toast_fail)
-            }
-            longToast(toastText)
-        })
     }
 
     private fun initLogInButtons() {
         loginButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
             viewModel.signInWithLoginAndPassword(
                 emailEditText.text.toString(),
                 passwordEditText.text.toString()
@@ -102,12 +92,16 @@ class LoginActivity : AppCompatActivity() {
         }
 
         signInWithGoogleButton.setOnClickListener {
-            progressBar.visibility = View.VISIBLE
-            startActivityForResult(buildAuthUi(googleProvider), RC_SIGN_IN)
+            signInLauncher.launch(buildAuthUi(listOf(
+                AuthUI.IdpConfig.GoogleBuilder().build()
+            )))
         }
 
         createAccountButton.setOnClickListener {
-            startActivityForResult(buildAuthUi(providers), RC_SIGN_IN)
+            signInLauncher.launch(buildAuthUi(listOf(
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build()
+            )))
         }
 
         forgotPasswordButton.setOnClickListener {
@@ -115,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildAuthUi(type: ArrayList<AuthUI.IdpConfig>): Intent {
+    private fun buildAuthUi(type: List<AuthUI.IdpConfig>): Intent {
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(type)
@@ -127,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
         lateinit var editText: EditText
         alert {
             positiveButton(getString(R.string.login_activity_password_reset_form_button)) {
-                viewModel.sendPasswordResetEmail(editText.text.toString().trim())
+                viewModel.resetPassword(editText.text.toString().trim())
             }
 
             negativeButton(getString(R.string.add_activity_back_button_cancel)) {
@@ -139,7 +133,6 @@ class LoginActivity : AppCompatActivity() {
 
                     textView {
                         textSize = 20f
-                        textColor = ContextCompat.getColor(this@LoginActivity, R.color.black)
                         text = getString(R.string.login_activity_password_reset_dialog)
                     }.lparams {
                         bottomMargin = 32

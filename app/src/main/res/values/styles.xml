@@ -195,11 +195,9 @@
         <item name="themeLightAccent">@color/darkRedLightAccent</item>
     </style>
 
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
     <style name="LightDialog" parent="Theme.AppCompat.Light.Dialog.MinWidth">
         <item name="colorAccent">?themeAccent</item>
@@ -223,5 +221,9 @@
     <style name="DarkSettingsDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">?themeCardBackground</item>
         <item name="colorAccent">?themeAccent</item>
+    </style>
+
+    <style name="AppButton" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">?themeAccent</item>
     </style>
 </resources>

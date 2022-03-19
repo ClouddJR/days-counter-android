@@ -16,7 +16,6 @@
 #   public *;
 #}
 
-  -dontwarn com.squareup.picasso.**
   -dontwarn okhttp3.**
   -dontwarn org.jetbrains.anko.**
   -keepclassmembers class com.arkadiusz.dayscounter.data.model.** {
@@ -46,6 +45,9 @@
 
   # Proguard complaining about displayEventOptions in Fragments
   -dontwarn com.arkadiusz.dayscounter.ui.events.**
+
+  # Android-Image-Cropper
+  -keep class androidx.appcompat.widget.** { *; }
 
   # Glide
   -keep public class * implements com.bumptech.glide.module.GlideModule

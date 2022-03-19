@@ -1,6 +1,6 @@
 package com.arkadiusz.dayscounter.util
 
-import android.content.Context
+import android.content.res.Resources
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.DateComponents
 import java.text.SimpleDateFormat
@@ -57,7 +57,7 @@ object DateUtils {
     fun calculateDate(
         passedDate: String, areYearsIncluded: Boolean,
         areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
-        areDaysIncluded: Boolean, context: Context
+        areDaysIncluded: Boolean, resources: Resources
     ): String {
 
         val triple = getElementsFromDate(passedDate)
@@ -67,7 +67,7 @@ object DateUtils {
 
         return calculateDate(
             year, month, day, areYearsIncluded, areMonthsIncluded,
-            areWeeksIncluded, areDaysIncluded, context
+            areWeeksIncluded, areDaysIncluded, resources
         )
 
     }
@@ -112,7 +112,7 @@ object DateUtils {
     fun calculateDate(
         dateYear: Int, dateMonth: Int, dateDay: Int, areYearsIncluded: Boolean,
         areMonthsIncluded: Boolean, areWeeksIncluded: Boolean,
-        areDaysIncluded: Boolean, context: Context,
+        areDaysIncluded: Boolean, resources: Resources,
         today: Calendar = generateTodayCalendar()
     ): String {
 
@@ -181,7 +181,7 @@ object DateUtils {
         return generateCounterText(
             yearsNumber, monthsNumber, weeksNumber, daysNumber,
             areYearsIncluded, areMonthsIncluded, areWeeksIncluded, areDaysIncluded,
-            context
+            resources
         )
     }
 
@@ -267,24 +267,24 @@ object DateUtils {
         daysNumber: Int,
         areYearsIncluded: Boolean, areMonthsIncluded: Boolean,
         areWeeksIncluded: Boolean, areDaysIncluded: Boolean,
-        context: Context
+        resources: Resources
     ): String {
         if (yearsNumber == 0 && monthsNumber == 0 && weeksNumber == 0 && daysNumber == 0) {
-            return context.getString(R.string.date_utils_today)
+            return resources.getString(R.string.date_utils_today)
         }
 
         var counterText = ""
         if (areYearsIncluded) counterText += "$yearsNumber " +
-                "${context.resources.getQuantityString(R.plurals.years_number, yearsNumber)} "
+                "${resources.getQuantityString(R.plurals.years_number, yearsNumber)} "
 
         if (areMonthsIncluded) counterText += "$monthsNumber " +
-                "${context.resources.getQuantityString(R.plurals.months_number, monthsNumber)} "
+                "${resources.getQuantityString(R.plurals.months_number, monthsNumber)} "
 
         if (areWeeksIncluded) counterText += "$weeksNumber " +
-                "${context.resources.getQuantityString(R.plurals.weeks_number, weeksNumber)} "
+                "${resources.getQuantityString(R.plurals.weeks_number, weeksNumber)} "
 
         if (areDaysIncluded) counterText += "$daysNumber " +
-                "${context.resources.getQuantityString(R.plurals.days_number, daysNumber)} "
+                "${resources.getQuantityString(R.plurals.days_number, daysNumber)} "
 
         return counterText.trim()
     }

@@ -4,9 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.realm.DynamicRealm
 import io.realm.RealmMigration
 
-class Migration : RealmMigration {
-
-    val firebase = FirebaseFirestore.getInstance()
+class Migration(private val firestore: FirebaseFirestore) : RealmMigration {
 
     override fun hashCode(): Int {
         return 37
@@ -17,16 +15,11 @@ class Migration : RealmMigration {
     }
 
     override fun migrate(realm: DynamicRealm, oldVersion: Long, newVersion: Long) {
-        if (oldVersion == 0L) {
-            migrateFromFirstVersion(realm)
-        }
-
-        if (oldVersion == 2L) {
-            migrateFromThirdVersion(realm)
-        }
-
-        if (oldVersion == 3L) {
-            migrateFromFourthVersion(realm)
+        when (oldVersion) {
+            0L -> migrateFromFirstVersion(realm)
+            2L -> migrateFromThirdVersion(realm)
+            3L -> migrateFromFourthVersion(realm)
+            4L -> migrateFromFifthVersion(realm)
         }
     }
 
@@ -104,11 +97,15 @@ class Migration : RealmMigration {
             .addField("id", String::class.java)
             .addField("imageCloudPath", String::class.java)
             .transform {
-                val newId = firebase.collection("getId").document().id
+                val newId = firestore.collection("getId").document().id
                 it.set("id", newId)
                 it.set("imageCloudPath", "")
             }
             .addPrimaryKey("id")
     }
 
+    private fun migrateFromFifthVersion(realm: DynamicRealm) {
+        realm.schema.get("Event")!!
+            .removeField("hasAlarm")
+    }
 }

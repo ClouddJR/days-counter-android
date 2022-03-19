@@ -10,19 +10,19 @@ import com.arkadiusz.dayscounter.data.model.Event
 import com.arkadiusz.dayscounter.data.repository.DatabaseRepository
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.RemindersUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.realm.RealmResults
 import io.realm.Sort
+import javax.inject.Inject
 
-class EventsViewModel(
-    private val databaseRepository: DatabaseRepository = DatabaseRepository(),
-    private val sharedPreferences: SharedPreferences
+@HiltViewModel
+class EventsViewModel @Inject constructor(
+    private val databaseRepository: DatabaseRepository,
+    private val sharedPreferences: SharedPreferences,
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private var _isCompactViewMode = MutableLiveData<Boolean>()
     val isCompactViewMode: LiveData<Boolean> = _isCompactViewMode
-
-    private val eventsPastList = databaseRepository.getPastEvents().sortedByPastDate()
-    private val eventsFutureList = databaseRepository.getFutureEvents().sortedByFutureDate()
 
     init {
         databaseRepository.syncToCloud()
@@ -45,9 +45,11 @@ class EventsViewModel(
         databaseRepository.saveCloudImageLocallyFrom(event, sourceDirectory!!)
     }
 
-    fun getPastEvents(): RealmResults<Event> = eventsPastList
+    fun getPastEvents(): RealmResults<Event> =
+        databaseRepository.getPastEvents().sortedByPastDate()
 
-    fun getFutureEvents(): RealmResults<Event> = eventsFutureList
+    fun getFutureEvents(): RealmResults<Event> =
+        databaseRepository.getFutureEvents().sortedByFutureDate()
 
     override fun onCleared() {
         super.onCleared()

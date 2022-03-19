@@ -1,12 +1,15 @@
 package com.arkadiusz.dayscounter.ui.eventdetails
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
@@ -18,18 +21,21 @@ import com.arkadiusz.dayscounter.util.DateUtils.formatTime
 import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PreferenceUtils.get
 import com.arkadiusz.dayscounter.util.ThemeUtils
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.ads.AdRequest
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.color.MaterialColors
 import com.google.firebase.storage.FirebaseStorage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.*
 import java.io.File
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: DetailActivityViewModel
+    private val viewModel: DetailActivityViewModel by viewModels()
 
     private var passedEvent: Event? = null
 
@@ -38,7 +44,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        initViewModel()
         fetchPassedEvent()
 
         if (passedEvent != null) {
@@ -56,7 +61,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_detail, menu)
         return true
     }
@@ -80,10 +85,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun initViewModel() {
-        viewModel = getViewModel(this)
     }
 
     private fun fetchPassedEvent() {
@@ -163,7 +164,8 @@ class DetailActivity : AppCompatActivity() {
             passedEvent!!.formatYearsSelected,
             passedEvent!!.formatMonthsSelected,
             passedEvent!!.formatWeeksSelected,
-            passedEvent!!.formatDaysSelected, this
+            passedEvent!!.formatDaysSelected,
+            resources
         )
         eventCalculateText.text = counterText
         eventTitle.text = passedEvent!!.name

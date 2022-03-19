@@ -8,28 +8,30 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.DateComponents
 import com.arkadiusz.dayscounter.util.DateUtils.generateCounterText
-import com.arkadiusz.dayscounter.util.PreferenceUtils.defaultPrefs
 import com.arkadiusz.dayscounter.util.PurchasesUtils
 import com.arkadiusz.dayscounter.util.ThemeUtils
-import com.arkadiusz.dayscounter.util.ViewModelUtils.getViewModel
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.android.synthetic.main.activity_calculator.view.*
 import kotlinx.android.synthetic.main.ad_layout.*
 import kotlinx.android.synthetic.main.event_compact_counter_stack.view.*
 import java.util.*
 
+@AndroidEntryPoint
 class CalculatorActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CalculatorViewModel
+    private val viewModel: CalculatorViewModel by viewModels()
+
     private lateinit var adLoader: AdLoader
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +39,13 @@ class CalculatorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
         title = ""
-        initViewModel()
         initOnClickListeners()
         observeViewModelUpdates()
         initAdView()
         displayAd()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_calculator, menu)
         return true
     }
@@ -66,55 +67,51 @@ class CalculatorActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun initViewModel() {
-        viewModel = getViewModel(this) { CalculatorViewModel(defaultPrefs(this)) }
-    }
-
     private fun initOnClickListeners() {
         startDateEditText.setOnClickListener { viewModel.startDateEditTextClicked() }
         endDateEditText.setOnClickListener { viewModel.endDateEditTextClicked() }
     }
 
     private fun observeViewModelUpdates() {
-        viewModel.calculatedComponents.observe(this, { components ->
+        viewModel.calculatedComponents.observe(this) { components ->
             showResultCardAndHideCounterSections()
             showAndFillRelevantSections(components)
-        })
+        }
 
         viewModel.additionalFormatsCalculatedComponents.observe(
-            this,
-            { additionalFormats ->
-                removePreviousAdditionalFormats()
-                addAdditionalFormats(additionalFormats)
-                scrollToBottom()
-            })
+            this
+        ) { additionalFormats ->
+            removePreviousAdditionalFormats()
+            addAdditionalFormats(additionalFormats)
+            scrollToBottom()
+        }
 
-        viewModel.showStartDatePicker.observe(this, { previouslyChosenComponents ->
+        viewModel.showStartDatePicker.observe(this) { previouslyChosenComponents ->
             showDatePicker(startDateEditText, previouslyChosenComponents)
-        })
+        }
 
-        viewModel.showEndDatePicker.observe(this, { previouslyChosenComponents ->
+        viewModel.showEndDatePicker.observe(this) { previouslyChosenComponents ->
             showDatePicker(endDateEditText, previouslyChosenComponents)
-        })
+        }
 
-        viewModel.chosenStartDate.observe(this, { date ->
+        viewModel.chosenStartDate.observe(this) { date ->
             startDateEditText.setText(date)
             startDateEditText.error = null
-        })
+        }
 
-        viewModel.chosenEndDate.observe(this, { date ->
+        viewModel.chosenEndDate.observe(this) { date ->
             endDateEditText.setText(date)
             endDateEditText.error = null
-        })
+        }
 
-        viewModel.formNotValid.observe(this, {
+        viewModel.formNotValid.observe(this) {
             if (startDateEditText.text?.isEmpty() == true) {
                 startDateEditText.error = "This field is required"
             }
             if (endDateEditText.text?.isEmpty() == true) {
                 endDateEditText.error = "This field is required"
             }
-        })
+        }
     }
 
     private fun showResultCardAndHideCounterSections() {
@@ -168,8 +165,7 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun addAdditionalFormats(
-        additionalFormats: List<Pair<CalculatorComponentsHolder,
-                DateComponents>>
+        additionalFormats: List<Pair<CalculatorComponentsHolder, DateComponents>>,
     ) {
         additionalFormats.forEach { pair ->
             val componentsHolder = pair.first
@@ -185,7 +181,7 @@ class CalculatorActivity : AppCompatActivity() {
 
     private fun createCounterTextForAdditionalFormat(
         componentsHolder: CalculatorComponentsHolder,
-        calculatedComponents: DateComponents
+        calculatedComponents: DateComponents,
     ): String {
         return if (!componentsHolder.onlyWorkDays) {
             generateCounterText(
@@ -193,7 +189,7 @@ class CalculatorActivity : AppCompatActivity() {
                 calculatedComponents.months, calculatedComponents.weeks,
                 calculatedComponents.days, componentsHolder.areYearsIncluded,
                 componentsHolder.areMonthsIncluded, componentsHolder.areWeeksIncluded,
-                componentsHolder.areDaysIncluded, this
+                componentsHolder.areDaysIncluded, resources
             )
         } else {
             "${calculatedComponents.days} " +

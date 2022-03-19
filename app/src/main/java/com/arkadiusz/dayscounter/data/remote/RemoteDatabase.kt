@@ -7,25 +7,25 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Observable
 import java.io.File
+import javax.inject.Inject
 
-class RemoteDatabase(
-    private val userRepository: UserRepository = UserRepository(),
-    private val firestoreDatabase: FirebaseFirestore = FirebaseFirestore.getInstance(),
-    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
+class RemoteDatabase @Inject constructor(
+    private val userRepository: UserRepository,
+    private val firestore: FirebaseFirestore,
+    private val storage: FirebaseStorage,
 ) {
 
     fun getNewId(): String {
         return if (userRepository.isLoggedIn()) {
-            firestoreDatabase.collection(userRepository.getUserId()).document().id
+            firestore.collection(userRepository.getUserId()).document().id
         } else {
-            firestoreDatabase.collection("newId").document().id
+            firestore.collection("newId").document().id
         }
     }
 
-
     fun getEvents(): Observable<List<Event>> {
         return Observable.create { emitter ->
-            firestoreDatabase
+            firestore
                 .collection(userRepository.getUserId())
                 .get()
                 .addOnSuccessListener { querySnapshot ->
@@ -43,7 +43,7 @@ class RemoteDatabase(
     }
 
     fun addOrUpdateEvent(event: Event) {
-        val document = firestoreDatabase.collection(userRepository.getUserId())
+        val document = firestore.collection(userRepository.getUserId())
             .document(event.id)
 
         val eventToBeAdded = HashMap<String, Any>()
@@ -73,7 +73,7 @@ class RemoteDatabase(
 
     fun deleteEvent(event: Event?) {
         event?.let {
-            firestoreDatabase.collection(userRepository.getUserId())
+            firestore.collection(userRepository.getUserId())
                 .document(event.id)
                 .delete()
         }

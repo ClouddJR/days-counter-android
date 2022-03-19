@@ -1,13 +1,11 @@
 package com.arkadiusz.dayscounter.ui.settings
 
 import android.Manifest
-import android.app.Activity
-import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.arkadiusz.dayscounter.R
@@ -17,24 +15,48 @@ import com.arkadiusz.dayscounter.util.PurchasesUtils.displayPremiumInfoDialog
 import com.arkadiusz.dayscounter.util.PurchasesUtils.isPremiumUser
 import com.arkadiusz.dayscounter.util.StorageUtils
 import com.arkadiusz.dayscounter.util.StorageUtils.isCorrectFileChosenForImport
+import dagger.hilt.android.AndroidEntryPoint
 import org.jetbrains.anko.browse
 import org.jetbrains.anko.email
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import java.io.File
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private val databaseRepository = DatabaseRepository()
+    @Inject
+    lateinit var databaseRepository: DatabaseRepository
 
-    private val REQUEST_EXPORT_DATA = 1
-    private val REQUEST_IMPORT_DATA = 2
+    private val requestPermissionForImport =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                filePicker.launch(arrayOf())
+            }
+        }
 
-    private val REQUEST_FILE_CHOOSING = 3
+    private val requestPermissionForBackup =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                backupData()
+            }
+        }
 
-    private val PERMISSIONS_STORAGE = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE
-    )
+    private val filePicker =
+        registerForActivityResult(object : ActivityResultContracts.OpenDocument() {
+            override fun createIntent(context: Context, input: Array<String>): Intent {
+                super.createIntent(context, input)
+                return Intent(Intent.ACTION_GET_CONTENT).apply {
+                    val backupPath = StorageUtils.getBackupPath(requireContext())
+                    if (File(backupPath).exists()) {
+                        setDataAndType(Uri.parse(backupPath), "*/*")
+                    } else {
+                        type = "*/*"
+                    }
+                }
+            }
+        }) { data -> data?.let { importData(it) } }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -53,7 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setUpRatePreference() {
         val ratePreference = findPreference<Preference>("rate")
         ratePreference?.setOnPreferenceClickListener {
-            val appPackageName = context?.packageName // package name of the app
+            val appPackageName = context?.packageName
             try {
                 startActivity(
                     Intent(
@@ -96,19 +118,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setUpBackupPreferences() {
-        val exportPreference = findPreference<Preference>("backup_export")
-        exportPreference?.setOnPreferenceClickListener {
-            activity?.let { activity ->
-                checkStoragePermissions(activity, true)
-            }
+        val importPreference = findPreference<Preference>("backup_import")
+        importPreference?.setOnPreferenceClickListener {
+            requestPermissionForImport.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             true
         }
 
-        val importPreference = findPreference<Preference>("backup_import")
-        importPreference?.setOnPreferenceClickListener {
-            activity?.let { activity ->
-                checkStoragePermissions(activity, false)
-            }
+        val exportPreference = findPreference<Preference>("backup_export")
+        exportPreference?.setOnPreferenceClickListener {
+            requestPermissionForBackup.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             true
         }
     }
@@ -121,7 +139,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 displayPremiumInfoDialog(context)
                 true
             }
-
         } else {
             themesPreference?.setOnPreferenceChangeListener { _, _ ->
                 activity?.recreate()
@@ -130,89 +147,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-
-    private fun checkStoragePermissions(activity: Activity, exporting: Boolean) {
-        val permission = ActivityCompat.checkSelfPermission(
-            activity,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                PERMISSIONS_STORAGE,
-                if (exporting) REQUEST_EXPORT_DATA else REQUEST_IMPORT_DATA
-            )
+    private fun importData(uri: Uri) {
+        if (isCorrectFileChosenForImport(uri)) {
+            databaseRepository.importData(requireContext(), uri)
         } else {
-            if (exporting) {
-                backupData()
-            } else {
-                launchImportIntent()
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>, grantResults: IntArray
-    ) {
-        when (requestCode) {
-            REQUEST_IMPORT_DATA -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    launchImportIntent()
-                }
-                return
-            }
-
-            REQUEST_EXPORT_DATA -> {
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    backupData()
-                }
-                return
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_FILE_CHOOSING) {
-                data?.data?.let {
-                    importData(it)
-                }
-            }
+            requireContext().longToast(getString(R.string.backup_toast_wrong_file))
         }
     }
 
     private fun backupData() {
-        context?.let { ctx ->
-            val backupPath = databaseRepository.backupData(ctx)
-            ctx.longToast(getString(R.string.backup_saved_toast, backupPath))
-        }
-    }
-
-    private fun launchImportIntent() {
-        val intent = Intent()
-
-        val backupPath = StorageUtils.getBackupPath(requireContext())
-
-        if (File(backupPath).exists()) {
-            val uri = Uri.parse(backupPath)
-            intent.setDataAndType(uri, "*/*")
-        } else {
-            intent.type = "*/*"
-        }
-
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, REQUEST_FILE_CHOOSING)
-    }
-
-    private fun importData(uri: Uri) {
-        context?.let { ctx ->
-            if (isCorrectFileChosenForImport(uri)) {
-                databaseRepository.importData(ctx, uri)
-            } else {
-                ctx.longToast(getString(R.string.backup_toast_wrong_file))
-            }
-        }
-
+        val backupPath = databaseRepository.backupData(requireContext())
+        requireContext().longToast(getString(R.string.backup_saved_toast, backupPath))
     }
 }

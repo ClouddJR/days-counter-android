@@ -9,16 +9,16 @@ import androidx.preference.ListPreference
 
 class MyListPreference : ListPreference {
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
             super(context, attrs, defStyleAttr, defStyleRes)
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             super(context, attrs, defStyleAttr)
 
-    constructor(context: Context?, attrs: AttributeSet?) :
+    constructor(context: Context, attrs: AttributeSet?) :
             super(context, attrs)
 
-    constructor(context: Context?) :
+    constructor(context: Context) :
             super(context)
 
 

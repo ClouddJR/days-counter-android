@@ -1,15 +1,14 @@
 package com.arkadiusz.dayscounter.ui.localgallery
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arkadiusz.dayscounter.R
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.single_image_gallery.view.*
 
-class GalleryAdapter(val imagesList: IntArray, val context: Context) :
+class GalleryAdapter(val imagesList: IntArray, val onClick: (Int) -> Unit) :
     RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,7 +24,10 @@ class GalleryAdapter(val imagesList: IntArray, val context: Context) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun displayImage(position: Int) {
-            Picasso.with(context).load(imagesList[position]).resize(0, 300)
+            itemView.setOnClickListener { onClick(position) }
+
+            Glide.with(itemView.context)
+                .load(imagesList[position])
                 .into(itemView.galleryImage)
         }
     }

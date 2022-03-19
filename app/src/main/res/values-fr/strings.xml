@@ -13,6 +13,7 @@
 
     <string name="main_activity_left_tab">Événements passés</string>
     <string name="main_activity_right_tab">Événements à venir</string>
+    <string name="main_activity_fab_text">Créer</string>
     <string name="main_activity_ads">Premium</string>
     <string name="main_activity_privacy_policy">Politique de confidentialité</string>
     <string name="menu_activity_sync">Synchronisation avec le nuage</string>
@@ -213,13 +214,11 @@
     <string name="login_activity_email">Adresse e-mail</string>
     <string name="login_activity_password">Mot de passe</string>
     <string name="login_activity_login_button">Connexion</string>
-    <string name="login_activity_create_account"><u>Créer un compte</u></string>
-    <string name="login_activity_create_q_account">Vous n\'avez pas de compte?</string>
-    <string name="login_activity_or">ou</string>
+    <string name="login_activity_create_account">Créer un compte</string>
     <string name="login_activity_google">Connectez-vous avec Google</string>
     <string name="login_activity_wrong_credentials">Vérifiez votre adresse électronique et votre mot de passe</string>
     <string name="login_activity_connection_problem">Vérifiez votre connexion Internet</string>
-    <string name="login_activity_password_reset"><u>Mot de passe oublié?</u></string>
+    <string name="login_activity_password_reset">Mot de passe oublié?</string>
     <string name="login_activity_password_reset_dialog"><u>Réinitialiser le mot de passe</u></string>
     <string name="login_activity_password_reset_toast_success">Un courriel contenant des instructions a été envoyé à cette adresse</string>
     <string name="login_activity_password_reset_toast_fail">Ce courriel n\'existe pas dans la base de données</string>
@@ -237,6 +236,7 @@
     <string name="dialog_saving">Sauvegarde</string>
     <string name="no_results">Aucun résultat</string>
     <string name="internet_gallery_search_hint">Recherchez</string>
+    <string name="internet_gallery_no_connection">Vérifiez votre connexion internet</string>
 
     <string name="author_link">Auteur:</string>
     <string name="detail_activity_toast_event_deleted">L\'événement n\'existe pas</string>

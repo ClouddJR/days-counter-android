@@ -17,7 +17,6 @@ In order to run this app on your machine you need to create a google-services.js
 * **Realm**
 * **Firestore**
 * **Firebase Storage**
-* **Picasso**
 * **Glide**
 * **Paging library**
 * **Material design**

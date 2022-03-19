@@ -12,5 +12,4 @@ class MessageWrapper<T>(private val value: T) {
             null
         }
     }
-
 }

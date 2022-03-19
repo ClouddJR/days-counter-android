@@ -13,6 +13,7 @@
 
     <string name="main_activity_left_tab">Past Events</string>
     <string name="main_activity_right_tab">Future Events</string>
+    <string name="main_activity_fab_text">Create</string>
     <string name="main_activity_ads">Premium</string>
     <string name="main_activity_privacy_policy">Privacy policy</string>
     <string name="menu_activity_sync">Sync with Cloud</string>
@@ -245,21 +246,19 @@
     <string name="question_two">Will it still work if I change the device?</string>
     <string name="question_two_answer">Yes, this payment is tied to your Google account, so every device that is logged in to the same account will have access to all premium features.</string>
 
-    <string name="features_pro_big">Includes all features listed for the pro version plus additional support for app developer</string>
+    <string name="features_pro_big">Includes all features listed for the pro version plus additional support for the developer</string>
 
     <!--Login-->
 
     <string name="login_activity_title">LoginActivity</string>
     <string name="login_activity_email">Email address</string>
     <string name="login_activity_password">Password</string>
-    <string name="login_activity_login_button">LOGIN</string>
-    <string name="login_activity_create_account"><u>Create an account</u></string>
-    <string name="login_activity_create_q_account">Don\'t have an account?</string>
-    <string name="login_activity_or">or</string>
+    <string name="login_activity_login_button">Login</string>
+    <string name="login_activity_create_account">Create an account</string>
     <string name="login_activity_google">Log in with Google</string>
     <string name="login_activity_wrong_credentials">Check your email and password</string>
     <string name="login_activity_connection_problem">Check your Internet connection</string>
-    <string name="login_activity_password_reset"><u>Forgot password?</u></string>
+    <string name="login_activity_password_reset">Forgot password?</string>
     <string name="login_activity_password_reset_dialog"><u>Reset password</u></string>
     <string name="login_activity_password_reset_toast_success">Email with instructions was sent to this address</string>
     <string name="login_activity_password_reset_toast_fail">That email does not exist in database</string>
@@ -276,6 +275,7 @@
     <string name="dialog_saving">Saving</string>
     <string name="no_results">No results</string>
     <string name="internet_gallery_search_hint">Search</string>
+    <string name="internet_gallery_no_connection">Check your internet connection</string>
 
     <string name="author_link">Author: </string>
     <string name="detail_activity_toast_event_deleted">Event does not exist</string>

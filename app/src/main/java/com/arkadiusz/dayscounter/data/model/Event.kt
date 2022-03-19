@@ -1,11 +1,9 @@
 package com.arkadiusz.dayscounter.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class Event() : RealmObject(), Parcelable {
+open class Event : RealmObject() {
     @PrimaryKey
     var id: String = ""
     var name: String = ""
@@ -18,7 +16,6 @@ open class Event() : RealmObject(), Parcelable {
     var type: String = ""
     var repeat: String = ""
     var widgetID: Int = 0
-    var hasAlarm: Boolean = false
     var hasTransparentWidget: Boolean = false
     var reminderYear: Int = 0
     var reminderMonth: Int = 0
@@ -36,35 +33,6 @@ open class Event() : RealmObject(), Parcelable {
     var fontType: String = ""
     var fontColor: Int = 0
     var pictureDim: Int = 0
-
-    constructor(source: Parcel) : this()
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {}
-
-    override fun toString(): String {
-        return "Event(id='$id', name='$name', date='$date', description='$description', " +
-                "image='$image', imageCloudPath='$imageCloudPath', imageID=$imageID, " +
-                "imageColor=$imageColor, type='$type', repeat='$repeat', widgetID=$widgetID, " +
-                "hasAlarm=$hasAlarm, hasTransparentWidget=$hasTransparentWidget, " +
-                "reminderYear=$reminderYear, reminderMonth=$reminderMonth, " +
-                "reminderDay=$reminderDay, reminderHour=$reminderHour, " +
-                "reminderMinute=$reminderMinute, notificationText='$notificationText', " +
-                "formatYearsSelected=$formatYearsSelected, formatMonthsSelected=$formatMonthsSelected, " +
-                "formatWeeksSelected=$formatWeeksSelected, formatDaysSelected=$formatDaysSelected, " +
-                "lineDividerSelected=$lineDividerSelected, counterFontSize=$counterFontSize, " +
-                "titleFontSize=$titleFontSize, fontType='$fontType', fontColor=$fontColor, " +
-                "pictureDim=$pictureDim)"
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<Event> = object : Parcelable.Creator<Event> {
-            override fun createFromParcel(source: Parcel): Event = Event(source)
-            override fun newArray(size: Int): Array<Event?> = arrayOfNulls(size)
-        }
-    }
 
     fun isTheSameAs(other: Event): Boolean {
         return this.id == other.id &&

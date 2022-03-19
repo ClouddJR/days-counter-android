@@ -10,7 +10,6 @@ import com.arkadiusz.dayscounter.util.FontUtils
 class FontTypeSpinnerAdapter(context: Context, resource: Int, list: List<String>) :
     ArrayAdapter<String>(context, resource, list) {
 
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val textView = super.getView(position, convertView, parent) as TextView
         val typeFace = FontUtils.getFontFor(textView.text.toString(), context)
