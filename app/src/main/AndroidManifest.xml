@@ -36,9 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".ui.crop.CropActivity" />
 
         <activity
             android:name=".ui.settings.SettingsActivity"

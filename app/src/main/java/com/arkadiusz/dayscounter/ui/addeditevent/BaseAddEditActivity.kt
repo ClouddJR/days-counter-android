@@ -19,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.Event
+import com.arkadiusz.dayscounter.ui.crop.CropActivity
 import com.arkadiusz.dayscounter.ui.internetgallery.InternetGalleryActivity
 import com.arkadiusz.dayscounter.ui.localgallery.GalleryActivity
 import com.arkadiusz.dayscounter.util.*
@@ -45,13 +46,14 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
 
     protected val viewModel: AddEditViewModel by viewModels()
 
-    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        if (result.isSuccessful) {
-            result.uriContent?.let { uri ->
-                viewModel.updateImageToLocalFile(StorageUtils.saveImage(this, uri).path!!)
+    private val cropImage =
+        registerForActivityResult(CropImageContract(CropActivity::class.java)) { result ->
+            if (result.isSuccessful) {
+                result.uriContent?.let { uri ->
+                    viewModel.updateImageToLocalFile(StorageUtils.saveImage(this, uri).path!!)
+                }
             }
         }
-    }
 
     private val localGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

@@ -17,6 +17,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.arkadiusz.dayscounter.R
 import com.arkadiusz.dayscounter.data.model.unsplash.Image
+import com.arkadiusz.dayscounter.ui.crop.CropActivity
 import com.arkadiusz.dayscounter.util.StorageUtils.saveImage
 import com.arkadiusz.dayscounter.util.ThemeUtils
 import com.canhub.cropper.CropImageContract
@@ -31,12 +32,13 @@ import java.io.File
 @AndroidEntryPoint
 class InternetGalleryActivity : AppCompatActivity() {
 
-    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        if (result.isSuccessful) {
-            val imageUri = saveImage(this, result.uriContent as Uri)
-            returnToActivity(imageUri.toString())
+    private val cropImage =
+        registerForActivityResult(CropImageContract(CropActivity::class.java)) { result ->
+            if (result.isSuccessful) {
+                val imageUri = saveImage(this, result.uriContent as Uri)
+                returnToActivity(imageUri.toString())
+            }
         }
-    }
 
     private val viewModel: InternetGalleryActivityViewModel by viewModels()
 

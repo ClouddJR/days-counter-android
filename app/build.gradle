@@ -13,8 +13,8 @@ android {
         applicationId "com.arkadiusz.dayscounter"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 54
-        versionName "2.6.0"
+        versionCode 55
+        versionName "2.6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -99,7 +99,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
 
     // Image Cropper
-    implementation 'com.github.ClouddJR:Android-Image-Cropper:4.1.0-state'
+    implementation 'com.github.ClouddJR:Android-Image-Cropper:4.1.1'
 
     // Color Picker
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
