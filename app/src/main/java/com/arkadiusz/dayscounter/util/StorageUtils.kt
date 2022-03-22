@@ -4,21 +4,22 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import java.io.*
+import java.util.*
 
 object StorageUtils {
 
     const val EXPORT_FILE_NAME = "dayscounter"
     const val EXPORT_FILE_EXTENSION = "realm"
 
-    fun saveImage(context: Context, sourceUri: Uri): Uri {
+    fun saveImage(context: Context, sourcePath: String): Uri {
         val folder = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
         folder!!.mkdir()
 
-        val source = sourceUri.path
-        val destination = "${folder.path}${File.separatorChar}${sourceUri.lastPathSegment}"
+        val destination = "${folder.path}${File.separatorChar}${UUID.randomUUID()}" +
+                ".${sourcePath.substringAfterLast(".")}"
 
-        FileInputStream(source).use { inputStream ->
+        FileInputStream(sourcePath).use { inputStream ->
             FileOutputStream(destination).use { outputStream ->
                 inputStream.copyTo(outputStream)
             }

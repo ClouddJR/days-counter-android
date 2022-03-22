@@ -35,8 +35,9 @@ class InternetGalleryActivity : AppCompatActivity() {
     private val cropImage =
         registerForActivityResult(CropImageContract(CropActivity::class.java)) { result ->
             if (result.isSuccessful) {
-                val imageUri = saveImage(this, result.uriContent as Uri)
-                returnToActivity(imageUri.toString())
+                result.getUriFilePath(this)?.let { path ->
+                    returnToActivity(saveImage(this, path).toString())
+                }
             }
         }
 
@@ -146,7 +147,7 @@ class InternetGalleryActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun returnToActivity(fileName: String?) {
+    private fun returnToActivity(fileName: String) {
         setResult(Activity.RESULT_OK, Intent().apply {
             putExtra("internetImageUri", fileName)
         })

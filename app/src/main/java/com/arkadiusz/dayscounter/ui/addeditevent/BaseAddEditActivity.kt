@@ -49,8 +49,8 @@ abstract class BaseAddEditActivity : AppCompatActivity() {
     private val cropImage =
         registerForActivityResult(CropImageContract(CropActivity::class.java)) { result ->
             if (result.isSuccessful) {
-                result.uriContent?.let { uri ->
-                    viewModel.updateImageToLocalFile(StorageUtils.saveImage(this, uri).path!!)
+                result.getUriFilePath(this)?.let { path ->
+                    viewModel.updateImageToLocalFile(StorageUtils.saveImage(this, path).path!!)
                 }
             }
         }
