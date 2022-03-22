@@ -13,8 +13,8 @@ android {
         applicationId "com.arkadiusz.dayscounter"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 55
-        versionName "2.6.1"
+        versionCode 56
+        versionName "2.6.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
