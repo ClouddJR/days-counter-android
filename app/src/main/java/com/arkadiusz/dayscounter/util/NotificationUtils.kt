@@ -37,15 +37,14 @@ object NotificationUtils {
         eventDescription: String,
         eventId: String
     ) {
-        val mBuilder = NotificationCompat.Builder(context!!, channelID)
+        val builder = NotificationCompat.Builder(context!!, channelID)
             .setSmallIcon(R.drawable.n_icon)
             .setContentTitle(eventTitle)
             .setDefaults(Notification.DEFAULT_VIBRATE)
             .setContentText(eventDescription)
-        val pendingIntent = buildPendingIntent(context, eventId)
-        mBuilder.setContentIntent(pendingIntent)
-        val notificationManager = context.notificationManager
-        notificationManager.notify(eventId.hashCode(), mBuilder.build())
+
+        builder.setContentIntent(buildPendingIntent(context, eventId))
+        context.notificationManager.notify(eventId.hashCode(), builder.build())
     }
 
     private fun buildPendingIntent(context: Context?, eventId: String): PendingIntent {
@@ -56,6 +55,7 @@ object NotificationUtils {
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addNextIntentWithParentStack(resultIntent)
 
-        return stackBuilder.getPendingIntent(eventId.hashCode(), PendingIntent.FLAG_UPDATE_CURRENT)
+        return stackBuilder.getPendingIntent(eventId.hashCode(),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 }

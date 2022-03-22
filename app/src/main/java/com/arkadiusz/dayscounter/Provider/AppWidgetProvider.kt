@@ -207,8 +207,8 @@ class AppWidgetProvider : AppWidgetProvider() {
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addNextIntentWithParentStack(intent)
 
-        val pendingIntent =
-            stackBuilder.getPendingIntent(eventId.hashCode(), PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = stackBuilder.getPendingIntent(eventId.hashCode(),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         remoteViews.setOnClickPendingIntent(R.id.eventImage, pendingIntent)
     }
