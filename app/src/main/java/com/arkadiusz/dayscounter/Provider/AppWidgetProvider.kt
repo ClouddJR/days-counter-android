@@ -31,6 +31,9 @@ class AppWidgetProvider : AppWidgetProvider() {
     @Inject
     lateinit var databaseRepository: DatabaseRepository
 
+    @Inject
+    lateinit var storage: FirebaseStorage
+
     override fun onUpdate(
         context: Context?,
         appWidgetManager: AppWidgetManager?,
@@ -187,9 +190,12 @@ class AppWidgetProvider : AppWidgetProvider() {
             .transform(DimTransformation(event.pictureDim))
 
         val file = File(event.image)
-        request = when (file.exists()) {
-            true -> request.load(file)
-            false -> request.load(FirebaseStorage.getInstance().getReference(event.imageCloudPath))
+        request = when {
+            file.exists() -> request.load(file)
+            event.imageCloudPath.isNotEmpty() -> {
+                request.load(storage.getReference(event.imageCloudPath))
+            }
+            else -> return
         }
 
         request.into(AppWidgetTarget(context, R.id.eventImage, remoteViews, widgetId))
